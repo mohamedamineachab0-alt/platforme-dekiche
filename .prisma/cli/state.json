@@ -1,0 +1,27 @@
+{
+  "auth": null,
+  "project": {
+    "rememberedByWorkspace": {},
+    "lastResolved": null,
+    "repositoryConnectionsByProject": {}
+  },
+  "branch": {
+    "active": "preview"
+  },
+  "app": {
+    "selectedByProject": {
+      "proj_cms9yeo6l3cmv0xgia1dnzkwr": {
+        "id": "cps_aqlovk4mfqlqxfk87v8lqhdb",
+        "name": "platforme"
+      }
+    },
+    "knownLiveDeploymentByProject": {
+      "proj_cms9yeo6l3cmv0xgia1dnzkwr": {
+        "cps_aqlovk4mfqlqxfk87v8lqhdb": "cpv_ww50q16101wwjekznbgiojk0"
+      }
+    }
+  },
+  "agent": {
+    "setupPromptDismissedAt": null
+  }
+}

@@ -1,0 +1,83 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  STUDENT
+  GUARDIAN
+  TEACHER
+  ADMIN
+}
+
+enum NotificationType {
+  TEACHER
+  ADMIN
+}
+
+model User {
+  id            String         @id @default(cuid())
+  name          String
+  phone         String         @unique
+  password      String
+  role          Role
+  level         String?
+  track         String?
+  guardianCode  String?        @unique
+  wilayaId      Int?
+  wilaya        Wilaya?        @relation(fields: [wilayaId], references: [id])
+  notifications Notification[]
+
+  // Guardian relations
+  guardianId String?
+  guardian   User?   @relation("GuardianStudents", fields: [guardianId], references: [id])
+  students   User[]  @relation("GuardianStudents")
+
+  // Teacher relations
+  subjects Subject[] @relation("TeacherSubjects")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Wilaya {
+  id    Int    @id @default(autoincrement())
+  code  String @unique
+  name  String
+  users User[]
+}
+
+model Subject {
+  id          String   @id @default(cuid())
+  name        String // e.g., الرياضيات
+  description String? // Subtitle
+  teacherName String   @default("الأستاذ دقيش علي") // Professor teaching this specific subject
+  teacherId   String?
+  teacher     User?    @relation("TeacherSubjects", fields: [teacherId], references: [id])
+  level       String? // Associated level
+  lessons     Lesson[]
+  createdAt   DateTime @default(now())
+}
+
+model Lesson {
+  id        String   @id @default(cuid())
+  title     String
+  subjectId String
+  subject   Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  title     String
+  message   String
+  type      NotificationType
+  isRead    Boolean          @default(false)
+  userId    String
+  user      User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime         @default(now())
+}

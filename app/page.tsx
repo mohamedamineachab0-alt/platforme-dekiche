@@ -167,7 +167,7 @@ export default function LandingPage() {
             <div className="text-center mb-10">
               <h2 className="text-2xl font-bold text-slate-800">بوابات الدخول السريع</h2>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6 max-w-3xl mx-auto">
               
               <Link href="/student" className="group relative overflow-hidden bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(109,40,217,0.15)] border border-gray-100 transition-all duration-300 hover:-translate-y-1">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[#6D28D9]/5 rounded-full blur-2xl -mr-16 -mt-16 transition-all group-hover:bg-[#6D28D9]/10" />
@@ -187,27 +187,39 @@ export default function LandingPage() {
                 <p className="text-sm text-slate-500 font-medium">متابعة الأبناء والتقارير</p>
               </Link>
 
-              <Link href="/teacher" className="group relative overflow-hidden bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(109,40,217,0.15)] border border-gray-100 transition-all duration-300 hover:-translate-y-1">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[#6D28D9]/5 rounded-full blur-2xl -mr-16 -mt-16 transition-all group-hover:bg-[#6D28D9]/10" />
-                <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center mb-6 border border-gray-100 group-hover:bg-[#6D28D9] group-hover:border-[#6D28D9] transition-colors">
-                  <MonitorPlay className="w-7 h-7 text-slate-600 group-hover:text-white transition-colors" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-800 mb-2">صفحة الأستاذ</h3>
-                <p className="text-sm text-slate-500 font-medium">إدارة المحتوى والدروس</p>
-              </Link>
-
-              <Link href="/admin" className="group relative overflow-hidden bg-white p-8 rounded-[2rem] shadow-[0_10px_40px_rgba(0,0,0,0.04)] hover:shadow-[0_20px_60px_rgba(109,40,217,0.15)] border border-gray-100 transition-all duration-300 hover:-translate-y-1">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-[#6D28D9]/5 rounded-full blur-2xl -mr-16 -mt-16 transition-all group-hover:bg-[#6D28D9]/10" />
-                <div className="w-14 h-14 bg-gray-50 rounded-2xl flex items-center justify-center mb-6 border border-gray-100 group-hover:bg-[#6D28D9] group-hover:border-[#6D28D9] transition-colors">
-                  <ShieldCheck className="w-7 h-7 text-slate-600 group-hover:text-white transition-colors" />
-                </div>
-                <h3 className="text-xl font-bold text-slate-800 mb-2">الإدارة</h3>
-                <p className="text-sm text-slate-500 font-medium">لوحة التحكم الشاملة</p>
-              </Link>
             </div>
           </section>
 
-          {/* C. Key Features & Highlights Section */}
+          {/* C. Video Presentation Section */}
+          <section className="w-full max-w-5xl mx-auto px-4 pb-20">
+            <div className="text-center mb-10">
+              <h2 className="text-3xl font-extrabold text-slate-900 mb-4">اكتشف منصة دقيش</h2>
+              <p className="text-slate-500 font-medium">شاهد الفيديو التعريفي لتتعرف على مميزات المنصة وطريقة عملها</p>
+            </div>
+            
+            <div className="relative p-4 md:p-8 bg-white rounded-[2.5rem] shadow-xl border border-[#6D28D9]/10 overflow-hidden group hover:shadow-2xl hover:shadow-[#6D28D9]/10 transition-shadow duration-500">
+              {/* Physical graph notebook square background pattern */}
+              <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] bg-[size:1.5rem_1.5rem] opacity-60"></div>
+              
+              {/* Subtle Purple Highlights */}
+              <div className="absolute top-0 right-0 w-[30rem] h-[30rem] bg-gradient-to-br from-[#6D28D9]/10 via-[#c4b5fd]/5 to-transparent rounded-full blur-3xl -mr-40 -mt-40 pointer-events-none" />
+              <div className="absolute bottom-0 left-0 w-[30rem] h-[30rem] bg-gradient-to-tr from-[#6D28D9]/5 to-transparent rounded-full blur-3xl -ml-40 -mb-40 pointer-events-none" />
+              
+              <div className="relative z-10 w-full aspect-video rounded-[1.5rem] overflow-hidden shadow-lg border-[6px] border-white/80 backdrop-blur-sm">
+                <iframe 
+                  className="w-full h-full"
+                  src="https://www.youtube.com/embed/KOu_2hDYvrk?si=dzY1WkwoTJUJKhDm" 
+                  title="YouTube video player" 
+                  frameBorder="0" 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                  referrerPolicy="strict-origin-when-cross-origin" 
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </div>
+          </section>
+
+          {/* D. Key Features & Highlights Section */}
           <section className="w-full py-20 bg-white/50 border-y border-gray-100">
             <div className="max-w-6xl mx-auto px-4">
               <div className="text-center mb-16">

@@ -1,13 +1,15 @@
-import { prisma } from "../../../lib/prisma";
 import { User, Phone, MapPin, GraduationCap, BookOpen, Trophy, Target, Activity } from "lucide-react";
 
 export const dynamic = "force-dynamic";
 
 export default async function StudentProfilePage() {
-  const user = await prisma.user.findFirst({
-    where: { role: "STUDENT" },
-    include: { wilaya: true }
-  });
+  const user = {
+    name: "محمد أمين",
+    phone: "0555123456",
+    level: "السنة الرابعة متوسط",
+    track: "علمي",
+    wilaya: { name: "الجزائر العاصمة" }
+  };
 
   return (
     <div className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-6xl mx-auto">
@@ -25,7 +27,7 @@ export default async function StudentProfilePage() {
             <div className="w-24 h-24 rounded-full bg-gray-100 mb-4 border-4 border-white shadow-md flex items-center justify-center overflow-hidden">
                <User className="w-12 h-12 text-gray-400" />
             </div>
-            <h3 className="text-xl font-bold text-slate-800">{user?.name || "طالب"}</h3>
+            <h3 className="text-xl font-bold text-slate-800">محمد أمين</h3>
             <span className="text-xs font-bold text-[#6D28D9] bg-[#6D28D9]/10 px-3 py-1 rounded-full mt-2">
               حساب تلميذ
             </span>

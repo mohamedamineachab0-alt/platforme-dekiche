@@ -5,6 +5,7 @@ import { LogOut, Menu, X, LayoutDashboard, Users, BookOpen, Settings, ShieldChec
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import NotificationsDropdown from "@/components/NotificationsDropdown";
+import BackButton from "@/components/BackButton";
 
 export default function TeacherLayout({ children }: { children: React.ReactNode }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -42,7 +43,7 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
       {/* --- Mobile Drawer Overlay --- */}
       {isMobileMenuOpen && (
         <div className="md:hidden fixed inset-0 z-[100] bg-slate-900/40 backdrop-blur-sm transition-opacity" onClick={() => setIsMobileMenuOpen(false)}>
-          <div className="absolute top-0 right-0 h-full w-[280px] bg-white shadow-2xl p-6 flex flex-col animate-in slide-in-from-right duration-300" onClick={e => e.stopPropagation()}>
+          <div className="absolute top-0 right-0 h-full w-[320px] bg-white shadow-2xl p-6 flex flex-col animate-in slide-in-from-right duration-300" onClick={e => e.stopPropagation()}>
             <div className="flex justify-between items-center mb-10 pb-4 border-b border-gray-100">
               <h2 className="text-[#6D28D9] font-bold text-xl">القائمة</h2>
               <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 hover:bg-gray-100 rounded-full transition-colors">
@@ -82,7 +83,7 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
       )}
 
       {/* --- Desktop Sidebar --- */}
-      <div className="hidden md:flex flex-col w-[280px] bg-white border-l border-gray-100 shadow-[2px_0_10px_rgba(0,0,0,0.02)] sticky top-0 h-screen z-40">
+      <div className="hidden md:flex flex-col w-[320px] bg-white border-l border-gray-100 shadow-[2px_0_10px_rgba(0,0,0,0.02)] sticky top-0 h-screen z-40">
         <div className="p-8">
           <div className="w-16 h-16 bg-[#6D28D9]/10 rounded-2xl flex items-center justify-center mb-4 border border-[#6D28D9]/20">
             <ShieldCheck className="w-8 h-8 text-[#6D28D9]" />
@@ -129,15 +130,20 @@ export default function TeacherLayout({ children }: { children: React.ReactNode 
       <div className="flex-1 w-full min-w-0 transition-all duration-300">
         
         {/* Desktop Top Nav */}
-        <div className="hidden md:flex justify-end p-6 max-w-7xl mx-auto sticky top-0 z-30">
-          <div className="flex items-center gap-4 bg-white/80 backdrop-blur-md px-4 py-2 rounded-full shadow-sm border border-gray-100">
+        <div className="hidden md:flex justify-end p-6 max-w-7xl mx-auto sticky top-0 z-30 pointer-events-none">
+          <div className="flex items-center gap-4 bg-white/80 backdrop-blur-md px-4 py-2 rounded-full shadow-sm border border-gray-100 pointer-events-auto">
             <NotificationsDropdown />
           </div>
         </div>
 
         {/* Page Content */}
-        <main className="p-4 md:p-8 pt-6 md:pt-2 w-full max-w-7xl mx-auto">
-          {children}
+        <main className="p-4 md:p-8 pt-6 md:pt-2 w-full max-w-7xl mx-auto flex flex-col gap-4">
+          <div className="w-full flex justify-start mb-2">
+            <BackButton />
+          </div>
+          <div className="w-full relative z-10">
+            {children}
+          </div>
         </main>
 
       </div>

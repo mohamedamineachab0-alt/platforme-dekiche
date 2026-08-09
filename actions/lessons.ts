@@ -28,7 +28,7 @@ export type ActionState = {
 
 export async function createLesson(payload: LessonPayload): Promise<ActionState> {
   if (!payload.title || !payload.subjectId || !payload.muxPlaybackId || !payload.month) {
-    return { error: "جميع الحقول الأساسية مطلوبة" };
+    return { error: "جميع الحقول الاساسية مطلوبة" };
   }
 
   try {
@@ -60,29 +60,35 @@ export async function createLesson(payload: LessonPayload): Promise<ActionState>
     revalidatePath(`/dashboard/student/subjects/${payload.subjectId}`);
     return { success: true };
   } catch (error) {
-    console.error("Error creating lesson:", error);
-    return { error: "حدث خطأ أثناء حفظ الدرس" };
+    console.error("خطا اثناء حفظ الدرس", error);
+    return { error: "حدث خطا اثناء الحفظ يرجى المحاولة" };
   }
 }
 
 export async function addLessonMaterial(
   formData: FormData
-): Promise<void> {
-  const lessonId = formData.get("lessonId") as string;
-  const title = formData.get("title") as string;
-  const fileUrl = formData.get("fileUrl") as string;
+): Promise<ActionState> {
+  try {
+    const lessonId = formData.get("lessonId") as string;
+    const title = formData.get("title") as string;
+    const fileUrl = formData.get("fileUrl") as string;
 
-  if (!lessonId || !title || !fileUrl) {
-    throw new Error("Missing required fields");
+    if (!lessonId || !title || !fileUrl) {
+      return { error: "جميع الحقول مطلوبة" };
+    }
+
+    await prisma.lessonMaterial.create({
+      data: {
+        lessonId,
+        title,
+        fileUrl,
+      },
+    });
+
+    revalidatePath("/dashboard/admin/lessons");
+    return { success: true };
+  } catch (error) {
+    console.error("خطا اثناء رفع الملف", error);
+    return { error: "حدث خطا اثناء الرفع يرجى المحاولة" };
   }
-
-  await prisma.lessonMaterial.create({
-    data: {
-      lessonId,
-      title,
-      fileUrl,
-    },
-  });
-
-  revalidatePath("/dashboard/admin/lessons");
 }

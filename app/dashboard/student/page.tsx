@@ -19,7 +19,7 @@ import {
   Swords
 } from "lucide-react";
 import Link from "next/link";
-import { DailyTip } from "@/components/student/DailyTip";
+
 
 export default async function StudentDashboardPage() {
   const cookieStore = await cookies();
@@ -210,7 +210,7 @@ export default async function StudentDashboardPage() {
         showGridPattern={true}
       />
 
-      <DailyTip variant="card" />
+
 
       <div>
         <h2 className="text-2xl font-black text-slate-900 mb-6">أقسام المنصة</h2>

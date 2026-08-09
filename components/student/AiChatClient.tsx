@@ -4,7 +4,21 @@ import { useState, useRef, useEffect } from "react";
 import { Bot, User, Loader2 } from "lucide-react";
 import { askStudentAssistant, ChatMessage } from "@/actions/ai";
 
-export function AiChatClient({ studentId, greetingText, userAvatarUrl }: { studentId: string, greetingText: string, userAvatarUrl?: string | null }) {
+export function AiChatClient({ 
+  studentId, 
+  greetingText, 
+  userAvatarUrl,
+  studentName,
+  studentLevel,
+  studentMistakes
+}: { 
+  studentId: string, 
+  greetingText: string, 
+  userAvatarUrl?: string | null,
+  studentName?: string,
+  studentLevel?: string,
+  studentMistakes?: string
+}) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -25,10 +39,30 @@ export function AiChatClient({ studentId, greetingText, userAvatarUrl }: { stude
     setMessages(prev => [...prev, { role: "user", content: newPrompt }]);
 
     try {
-      const responseContent = await askStudentAssistant(studentId, messages, newPrompt);
-      setMessages(prev => [...prev, { role: "assistant", content: responseContent }]);
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages: messages,
+          prompt: newPrompt,
+          studentName,
+          studentLevel,
+          studentMistakes
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'حدث خطا اثناء الاتصال');
+      }
+
+      setMessages(prev => [...prev, { role: "assistant", content: data.reply }]);
     } catch (error) {
-      setMessages(prev => [...prev, { role: "assistant", content: "عذراً و حدث خطأ في النظام يرجى المحاولة لاحقاً" }]);
+      console.error(error);
+      setMessages(prev => [...prev, { role: "assistant", content: "حدث خطا اثناء الاتصال بالمساعد الذكي" }]);
     } finally {
       setIsLoading(false);
     }

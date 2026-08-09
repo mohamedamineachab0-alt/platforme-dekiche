@@ -18,10 +18,26 @@ export function FriendChallengeClient({
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(myCode);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const handleCopy = async () => {
+    if (!myCode) return;
+    try {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(myCode);
+      } else {
+        // Fallback for HTTP / local network contexts
+        const textArea = document.createElement("textarea");
+        textArea.value = myCode;
+        document.body.appendChild(textArea);
+        textArea.focus();
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
+      }
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
   };
 
   const handleLink = async (e: React.FormEvent) => {

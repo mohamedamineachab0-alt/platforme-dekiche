@@ -51,70 +51,52 @@ export function LeaderboardSection({
           </div>
         </div>
 
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center justify-center gap-2 mb-4 text-sky-600 dark:text-sky-500 font-bold">
-            <Sparkles className="w-5 h-5" />
-            <span>نخبة المتفوقين</span>
+        <div className="max-w-4xl mx-auto bg-white rounded-3xl p-8 md:p-12 border-t-4 border-t-amber-500 border-x border-b border-slate-100 shadow-xl relative overflow-hidden group hover:shadow-amber-500/10 transition-shadow duration-500" dir="rtl">
+          {/* Background Accent Gradient */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-amber-50 rounded-full blur-3xl opacity-50 -z-10 pointer-events-none transform translate-x-1/2 -translate-y-1/2"></div>
+
+          {/* Header */}
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-8">
+            <div className="w-16 h-16 rounded-2xl bg-slate-100 text-slate-800 flex items-center justify-center shrink-0 border border-slate-200 shadow-inner">
+              <ShieldCheck className="w-8 h-8" />
+            </div>
+            <div>
+              <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2">
+                رسالة مفتوحة: عهدٌ من صُنّاع النجاح
+              </h2>
+            </div>
           </div>
-          <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4">
-            لوحة الشرف الوطنية
-          </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-400 font-bold max-w-2xl mx-auto">
-            أفضل التلاميذ أداء ومثابرة على المنصة تصدر الترتيب واحفر اسمك مع النخبة
-          </p>
-        </div>
 
-        {/* Leaderboard */}
-        <div className="max-w-3xl mx-auto bg-slate-50 dark:bg-slate-950 rounded-3xl border border-slate-100 dark:border-slate-800 p-4 md:p-6 shadow-xl">
-          <div className="space-y-3">
-            {topStudents.length === 0 ? (
-              <div className="text-center py-12 text-slate-500 dark:text-slate-400 font-bold">
-                جاري حساب النقاط وتحديث الترتيب
-              </div>
-            ) : (
-              topStudents.map((student, index) => {
-                const isFirst = index === 0;
-                const isSecond = index === 1;
-                const isThird = index === 2;
-                
-                let rankStyle = "bg-white dark:bg-slate-900 border-slate-100 dark:border-slate-800 text-slate-700 dark:text-slate-300";
-                let icon = <div className="w-8 h-8 rounded-full bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-black text-slate-500 dark:text-slate-400">{index + 1}</div>;
+          {/* Letter Body */}
+          <div className="space-y-6 text-slate-700 font-medium text-[15px] md:text-base leading-loose md:leading-relaxed text-right">
+            <p>
+              إلى من اختار طريق التميز ولم يرضَ بغير القمة بديلاً.. مرحباً بك في معقلك الأكاديمي، منصة دقيش التعليمية. نحن لم نصمم هذه المنصة لتكون مجرد موقع إلكتروني، بل خضنا حرباً حقيقية لنبني لك ترسانة رقمية وسلاحاً لا يُقهر في رحلتك نحو التفوق.
+            </p>
 
-                if (isFirst) {
-                  rankStyle = "bg-gradient-to-r from-sky-50 to-sky-50 dark:from-slate-900/20 dark:to-slate-950/20 border-sky-200 dark:border-sky-800/50 text-slate-950 dark:text-sky-100 transform scale-[1.02] shadow-md z-10 relative";
-                  icon = <Trophy className="w-8 h-8 text-sky-500" />;
-                } else if (isSecond) {
-                  rankStyle = "bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200";
-                  icon = <Medal className="w-8 h-8 text-slate-400" />;
-                } else if (isThird) {
-                  rankStyle = "bg-sky-50 dark:bg-sky-900/10 border-sky-200 dark:border-sky-900/30 text-sky-900 dark:text-sky-200";
-                  icon = <Medal className="w-8 h-8 text-sky-500" />;
-                }
+            <p>
+              <span className="font-black text-amber-500 text-lg">في الكواليس المظلمة:</span> سهر مهندسونا وفريقنا التقني ليالٍ طوال، كتبنا آلاف الأسطر البرمجية، وطوّعنا أحدث تقنيات الذكاء الاصطناعي لنخلق لك بيئة صلبة، سريعة كالصاعقة، وخالية تماماً من المشتتات. منصتنا لا تنام، لا تتعب، ومسخرة لخدمتك في كل ثانية.
+            </p>
 
-                return (
-                  <div 
-                    key={student.id} 
-                    className={`flex items-center justify-between p-4 rounded-2xl border transition-all duration-300 hover:shadow-md ${rankStyle}`}
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="shrink-0 flex items-center justify-center w-10">
-                        {icon}
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-black text-lg ${isFirst ? 'bg-sky-100 dark:bg-slate-950/50 text-sky-600 dark:text-sky-400' : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'}`}>
-                          {student.name.charAt(0)}
-                        </div>
-                        <h3 className="font-black text-lg">{student.name}</h3>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="font-black text-xl" dir="ltr">{student.points}</span>
-                      <span className="text-xs font-bold opacity-70">نقطة</span>
-                    </div>
-                  </div>
-                );
-              })
-            )}
+            <p>
+              <span className="font-black text-amber-500 text-lg">وفي ساحة العلم:</span> سكب نُخبة أساتذتنا عصارة سنين من الخبرة والحكمة لتعبيد طريقك. لم نضع لك دروساً جامدة فحسب؛ بل فككنا شفرات المنهج، توقّعنا عثراتك قبل أن تقع فيها، وصممنا لك مساراً ذكياً يتحدى عقلك ويرتقي به من الصفر إلى الاحتراف.
+            </p>
+
+            <p className="text-xl md:text-2xl font-black text-slate-900 text-center py-4 bg-amber-50 rounded-xl border border-amber-200">
+              لقد اجتمع التقني والأستاذ على هدف واحد فقط: <span className="text-amber-600">أنت.</span>
+            </p>
+
+            <p>
+              نحن لم ننم لكي لا تتعثر أنت. لقد جهزنا لك العتاد، ذلّلنا الصعاب، ووضعنا أسباب النجاح بين يديك. الآن.. انتهى دورنا وبدأ دورك! لا مجال للأعذار، ولا وقت للتردد. اعلم أن خلف هذه الشاشة جيشاً كاملاً يؤمن بك ولن يقبل لك سوى الصدارة.
+            </p>
+
+            <p className="font-black text-xl text-slate-900 pt-4">
+              فهل أنت مستعد لكتابة التاريخ؟
+            </p>
+
+            <div className="pt-6 border-t border-slate-100 mt-8">
+              <p className="font-bold text-slate-800">مع كل الثقة والدعم،</p>
+              <p className="font-black text-amber-500 text-lg mt-1">جيش الخفاء – فريق منصة دقيش التعليمية</p>
+            </div>
           </div>
         </div>
 

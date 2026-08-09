@@ -16,7 +16,13 @@ export default async function AiAssistantPage() {
 
   const user = await prisma.user.findUnique({
     where: { id: sessionId },
-    include: { studentProfile: true }
+    include: { 
+      studentProfile: true,
+      mistakes: {
+        take: 5,
+        orderBy: { createdAt: 'desc' }
+      }
+    }
   });
 
   if (!user || !user.studentProfile) {
@@ -27,6 +33,12 @@ export default async function AiAssistantPage() {
   const rawStream = user.studentProfile.stream;
   const levelStr = LEVELS.find(l => l.value === rawLevel)?.label || rawLevel;
   const streamStr = STREAMS.find(s => s.value === rawStream)?.label || rawStream;
+
+  const studentName = user.fullName;
+  const studentLevelStr = `${levelStr} - ${streamStr}`;
+  const studentMistakesStr = user.mistakes.length > 0 
+    ? user.mistakes.map(m => m.mistakeContent).join('، ')
+    : 'لا توجد اخطاء مسجلة حتى الان';
 
   return (
     <div className="flex flex-col h-[calc(100vh-6rem)] gap-6">
@@ -41,6 +53,9 @@ export default async function AiAssistantPage() {
           studentId={sessionId} 
           greetingText={`أنت طالب في ${levelStr} في ${streamStr}`}
           userAvatarUrl={user.avatarUrl}
+          studentName={studentName}
+          studentLevel={studentLevelStr}
+          studentMistakes={studentMistakesStr}
         />
       </div>
     </div>

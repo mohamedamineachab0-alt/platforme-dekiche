@@ -1,42 +1,84 @@
+import { Role } from '../generated/prisma';
+import bcrypt from 'bcryptjs';
 import { prisma } from '../lib/prisma';
 
-const ALGERIAN_STATES = [
-  "01 - أدرار", "02 - الشلف", "03 - الأغواط", "04 - أم البواقي", "05 - باتنة",
-  "06 - بجاية", "07 - بسكرة", "08 - بشار", "09 - البليدة", "10 - البويرة",
-  "11 - تمنراست", "12 - تبسة", "13 - تلمسان", "14 - تيارت", "15 - تيزي وزو",
-  "16 - الجزائر", "17 - الجلفة", "18 - جيجل", "19 - سطيف", "20 - سعيدة",
-  "21 - سكيكدة", "22 - سيدي بلعباس", "23 - عنابة", "24 - قالمة", "25 - قسنطينة",
-  "26 - المدية", "27 - مستغانم", "28 - المسيلة", "29 - معسكر", "30 - ورقلة",
-  "31 - وهران", "32 - البيض", "33 - إليزي", "34 - برج بوعريريج", "35 - بومرداس",
-  "36 - الطارف", "37 - تندوف", "38 - تيسمسيلت", "39 - الوادي", "40 - خنشلة",
-  "41 - سوق أهراس", "42 - تيبازة", "43 - ميلة", "44 - عين الدفلى", "45 - النعامة",
-  "46 - عين تموشنت", "47 - غرداية", "48 - غليزان", "49 - تيميمون", "50 - برج باجي مختار",
-  "51 - أولاد جلال", "52 - بني عباس", "53 - إن صالح", "54 - إن قزام", "55 - تقرت",
-  "56 - جانت", "57 - المغير", "58 - المنيعة",
-];
-
 async function main() {
-  console.log('Start seeding wilayas...');
-  for (const state of ALGERIAN_STATES) {
-    const [code, name] = state.split(' - ');
-    await prisma.wilaya.upsert({
-      where: { code },
-      update: { name },
-      create: {
-        code,
-        name,
-      },
-    });
-  }
-  console.log('Seeding finished.');
+  const passwordHash = await bcrypt.hash('123456', 12);
+
+  // 1 حساب الأدمين
+  const admin = await prisma.user.upsert({
+    where: { phoneNumber: '0562388085' },
+    update: {
+      passwordHash,
+      role: Role.ADMIN,
+      fullName: 'عشاب محمد أمين',
+    },
+    create: {
+      phoneNumber: '0562388085',
+      fullName: 'عشاب محمد أمين',
+      passwordHash,
+      role: Role.ADMIN,
+    },
+  });
+
+  // 2 حساب الأستاذ
+  const teacherUser = await prisma.user.upsert({
+    where: { phoneNumber: '0663438000' },
+    update: {
+      passwordHash,
+      role: Role.TEACHER,
+      fullName: 'عشاب عبد القادر',
+    },
+    create: {
+      phoneNumber: '0663438000',
+      fullName: 'عشاب عبد القادر',
+      passwordHash,
+      role: Role.TEACHER,
+    },
+  });
+
+  await prisma.teacher.upsert({
+    where: { phone: '0663438000' },
+    update: {
+      userId: teacherUser.id,
+      name: 'عشاب عبد القادر',
+    },
+    create: {
+      phone: '0663438000',
+      name: 'عشاب عبد القادر',
+      userId: teacherUser.id,
+    },
+  });
+
+  // 3 حساب الولي
+  const parentUser = await prisma.user.upsert({
+    where: { phoneNumber: '0663438003' },
+    update: {
+      passwordHash,
+      role: Role.PARENT,
+      fullName: 'عشاب ضياء الدين',
+    },
+    create: {
+      phoneNumber: '0663438003',
+      fullName: 'عشاب ضياء الدين',
+      passwordHash,
+      role: Role.PARENT,
+      parentProfile: {
+        create: {}
+      }
+    },
+  });
+
+  console.log('تم إنشاء حساب الأدمين بنجاح');
+  console.log('تم إنشاء حساب الأستاذ بنجاح');
+  console.log('تم إنشاء حساب الولي بنجاح');
 }
 
 main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (e) => {
+  .catch((e) => {
     console.error(e);
-    await prisma.$disconnect();
     process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
   });

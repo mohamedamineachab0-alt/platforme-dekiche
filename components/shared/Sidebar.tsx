@@ -1,0 +1,226 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useState, useEffect } from "react";
+import { 
+  LayoutDashboard, BookOpen, CheckCircle, FileText, Video, AlertTriangle, 
+  Trophy, Users, Key, LogOut, Settings, Bot, Wallet, Bell, Activity, Map, 
+  Library, MessageSquare, ChevronRight, ChevronLeft, Menu, X, Swords, BellRing,
+  Star, UserMinus, Lightbulb
+} from "lucide-react";
+import { Role } from "@/generated/prisma";
+import { getUserSessionProfile } from "@/actions/user";
+import { logoutUser } from "@/actions/auth";
+import { DailyTip } from "@/components/student/DailyTip";
+
+const STUDENT_LINKS = [
+  { name: "الرئيسية", href: "/dashboard/student", icon: LayoutDashboard, activeBg: "bg-sky-50 dark:bg-slate-950/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
+  { name: "موادي", href: "/dashboard/student/subjects", icon: BookOpen, activeBg: "bg-blue-50 dark:bg-blue-900/30", activeText: "text-blue-700 dark:text-blue-400", iconColor: "text-blue-600 dark:text-blue-400" },
+  { name: "خريطتي الذكية", href: "/dashboard/student/roadmap", icon: Map, activeBg: "bg-blue-50 dark:bg-blue-900/30", activeText: "text-blue-700 dark:text-blue-400", iconColor: "text-blue-600 dark:text-blue-400" },
+  { name: "دردشة القسم", href: "/dashboard/student/forums", icon: MessageSquare, activeBg: "bg-sky-50 dark:bg-sky-900/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
+  { name: "بطاقات المراجعة", href: "/dashboard/student/review-cards", icon: Library, activeBg: "bg-sky-50 dark:bg-sky-900/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
+  { name: "تماريني اليومية", href: "/dashboard/student/exercises", icon: CheckCircle, activeBg: "bg-sky-50 dark:bg-sky-900/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
+  { name: "إختبارات وفروض", href: "/dashboard/student/exams", icon: FileText, activeBg: "bg-cyan-50 dark:bg-cyan-900/30", activeText: "text-cyan-700 dark:text-cyan-400", iconColor: "text-cyan-600 dark:text-cyan-400" },
+  { name: "مساعدي الذكي", href: "/dashboard/student/ai-assistant", icon: Bot, activeBg: "bg-violet-50 dark:bg-violet-900/30", activeText: "text-violet-700 dark:text-violet-400", iconColor: "text-violet-600 dark:text-violet-400" },
+  { name: "الإشعارات", href: "/dashboard/student/notifications", icon: Bell, activeBg: "bg-amber-50 dark:bg-amber-900/30", activeText: "text-amber-700 dark:text-amber-400", iconColor: "text-amber-600 dark:text-amber-400" },
+  { name: "أخطائي", href: "/dashboard/student/mistakes", icon: AlertTriangle, activeBg: "bg-amber-50 dark:bg-amber-900/30", activeText: "text-amber-700 dark:text-amber-400", iconColor: "text-amber-600 dark:text-amber-400" },
+  { name: "حصص مباشرة", href: "/dashboard/student/live-classes", icon: Video, activeBg: "bg-sky-50 dark:bg-sky-900/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
+  { name: "الترتيب والنقاط", href: "/dashboard/student/leaderboard", icon: Trophy, activeBg: "bg-amber-50 dark:bg-amber-900/30", activeText: "text-amber-700 dark:text-amber-400", iconColor: "text-amber-600 dark:text-amber-400" },
+  { name: "الإعدادات", href: "/dashboard/student/settings", icon: Settings, activeBg: "bg-slate-100 dark:bg-slate-800", activeText: "text-slate-900 dark:text-white", iconColor: "text-slate-600 dark:text-slate-400" },
+  { name: "منافسة صديق", href: "/dashboard/student/friend-challenge", icon: Swords, activeBg: "bg-amber-50 dark:bg-amber-900/30", activeText: "text-amber-700 dark:text-amber-400", iconColor: "text-amber-600 dark:text-amber-400" },
+  { name: "100 نصيحة للتفوق", href: "/dashboard/student/tips", icon: Lightbulb, activeBg: "bg-amber-50 dark:bg-amber-900/30", activeText: "text-amber-700 dark:text-amber-400", iconColor: "text-amber-600 dark:text-amber-400" },
+];
+
+const ADMIN_LINKS = [
+  { name: "الرئيسية", href: "/dashboard/admin", icon: LayoutDashboard },
+  { name: "الأساتذة", href: "/dashboard/admin/teachers", icon: Users },
+  { name: "مداخيل الأساتذة", href: "/dashboard/admin/teachers/revenues", icon: Wallet },
+  { name: "المواد", href: "/dashboard/admin/subjects", icon: BookOpen },
+  { name: "الدروس", href: "/dashboard/admin/lessons", icon: FileText },
+  { name: "رموز الدخول", href: "/dashboard/admin/codes", icon: Key },
+  { name: "دردشة القسم", href: "/dashboard/admin/forums", icon: MessageSquare },
+  { name: "تمارين يومية", href: "/dashboard/admin/exercises", icon: CheckCircle },
+  { name: "الإختبارات والفروض", href: "/dashboard/admin/exams", icon: FileText },
+  { name: "بطاقات المراجعة", href: "/dashboard/admin/review-cards", icon: Library },
+  { name: "أخطاء تلاميذي", href: "/dashboard/admin/mistakes", icon: AlertTriangle },
+  { name: "مراقبة التلاميذ", href: "/dashboard/admin/students/monitoring", icon: Activity },
+  { name: "تنبيهاتي", href: "/dashboard/admin/tenebati", icon: BellRing, activeBg: "bg-amber-50 dark:bg-red-900/30", activeText: "text-amber-700 dark:text-red-400", iconColor: "text-amber-600 dark:text-red-400" },
+  { name: "الإشعارات", href: "/dashboard/admin/notifications", icon: Bell },
+  { name: "حصص مباشرة", href: "/dashboard/admin/live-classes", icon: Video },
+  { name: "الترتيب والنقاط", href: "/dashboard/admin/leaderboard", icon: Trophy },
+];
+
+const TEACHER_LINKS = [
+  { name: "الرئيسية", href: "/dashboard/teacher", icon: LayoutDashboard },
+  { name: "حصص مباشرة", href: "/dashboard/teacher/live-classes", icon: Video },
+];
+
+const PARENT_LINKS = [
+  { name: "معلومات أبنائي", href: "/dashboard/parent", icon: Users, activeBg: "bg-sky-50 dark:bg-slate-950/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
+  { name: "تقدم أبنائي", href: "/dashboard/parent/progress", icon: Activity, activeBg: "bg-sky-50 dark:bg-slate-950/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
+  { name: "النقاط والتقييمات", href: "/dashboard/parent/grades", icon: Star, activeBg: "bg-sky-50 dark:bg-slate-950/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
+  { name: "غيابات أبنائي", href: "/dashboard/parent/absences", icon: UserMinus, activeBg: "bg-sky-50 dark:bg-slate-950/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
+];
+
+export function Sidebar({ 
+  role, 
+  isMobileOpen, 
+  onMobileClose 
+}: { 
+  role: Role; 
+  isMobileOpen: boolean;
+  onMobileClose: () => void;
+}) {
+  const pathname = usePathname();
+  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [userData, setUserData] = useState<{ fullName: string; role: Role; avatarUrl?: string | null } | null>(null);
+  const [isLoadingProfile, setIsLoadingProfile] = useState(true);
+
+  useEffect(() => {
+    async function fetchProfile() {
+      setIsLoadingProfile(true);
+      const data = await getUserSessionProfile();
+      if (data) {
+        setUserData(data);
+      }
+      setIsLoadingProfile(false);
+    }
+    fetchProfile();
+  }, []);
+
+  const links = role === "ADMIN" ? ADMIN_LINKS : role === "TEACHER" ? TEACHER_LINKS : role === "PARENT" ? PARENT_LINKS : STUDENT_LINKS;
+  const roleName = role === "ADMIN" ? "المدير" : role === "TEACHER" ? "أستاذ" : role === "PARENT" ? "الولي" : "تلميذ";
+
+  const getRoleLabel = (r?: Role) => {
+    switch (r) {
+      case "ADMIN": return "المدير";
+      case "TEACHER": return "أستاذ";
+      case "PARENT": return "الولي";
+      case "STUDENT": return "تلميذ";
+      default: return "";
+    }
+  };
+
+  return (
+    <>
+      {/* Mobile Overlay */}
+      {isMobileOpen && (
+        <div 
+          className="fixed inset-0 bg-black/50 z-40 md:hidden transition-opacity"
+          onClick={onMobileClose}
+        />
+      )}
+
+      {/* Sidebar Container */}
+      <aside 
+        style={{ fontFamily: '"IBM Plex Sans Arabic", sans-serif' }}
+        className={`fixed md:sticky top-0 right-0 h-screen bg-white border-l border-slate-200 flex flex-col shadow-xl md:shadow-sm z-50 transition-all duration-300 ease-in-out
+          ${isMobileOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'} 
+          ${isCollapsed ? 'w-20' : 'w-64'}
+        `}
+      >
+        {/* Header & Toggle */}
+        <div className="p-4 border-b border-slate-100 flex items-center justify-between min-h-[72px]">
+          {!isCollapsed && (
+            <div className="flex-1 text-center md:text-right">
+              <h2 className="text-xl font-black text-slate-900 dark:text-white leading-tight">منصة دقيش التعليمية</h2>
+              <p className="text-[11px] font-bold text-slate-400 dark:text-slate-300 mt-0.5">منصة وطنية للتعليم الجزائري</p>
+            </div>
+          )}
+          
+          <button 
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className={`hidden md:flex items-center justify-center w-8 h-8 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors ${isCollapsed ? 'mx-auto' : ''}`}
+            title={isCollapsed ? "توسيع القائمة" : "تصغير القائمة"}
+          >
+            {isCollapsed ? <ChevronLeft className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+          </button>
+
+          {/* Mobile Close Button */}
+          <button 
+            onClick={onMobileClose}
+            className="md:hidden p-2 text-slate-400 hover:bg-slate-100 rounded-lg"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        
+        {/* Navigation Links */}
+        <div className="flex-1 overflow-y-auto overflow-x-hidden py-4 px-3 space-y-1">
+          {links.map((link) => {
+            const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
+            const Icon = link.icon;
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                title={isCollapsed ? link.name : ""}
+                onClick={() => { if(window.innerWidth < 768) onMobileClose(); }}
+                className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all font-bold text-sm overflow-hidden ${
+                  isActive 
+                    ? ((link as any).activeBg || "bg-sky-50 dark:bg-slate-950/30") + " " + ((link as any).activeText || "text-sky-700 dark:text-amber-400") + " shadow-sm shadow-sky-100/50 dark:shadow-none"
+                    : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
+                } ${isCollapsed ? 'justify-center' : 'justify-start'}`}
+              >
+                <Icon className={`w-5 h-5 shrink-0 transition-colors ${(link as any).iconColor || "text-sky-600 dark:text-amber-400"}`} />
+                {!isCollapsed && <span className="whitespace-nowrap">{link.name}</span>}
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* Dynamic Profile Section */}
+        <div className="p-4 border-t border-slate-100">
+          
+          {isLoadingProfile ? (
+            <div className={`flex items-center gap-3 mb-4 ${isCollapsed ? 'justify-center px-0' : 'px-2'}`}>
+              <div className="w-10 h-10 rounded-full bg-slate-100 animate-pulse shrink-0" />
+              {!isCollapsed && (
+                <div className="flex-1 space-y-2 overflow-hidden">
+                  <div className="h-4 bg-slate-100 rounded animate-pulse w-3/4" />
+                  <div className="h-3 bg-slate-100 rounded animate-pulse w-1/2" />
+                </div>
+              )}
+            </div>
+          ) : userData ? (
+            <div className={`flex items-center gap-3 mb-4 ${isCollapsed ? 'justify-center px-0' : 'px-2'}`}>
+              {userData.avatarUrl ? (
+                <img 
+                  src={userData.avatarUrl} 
+                  alt={userData.fullName}
+                  className="w-10 h-10 rounded-full object-cover shrink-0 border border-slate-100"
+                  title={isCollapsed ? userData.fullName : ""}
+                />
+              ) : (
+                <div 
+                  className="w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-700 font-black shrink-0"
+                  title={isCollapsed ? userData.fullName : ""}
+                >
+                  {userData.fullName.charAt(0)}
+                </div>
+              )}
+              {!isCollapsed && (
+                <div className="overflow-hidden text-right flex-1">
+                  <p className="text-sm font-bold text-slate-900 truncate">{userData.fullName}</p>
+                  <p className="text-[11px] font-bold text-slate-400 truncate">{getRoleLabel(userData.role)}</p>
+                </div>
+              )}
+            </div>
+          ) : null}
+          
+          <form action={logoutUser}>
+            <button 
+              title={isCollapsed ? "تسجيل الخروج" : ""}
+              className={`w-full flex items-center gap-3 py-2.5 rounded-xl text-amber-600 hover:bg-amber-50 transition-all font-bold text-sm overflow-hidden ${isCollapsed ? 'justify-center px-0' : 'px-3 justify-start'}`}
+            >
+              <LogOut className="w-5 h-5 text-amber-500 shrink-0" />
+              {!isCollapsed && <span className="whitespace-nowrap">تسجيل الخروج</span>}
+            </button>
+          </form>
+
+        </div>
+      </aside>
+    </>
+  );
+}

@@ -5,12 +5,17 @@ import { PrismaPg } from '@prisma/adapter-pg';
 const connectionString = `${process.env.DATABASE_URL}`;
 
 const globalForPrisma = globalThis as unknown as {
-  prismaClientV2: PrismaClient | undefined;
+  prismaClientV3: PrismaClient | undefined;
   pgPool: Pool | undefined;
 };
 
-// Cache the pg Pool in development to avoid exhausting connections on hot reloads
-const pool = globalForPrisma.pgPool ?? new Pool({ connectionString });
+// Configure pg Pool with strict connection limits and timeouts for Prisma v7
+const pool = globalForPrisma.pgPool ?? new Pool({ 
+  connectionString,
+  max: 1, // connection_limit=1
+  connectionTimeoutMillis: 15000, // connect_timeout=15
+  idleTimeoutMillis: 30000,
+});
 
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.pgPool = pool;
@@ -18,10 +23,8 @@ if (process.env.NODE_ENV !== 'production') {
 
 const adapter = new PrismaPg(pool);
 
-export const prisma =
-  globalForPrisma.prismaClientV2 ??
-  new PrismaClient({ adapter });
+export const prisma = globalForPrisma.prismaClientV3 ?? new PrismaClient({ adapter, log: ['error', 'warn'] });
 
 if (process.env.NODE_ENV !== 'production') {
-  globalForPrisma.prismaClientV2 = prisma;
+  globalForPrisma.prismaClientV3 = prisma;
 }

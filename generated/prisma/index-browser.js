@@ -122,55 +122,267 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  phone: 'phone',
-  password: 'password',
+  fullName: 'fullName',
+  phoneNumber: 'phoneNumber',
+  passwordHash: 'passwordHash',
+  avatarUrl: 'avatarUrl',
   role: 'role',
-  level: 'level',
-  track: 'track',
-  guardianCode: 'guardianCode',
-  wilayaId: 'wilayaId',
-  guardianId: 'guardianId',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  lastLoginAt: 'lastLoginAt',
+  deviceFingerprints: 'deviceFingerprints'
 };
 
-exports.Prisma.WilayaScalarFieldEnum = {
+exports.Prisma.StudentProfileScalarFieldEnum = {
   id: 'id',
-  code: 'code',
-  name: 'name'
+  userId: 'userId',
+  parentName: 'parentName',
+  parentPhone: 'parentPhone',
+  level: 'level',
+  stream: 'stream',
+  wilaya: 'wilaya',
+  totalPoints: 'totalPoints',
+  parentCode: 'parentCode',
+  friendCode: 'friendCode'
+};
+
+exports.Prisma.ParentProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId'
+};
+
+exports.Prisma.TeacherScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  phone: 'phone',
+  levels: 'levels',
+  streams: 'streams',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SubjectScalarFieldEnum = {
   id: 'id',
-  name: 'name',
+  title: 'title',
   description: 'description',
   teacherName: 'teacherName',
   teacherId: 'teacherId',
   level: 'level',
+  stream: 'stream',
+  image: 'image',
+  price: 'price',
+  accessType: 'accessType',
+  isPublished: 'isPublished',
   createdAt: 'createdAt'
 };
 
 exports.Prisma.LessonScalarFieldEnum = {
   id: 'id',
   title: 'title',
+  month: 'month',
+  muxPlaybackId: 'muxPlaybackId',
+  image: 'image',
   subjectId: 'subjectId',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.LessonMaterialScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  fileUrl: 'fileUrl',
+  lessonId: 'lessonId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.QuizScalarFieldEnum = {
+  id: 'id',
+  lessonId: 'lessonId',
+  dailyExerciseId: 'dailyExerciseId',
+  examId: 'examId',
+  maxScore: 'maxScore',
+  aiGenerated: 'aiGenerated',
+  questions: 'questions',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.AccessCodeScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  accessType: 'accessType',
+  validMonths: 'validMonths',
+  isUsed: 'isUsed',
+  studentId: 'studentId',
+  subjectId: 'subjectId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ParentStudentLinkScalarFieldEnum = {
+  id: 'id',
+  parentId: 'parentId',
+  studentId: 'studentId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.StudentFriendLinkScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  friendId: 'friendId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.BannerScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  imageUrl: 'imageUrl',
+  targetUrl: 'targetUrl',
+  month: 'month',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.StudentMistakeScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  mistakeContent: 'mistakeContent',
+  correctSolution: 'correctSolution',
+  lessonId: 'lessonId',
+  quizId: 'quizId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.EnrollmentScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  subjectId: 'subjectId',
+  enrolledMonths: 'enrolledMonths',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.LiveClassScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  zoomLink: 'zoomLink',
+  month: 'month',
+  date: 'date',
+  subjectId: 'subjectId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ChatSessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ChatMessageScalarFieldEnum = {
+  id: 'id',
+  chatSessionId: 'chatSessionId',
+  role: 'role',
+  content: 'content',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.DailyExerciseScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  a4ImageUrl: 'a4ImageUrl',
+  maxScore: 'maxScore',
+  level: 'level',
+  stream: 'stream',
+  subjectId: 'subjectId',
+  secondarySubjectId: 'secondarySubjectId',
+  month: 'month',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ExamScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  subjectId: 'subjectId',
+  secondarySubjectId: 'secondarySubjectId',
+  level: 'level',
+  stream: 'stream',
+  month: 'month',
+  a4ImageUrl: 'a4ImageUrl',
+  maxScore: 'maxScore',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.StudentSubmissionScalarFieldEnum = {
+  id: 'id',
+  examId: 'examId',
+  studentId: 'studentId',
+  imageUrl: 'imageUrl',
+  score: 'score',
+  feedback: 'feedback',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.NotificationScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  message: 'message',
-  type: 'type',
-  isRead: 'isRead',
+  content: 'content',
+  level: 'level',
+  stream: 'stream',
+  month: 'month',
+  subjectId: 'subjectId',
   userId: 'userId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ReviewCardScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  question: 'question',
+  answer: 'answer',
+  subjectId: 'subjectId',
+  level: 'level',
+  stream: 'stream',
+  month: 'month',
+  exerciseRef: 'exerciseRef',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ClassForumScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  subjectId: 'subjectId',
+  level: 'level',
+  stream: 'stream',
+  month: 'month',
+  isOpen: 'isOpen',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ForumMessageScalarFieldEnum = {
+  id: 'id',
+  forumId: 'forumId',
+  userId: 'userId',
+  content: 'content',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ParentTicketScalarFieldEnum = {
+  id: 'id',
+  parentId: 'parentId',
+  subject: 'subject',
+  message: 'message',
+  status: 'status',
   createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -182,24 +394,122 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
 exports.Role = exports.$Enums.Role = {
   STUDENT: 'STUDENT',
-  GUARDIAN: 'GUARDIAN',
+  PARENT: 'PARENT',
   TEACHER: 'TEACHER',
   ADMIN: 'ADMIN'
 };
 
-exports.NotificationType = exports.$Enums.NotificationType = {
-  TEACHER: 'TEACHER',
-  ADMIN: 'ADMIN'
+exports.Level = exports.$Enums.Level = {
+  AS2: 'AS2',
+  AS3: 'AS3'
+};
+
+exports.Stream = exports.$Enums.Stream = {
+  SCIENCES: 'SCIENCES',
+  MATH: 'MATH',
+  TECH_MATH: 'TECH_MATH',
+  GESTION: 'GESTION',
+  LETTRES: 'LETTRES',
+  LANGUAGES: 'LANGUAGES',
+  COMMON_TRUNK: 'COMMON_TRUNK',
+  ALL: 'ALL'
+};
+
+exports.Wilaya = exports.$Enums.Wilaya = {
+  W01: 'W01',
+  W02: 'W02',
+  W03: 'W03',
+  W04: 'W04',
+  W05: 'W05',
+  W06: 'W06',
+  W07: 'W07',
+  W08: 'W08',
+  W09: 'W09',
+  W10: 'W10',
+  W11: 'W11',
+  W12: 'W12',
+  W13: 'W13',
+  W14: 'W14',
+  W15: 'W15',
+  W16: 'W16',
+  W17: 'W17',
+  W18: 'W18',
+  W19: 'W19',
+  W20: 'W20',
+  W21: 'W21',
+  W22: 'W22',
+  W23: 'W23',
+  W24: 'W24',
+  W25: 'W25',
+  W26: 'W26',
+  W27: 'W27',
+  W28: 'W28',
+  W29: 'W29',
+  W30: 'W30',
+  W31: 'W31',
+  W32: 'W32',
+  W33: 'W33',
+  W34: 'W34',
+  W35: 'W35',
+  W36: 'W36',
+  W37: 'W37',
+  W38: 'W38',
+  W39: 'W39',
+  W40: 'W40',
+  W41: 'W41',
+  W42: 'W42',
+  W43: 'W43',
+  W44: 'W44',
+  W45: 'W45',
+  W46: 'W46',
+  W47: 'W47',
+  W48: 'W48',
+  W49: 'W49',
+  W50: 'W50',
+  W51: 'W51',
+  W52: 'W52',
+  W53: 'W53',
+  W54: 'W54',
+  W55: 'W55',
+  W56: 'W56',
+  W57: 'W57',
+  W58: 'W58'
 };
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Wilaya: 'Wilaya',
+  StudentProfile: 'StudentProfile',
+  ParentProfile: 'ParentProfile',
+  Teacher: 'Teacher',
   Subject: 'Subject',
   Lesson: 'Lesson',
-  Notification: 'Notification'
+  LessonMaterial: 'LessonMaterial',
+  Quiz: 'Quiz',
+  AccessCode: 'AccessCode',
+  ParentStudentLink: 'ParentStudentLink',
+  StudentFriendLink: 'StudentFriendLink',
+  Banner: 'Banner',
+  StudentMistake: 'StudentMistake',
+  Enrollment: 'Enrollment',
+  LiveClass: 'LiveClass',
+  ChatSession: 'ChatSession',
+  ChatMessage: 'ChatMessage',
+  DailyExercise: 'DailyExercise',
+  Exam: 'Exam',
+  StudentSubmission: 'StudentSubmission',
+  Notification: 'Notification',
+  ReviewCard: 'ReviewCard',
+  ClassForum: 'ClassForum',
+  ForumMessage: 'ForumMessage',
+  ParentTicket: 'ParentTicket'
 };
 
 /**

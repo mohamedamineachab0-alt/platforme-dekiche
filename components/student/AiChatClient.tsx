@@ -10,6 +10,8 @@ export function AiChatClient({
   userAvatarUrl,
   studentName,
   studentLevel,
+  studentStream,
+  studentPoints,
   studentMistakes
 }: { 
   studentId: string, 
@@ -17,6 +19,8 @@ export function AiChatClient({
   userAvatarUrl?: string | null,
   studentName?: string,
   studentLevel?: string,
+  studentStream?: string,
+  studentPoints?: number,
   studentMistakes?: string
 }) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -49,6 +53,8 @@ export function AiChatClient({
           prompt: newPrompt,
           studentName,
           studentLevel,
+          studentStream,
+          studentPoints,
           studentMistakes
         }),
       });

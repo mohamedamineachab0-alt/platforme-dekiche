@@ -35,15 +35,15 @@ export default async function AiAssistantPage() {
   const streamStr = STREAMS.find(s => s.value === rawStream)?.label || rawStream;
 
   const studentName = user.fullName;
-  const studentLevelStr = `${levelStr} - ${streamStr}`;
+  const studentPoints = user.studentProfile.totalPoints;
   const studentMistakesStr = user.mistakes.length > 0 
-    ? user.mistakes.map(m => m.mistakeContent).join('، ')
-    : 'لا توجد اخطاء مسجلة حتى الان';
+    ? user.mistakes.map(m => `${m.mistakeContent} (الحل الصحيح لها كان: ${m.correctSolution || 'لا يوجد'})`).join(' | ')
+    : 'لا توجد أخطاء مسجلة حتى الآن';
 
   return (
     <div className="flex flex-col h-full gap-4 md:gap-6 pt-2">
       <HeroBanner 
-        title="Number One Academy"
+        title="مساعدي الذكي"
         description="متصل بمعرفتك ومستواك وأخطائك"
         icon={Bot}
         gradientClass="bg-gradient-to-r from-purple-600 to-purple-800"
@@ -54,7 +54,9 @@ export default async function AiAssistantPage() {
           greetingText={`أنت طالب في ${levelStr} في ${streamStr}`}
           userAvatarUrl={user.avatarUrl}
           studentName={studentName}
-          studentLevel={studentLevelStr}
+          studentLevel={levelStr}
+          studentStream={streamStr}
+          studentPoints={studentPoints}
           studentMistakes={studentMistakesStr}
         />
       </div>

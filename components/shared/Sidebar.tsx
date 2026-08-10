@@ -107,7 +107,7 @@ export function Sidebar({
       {/* Mobile Overlay */}
       {isMobileOpen && (
         <div 
-          className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-[45] md:hidden transition-all duration-300"
+          className="fixed inset-0 z-[90] bg-black/50 md:hidden transition-all duration-300"
           onClick={onMobileClose}
         />
       )}
@@ -115,9 +115,9 @@ export function Sidebar({
       {/* Sidebar Container */}
       <aside 
         style={{ fontFamily: '"IBM Plex Sans Arabic", sans-serif' }}
-        className={`fixed md:sticky top-0 right-0 h-screen bg-white border-l border-slate-200 flex flex-col shadow-xl md:shadow-sm z-50 transition-all duration-300 ease-in-out
+        className={`fixed inset-y-0 right-0 z-[100] bg-white border-l border-slate-200 flex flex-col shadow-xl md:shadow-sm transition-all duration-300 ease-in-out w-[80%] max-w-sm md:sticky md:h-screen
           ${isMobileOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'} 
-          ${isCollapsed ? 'w-20' : 'w-64'}
+          ${isCollapsed ? 'md:w-20' : 'md:w-64'}
         `}
       >
         {/* Header & Toggle */}
@@ -156,7 +156,7 @@ export function Sidebar({
                 key={link.href}
                 href={link.href}
                 title={isCollapsed ? link.name : ""}
-                onClick={() => { if(window.innerWidth < 768) onMobileClose(); }}
+                onClick={onMobileClose}
                 className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all font-bold text-sm overflow-hidden ${
                   isActive 
                     ? ((link as any).activeBg || "bg-sky-50 dark:bg-slate-950/30") + " " + ((link as any).activeText || "text-sky-700 dark:text-amber-400") + " shadow-sm shadow-sky-100/50 dark:shadow-none"

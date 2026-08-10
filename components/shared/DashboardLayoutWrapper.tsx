@@ -55,7 +55,7 @@ export function DashboardLayoutWrapper({
         </header>
 
         {/* Main Content Area */}
-        <main className="flex-1 overflow-y-auto p-4 pb-24 md:p-8 relative">
+        <main className="flex-1 overflow-y-auto p-4 pb-28 md:p-8 relative">
           
           {/* Desktop Global Back Button */}
           {!isRootDashboard && (

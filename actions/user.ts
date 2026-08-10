@@ -23,7 +23,10 @@ export async function getUserSessionProfile() {
     });
 
     return user;
-  } catch (error) {
+  } catch (error: any) {
+    if (error?.digest?.includes("DYNAMIC_SERVER_USAGE") || error?.message?.includes("Dynamic server usage")) {
+      throw error;
+    }
     console.error("Error fetching user session profile:", error);
     return null;
   }

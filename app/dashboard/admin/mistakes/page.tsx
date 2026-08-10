@@ -50,7 +50,7 @@ export default async function AdminMistakesPage({
           <h2 className="text-xl font-black text-slate-900 hidden md:block">سجل الأخطاء الشامل</h2>
           
           <form className="flex flex-wrap gap-3 w-full md:w-auto">
-            <select name="subject" defaultValue={subject || ""} className="pr-8 pl-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <select name="subject" defaultValue={subject || ""} className="pr-8 pl-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500">
               <option value="">كل المواد</option>
               {subjects.map(s => (
                 <option key={s.id} value={s.id}>{s.title}</option>

@@ -1,10 +1,7 @@
 import { HUNDRED_TIPS } from "@/lib/hundredTips";
 import { Lightbulb, Sparkles } from "lucide-react";
 
-export const metadata = {
-  title: "100 نصيحة للتفوق",
-  description: "100 نصيحة ذهبية للتفوق الدراسي والامتحانات",
-};
+
 
 export default function TipsPage() {
   return (

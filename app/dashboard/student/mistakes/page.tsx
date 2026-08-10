@@ -43,7 +43,7 @@ export default async function StudentMistakesPage() {
             <input 
               type="text" 
               placeholder="ابحث في الأخطاء.."
-              className="w-full pr-10 pl-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all"
+              className="w-full pr-10 pl-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all"
             />
           </div>
         </div>

@@ -44,7 +44,7 @@ function InputField({
           dir={dir}
           value={value}
           onChange={onChange}
-          className="flex-1 py-3 px-4 outline-none text-slate-900 dark:text-white font-bold text-sm placeholder:text-sky-400/70 bg-transparent w-full"
+          className="flex-1 py-3 px-4 outline-none text-slate-900 dark:text-white font-bold text-base placeholder:text-sky-400/70 bg-transparent w-full"
         />
 
         {/* Password Toggle */}
@@ -90,7 +90,7 @@ function SelectField({
             required
             value={value}
             onChange={onChange}
-            className="w-full py-3 ps-4 pe-10 outline-none text-slate-900 dark:text-white font-bold text-sm bg-transparent appearance-none cursor-pointer"
+            className="w-full py-3 ps-4 pe-10 outline-none text-slate-900 dark:text-white font-bold text-base bg-transparent appearance-none cursor-pointer"
           >
             <option value="" disabled>{placeholder}</option>
             {options.map(o => (

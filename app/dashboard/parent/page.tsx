@@ -59,7 +59,7 @@ export default async function ParentDashboardPage() {
                   type="text" 
                   name="parentCode" 
                   required 
-                  className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-mono tracking-widest focus:outline-none focus:ring-2 focus:ring-sky-500 text-center" 
+                  className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 text-base font-mono tracking-widest focus:outline-none focus:ring-2 focus:ring-sky-500 text-center" 
                   placeholder="أدخل الرمز هنا" 
                 />
               </div>

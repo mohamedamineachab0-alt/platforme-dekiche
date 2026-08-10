@@ -237,7 +237,7 @@ export function ForumChatClient({ initialMessages, forum, sessionId, studentProf
                 rows={1}
                 placeholder="اكتب رسالتك هنا.."
                 required
-                className="w-full min-h-[56px] max-h-[120px] p-4 rounded-2xl border border-slate-200 bg-white text-sm font-medium focus:outline-none focus:ring-2 focus:ring-sky-500 resize-y shadow-sm"
+                className="w-full min-h-[56px] max-h-[120px] p-4 rounded-2xl border border-slate-200 bg-white text-base font-medium focus:outline-none focus:ring-2 focus:ring-sky-500 resize-y shadow-sm"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();

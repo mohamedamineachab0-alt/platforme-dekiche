@@ -58,17 +58,17 @@ export default async function AdminStudentMonitoringPage(props: {
           <span className="text-sm font-bold text-slate-700">تصفية النتائج:</span>
           
           <form className="flex flex-wrap gap-3 flex-1" action="/dashboard/admin/students/monitoring">
-            <select name="level" defaultValue={level || ""} className="p-2 text-sm rounded-lg border border-slate-200 bg-white font-bold text-slate-700">
+            <select name="level" defaultValue={level || ""} className="p-2 text-base rounded-lg border border-slate-200 bg-white font-bold text-slate-700">
               <option value="">جميع المستويات</option>
               {LEVELS.map(l => <option key={l.value} value={l.value}>{l.label}</option>)}
             </select>
             
-            <select name="stream" defaultValue={stream || ""} className="p-2 text-sm rounded-lg border border-slate-200 bg-white font-bold text-slate-700">
+            <select name="stream" defaultValue={stream || ""} className="p-2 text-base rounded-lg border border-slate-200 bg-white font-bold text-slate-700">
               <option value="">جميع الشعب</option>
               {STREAMS.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
             </select>
 
-            <select name="subjectId" defaultValue={subjectId || ""} className="p-2 text-sm rounded-lg border border-slate-200 bg-white font-bold text-slate-700">
+            <select name="subjectId" defaultValue={subjectId || ""} className="p-2 text-base rounded-lg border border-slate-200 bg-white font-bold text-slate-700">
               <option value="">جميع المواد</option>
               {subjects.map(s => <option key={s.id} value={s.id}>{s.title}</option>)}
             </select>

@@ -5,10 +5,7 @@ import { TeamSection } from "@/components/landing/TeamSection";
 import { LeaderboardSection } from "@/components/landing/LeaderboardSection";
 import { prisma } from "@/lib/prisma";
 
-export const metadata = {
-  title: "منصة دقيش التعليمية | الصرح الرقمي الوطني",
-  description: "المنصة المصممة خصيصا لمرافقة تلاميذ السنة الثانية والثالثة ثانوي لضمان التفوق الساحق وتحقيق معدلات قياسية في شهادة البكالوريا",
-};
+
 
 export default async function Home() {
   const cookieStore = await cookies();

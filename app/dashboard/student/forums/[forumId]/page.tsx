@@ -73,7 +73,7 @@ export default async function StudentChatRoomPage(props: { params: Promise<{ for
                   type="text" 
                   placeholder="أدخل كود الإشتراك" 
                   readOnly
-                  className="w-full pr-10 pl-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white font-mono font-bold text-sm"
+                  className="w-full pr-10 pl-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white font-mono font-bold text-base"
                 />
               </div>
               <Link 

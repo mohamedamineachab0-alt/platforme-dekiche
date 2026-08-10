@@ -38,17 +38,17 @@ export default async function AdminTeachersPage() {
             <form action={async (formData) => { "use server"; await createTeacher(formData); }} className="space-y-4">
               <div className="space-y-1">
                 <label className="text-sm font-bold text-slate-700">الاسم الكامل</label>
-                <input type="text" name="fullName" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="مثال: الأستاذ كمال" />
+                <input type="text" name="fullName" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="مثال: الأستاذ كمال" />
               </div>
               
               <div className="space-y-1">
                 <label className="text-sm font-bold text-slate-700">رقم الهاتف (للدخول)</label>
-                <input type="tel" name="phoneNumber" required dir="ltr" className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="05XXXXXXXX" />
+                <input type="tel" name="phoneNumber" required dir="ltr" className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="05XXXXXXXX" />
               </div>
 
               <div className="space-y-1">
                 <label className="text-sm font-bold text-slate-700">كلمة المرور</label>
-                <input type="password" name="password" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="6 أحرف على الأقل" />
+                <input type="password" name="password" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="6 أحرف على الأقل" />
               </div>
 
               <div className="space-y-2">

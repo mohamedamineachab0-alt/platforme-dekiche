@@ -58,12 +58,12 @@ export default async function TeacherLiveClassesPage() {
             <form action={async (formData) => { "use server"; await createLiveClass(formData); }} className="space-y-4">
               <div className="space-y-1">
                 <label className="text-sm font-bold text-slate-700">عنوان الحصة</label>
-                <input type="text" name="title" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="مثال: مراجعة شاملة" />
+                <input type="text" name="title" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="مثال: مراجعة شاملة" />
               </div>
 
               <div className="space-y-1">
                 <label className="text-sm font-bold text-slate-700">المادة الدراسية (موادك فقط)</label>
-                <select name="subjectId" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                <select name="subjectId" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-amber-500">
                   <option value="">اختر المادة</option>
                   {teacher.subjects.map(s => {
                     const levelStr = LEVELS.find(l => l.value === s.level)?.label || s.level;
@@ -79,17 +79,17 @@ export default async function TeacherLiveClassesPage() {
 
               <div className="space-y-1">
                 <label className="text-sm font-bold text-slate-700">رابط الزوم</label>
-                <input type="url" name="zoomLink" required dir="ltr" className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="https://zoom.us/j/..." />
+                <input type="url" name="zoomLink" required dir="ltr" className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="https://zoom.us/j/..." />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
                   <label className="text-sm font-bold text-slate-700">التاريخ والوقت</label>
-                  <input type="datetime-local" name="date" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" />
+                  <input type="datetime-local" name="date" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-amber-500" />
                 </div>
                 <div className="space-y-1">
                   <label className="text-sm font-bold text-slate-700">الشهر</label>
-                  <input type="number" min="1" max="12" name="month" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="9" />
+                  <input type="number" min="1" max="12" name="month" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="9" />
                 </div>
               </div>
 

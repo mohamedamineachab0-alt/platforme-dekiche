@@ -3,13 +3,15 @@ import "./globals.css";
 import "katex/dist/katex.min.css";
 
 export const metadata: Metadata = {
-  title: "ديكيش أكاديمي | Dekich Academy",
-  description: "منصة التعليم الجزائرية الأولى للتحضير لشهادة البكالوريا",
+  title: "منصة دقيش التعليمية",
+  description: "منصة وطنية للتعليم الجزائري - اصنع مستقبلك بثبات نحو القمة",
 };
 
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({

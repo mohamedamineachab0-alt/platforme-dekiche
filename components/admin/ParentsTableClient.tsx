@@ -177,7 +177,7 @@ export function ParentsTableClient({ students }: ParentsTableClientProps) {
                       required
                       type="text" 
                       placeholder="مثال: تنبيه بخصوص الغياب"
-                      className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all"
+                      className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 text-base font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all"
                     />
                   </div>
                   
@@ -188,7 +188,7 @@ export function ParentsTableClient({ students }: ParentsTableClientProps) {
                       required
                       rows={5}
                       placeholder="اكتب رسالتك لولي الأمر هنا..."
-                      className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all resize-none"
+                      className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 text-base font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all resize-none"
                     ></textarea>
                   </div>
 

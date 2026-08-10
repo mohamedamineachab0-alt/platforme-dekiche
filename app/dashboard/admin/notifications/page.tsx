@@ -38,12 +38,12 @@ export default async function AdminNotificationsPage() {
             <form action={async (formData) => { "use server"; await createNotification(formData); }} className="space-y-4">
               <div className="space-y-1">
                 <label className="text-sm font-bold text-slate-700">عنوان الإشعار</label>
-                <input type="text" name="title" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="مثال: إضافة ملخص جديد" />
+                <input type="text" name="title" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="مثال: إضافة ملخص جديد" />
               </div>
 
               <div className="space-y-1">
                 <label className="text-sm font-bold text-slate-700">نص الإشعار</label>
-                <textarea name="content" rows={3} required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 resize-none" placeholder="اكتب رسالتك هنا.." />
+                <textarea name="content" rows={3} required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-violet-500 resize-none" placeholder="اكتب رسالتك هنا.." />
               </div>
 
               <div className="pt-2 border-t border-slate-100">
@@ -52,7 +52,7 @@ export default async function AdminNotificationsPage() {
                 <div className="space-y-3">
                   <div className="space-y-1">
                     <label className="text-sm font-bold text-slate-700">المادة الدراسية</label>
-                    <select name="subjectId" className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+                    <select name="subjectId" className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-violet-500">
                       <option value="">جميع المواد</option>
                       {subjects.map(s => {
                         const levelStr = LEVELS.find(l => l.value === s.level)?.label || s.level;
@@ -69,7 +69,7 @@ export default async function AdminNotificationsPage() {
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1">
                       <label className="text-sm font-bold text-slate-700">المستوى</label>
-                      <select name="level" className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+                      <select name="level" className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-violet-500">
                         <option value="">جميع المستويات</option>
                         {LEVELS.map(l => (
                           <option key={l.value} value={l.value}>{l.label}</option>
@@ -78,7 +78,7 @@ export default async function AdminNotificationsPage() {
                     </div>
                     <div className="space-y-1">
                       <label className="text-sm font-bold text-slate-700">الشعبة</label>
-                      <select name="stream" className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500">
+                      <select name="stream" className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-violet-500">
                         <option value="">جميع الشعب</option>
                         {STREAMS.map(s => (
                           <option key={s.value} value={s.value}>{s.label}</option>
@@ -89,7 +89,7 @@ export default async function AdminNotificationsPage() {
 
                   <div className="space-y-1">
                     <label className="text-sm font-bold text-slate-700">الشهر</label>
-                    <input type="number" min="1" max="12" name="month" className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="رقم الشهر (اختياري)" />
+                    <input type="number" min="1" max="12" name="month" className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-violet-500" placeholder="رقم الشهر (اختياري)" />
                   </div>
                 </div>
               </div>

@@ -83,7 +83,7 @@ export function ExamSubmissionForm({ examId, studentId, hasSubmitted, previousSc
           name="file"
           accept="image/*"
           required
-          className="w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-sky-100 file:text-sky-700 hover:file:bg-sky-200 cursor-pointer"
+          className="w-full text-base text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-base file:font-bold file:bg-sky-100 file:text-sky-700 hover:file:bg-sky-200 cursor-pointer"
         />
       </div>
 

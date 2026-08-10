@@ -41,7 +41,7 @@ export function CodeGeneratorClient({ subjects }: { subjects: { id: string, titl
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-1">
             <label className="text-sm font-bold text-slate-700 dark:text-slate-300">المادة التعليمية</label>
-            <select name="subjectId" required className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <select name="subjectId" required className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-base focus:outline-none focus:ring-2 focus:ring-sky-500">
               <option value="">اختر المادة</option>
               {subjects.map(s => (
                 <option key={s.id} value={s.id}>{s.title}</option>
@@ -51,7 +51,7 @@ export function CodeGeneratorClient({ subjects }: { subjects: { id: string, titl
           
           <div className="space-y-1">
             <label className="text-sm font-bold text-slate-700 dark:text-slate-300">نوع الوصول</label>
-            <select name="accessType" required className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+            <select name="accessType" required className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-base focus:outline-none focus:ring-2 focus:ring-sky-500">
               <option value="MONTHLY">شهري (اختر الشهور)</option>
               <option value="YEARLY">سنوي (كامل المادة)</option>
             </select>
@@ -71,7 +71,7 @@ export function CodeGeneratorClient({ subjects }: { subjects: { id: string, titl
 
           <div className="space-y-1">
             <label className="text-sm font-bold text-slate-700 dark:text-slate-300">عدد الرموز المراد توليدها</label>
-            <input type="number" name="count" required defaultValue={1} min={1} max={100} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500" />
+            <input type="number" name="count" required defaultValue={1} min={1} max={100} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-base focus:outline-none focus:ring-2 focus:ring-sky-500" />
           </div>
 
           <button disabled={pending} type="submit" className="w-full flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 disabled:opacity-50 text-white font-bold py-3 rounded-xl transition-colors shadow-sm">

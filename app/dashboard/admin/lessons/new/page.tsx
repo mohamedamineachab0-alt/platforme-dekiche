@@ -3,9 +3,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 
-export const metadata = {
-  title: "نشر درس جديد - Admin",
-};
+
 
 export default async function NewLessonPage() {
   const subjects = await prisma.subject.findMany({

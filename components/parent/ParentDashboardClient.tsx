@@ -251,7 +251,7 @@ export function ParentDashboardClient({ students, parentId }: ParentDashboardCli
                     required
                     type="text" 
                     placeholder="مثال: استفسار حول نقطة في الرياضيات"
-                    className="w-full p-3.5 rounded-xl border border-slate-200 bg-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all"
+                    className="w-full p-3.5 rounded-xl border border-slate-200 bg-white text-base font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all"
                   />
                 </div>
                 
@@ -262,7 +262,7 @@ export function ParentDashboardClient({ students, parentId }: ParentDashboardCli
                     required
                     rows={5}
                     placeholder="اكتب تفاصيل رسالتك هنا..."
-                    className="w-full p-3.5 rounded-xl border border-slate-200 bg-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all resize-none"
+                    className="w-full p-3.5 rounded-xl border border-slate-200 bg-white text-base font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all resize-none"
                   ></textarea>
                 </div>
 

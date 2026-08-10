@@ -37,24 +37,24 @@ export default async function AdminReviewCardsPage() {
             <form action={async (formData) => { "use server"; await createReviewCard(formData); }} className="space-y-4">
               <div className="space-y-1">
                 <label className="text-sm font-bold text-slate-700">عنوان البطاقة</label>
-                <input type="text" name="title" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="مثال: تعريف الخلية" />
+                <input type="text" name="title" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="مثال: تعريف الخلية" />
               </div>
 
               <div className="space-y-1">
                 <label className="text-sm font-bold text-slate-700">السؤال (الوجه الأمامي)</label>
-                <textarea name="question" rows={3} required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 resize-none" placeholder="اكتب السؤال هنا.." />
+                <textarea name="question" rows={3} required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-sky-500 resize-none" placeholder="اكتب السؤال هنا.." />
               </div>
 
               <div className="space-y-1">
                 <label className="text-sm font-bold text-slate-700">الجواب (الوجه الخلفي)</label>
-                <textarea name="answer" rows={3} required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 resize-none" placeholder="اكتب الجواب هنا.." />
+                <textarea name="answer" rows={3} required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-sky-500 resize-none" placeholder="اكتب الجواب هنا.." />
               </div>
 
               <div className="pt-2 border-t border-slate-100">
                 <div className="space-y-3">
                   <div className="space-y-1">
                     <label className="text-sm font-bold text-slate-700">المادة الدراسية</label>
-                    <select name="subjectId" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    <select name="subjectId" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-sky-500">
                       <option value="">اختر المادة</option>
                       {subjects.map(s => {
                         const levelStr = LEVELS.find(l => l.value === s.level)?.label || s.level;
@@ -71,7 +71,7 @@ export default async function AdminReviewCardsPage() {
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-1">
                       <label className="text-sm font-bold text-slate-700">المستوى</label>
-                      <select name="level" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+                      <select name="level" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-sky-500">
                         <option value="">اختر المستوى</option>
                         {LEVELS.map(l => (
                           <option key={l.value} value={l.value}>{l.label}</option>
@@ -80,7 +80,7 @@ export default async function AdminReviewCardsPage() {
                     </div>
                     <div className="space-y-1">
                       <label className="text-sm font-bold text-slate-700">الشعبة</label>
-                      <select name="stream" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+                      <select name="stream" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-sky-500">
                         <option value="">اختر الشعبة</option>
                         {STREAMS.map(s => (
                           <option key={s.value} value={s.value}>{s.label}</option>
@@ -96,7 +96,7 @@ export default async function AdminReviewCardsPage() {
 
                   <div className="space-y-1">
                     <label className="text-sm font-bold text-slate-700">مرجع التمرين (اختياري)</label>
-                    <input type="text" name="exerciseRef" className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-sm focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="مثال: الوحدة الأولى - تمرين 4" />
+                    <input type="text" name="exerciseRef" className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="مثال: الوحدة الأولى - تمرين 4" />
                   </div>
                 </div>
               </div>

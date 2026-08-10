@@ -112,7 +112,7 @@ export function SubjectCreationClient({
               name="image" 
               accept="image/*"
               onChange={handleImageChange} 
-              className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-bold file:bg-sky-50 file:text-sky-700 dark:file:bg-slate-950/30 hover:file:bg-sky-100 transition-all cursor-pointer" 
+              className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-base focus:outline-none focus:ring-2 focus:ring-sky-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-base file:font-bold file:bg-sky-50 file:text-sky-700 dark:file:bg-slate-950/30 hover:file:bg-sky-100 transition-all cursor-pointer" 
             />
           </div>
 

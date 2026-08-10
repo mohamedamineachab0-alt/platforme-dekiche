@@ -27,7 +27,7 @@ export function DailyTip({ variant = "sidebar", isCollapsed = false }: DailyTipP
     return (
       <div className="bg-sky-50 rounded-2xl p-4 border border-sky-100 relative overflow-hidden group">
         <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-white/40 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-        <div className="flex items-start gap-3 relative z-10">
+        <div className="flex items-start gap-3">
           <div className="w-8 h-8 rounded-xl bg-sky-100 flex items-center justify-center shrink-0 shadow-sm border border-white">
             <Lightbulb className="w-4 h-4 text-sky-600" />
           </div>

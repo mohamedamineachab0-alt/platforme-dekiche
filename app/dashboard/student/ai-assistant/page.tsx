@@ -41,14 +41,14 @@ export default async function AiAssistantPage() {
     : 'لا توجد اخطاء مسجلة حتى الان';
 
   return (
-    <div className="flex flex-col h-[calc(100vh-6rem)] gap-6">
+    <div className="flex flex-col h-full gap-4 md:gap-6 pt-2">
       <HeroBanner 
-        title="مساعدي الذكي"
+        title="Number One Academy"
         description="متصل بمعرفتك ومستواك وأخطائك"
         icon={Bot}
-        gradientClass="bg-gradient-to-r from-sky-600 to-sky-700"
+        gradientClass="bg-gradient-to-r from-purple-600 to-purple-800"
       />
-      <div className="flex-1 min-h-0 bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+      <div className="flex-1 min-h-0 bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden flex flex-col">
         <AiChatClient 
           studentId={sessionId} 
           greetingText={`أنت طالب في ${levelStr} في ${streamStr}`}

@@ -95,7 +95,7 @@ export default async function SubjectDetailsPage({
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] bg-notebook-grid font-arabic" dir="rtl">
-      <div className="max-w-6xl mx-auto py-8 px-4 space-y-8 pb-20">
+      <div className="max-w-6xl mx-auto py-8 px-4 space-y-8">
         
         <Link href="/dashboard/student/subjects" className="inline-flex items-center gap-2 text-sky-600 hover:text-slate-900 font-bold transition-colors bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100">
           <ChevronLeft className="w-5 h-5" />

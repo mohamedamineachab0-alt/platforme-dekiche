@@ -77,10 +77,10 @@ export function FriendChallengeClient({
           
           <button 
             onClick={handleCopy}
-            className="w-full flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-sky-300 dark:hover:border-sky-500 transition-colors group"
+            className="w-full flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-sky-300 dark:hover:border-sky-500 transition-colors group overflow-hidden max-w-full"
           >
-            <span className="font-mono font-black text-slate-800 dark:text-white text-xl tracking-widest">{myCode}</span>
-            <div className="w-8 h-8 rounded-lg bg-white dark:bg-slate-700 flex items-center justify-center shadow-sm text-slate-400 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
+            <span className="font-mono font-black text-slate-800 dark:text-white text-xl tracking-widest truncate min-w-0 flex-1 text-right ml-2">{myCode}</span>
+            <div className="w-8 h-8 shrink-0 rounded-lg bg-white dark:bg-slate-700 flex items-center justify-center shadow-sm text-slate-400 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
               {copied ? <Check className="w-4 h-4 text-sky-500" /> : <Copy className="w-4 h-4" />}
             </div>
           </button>

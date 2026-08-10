@@ -20,7 +20,7 @@ export function HeroBanner({
       {showGridPattern && (
         <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
       )}
-      <div className="relative z-10 flex flex-col md:flex-row items-center gap-4 md:gap-8 text-white w-full">
+      <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 text-white w-full">
       {Icon && (
         <div className="hidden md:flex w-16 h-16 rounded-2xl bg-white/10 items-center justify-center shrink-0 shadow-inner border border-white/20">
           <Icon className="w-8 h-8 text-white" />

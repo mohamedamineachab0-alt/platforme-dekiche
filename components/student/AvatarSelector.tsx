@@ -49,18 +49,18 @@ export function AvatarSelector({ currentAvatarUrl }: { currentAvatarUrl?: string
 
       <div className="space-y-4">
         {/* Presets Grid */}
-        <div className="grid grid-cols-3 sm:grid-cols-6 gap-3">
+        <div className="flex flex-wrap gap-4 justify-center">
           {PRESET_AVATARS.map((url, idx) => (
             <button
               key={idx}
               onClick={() => {
                 setSelectedAvatar(url);
               }}
-              className={`relative aspect-square rounded-full border-2 overflow-hidden transition-all duration-200 group ${
+              className={`relative w-16 h-16 shrink-0 rounded-full border-2 overflow-hidden transition-all duration-200 group ${
                 selectedAvatar === url ? "border-sky-600 scale-110 shadow-md" : "border-slate-100 hover:border-sky-300"
               }`}
             >
-              <img src={url} alt="صورة رمزية" className="w-full h-full object-cover bg-slate-50" />
+              <img src={url} alt="صورة رمزية" className="w-full h-full rounded-full object-cover bg-slate-50" />
               {selectedAvatar === url && (
                 <div className="absolute inset-0 bg-sky-600/20 flex items-center justify-center">
                   <Check className="w-6 h-6 text-sky-700 font-bold bg-white/80 rounded-full p-1" />

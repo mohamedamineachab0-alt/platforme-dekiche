@@ -22,7 +22,7 @@ export function DashboardLayoutWrapper({
   const isRootDashboard = pathname === `/dashboard/${role.toLowerCase()}`;
 
   return (
-    <div className="flex min-h-screen bg-[#F8F9FA] bg-notebook-grid font-arabic overflow-x-hidden" dir="rtl">
+    <div className="flex min-h-screen bg-[#F8F9FA] bg-notebook-grid font-arabic" dir="rtl">
 
       <Sidebar
         role={role}
@@ -30,7 +30,7 @@ export function DashboardLayoutWrapper({
         onMobileClose={() => setIsMobileOpen(false)}
       />
 
-      <div className="flex-1 flex flex-col h-screen overflow-hidden">
+      <div className="flex-1 flex flex-col min-h-screen">
 
         {/* Mobile Top Navigation Bar */}
         <header className="md:hidden flex items-center justify-between p-4 bg-white border-b border-slate-100 shrink-0">
@@ -55,7 +55,7 @@ export function DashboardLayoutWrapper({
         </header>
 
         {/* Main Content Area */}
-        <main className="flex-1 overflow-y-auto p-4 pb-28 md:p-8">
+        <main className="flex-1 overflow-y-auto w-full max-w-full overflow-x-hidden px-4 py-4 md:p-8">
 
           {/* Desktop Global Back Button */}
           {!isRootDashboard && (
@@ -75,7 +75,7 @@ export function DashboardLayoutWrapper({
           </div>
         </main>
       </div>
-      <MobileBottomNav role={role} />
+      {/* Mobile Bottom Navigation Removed */}
     </div>
   );
 }

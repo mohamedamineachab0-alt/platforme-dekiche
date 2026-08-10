@@ -19,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ar" dir="rtl" className="h-full" suppressHydrationWarning>
-      <body className="font-sans antialiased min-h-full flex flex-col w-full max-w-[100vw] overflow-x-hidden">
+      <body className="font-sans antialiased min-h-full flex flex-col w-full max-w-full overflow-x-hidden overscroll-x-none touch-pan-y">
         {children}
       </body>
     </html>

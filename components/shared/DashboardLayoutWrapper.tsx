@@ -22,7 +22,7 @@ export function DashboardLayoutWrapper({
   const isRootDashboard = pathname === `/dashboard/${role.toLowerCase()}`;
 
   return (
-    <div className="flex min-h-screen bg-[#F8F9FA] bg-notebook-grid font-arabic w-full max-w-[100vw] overflow-x-hidden" dir="rtl">
+    <div className="flex min-h-screen bg-[#F8F9FA] bg-notebook-grid font-arabic w-full max-w-full overflow-x-hidden overscroll-x-none touch-pan-y" dir="rtl">
 
       <Sidebar
         role={role}

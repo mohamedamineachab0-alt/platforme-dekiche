@@ -1,7 +1,7 @@
 "use client";
 
 import { Download } from "lucide-react";
-import html2canvas from "html2canvas";
+import { toPng } from 'html-to-image';
 
 export function ExportTableButton({ targetId }: { targetId: string }) {
   const handleExport = async () => {
@@ -9,14 +9,13 @@ export function ExportTableButton({ targetId }: { targetId: string }) {
     if (!element) return;
 
     try {
-      const canvas = await html2canvas(element, {
-        scale: 2,
+      const dataUrl = await toPng(element, {
         backgroundColor: "#ffffff",
+        pixelRatio: 2,
       });
 
-      const image = canvas.toDataURL("image/png");
       const link = document.createElement("a");
-      link.href = image;
+      link.href = dataUrl;
       link.download = `revenues_${new Date().toISOString().split("T")[0]}.png`;
       link.click();
     } catch (error) {

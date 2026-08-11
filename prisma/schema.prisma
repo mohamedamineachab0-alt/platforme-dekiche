@@ -182,7 +182,7 @@ model Lesson {
   id        String           @id @default(uuid())
   title     String
   month     Int // e.g., 1, 2, 3
-  muxPlaybackId String // Mux playback ID
+  vimeoVideoId String // Vimeo video ID
   image     String? // Square image URL for the lesson from Supabase Storage
   subjectId String
   subject   Subject          @relation(fields: [subjectId], references: [id], onDelete: Cascade)

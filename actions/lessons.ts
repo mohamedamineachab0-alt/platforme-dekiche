@@ -12,7 +12,7 @@ export type LessonPayload = {
   title: string;
   subjectId: string;
   month: number;
-  muxPlaybackId: string;
+  vimeoVideoId: string;
   materials: LessonMaterialInput[];
   quiz?: {
     maxScore: number;
@@ -27,7 +27,7 @@ export type ActionState = {
 };
 
 export async function createLesson(payload: LessonPayload): Promise<ActionState> {
-  if (!payload.title || !payload.subjectId || !payload.muxPlaybackId || !payload.month) {
+  if (!payload.title || !payload.subjectId || !payload.vimeoVideoId || !payload.month) {
     return { error: "جميع الحقول الاساسية مطلوبة" };
   }
 
@@ -37,7 +37,7 @@ export async function createLesson(payload: LessonPayload): Promise<ActionState>
         title: payload.title,
         subjectId: payload.subjectId,
         month: payload.month,
-        muxPlaybackId: payload.muxPlaybackId,
+        vimeoVideoId: payload.vimeoVideoId,
         materials: {
           create: payload.materials.map(m => ({
             title: m.title,

@@ -15,6 +15,7 @@ export function DashboardLayoutWrapper({
   role: Role;
 }) {
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
@@ -28,9 +29,11 @@ export function DashboardLayoutWrapper({
         role={role}
         isMobileOpen={isMobileOpen}
         onMobileClose={() => setIsMobileOpen(false)}
+        isCollapsed={isCollapsed}
+        onToggleCollapse={() => setIsCollapsed(!isCollapsed)}
       />
 
-      <div className="flex-1 flex flex-col min-h-screen">
+      <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${isCollapsed ? 'md:mr-20' : 'md:mr-64'}`}>
 
         {/* Mobile Top Navigation Bar */}
         <header className="md:hidden flex items-center justify-between p-4 bg-white border-b border-slate-100 shrink-0">

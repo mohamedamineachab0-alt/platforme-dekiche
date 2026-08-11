@@ -10010,7 +10010,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     month: number | null
-    muxPlaybackId: string | null
+    vimeoVideoId: string | null
     image: string | null
     subjectId: string | null
     createdAt: Date | null
@@ -10020,7 +10020,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     month: number | null
-    muxPlaybackId: string | null
+    vimeoVideoId: string | null
     image: string | null
     subjectId: string | null
     createdAt: Date | null
@@ -10030,7 +10030,7 @@ export namespace Prisma {
     id: number
     title: number
     month: number
-    muxPlaybackId: number
+    vimeoVideoId: number
     image: number
     subjectId: number
     createdAt: number
@@ -10050,7 +10050,7 @@ export namespace Prisma {
     id?: true
     title?: true
     month?: true
-    muxPlaybackId?: true
+    vimeoVideoId?: true
     image?: true
     subjectId?: true
     createdAt?: true
@@ -10060,7 +10060,7 @@ export namespace Prisma {
     id?: true
     title?: true
     month?: true
-    muxPlaybackId?: true
+    vimeoVideoId?: true
     image?: true
     subjectId?: true
     createdAt?: true
@@ -10070,7 +10070,7 @@ export namespace Prisma {
     id?: true
     title?: true
     month?: true
-    muxPlaybackId?: true
+    vimeoVideoId?: true
     image?: true
     subjectId?: true
     createdAt?: true
@@ -10167,7 +10167,7 @@ export namespace Prisma {
     id: string
     title: string
     month: number
-    muxPlaybackId: string
+    vimeoVideoId: string
     image: string | null
     subjectId: string
     createdAt: Date
@@ -10196,7 +10196,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     month?: boolean
-    muxPlaybackId?: boolean
+    vimeoVideoId?: boolean
     image?: boolean
     subjectId?: boolean
     createdAt?: boolean
@@ -10211,7 +10211,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     month?: boolean
-    muxPlaybackId?: boolean
+    vimeoVideoId?: boolean
     image?: boolean
     subjectId?: boolean
     createdAt?: boolean
@@ -10222,7 +10222,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     month?: boolean
-    muxPlaybackId?: boolean
+    vimeoVideoId?: boolean
     image?: boolean
     subjectId?: boolean
     createdAt?: boolean
@@ -10233,13 +10233,13 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     month?: boolean
-    muxPlaybackId?: boolean
+    vimeoVideoId?: boolean
     image?: boolean
     subjectId?: boolean
     createdAt?: boolean
   }
 
-  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "month" | "muxPlaybackId" | "image" | "subjectId" | "createdAt", ExtArgs["result"]["lesson"]>
+  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "month" | "vimeoVideoId" | "image" | "subjectId" | "createdAt", ExtArgs["result"]["lesson"]>
   export type LessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
     quiz?: boolean | Lesson$quizArgs<ExtArgs>
@@ -10266,7 +10266,7 @@ export namespace Prisma {
       id: string
       title: string
       month: number
-      muxPlaybackId: string
+      vimeoVideoId: string
       image: string | null
       subjectId: string
       createdAt: Date
@@ -10700,7 +10700,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Lesson", 'String'>
     readonly title: FieldRef<"Lesson", 'String'>
     readonly month: FieldRef<"Lesson", 'Int'>
-    readonly muxPlaybackId: FieldRef<"Lesson", 'String'>
+    readonly vimeoVideoId: FieldRef<"Lesson", 'String'>
     readonly image: FieldRef<"Lesson", 'String'>
     readonly subjectId: FieldRef<"Lesson", 'String'>
     readonly createdAt: FieldRef<"Lesson", 'DateTime'>
@@ -32699,7 +32699,7 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     month: 'month',
-    muxPlaybackId: 'muxPlaybackId',
+    vimeoVideoId: 'vimeoVideoId',
     image: 'image',
     subjectId: 'subjectId',
     createdAt: 'createdAt'
@@ -33580,7 +33580,7 @@ export namespace Prisma {
     id?: StringFilter<"Lesson"> | string
     title?: StringFilter<"Lesson"> | string
     month?: IntFilter<"Lesson"> | number
-    muxPlaybackId?: StringFilter<"Lesson"> | string
+    vimeoVideoId?: StringFilter<"Lesson"> | string
     image?: StringNullableFilter<"Lesson"> | string | null
     subjectId?: StringFilter<"Lesson"> | string
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
@@ -33594,7 +33594,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     month?: SortOrder
-    muxPlaybackId?: SortOrder
+    vimeoVideoId?: SortOrder
     image?: SortOrderInput | SortOrder
     subjectId?: SortOrder
     createdAt?: SortOrder
@@ -33611,7 +33611,7 @@ export namespace Prisma {
     NOT?: LessonWhereInput | LessonWhereInput[]
     title?: StringFilter<"Lesson"> | string
     month?: IntFilter<"Lesson"> | number
-    muxPlaybackId?: StringFilter<"Lesson"> | string
+    vimeoVideoId?: StringFilter<"Lesson"> | string
     image?: StringNullableFilter<"Lesson"> | string | null
     subjectId?: StringFilter<"Lesson"> | string
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
@@ -33625,7 +33625,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     month?: SortOrder
-    muxPlaybackId?: SortOrder
+    vimeoVideoId?: SortOrder
     image?: SortOrderInput | SortOrder
     subjectId?: SortOrder
     createdAt?: SortOrder
@@ -33643,7 +33643,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Lesson"> | string
     title?: StringWithAggregatesFilter<"Lesson"> | string
     month?: IntWithAggregatesFilter<"Lesson"> | number
-    muxPlaybackId?: StringWithAggregatesFilter<"Lesson"> | string
+    vimeoVideoId?: StringWithAggregatesFilter<"Lesson"> | string
     image?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
     subjectId?: StringWithAggregatesFilter<"Lesson"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Lesson"> | Date | string
@@ -35464,7 +35464,7 @@ export namespace Prisma {
     id?: string
     title: string
     month: number
-    muxPlaybackId: string
+    vimeoVideoId: string
     image?: string | null
     createdAt?: Date | string
     subject: SubjectCreateNestedOneWithoutLessonsInput
@@ -35477,7 +35477,7 @@ export namespace Prisma {
     id?: string
     title: string
     month: number
-    muxPlaybackId: string
+    vimeoVideoId: string
     image?: string | null
     subjectId: string
     createdAt?: Date | string
@@ -35490,7 +35490,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     month?: IntFieldUpdateOperationsInput | number
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subject?: SubjectUpdateOneRequiredWithoutLessonsNestedInput
@@ -35503,7 +35503,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     month?: IntFieldUpdateOperationsInput | number
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35516,7 +35516,7 @@ export namespace Prisma {
     id?: string
     title: string
     month: number
-    muxPlaybackId: string
+    vimeoVideoId: string
     image?: string | null
     subjectId: string
     createdAt?: Date | string
@@ -35526,7 +35526,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     month?: IntFieldUpdateOperationsInput | number
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -35535,7 +35535,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     month?: IntFieldUpdateOperationsInput | number
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37516,7 +37516,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     month?: SortOrder
-    muxPlaybackId?: SortOrder
+    vimeoVideoId?: SortOrder
     image?: SortOrder
     subjectId?: SortOrder
     createdAt?: SortOrder
@@ -37530,7 +37530,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     month?: SortOrder
-    muxPlaybackId?: SortOrder
+    vimeoVideoId?: SortOrder
     image?: SortOrder
     subjectId?: SortOrder
     createdAt?: SortOrder
@@ -37540,7 +37540,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     month?: SortOrder
-    muxPlaybackId?: SortOrder
+    vimeoVideoId?: SortOrder
     image?: SortOrder
     subjectId?: SortOrder
     createdAt?: SortOrder
@@ -42066,7 +42066,7 @@ export namespace Prisma {
     id?: string
     title: string
     month: number
-    muxPlaybackId: string
+    vimeoVideoId: string
     image?: string | null
     createdAt?: Date | string
     quiz?: QuizCreateNestedOneWithoutLessonInput
@@ -42078,7 +42078,7 @@ export namespace Prisma {
     id?: string
     title: string
     month: number
-    muxPlaybackId: string
+    vimeoVideoId: string
     image?: string | null
     createdAt?: Date | string
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
@@ -42482,7 +42482,7 @@ export namespace Prisma {
     id?: StringFilter<"Lesson"> | string
     title?: StringFilter<"Lesson"> | string
     month?: IntFilter<"Lesson"> | number
-    muxPlaybackId?: StringFilter<"Lesson"> | string
+    vimeoVideoId?: StringFilter<"Lesson"> | string
     image?: StringNullableFilter<"Lesson"> | string | null
     subjectId?: StringFilter<"Lesson"> | string
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
@@ -43000,7 +43000,7 @@ export namespace Prisma {
     id?: string
     title: string
     month: number
-    muxPlaybackId: string
+    vimeoVideoId: string
     image?: string | null
     createdAt?: Date | string
     subject: SubjectCreateNestedOneWithoutLessonsInput
@@ -43012,7 +43012,7 @@ export namespace Prisma {
     id?: string
     title: string
     month: number
-    muxPlaybackId: string
+    vimeoVideoId: string
     image?: string | null
     subjectId: string
     createdAt?: Date | string
@@ -43040,7 +43040,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     month?: IntFieldUpdateOperationsInput | number
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subject?: SubjectUpdateOneRequiredWithoutLessonsNestedInput
@@ -43052,7 +43052,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     month?: IntFieldUpdateOperationsInput | number
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -43064,7 +43064,7 @@ export namespace Prisma {
     id?: string
     title: string
     month: number
-    muxPlaybackId: string
+    vimeoVideoId: string
     image?: string | null
     createdAt?: Date | string
     subject: SubjectCreateNestedOneWithoutLessonsInput
@@ -43076,7 +43076,7 @@ export namespace Prisma {
     id?: string
     title: string
     month: number
-    muxPlaybackId: string
+    vimeoVideoId: string
     image?: string | null
     subjectId: string
     createdAt?: Date | string
@@ -43196,7 +43196,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     month?: IntFieldUpdateOperationsInput | number
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subject?: SubjectUpdateOneRequiredWithoutLessonsNestedInput
@@ -43208,7 +43208,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     month?: IntFieldUpdateOperationsInput | number
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -44107,7 +44107,7 @@ export namespace Prisma {
     id?: string
     title: string
     month: number
-    muxPlaybackId: string
+    vimeoVideoId: string
     image?: string | null
     createdAt?: Date | string
     subject: SubjectCreateNestedOneWithoutLessonsInput
@@ -44119,7 +44119,7 @@ export namespace Prisma {
     id?: string
     title: string
     month: number
-    muxPlaybackId: string
+    vimeoVideoId: string
     image?: string | null
     subjectId: string
     createdAt?: Date | string
@@ -44239,7 +44239,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     month?: IntFieldUpdateOperationsInput | number
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subject?: SubjectUpdateOneRequiredWithoutLessonsNestedInput
@@ -44251,7 +44251,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     month?: IntFieldUpdateOperationsInput | number
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -46969,7 +46969,7 @@ export namespace Prisma {
     id?: string
     title: string
     month: number
-    muxPlaybackId: string
+    vimeoVideoId: string
     image?: string | null
     createdAt?: Date | string
   }
@@ -47087,7 +47087,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     month?: IntFieldUpdateOperationsInput | number
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUpdateOneWithoutLessonNestedInput
@@ -47099,7 +47099,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     month?: IntFieldUpdateOperationsInput | number
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
@@ -47111,7 +47111,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     month?: IntFieldUpdateOperationsInput | number
-    muxPlaybackId?: StringFieldUpdateOperationsInput | string
+    vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

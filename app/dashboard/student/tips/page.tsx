@@ -16,7 +16,7 @@ export default function TipsPage() {
           <div>
             <h1 className="text-3xl font-black mb-3 text-white flex items-center gap-3">
               100 نصيحة ذهبية للتفوق الدراسي والامتحانات
-              <Sparkles className="w-6 h-6 text-white animate-pulse" />
+              <Sparkles className="hidden w-6 h-6 text-white animate-pulse" />
             </h1>
             <p className="text-lg font-bold text-white opacity-95 max-w-2xl leading-relaxed">
               مجموعة مختارة بعناية من أفضل النصائح والتوجيهات لبناء شخصية دراسية قوية، إدارة وقتك بفعالية، وتحقيق التفوق بكل ثقة.

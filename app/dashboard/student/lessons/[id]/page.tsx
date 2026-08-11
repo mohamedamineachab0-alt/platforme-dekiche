@@ -3,7 +3,6 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { ChevronLeft, Download, FileText, CheckCircle2, Lock } from "lucide-react";
 import Link from "next/link";
-import { MuxPlayerWrapper } from "@/components/student/MuxPlayerWrapper";
 
 export default async function LessonStudyViewPage({
   params,
@@ -82,7 +81,13 @@ export default async function LessonStudyViewPage({
         {/* 1. Full-Width Video Player */}
         <div className="relative w-full rounded-[1.5rem] p-[3px] bg-gradient-to-br from-slate-900 via-sky-400 to-slate-950 shadow-[0_10px_40px_rgba(14,165,233,0.3)] mb-8">
           <div className="relative rounded-[1.3rem] overflow-hidden bg-black/5 backdrop-blur-sm w-full aspect-video flex items-center justify-center">
-            <MuxPlayerWrapper playbackId={lesson.muxPlaybackId} />
+            <iframe 
+              src={`https://player.vimeo.com/video/${lesson.vimeoVideoId}?title=0&byline=0&portrait=0`}
+              className="w-full h-full absolute top-0 left-0"
+              frameBorder="0"
+              allow="autoplay; fullscreen; picture-in-picture"
+              allowFullScreen
+            ></iframe>
           </div>
         </div>
         

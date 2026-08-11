@@ -144,6 +144,7 @@ export default function RegisterPage() {
       const data = new FormData(e.currentTarget);
       const res = await registerUser(data);
       if (res?.error) {
+        setIsPending(false);
         const errorMsg = res.error.toLowerCase();
         if (errorMsg.includes("already exists") || errorMsg.includes("unique")) {
           setError("هذا الحساب موجود بالفعل الرجاء تسجيل الدخول");
@@ -155,10 +156,13 @@ export default function RegisterPage() {
           setError(res.error);
         }
       }
-    } catch (err) {
+    } catch (err: any) {
+      // Next.js redirects throw a specific error, we must not catch and swallow it
+      if (err?.message === 'NEXT_REDIRECT' || (err?.digest && err.digest.startsWith('NEXT_REDIRECT'))) {
+        throw err;
+      }
       console.error("Registration error caught:", err);
       setError("حدث خطا اثناء الاتصال بالخادم");
-    } finally {
       setIsPending(false);
     }
   };

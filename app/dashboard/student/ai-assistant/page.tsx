@@ -16,7 +16,7 @@ export default async function AiAssistantPage() {
 
   const user = await prisma.user.findUnique({
     where: { id: sessionId },
-    include: { 
+    include: {
       studentProfile: true,
       mistakes: {
         take: 5,
@@ -35,28 +35,26 @@ export default async function AiAssistantPage() {
   const streamStr = STREAMS.find(s => s.value === rawStream)?.label || rawStream;
 
   const studentName = user.fullName;
-  const studentPoints = user.studentProfile.totalPoints;
-  const studentMistakesStr = user.mistakes.length > 0 
-    ? user.mistakes.map(m => `${m.mistakeContent} (الحل الصحيح لها كان: ${m.correctSolution || 'لا يوجد'})`).join(' | ')
-    : 'لا توجد أخطاء مسجلة حتى الآن';
+  const studentLevelStr = `${levelStr} - ${streamStr}`;
+  const studentMistakesStr = user.mistakes.length > 0
+    ? user.mistakes.map(m => m.mistakeContent).join('، ')
+    : 'لا توجد اخطاء مسجلة حتى الان';
 
   return (
     <div className="flex flex-col h-full gap-4 md:gap-6 pt-2">
-      <HeroBanner 
-        title="مساعدي الذكي"
+      <HeroBanner
+        title="dekiche academy"
         description="متصل بمعرفتك ومستواك وأخطائك"
         icon={Bot}
         gradientClass="bg-gradient-to-r from-purple-600 to-purple-800"
       />
       <div className="flex-1 min-h-0 bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden flex flex-col">
-        <AiChatClient 
-          studentId={sessionId} 
+        <AiChatClient
+          studentId={sessionId}
           greetingText={`أنت طالب في ${levelStr} في ${streamStr}`}
           userAvatarUrl={user.avatarUrl}
           studentName={studentName}
-          studentLevel={levelStr}
-          studentStream={streamStr}
-          studentPoints={studentPoints}
+          studentLevel={studentLevelStr}
           studentMistakes={studentMistakesStr}
         />
       </div>

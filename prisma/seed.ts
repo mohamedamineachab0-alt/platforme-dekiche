@@ -7,15 +7,15 @@ async function main() {
 
   // 1 حساب الأدمين
   const admin = await prisma.user.upsert({
-    where: { phoneNumber: '0562388085' },
+    where: { phoneNumber: '07777777777' },
     update: {
       passwordHash,
       role: Role.ADMIN,
-      fullName: 'عشاب محمد أمين',
+      fullName: 'عشاب محمد',
     },
     create: {
-      phoneNumber: '0562388085',
-      fullName: 'عشاب محمد أمين',
+      phoneNumber: '07777777777',
+      fullName: 'عشاب محمد',
       passwordHash,
       role: Role.ADMIN,
     },

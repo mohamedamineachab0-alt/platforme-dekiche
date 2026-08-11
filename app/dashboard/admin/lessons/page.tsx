@@ -97,7 +97,7 @@ export default async function AdminLessonsPage({
                           <img src={lesson.image || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=400&auto=format&fit=crop"} alt={lesson.title} className="w-full h-full object-cover" />
                         </div>
                         <h4 className="font-bold text-slate-900 mb-1">{lesson.title}</h4>
-                        <p className="text-xs text-slate-500 font-mono mb-3">Mux: {lesson.muxPlaybackId}</p>
+                        <p className="text-xs text-slate-500 font-mono mb-3">Vimeo: {lesson.vimeoVideoId}</p>
                         
                         {lesson.materials.length > 0 ? (
                           <div className="mt-auto space-y-1.5 pt-3 border-t border-slate-100">

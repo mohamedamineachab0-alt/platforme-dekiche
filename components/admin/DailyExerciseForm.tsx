@@ -1,11 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Upload, Plus } from "lucide-react";
+import { Upload, Plus, BrainCircuit, Loader2 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { createDailyExercise } from "@/actions/exercises";
 import { LEVELS, STREAMS } from "@/lib/constants";
 import { MonthSelect } from "@/components/shared/MonthSelect";
+import { compressImageForAi } from "@/lib/utils/image-compression";
+import { MathPreview } from "@/components/shared/MathPreview";
 
 type Subject = {
   id: string;
@@ -26,6 +28,10 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  const [numberOfQuestions, setNumberOfQuestions] = useState(5);
+  const [quizMaxScore, setQuizMaxScore] = useState(20);
+  const [isGeneratingAi, setIsGeneratingAi] = useState(false);
 
   const [quizType, setQuizType] = useState<"MANUAL" | "AI">("MANUAL");
   const [manualQuestions, setManualQuestions] = useState<QuizQuestion[]>([{ question: "", options: ["", "", "", ""], correctAnswerIndex: 0 }]);
@@ -56,6 +62,47 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
     if (manualQuestions.length > 1) {
       const newQs = manualQuestions.filter((_, i) => i !== index);
       setManualQuestions(newQs);
+    }
+  };
+
+  const handleAiGenerate = async () => {
+    if (!file) {
+      setError("يرجى رفع صورة أولاً");
+      return;
+    }
+
+    setIsGeneratingAi(true);
+    setError(null);
+
+    try {
+      const base64Data = await compressImageForAi(file);
+      
+      const response = await fetch('/api/generate-quiz', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          imageBase64: base64Data,
+          numberOfQuestions: numberOfQuestions,
+          totalPoints: quizMaxScore
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "فشل توليد الأسئلة");
+      }
+
+      const data = await response.json();
+      if (data.questions && Array.isArray(data.questions)) {
+        setManualQuestions(data.questions);
+        setQuizType("MANUAL");
+      } else {
+        setError("لم يتم التعرف على أي أسئلة صالحة في الصورة");
+      }
+    } catch (err: any) {
+      setError(err.message || "حدث خطأ أثناء الاتصال بالخادم");
+    } finally {
+      setIsGeneratingAi(false);
     }
   };
 
@@ -159,6 +206,52 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
           </label>
         </div>
 
+        {file && file.type.startsWith("image/") && (
+          <div className="bg-sky-50 p-6 rounded-2xl border border-sky-100 space-y-4 mt-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-700 block">عدد الأسئلة</label>
+                <input 
+                  type="number" 
+                  value={numberOfQuestions}
+                  onChange={e => setNumberOfQuestions(Number(e.target.value))}
+                  min={1}
+                  max={20}
+                  className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 font-bold focus:ring-2 focus:ring-sky-500 outline-none"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-700 block">مجموع النقاط</label>
+                <input 
+                  type="number" 
+                  value={quizMaxScore}
+                  onChange={e => setQuizMaxScore(Number(e.target.value))}
+                  min={1}
+                  className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 font-bold focus:ring-2 focus:ring-sky-500 outline-none"
+                />
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handleAiGenerate}
+              disabled={isGeneratingAi}
+              className="w-full py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+            >
+              {isGeneratingAi ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  جاري استخراج الأسئلة...
+                </>
+              ) : (
+                <>
+                  <BrainCircuit className="w-5 h-5" />
+                  استخراج الأسئلة وتوليد كويز رقمي
+                </>
+              )}
+            </button>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <label className="text-sm font-bold text-slate-700">المستوى</label>
@@ -240,34 +333,16 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
           </div>
         </div>
 
-        <div className="flex gap-4 p-1 bg-slate-100 rounded-xl w-max mb-6">
-          <button
-            type="button"
-            onClick={() => setQuizType("MANUAL")}
-            className={`px-6 py-2 rounded-lg font-bold text-sm transition-all ${quizType === "MANUAL" ? "bg-white text-sky-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
-          >
-            توليد كويز يدويا مع التنقيط
-          </button>
-          <button
-            type="button"
-            onClick={() => setQuizType("AI")}
-            className={`px-6 py-2 rounded-lg font-bold text-sm transition-all flex items-center gap-2 ${quizType === "AI" ? "bg-white text-sky-600 shadow-sm" : "text-slate-500 hover:text-slate-700"}`}
-          >
-            تفعيل وضع AI Vision لتقييم إجابات الطلاب تلقائياً
-          </button>
-        </div>
-
-        {quizType === "MANUAL" && (
-          <div className="space-y-6 bg-slate-50 p-6 rounded-2xl border border-slate-200">
-            <div className="flex items-center justify-between border-b border-slate-200 pb-4">
-              <label className="text-sm font-bold text-slate-700">التنقيط الإجمالي للكويز (ثابت)</label>
-              <input 
-                type="number" 
-                value={20}
-                disabled
-                className="w-24 bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-center font-bold text-slate-500 cursor-not-allowed"
-              />
-            </div>
+        <div className="space-y-6 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+          <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+            <label className="text-sm font-bold text-slate-700">التنقيط الإجمالي للكويز (ثابت)</label>
+            <input 
+              type="number" 
+              value={quizMaxScore}
+              disabled
+              className="w-24 bg-slate-100 border border-slate-200 rounded-lg px-3 py-1.5 text-center font-bold text-slate-500 cursor-not-allowed"
+            />
+          </div>
             
             <div className="space-y-6">
               {manualQuestions.map((q, i) => (
@@ -283,7 +358,7 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
                   <div className="space-y-4">
                     <div>
                       <label className="block text-xs font-bold text-sky-600 mb-2">
-                        السؤال {i + 1} <span className="text-slate-400 font-medium mr-2">({(20 / manualQuestions.length).toFixed(1).replace(/\.0$/, '')} نقاط)</span>
+                        السؤال {i + 1} <span className="text-slate-400 font-medium mr-2">({(quizMaxScore / manualQuestions.length).toFixed(1).replace(/\.0$/, '')} نقاط)</span>
                       </label>
                       <input 
                         type="text" 
@@ -292,6 +367,7 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
                         placeholder="نص السؤال"
                         className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm font-medium"
                       />
+                      {q.question.includes('$') && <MathPreview text={q.question} />}
                     </div>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -309,13 +385,16 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
                               {q.correctAnswerIndex === optIndex && <span className="text-xs">✓</span>}
                             </div>
                           </button>
-                          <input 
-                            type="text" 
-                            value={opt}
-                            onChange={e => handleOptionChange(i, optIndex, e.target.value)}
-                            placeholder={`الخيار ${optIndex + 1}`}
-                            className="flex-1 bg-transparent text-sm font-medium focus:outline-none text-slate-700"
-                          />
+                          <div className="flex-1 min-w-0">
+                            <input 
+                              type="text" 
+                              value={opt}
+                              onChange={e => handleOptionChange(i, optIndex, e.target.value)}
+                              placeholder={`الخيار ${optIndex + 1}`}
+                              className="w-full bg-transparent text-sm font-medium focus:outline-none text-slate-700"
+                            />
+                            {opt.includes('$') && <MathPreview text={opt} />}
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -332,7 +411,6 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
               <Plus className="w-4 h-4" /> إضافة سؤال جديد
             </button>
           </div>
-        )}
 
         <button  
           type="submit" 

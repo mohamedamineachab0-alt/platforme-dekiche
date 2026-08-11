@@ -180,7 +180,7 @@ exports.Prisma.LessonScalarFieldEnum = {
   id: 'id',
   title: 'title',
   month: 'month',
-  muxPlaybackId: 'muxPlaybackId',
+  vimeoVideoId: 'vimeoVideoId',
   image: 'image',
   subjectId: 'subjectId',
   createdAt: 'createdAt'

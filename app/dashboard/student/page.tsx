@@ -19,7 +19,7 @@ import {
   Swords
 } from "lucide-react";
 import Link from "next/link";
-
+import { DailyTip } from "@/components/student/DailyTip";
 
 export default async function StudentDashboardPage() {
   const cookieStore = await cookies();
@@ -177,17 +177,6 @@ export default async function StudentDashboardPage() {
       route: "/dashboard/student/leaderboard"
     },
     {
-      id: "parent-account",
-      title: "حساب الولي",
-      description: "اربط حسابك بحساب ولي أمرك لمتابعة تقدمك الدراسي",
-      icon: Users,
-      iconColor: "text-sky-600",
-      iconBg: "bg-sky-100",
-      hoverBorder: "hover:border-sky-200",
-      actionText: "ربط الحساب",
-      route: "/dashboard/student/parent"
-    },
-    {
       id: "friend-challenge",
       title: "منافسة صديق",
       description: "نافس أصدقاءك في حل التمارين والمراجعة وتتبع من الأفضل",
@@ -210,7 +199,7 @@ export default async function StudentDashboardPage() {
         showGridPattern={true}
       />
 
-
+      <DailyTip variant="card" />
 
       <div>
         <h2 className="text-2xl font-black text-slate-900 mb-6">أقسام المنصة</h2>

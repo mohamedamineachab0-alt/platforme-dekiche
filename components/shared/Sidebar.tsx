@@ -27,9 +27,9 @@ const STUDENT_LINKS = [
   { name: "أخطائي", href: "/dashboard/student/mistakes", icon: AlertTriangle, activeBg: "bg-amber-50 dark:bg-amber-900/30", activeText: "text-amber-700 dark:text-amber-400", iconColor: "text-amber-600 dark:text-amber-400" },
   { name: "حصص مباشرة", href: "/dashboard/student/live-classes", icon: Video, activeBg: "bg-sky-50 dark:bg-sky-900/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
   { name: "الترتيب والنقاط", href: "/dashboard/student/leaderboard", icon: Trophy, activeBg: "bg-amber-50 dark:bg-amber-900/30", activeText: "text-amber-700 dark:text-amber-400", iconColor: "text-amber-600 dark:text-amber-400" },
-  { name: "الإعدادات", href: "/dashboard/student/settings", icon: Settings, activeBg: "bg-slate-100 dark:bg-slate-800", activeText: "text-slate-900 dark:text-white", iconColor: "text-slate-600 dark:text-slate-400" },
   { name: "منافسة صديق", href: "/dashboard/student/friend-challenge", icon: Swords, activeBg: "bg-amber-50 dark:bg-amber-900/30", activeText: "text-amber-700 dark:text-amber-400", iconColor: "text-amber-600 dark:text-amber-400" },
   { name: "100 نصيحة للتفوق", href: "/dashboard/student/tips", icon: Lightbulb, activeBg: "bg-amber-50 dark:bg-amber-900/30", activeText: "text-amber-700 dark:text-amber-400", iconColor: "text-amber-600 dark:text-amber-400" },
+  { name: "الإعدادات", href: "/dashboard/student/settings", icon: Settings, activeBg: "bg-slate-100 dark:bg-slate-800", activeText: "text-slate-900 dark:text-white", iconColor: "text-slate-600 dark:text-slate-400" },
 ];
 
 const ADMIN_LINKS = [
@@ -66,14 +66,17 @@ const PARENT_LINKS = [
 export function Sidebar({ 
   role, 
   isMobileOpen, 
-  onMobileClose 
+  onMobileClose,
+  isCollapsed,
+  onToggleCollapse
 }: { 
   role: Role; 
   isMobileOpen: boolean;
   onMobileClose: () => void;
+  isCollapsed: boolean;
+  onToggleCollapse: () => void;
 }) {
   const pathname = usePathname();
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [userData, setUserData] = useState<{ fullName: string; role: Role; avatarUrl?: string | null } | null>(null);
   const [isLoadingProfile, setIsLoadingProfile] = useState(true);
 
@@ -107,7 +110,7 @@ export function Sidebar({
       {/* Mobile Overlay */}
       {isMobileOpen && (
         <div 
-          className="fixed inset-0 z-[90] bg-black/50 md:hidden transition-all duration-300"
+          className="fixed inset-0 z-[99] bg-black/50 md:hidden transition-all duration-300"
           onClick={onMobileClose}
         />
       )}
@@ -115,7 +118,7 @@ export function Sidebar({
       {/* Sidebar Container */}
       <aside 
         style={{ fontFamily: '"IBM Plex Sans Arabic", sans-serif' }}
-        className={`fixed inset-y-0 right-0 z-[100] bg-white border-l border-slate-200 flex flex-col shadow-xl md:shadow-sm transition-all duration-300 ease-in-out w-[80%] max-w-sm md:sticky md:h-screen
+        className={`fixed inset-y-0 right-0 z-[100] flex flex-col h-screen bg-[#f8f9fa] dark:bg-slate-950 border-l border-purple-100 dark:border-slate-800 shadow-2xl transition-all duration-300 ease-in-out w-[80%] max-w-sm
           ${isMobileOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'} 
           ${isCollapsed ? 'md:w-20' : 'md:w-64'}
         `}
@@ -130,7 +133,7 @@ export function Sidebar({
           )}
           
           <button 
-            onClick={() => setIsCollapsed(!isCollapsed)}
+            onClick={onToggleCollapse}
             className={`hidden md:flex items-center justify-center w-8 h-8 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors ${isCollapsed ? 'mx-auto' : ''}`}
             title={isCollapsed ? "توسيع القائمة" : "تصغير القائمة"}
           >

@@ -4,6 +4,7 @@ import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { universalLoginAction, LoginState } from "@/actions/auth-login";
 import { User, LogIn, Loader2, AlertCircle } from "lucide-react";
+import Link from "next/link";
 
 const initialState: LoginState = {};
 
@@ -111,6 +112,15 @@ export default function LoginPage() {
 
             <SubmitButton />
           </form>
+
+          <div className="mt-6 text-center">
+            <p className="text-slate-600 dark:text-slate-400 text-sm font-medium">
+              ليس لديك حساب؟{" "}
+              <Link href="/register" className="text-sky-600 hover:text-sky-500 font-bold underline underline-offset-4">
+                أنشئ حساباً جديداً
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>

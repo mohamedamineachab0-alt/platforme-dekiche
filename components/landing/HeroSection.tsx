@@ -38,7 +38,7 @@ export function HeroSection({ isAuthenticated }: { isAuthenticated: boolean }) {
           ) : (
             <>
               <Link 
-                href="/login" 
+                href="/register" 
                 className="group relative flex items-center justify-center gap-3 w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-amber-400 to-amber-500 text-white rounded-2xl font-black text-lg transition-all shadow-lg hover:shadow-sky-500/20 hover:-translate-y-1 hover:scale-105 overflow-hidden"
               >
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out"></div>

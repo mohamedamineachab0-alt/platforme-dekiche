@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getWilayaStatistics } from "@/lib/actions/stats";
+import { getWilayaStats } from "@/lib/actions/stats";
 import { ArrowDownUp, Map } from "lucide-react";
 
 const ALGERIAN_WILAYAS = [
@@ -35,8 +35,13 @@ export default function WilayaStatsWidget() {
 
   useEffect(() => {
     async function loadData() {
-      const stats = await getWilayaStatistics();
-      setData(stats);
+      const stats = await getWilayaStats();
+      const formattedStats: WilayaStat[] = stats.map((s: any) => ({
+        code: parseInt(s.wilaya.replace('W', ''), 10) || 0,
+        name: s.wilaya,
+        count: s.count
+      }));
+      setData(formattedStats);
       setLoading(false);
     }
     loadData();

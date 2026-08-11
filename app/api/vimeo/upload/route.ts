@@ -36,7 +36,7 @@ export async function POST(req: Request) {
     await fs.promises.writeFile(tempFilePath, buffer);
 
     // Upload to Vimeo
-    return new Promise((resolve) => {
+    return new Promise<NextResponse>((resolve) => {
       client.upload(
         tempFilePath,
         {

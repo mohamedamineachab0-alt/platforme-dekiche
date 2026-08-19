@@ -39,7 +39,7 @@ export async function universalLoginAction(
 
     // 4. Set the HTTP-only session cookie
     const cookieStore = await cookies();
-    cookieStore.set("auth_session", user.id, {
+    cookieStore.set("session", user.id, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",

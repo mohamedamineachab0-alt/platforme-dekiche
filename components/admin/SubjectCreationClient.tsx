@@ -59,7 +59,7 @@ export function SubjectCreationClient({
     <div className="space-y-6">
       {/* Live Preview Card */}
       <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden flex flex-col">
-        <div className="h-48 w-full relative bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
+        <div className="aspect-video w-full relative bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
           {imageUrl ? (
             <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
           ) : (
@@ -106,7 +106,7 @@ export function SubjectCreationClient({
           </div>
 
           <div className="space-y-1">
-            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">صورة الغلاف (1080x1080)</label>
+            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">صورة الغلاف (1920x1080)</label>
             <input 
               type="file" 
               name="image" 

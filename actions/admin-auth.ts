@@ -36,7 +36,7 @@ export async function adminLoginAction(
 
   // 4. Set the HTTP-only session cookie
   const cookieStore = await cookies();
-  cookieStore.set("admin_session", user.id, {
+  cookieStore.set("session", user.id, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",

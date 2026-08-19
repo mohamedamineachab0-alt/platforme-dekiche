@@ -31,10 +31,10 @@ export default async function Home() {
   }));
 
   return (
-    <div dir="rtl" className="relative min-h-screen bg-[#F8F9FA] dark:bg-slate-950 font-sans selection:bg-sky-200 dark:selection:bg-slate-950/50 overflow-hidden">
+    <div dir="rtl" className="relative min-h-screen bg-[#0B0410] text-white font-sans selection:bg-purple-500/30 overflow-hidden">
       {/* Global Background Math Grid Pattern */}
-      <div className="fixed inset-0 z-0 opacity-[0.03] dark:opacity-10 pointer-events-none" 
-           style={{ backgroundImage: "linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)", backgroundSize: "20px 20px" }}>
+      <div className="fixed inset-0 z-0 pointer-events-none" 
+           style={{ backgroundImage: "linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)", backgroundSize: "20px 20px" }}>
       </div>
 
       <div className="relative z-10">
@@ -44,8 +44,8 @@ export default async function Home() {
         <TeamSection />
         
         {/* Footer minimal */}
-        <footer className="relative py-12 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 text-center">
-          <p className="text-sm font-bold text-slate-500 dark:text-slate-400">
+        <footer className="relative py-12 bg-[#0B0410]/80 backdrop-blur-md border-t border-purple-500/20 text-center z-10">
+          <p className="text-sm font-bold text-purple-200/50">
             جميع الحقوق محفوظة لمنصة دقيش التعليمية
           </p>
         </footer>

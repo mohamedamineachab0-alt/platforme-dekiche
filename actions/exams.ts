@@ -46,6 +46,16 @@ export async function createExamAndExtractQuiz(formData: FormData) {
     const quizType = formData.get("quizType") as string || (triggerAi ? "AI" : "MANUAL");
     const secondarySubjectId = formData.get("secondarySubjectId") as string || null;
 
+    let materialsData: { title: string, fileUrl: string }[] = [];
+    const rawMaterials = formData.get("materials") as string;
+    if (rawMaterials) {
+      try {
+        materialsData = JSON.parse(rawMaterials);
+      } catch (e) {
+        console.error("Failed to parse materials JSON");
+      }
+    }
+
     let manualQuestionsData: any = [];
     if (quizType === "MANUAL") {
       const rawQs = formData.get("manualQuestions") as string;
@@ -81,6 +91,12 @@ export async function createExamAndExtractQuiz(formData: FormData) {
         month,
         maxScore,
         a4ImageUrl,
+        materials: {
+          create: materialsData.map(m => ({
+            title: m.title,
+            fileUrl: m.fileUrl,
+          })),
+        },
       }
     });
 

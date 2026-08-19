@@ -67,10 +67,10 @@ export default async function StudentExercisesPage() {
                 <p className="text-sm font-bold text-slate-500 mt-2">المادة: {ex.subject.title}</p>
                 
                 <div className="mt-auto pt-6 grid grid-cols-2 gap-3">
-                  <a href={ex.a4ImageUrl} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold py-2.5 rounded-xl transition-colors border border-slate-200">
+                  <Link href={`/dashboard/student/exercises/${ex.id}`} className="flex items-center justify-center gap-2 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold py-2.5 rounded-xl transition-colors border border-slate-200">
                     <Eye className="w-4 h-4" />
-                    عرض
-                  </a>
+                    فتح التمرين
+                  </Link>
                   {ex.quiz ? (
                     <Link href={`/dashboard/student/exercises/${ex.id}/quiz`} className="flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-500 text-slate-950 font-black font-bold py-2.5 rounded-xl transition-colors shadow-md hover:shadow-lg shadow-amber-500/20">
                       بدأ التمرين اليومي

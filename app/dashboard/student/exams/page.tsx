@@ -81,18 +81,16 @@ export default async function StudentExamsPage() {
 
                 <div className="p-6 flex-1 flex flex-col gap-6">
                   {/* View Exam A4 Image */}
-                  <a 
-                    href={exam.a4ImageUrl} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
+                  <Link 
+                    href={`/dashboard/student/exams/${exam.id}`}
                     className="flex items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-2xl hover:bg-slate-100 transition-colors"
                   >
                     <div>
-                      <h4 className="font-bold text-slate-800">تحميل أو عرض موضوع الاختبار</h4>
-                      <p className="text-xs text-slate-500 font-medium mt-1">صيغة A4 لطباعة ورقة الأسئلة</p>
+                      <h4 className="font-bold text-slate-800">فتح الاختبار والمرفقات</h4>
+                      <p className="text-xs text-slate-500 font-medium mt-1">عرض الأسئلة والمرفقات الإضافية</p>
                     </div>
                     <ExternalLink className="w-5 h-5 text-slate-400" />
-                  </a>
+                  </Link>
 
                   {/* Submit Area or Interactive Quiz */}
                   <div className="mt-auto">

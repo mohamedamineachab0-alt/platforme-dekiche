@@ -13,6 +13,16 @@ export async function createDailyExercise(formData: FormData): Promise<void> {
   const subjectId = formData.get("subjectId") as string;
   const secondarySubjectId = formData.get("secondarySubjectId") as string || null;
   const quizType = formData.get("quizType") as string || "AI";
+  
+  let materialsData: { title: string, fileUrl: string }[] = [];
+  const rawMaterials = formData.get("materials") as string;
+  if (rawMaterials) {
+    try {
+      materialsData = JSON.parse(rawMaterials);
+    } catch (e) {
+      console.error("Failed to parse materials JSON");
+    }
+  }
 
   let questionsData: any = [];
   if (quizType === "MANUAL") {
@@ -46,6 +56,12 @@ export async function createDailyExercise(formData: FormData): Promise<void> {
         month,
         subjectId,
         secondarySubjectId,
+        materials: {
+          create: materialsData.map(m => ({
+            title: m.title,
+            fileUrl: m.fileUrl,
+          })),
+        },
       },
     });
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Upload, Plus, BrainCircuit, Loader2, BookOpen } from "lucide-react";
+import { Upload, Plus, BrainCircuit, Loader2, BookOpen, X, FileText } from "lucide-react";
 import { createExamAndExtractQuiz } from "@/actions/exams";
 import { LEVELS, STREAMS } from "@/lib/constants";
 import { useRouter } from "next/navigation";
@@ -23,6 +23,9 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
   const [level, setLevel] = useState("");
   const [stream, setStream] = useState("");
   const [file, setFile] = useState<File | null>(null);
+  
+  const [materials, setMaterials] = useState<{ file: File; title: string }[]>([]);
+  const [materialTitle, setMaterialTitle] = useState("");
 
   const [numberOfQuestions, setNumberOfQuestions] = useState(5);
   const [quizMaxScore, setQuizMaxScore] = useState(20);
@@ -37,6 +40,21 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
     if (e.target.files && e.target.files[0]) {
       setFile(e.target.files[0]);
     }
+  };
+
+  const handleMultipleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const newFiles = Array.from(e.target.files).map(f => ({
+        file: f,
+        title: materialTitle.trim() !== "" ? materialTitle : f.name.split(".")[0]
+      }));
+      setMaterials([...materials, ...newFiles]);
+      setMaterialTitle("");
+    }
+  };
+
+  const removeMaterial = (index: number) => {
+    setMaterials(materials.filter((_, i) => i !== index));
   };
 
   const handleQuestionChange = (index: number, value: string) => {
@@ -124,6 +142,25 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
       formData.append("file", file); // attach file explicitly since we replaced the standard input with a custom one
       formData.set("quizType", quizType);
       
+      const uploadedMaterials = [];
+      for (const mat of materials) {
+        const fileExt = mat.file.name.split('.').pop();
+        const fName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+        const fPath = `${fName}`;
+
+        const { error: mErr } = await supabase.storage
+          .from("exams")
+          .upload(fPath, mat.file);
+        if (mErr) throw mErr;
+
+        const { data: { publicUrl: mUrl } } = supabase.storage
+          .from("exams")
+          .getPublicUrl(fPath);
+
+        uploadedMaterials.push({ title: mat.title, fileUrl: mUrl });
+      }
+      formData.set("materials", JSON.stringify(uploadedMaterials));
+
       if (quizType === "MANUAL") {
         formData.set("manualQuestions", JSON.stringify(manualQuestions));
       } else {
@@ -141,6 +178,8 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
         setFile(null);
         setLevel("");
         setStream("");
+        setMaterials([]);
+        setMaterialTitle("");
         setQuizType("MANUAL");
         setManualQuestions([{ question: "", options: ["", "", "", ""], correctAnswerIndex: 0 }]);
       }
@@ -401,6 +440,75 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
           >
             <Plus className="w-4 h-4" /> إضافة سؤال جديد
           </button>
+        </div>
+
+        {/* Materials Section */}
+        <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 mt-6 space-y-6">
+          <h2 className="text-sm font-bold text-slate-700">ملحقات أخرى (ملفات إضافية)</h2>
+          
+          <div className="space-y-4">
+            <label className="block border-2 border-dashed border-slate-200 hover:border-sky-400 rounded-2xl p-8 text-center cursor-pointer transition-colors bg-white hover:bg-sky-50">
+              <Upload className="w-8 h-8 mx-auto text-slate-400 mb-3" />
+              <span className="font-bold text-slate-600">صور أو ملفات مع الاختبار تأخذ التمام حجمهم</span>
+              <input 
+                type="file" 
+                multiple 
+                onChange={handleMultipleFileChange}
+                className="hidden"
+              />
+            </label>
+
+            <div className="mt-4 w-full">
+              <label className="block text-xs font-medium text-gray-700 mb-1 text-right">عنوان المرفق (يُطبق على الملفات المضافة معاً)</label>
+              <input
+                type="text"
+                placeholder="اكتب عنوان المرفق هنا..."
+                value={materialTitle}
+                onChange={(e) => setMaterialTitle(e.target.value)}
+                className="w-full px-4 py-2 rounded-xl border border-gray-300 focus:outline-none focus:border-sky-600 bg-white text-right"
+              />
+            </div>
+
+            {materials.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+                {materials.map((mat, i) => (
+                  <div key={i} className="flex flex-col gap-3 bg-white border border-slate-200 p-4 rounded-xl shadow-sm relative group">
+                    <button 
+                      type="button"
+                      onClick={() => removeMaterial(i)}
+                      className="absolute top-2 left-2 p-1.5 text-slate-400 hover:text-amber-500 hover:bg-amber-50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                    >
+                      <X className="w-4 h-4" />
+                    </button>
+
+                    <div className="flex items-center gap-3 pr-2">
+                      <div className="w-10 h-10 bg-sky-100 text-sky-600 rounded-lg flex items-center justify-center shrink-0">
+                        <FileText className="w-5 h-5" />
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs text-slate-500 truncate" dir="ltr">{mat.file.name}</p>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1.5 mt-1 border-t border-slate-200 pt-3">
+                      <label className="text-xs font-bold text-slate-700 block">عنوان المرفق</label>
+                      <input 
+                        type="text" 
+                        value={mat.title}
+                        required
+                        onChange={e => {
+                          const updated = [...materials];
+                          updated[i].title = e.target.value;
+                          setMaterials(updated);
+                        }}
+                        className="w-full text-sm font-bold text-slate-700 bg-slate-50 border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500"
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         <button

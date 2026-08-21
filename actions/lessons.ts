@@ -2,17 +2,21 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { Stream } from "@/generated/prisma";
 
 export type LessonMaterialInput = {
   title: string;
   fileUrl: string;
+  fileType?: string;
 };
 
 export type LessonPayload = {
   title: string;
   subjectId: string;
+  subjectIds?: string[];
   month: number;
   vimeoVideoId: string;
+  streams?: Stream[];
   materials: LessonMaterialInput[];
   quiz?: {
     maxScore: number;
@@ -36,12 +40,15 @@ export async function createLesson(payload: LessonPayload): Promise<ActionState>
       data: {
         title: payload.title,
         subjectId: payload.subjectId,
+        subjectIds: payload.subjectIds?.length ? payload.subjectIds : [payload.subjectId],
+        streams: payload.streams || [],
         month: payload.month,
         vimeoVideoId: payload.vimeoVideoId,
         materials: {
           create: payload.materials.map(m => ({
             title: m.title,
             fileUrl: m.fileUrl,
+            fileType: m.fileType,
           })),
         },
         ...(payload.quiz && {
@@ -72,6 +79,7 @@ export async function addLessonMaterial(
     const lessonId = formData.get("lessonId") as string;
     const title = formData.get("title") as string;
     const fileUrl = formData.get("fileUrl") as string;
+    const fileType = formData.get("fileType") as string;
 
     if (!lessonId || !title || !fileUrl) {
       return { error: "جميع الحقول مطلوبة" };
@@ -82,6 +90,7 @@ export async function addLessonMaterial(
         lessonId,
         title,
         fileUrl,
+        fileType,
       },
     });
 

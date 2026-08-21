@@ -8,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { MonthSelect } from "@/components/shared/MonthSelect";
 import { compressImageForAi } from "@/lib/utils/image-compression";
 import { MathPreview } from "@/components/shared/MathPreview";
+import { supabase } from "@/lib/supabase";
 
 type QuizQuestion = {
   question: string;
@@ -157,7 +158,7 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
           .from("exams")
           .getPublicUrl(fPath);
 
-        uploadedMaterials.push({ title: mat.title, fileUrl: mUrl });
+        uploadedMaterials.push({ title: mat.title, fileUrl: mUrl, fileType: mat.file.type });
       }
       formData.set("materials", JSON.stringify(uploadedMaterials));
 

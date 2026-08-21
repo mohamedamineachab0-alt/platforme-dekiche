@@ -169,6 +169,8 @@ exports.Prisma.SubjectScalarFieldEnum = {
   teacherId: 'teacherId',
   level: 'level',
   stream: 'stream',
+  levels: 'levels',
+  streams: 'streams',
   image: 'image',
   price: 'price',
   accessType: 'accessType',
@@ -183,6 +185,8 @@ exports.Prisma.LessonScalarFieldEnum = {
   vimeoVideoId: 'vimeoVideoId',
   image: 'image',
   subjectId: 'subjectId',
+  subjectIds: 'subjectIds',
+  streams: 'streams',
   createdAt: 'createdAt'
 };
 
@@ -190,6 +194,7 @@ exports.Prisma.LessonMaterialScalarFieldEnum = {
   id: 'id',
   title: 'title',
   fileUrl: 'fileUrl',
+  fileType: 'fileType',
   lessonId: 'lessonId',
   createdAt: 'createdAt'
 };
@@ -301,6 +306,7 @@ exports.Prisma.ExerciseMaterialScalarFieldEnum = {
   id: 'id',
   title: 'title',
   fileUrl: 'fileUrl',
+  fileType: 'fileType',
   dailyExerciseId: 'dailyExerciseId',
   createdAt: 'createdAt'
 };
@@ -322,6 +328,7 @@ exports.Prisma.ExamMaterialScalarFieldEnum = {
   id: 'id',
   title: 'title',
   fileUrl: 'fileUrl',
+  fileType: 'fileType',
   examId: 'examId',
   createdAt: 'createdAt'
 };
@@ -331,6 +338,8 @@ exports.Prisma.StudentSubmissionScalarFieldEnum = {
   examId: 'examId',
   studentId: 'studentId',
   imageUrl: 'imageUrl',
+  fileUrl: 'fileUrl',
+  fileType: 'fileType',
   score: 'score',
   feedback: 'feedback',
   createdAt: 'createdAt',
@@ -388,6 +397,19 @@ exports.Prisma.ParentTicketScalarFieldEnum = {
   parentId: 'parentId',
   subject: 'subject',
   message: 'message',
+  status: 'status',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.SubscriptionRequestScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  subjectIds: 'subjectIds',
+  level: 'level',
+  stream: 'stream',
+  wilaya: 'wilaya',
+  address: 'address',
+  phoneNumber: 'phoneNumber',
   status: 'status',
   createdAt: 'createdAt'
 };
@@ -527,7 +549,8 @@ exports.Prisma.ModelName = {
   ReviewCard: 'ReviewCard',
   ClassForum: 'ClassForum',
   ForumMessage: 'ForumMessage',
-  ParentTicket: 'ParentTicket'
+  ParentTicket: 'ParentTicket',
+  SubscriptionRequest: 'SubscriptionRequest'
 };
 
 /**

@@ -56,7 +56,7 @@ export async function POST(req: Request) {
 
     const completion = await groq.chat.completions.create({
       messages: [systemPrompt, ...chatHistory],
-      model: 'llama-3.1-8b-instant',
+      model: 'allam-2-7b',
       temperature: 0.7,
       max_tokens: 1024,
     });

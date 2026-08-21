@@ -7,7 +7,7 @@ import {
   LayoutDashboard, BookOpen, CheckCircle, FileText, Video, AlertTriangle, 
   Trophy, Users, Key, LogOut, Settings, Bot, Wallet, Bell, Activity, Map, 
   Library, MessageSquare, ChevronRight, ChevronLeft, Menu, X, Swords, BellRing,
-  Star, UserMinus, Lightbulb
+  Star, UserMinus, Lightbulb, CreditCard
 } from "lucide-react";
 import { Role } from "@/generated/prisma";
 import { getUserSessionProfile } from "@/actions/user";
@@ -16,6 +16,7 @@ import { DailyTip } from "@/components/student/DailyTip";
 
 const STUDENT_LINKS = [
   { name: "الرئيسية", href: "/dashboard/student", icon: LayoutDashboard, activeBg: "bg-sky-50 dark:bg-slate-950/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
+  { name: "طلب بطاقة الاشتراك", href: "/dashboard/student/subscription-request", icon: CreditCard, activeBg: "bg-emerald-50 dark:bg-emerald-900/30", activeText: "text-emerald-700 dark:text-emerald-400", iconColor: "text-emerald-600 dark:text-emerald-400" },
   { name: "موادي", href: "/dashboard/student/subjects", icon: BookOpen, activeBg: "bg-blue-50 dark:bg-blue-900/30", activeText: "text-blue-700 dark:text-blue-400", iconColor: "text-blue-600 dark:text-blue-400" },
   { name: "خريطتي الذكية", href: "/dashboard/student/roadmap", icon: Map, activeBg: "bg-blue-50 dark:bg-blue-900/30", activeText: "text-blue-700 dark:text-blue-400", iconColor: "text-blue-600 dark:text-blue-400" },
   { name: "دردشة القسم", href: "/dashboard/student/forums", icon: MessageSquare, activeBg: "bg-sky-50 dark:bg-sky-900/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
@@ -39,6 +40,7 @@ const ADMIN_LINKS = [
   { name: "المواد", href: "/dashboard/admin/subjects", icon: BookOpen },
   { name: "الدروس", href: "/dashboard/admin/lessons", icon: FileText },
   { name: "رموز الدخول", href: "/dashboard/admin/codes", icon: Key },
+  { name: "طلبات الاشتراك", href: "/dashboard/admin/subscription-requests", icon: CreditCard, activeBg: "bg-emerald-50 dark:bg-emerald-900/30", activeText: "text-emerald-700 dark:text-emerald-400", iconColor: "text-emerald-600 dark:text-emerald-400" },
   { name: "دردشة القسم", href: "/dashboard/admin/forums", icon: MessageSquare },
   { name: "تمارين يومية", href: "/dashboard/admin/exercises", icon: CheckCircle },
   { name: "الإختبارات والفروض", href: "/dashboard/admin/exams", icon: FileText },

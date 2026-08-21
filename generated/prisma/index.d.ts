@@ -148,6 +148,11 @@ export type ForumMessage = $Result.DefaultSelection<Prisma.$ForumMessagePayload>
  * 
  */
 export type ParentTicket = $Result.DefaultSelection<Prisma.$ParentTicketPayload>
+/**
+ * Model SubscriptionRequest
+ * 
+ */
+export type SubscriptionRequest = $Result.DefaultSelection<Prisma.$SubscriptionRequestPayload>
 
 /**
  * Enums
@@ -656,6 +661,16 @@ export class PrismaClient<
     * ```
     */
   get parentTicket(): Prisma.ParentTicketDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.subscriptionRequest`: Exposes CRUD operations for the **SubscriptionRequest** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SubscriptionRequests
+    * const subscriptionRequests = await prisma.subscriptionRequest.findMany()
+    * ```
+    */
+  get subscriptionRequest(): Prisma.SubscriptionRequestDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1129,7 +1144,8 @@ export namespace Prisma {
     ReviewCard: 'ReviewCard',
     ClassForum: 'ClassForum',
     ForumMessage: 'ForumMessage',
-    ParentTicket: 'ParentTicket'
+    ParentTicket: 'ParentTicket',
+    SubscriptionRequest: 'SubscriptionRequest'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1145,7 +1161,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "studentProfile" | "parentProfile" | "teacher" | "subject" | "lesson" | "lessonMaterial" | "quiz" | "accessCode" | "parentStudentLink" | "studentFriendLink" | "banner" | "studentMistake" | "enrollment" | "liveClass" | "chatSession" | "chatMessage" | "dailyExercise" | "exerciseMaterial" | "exam" | "examMaterial" | "studentSubmission" | "notification" | "reviewCard" | "classForum" | "forumMessage" | "parentTicket"
+      modelProps: "user" | "studentProfile" | "parentProfile" | "teacher" | "subject" | "lesson" | "lessonMaterial" | "quiz" | "accessCode" | "parentStudentLink" | "studentFriendLink" | "banner" | "studentMistake" | "enrollment" | "liveClass" | "chatSession" | "chatMessage" | "dailyExercise" | "exerciseMaterial" | "exam" | "examMaterial" | "studentSubmission" | "notification" | "reviewCard" | "classForum" | "forumMessage" | "parentTicket" | "subscriptionRequest"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -3147,6 +3163,80 @@ export namespace Prisma {
           }
         }
       }
+      SubscriptionRequest: {
+        payload: Prisma.$SubscriptionRequestPayload<ExtArgs>
+        fields: Prisma.SubscriptionRequestFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SubscriptionRequestFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionRequestPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SubscriptionRequestFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionRequestPayload>
+          }
+          findFirst: {
+            args: Prisma.SubscriptionRequestFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionRequestPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SubscriptionRequestFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionRequestPayload>
+          }
+          findMany: {
+            args: Prisma.SubscriptionRequestFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionRequestPayload>[]
+          }
+          create: {
+            args: Prisma.SubscriptionRequestCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionRequestPayload>
+          }
+          createMany: {
+            args: Prisma.SubscriptionRequestCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.SubscriptionRequestCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionRequestPayload>[]
+          }
+          delete: {
+            args: Prisma.SubscriptionRequestDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionRequestPayload>
+          }
+          update: {
+            args: Prisma.SubscriptionRequestUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionRequestPayload>
+          }
+          deleteMany: {
+            args: Prisma.SubscriptionRequestDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SubscriptionRequestUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.SubscriptionRequestUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionRequestPayload>[]
+          }
+          upsert: {
+            args: Prisma.SubscriptionRequestUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$SubscriptionRequestPayload>
+          }
+          aggregate: {
+            args: Prisma.SubscriptionRequestAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSubscriptionRequest>
+          }
+          groupBy: {
+            args: Prisma.SubscriptionRequestGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SubscriptionRequestGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SubscriptionRequestCountArgs<ExtArgs>
+            result: $Utils.Optional<SubscriptionRequestCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -3297,6 +3387,7 @@ export namespace Prisma {
     classForum?: ClassForumOmit
     forumMessage?: ForumMessageOmit
     parentTicket?: ParentTicketOmit
+    subscriptionRequest?: SubscriptionRequestOmit
   }
 
   /* Types for Logging */
@@ -3389,6 +3480,7 @@ export namespace Prisma {
     forumMessages: number
     friendLinksSource: number
     friendLinksTarget: number
+    subscriptionRequests: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3404,6 +3496,7 @@ export namespace Prisma {
     forumMessages?: boolean | UserCountOutputTypeCountForumMessagesArgs
     friendLinksSource?: boolean | UserCountOutputTypeCountFriendLinksSourceArgs
     friendLinksTarget?: boolean | UserCountOutputTypeCountFriendLinksTargetArgs
+    subscriptionRequests?: boolean | UserCountOutputTypeCountSubscriptionRequestsArgs
   }
 
   // Custom InputTypes
@@ -3499,6 +3592,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountFriendLinksTargetArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: StudentFriendLinkWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSubscriptionRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubscriptionRequestWhereInput
   }
 
 
@@ -4077,6 +4177,7 @@ export namespace Prisma {
     forumMessages?: boolean | User$forumMessagesArgs<ExtArgs>
     friendLinksSource?: boolean | User$friendLinksSourceArgs<ExtArgs>
     friendLinksTarget?: boolean | User$friendLinksTargetArgs<ExtArgs>
+    subscriptionRequests?: boolean | User$subscriptionRequestsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -4136,6 +4237,7 @@ export namespace Prisma {
     forumMessages?: boolean | User$forumMessagesArgs<ExtArgs>
     friendLinksSource?: boolean | User$friendLinksSourceArgs<ExtArgs>
     friendLinksTarget?: boolean | User$friendLinksTargetArgs<ExtArgs>
+    subscriptionRequests?: boolean | User$subscriptionRequestsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -4159,6 +4261,7 @@ export namespace Prisma {
       forumMessages: Prisma.$ForumMessagePayload<ExtArgs>[]
       friendLinksSource: Prisma.$StudentFriendLinkPayload<ExtArgs>[]
       friendLinksTarget: Prisma.$StudentFriendLinkPayload<ExtArgs>[]
+      subscriptionRequests: Prisma.$SubscriptionRequestPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4580,6 +4683,7 @@ export namespace Prisma {
     forumMessages<T extends User$forumMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$forumMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ForumMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     friendLinksSource<T extends User$friendLinksSourceArgs<ExtArgs> = {}>(args?: Subset<T, User$friendLinksSourceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentFriendLinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     friendLinksTarget<T extends User$friendLinksTargetArgs<ExtArgs> = {}>(args?: Subset<T, User$friendLinksTargetArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentFriendLinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    subscriptionRequests<T extends User$subscriptionRequestsArgs<ExtArgs> = {}>(args?: Subset<T, User$subscriptionRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5354,6 +5458,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: StudentFriendLinkScalarFieldEnum | StudentFriendLinkScalarFieldEnum[]
+  }
+
+  /**
+   * User.subscriptionRequests
+   */
+  export type User$subscriptionRequestsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionRequest
+     */
+    select?: SubscriptionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionRequest
+     */
+    omit?: SubscriptionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionRequestInclude<ExtArgs> | null
+    where?: SubscriptionRequestWhereInput
+    orderBy?: SubscriptionRequestOrderByWithRelationInput | SubscriptionRequestOrderByWithRelationInput[]
+    cursor?: SubscriptionRequestWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SubscriptionRequestScalarFieldEnum | SubscriptionRequestScalarFieldEnum[]
   }
 
   /**
@@ -8749,6 +8877,8 @@ export namespace Prisma {
     teacherId: number
     level: number
     stream: number
+    levels: number
+    streams: number
     image: number
     price: number
     accessType: number
@@ -8804,6 +8934,8 @@ export namespace Prisma {
     teacherId?: true
     level?: true
     stream?: true
+    levels?: true
+    streams?: true
     image?: true
     price?: true
     accessType?: true
@@ -8906,6 +9038,8 @@ export namespace Prisma {
     teacherId: string | null
     level: $Enums.Level
     stream: $Enums.Stream
+    levels: $Enums.Level[]
+    streams: $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -8940,6 +9074,8 @@ export namespace Prisma {
     teacherId?: boolean
     level?: boolean
     stream?: boolean
+    levels?: boolean
+    streams?: boolean
     image?: boolean
     price?: boolean
     accessType?: boolean
@@ -8968,6 +9104,8 @@ export namespace Prisma {
     teacherId?: boolean
     level?: boolean
     stream?: boolean
+    levels?: boolean
+    streams?: boolean
     image?: boolean
     price?: boolean
     accessType?: boolean
@@ -8984,6 +9122,8 @@ export namespace Prisma {
     teacherId?: boolean
     level?: boolean
     stream?: boolean
+    levels?: boolean
+    streams?: boolean
     image?: boolean
     price?: boolean
     accessType?: boolean
@@ -9000,6 +9140,8 @@ export namespace Prisma {
     teacherId?: boolean
     level?: boolean
     stream?: boolean
+    levels?: boolean
+    streams?: boolean
     image?: boolean
     price?: boolean
     accessType?: boolean
@@ -9007,7 +9149,7 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type SubjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "teacherName" | "teacherId" | "level" | "stream" | "image" | "price" | "accessType" | "isPublished" | "createdAt", ExtArgs["result"]["subject"]>
+  export type SubjectOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "teacherName" | "teacherId" | "level" | "stream" | "levels" | "streams" | "image" | "price" | "accessType" | "isPublished" | "createdAt", ExtArgs["result"]["subject"]>
   export type SubjectInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     teacher?: boolean | Subject$teacherArgs<ExtArgs>
     lessons?: boolean | Subject$lessonsArgs<ExtArgs>
@@ -9054,6 +9196,8 @@ export namespace Prisma {
       teacherId: string | null
       level: $Enums.Level
       stream: $Enums.Stream
+      levels: $Enums.Level[]
+      streams: $Enums.Stream[]
       image: string
       price: number
       accessType: string
@@ -9501,6 +9645,8 @@ export namespace Prisma {
     readonly teacherId: FieldRef<"Subject", 'String'>
     readonly level: FieldRef<"Subject", 'Level'>
     readonly stream: FieldRef<"Subject", 'Stream'>
+    readonly levels: FieldRef<"Subject", 'Level[]'>
+    readonly streams: FieldRef<"Subject", 'Stream[]'>
     readonly image: FieldRef<"Subject", 'String'>
     readonly price: FieldRef<"Subject", 'Float'>
     readonly accessType: FieldRef<"Subject", 'String'>
@@ -10255,6 +10401,8 @@ export namespace Prisma {
     vimeoVideoId: number
     image: number
     subjectId: number
+    subjectIds: number
+    streams: number
     createdAt: number
     _all: number
   }
@@ -10295,6 +10443,8 @@ export namespace Prisma {
     vimeoVideoId?: true
     image?: true
     subjectId?: true
+    subjectIds?: true
+    streams?: true
     createdAt?: true
     _all?: true
   }
@@ -10392,6 +10542,8 @@ export namespace Prisma {
     vimeoVideoId: string
     image: string | null
     subjectId: string
+    subjectIds: string[]
+    streams: $Enums.Stream[]
     createdAt: Date
     _count: LessonCountAggregateOutputType | null
     _avg: LessonAvgAggregateOutputType | null
@@ -10421,6 +10573,8 @@ export namespace Prisma {
     vimeoVideoId?: boolean
     image?: boolean
     subjectId?: boolean
+    subjectIds?: boolean
+    streams?: boolean
     createdAt?: boolean
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
     quiz?: boolean | Lesson$quizArgs<ExtArgs>
@@ -10436,6 +10590,8 @@ export namespace Prisma {
     vimeoVideoId?: boolean
     image?: boolean
     subjectId?: boolean
+    subjectIds?: boolean
+    streams?: boolean
     createdAt?: boolean
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lesson"]>
@@ -10447,6 +10603,8 @@ export namespace Prisma {
     vimeoVideoId?: boolean
     image?: boolean
     subjectId?: boolean
+    subjectIds?: boolean
+    streams?: boolean
     createdAt?: boolean
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lesson"]>
@@ -10458,10 +10616,12 @@ export namespace Prisma {
     vimeoVideoId?: boolean
     image?: boolean
     subjectId?: boolean
+    subjectIds?: boolean
+    streams?: boolean
     createdAt?: boolean
   }
 
-  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "month" | "vimeoVideoId" | "image" | "subjectId" | "createdAt", ExtArgs["result"]["lesson"]>
+  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "month" | "vimeoVideoId" | "image" | "subjectId" | "subjectIds" | "streams" | "createdAt", ExtArgs["result"]["lesson"]>
   export type LessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
     quiz?: boolean | Lesson$quizArgs<ExtArgs>
@@ -10491,6 +10651,8 @@ export namespace Prisma {
       vimeoVideoId: string
       image: string | null
       subjectId: string
+      subjectIds: string[]
+      streams: $Enums.Stream[]
       createdAt: Date
     }, ExtArgs["result"]["lesson"]>
     composites: {}
@@ -10925,6 +11087,8 @@ export namespace Prisma {
     readonly vimeoVideoId: FieldRef<"Lesson", 'String'>
     readonly image: FieldRef<"Lesson", 'String'>
     readonly subjectId: FieldRef<"Lesson", 'String'>
+    readonly subjectIds: FieldRef<"Lesson", 'String[]'>
+    readonly streams: FieldRef<"Lesson", 'Stream[]'>
     readonly createdAt: FieldRef<"Lesson", 'DateTime'>
   }
     
@@ -11426,6 +11590,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     fileUrl: string | null
+    fileType: string | null
     lessonId: string | null
     createdAt: Date | null
   }
@@ -11434,6 +11599,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     fileUrl: string | null
+    fileType: string | null
     lessonId: string | null
     createdAt: Date | null
   }
@@ -11442,6 +11608,7 @@ export namespace Prisma {
     id: number
     title: number
     fileUrl: number
+    fileType: number
     lessonId: number
     createdAt: number
     _all: number
@@ -11452,6 +11619,7 @@ export namespace Prisma {
     id?: true
     title?: true
     fileUrl?: true
+    fileType?: true
     lessonId?: true
     createdAt?: true
   }
@@ -11460,6 +11628,7 @@ export namespace Prisma {
     id?: true
     title?: true
     fileUrl?: true
+    fileType?: true
     lessonId?: true
     createdAt?: true
   }
@@ -11468,6 +11637,7 @@ export namespace Prisma {
     id?: true
     title?: true
     fileUrl?: true
+    fileType?: true
     lessonId?: true
     createdAt?: true
     _all?: true
@@ -11549,6 +11719,7 @@ export namespace Prisma {
     id: string
     title: string
     fileUrl: string
+    fileType: string | null
     lessonId: string
     createdAt: Date
     _count: LessonMaterialCountAggregateOutputType | null
@@ -11574,6 +11745,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     fileUrl?: boolean
+    fileType?: boolean
     lessonId?: boolean
     createdAt?: boolean
     lesson?: boolean | LessonDefaultArgs<ExtArgs>
@@ -11583,6 +11755,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     fileUrl?: boolean
+    fileType?: boolean
     lessonId?: boolean
     createdAt?: boolean
     lesson?: boolean | LessonDefaultArgs<ExtArgs>
@@ -11592,6 +11765,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     fileUrl?: boolean
+    fileType?: boolean
     lessonId?: boolean
     createdAt?: boolean
     lesson?: boolean | LessonDefaultArgs<ExtArgs>
@@ -11601,11 +11775,12 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     fileUrl?: boolean
+    fileType?: boolean
     lessonId?: boolean
     createdAt?: boolean
   }
 
-  export type LessonMaterialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "fileUrl" | "lessonId" | "createdAt", ExtArgs["result"]["lessonMaterial"]>
+  export type LessonMaterialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "fileUrl" | "fileType" | "lessonId" | "createdAt", ExtArgs["result"]["lessonMaterial"]>
   export type LessonMaterialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     lesson?: boolean | LessonDefaultArgs<ExtArgs>
   }
@@ -11625,6 +11800,7 @@ export namespace Prisma {
       id: string
       title: string
       fileUrl: string
+      fileType: string | null
       lessonId: string
       createdAt: Date
     }, ExtArgs["result"]["lessonMaterial"]>
@@ -12054,6 +12230,7 @@ export namespace Prisma {
     readonly id: FieldRef<"LessonMaterial", 'String'>
     readonly title: FieldRef<"LessonMaterial", 'String'>
     readonly fileUrl: FieldRef<"LessonMaterial", 'String'>
+    readonly fileType: FieldRef<"LessonMaterial", 'String'>
     readonly lessonId: FieldRef<"LessonMaterial", 'String'>
     readonly createdAt: FieldRef<"LessonMaterial", 'DateTime'>
   }
@@ -24790,6 +24967,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     fileUrl: string | null
+    fileType: string | null
     dailyExerciseId: string | null
     createdAt: Date | null
   }
@@ -24798,6 +24976,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     fileUrl: string | null
+    fileType: string | null
     dailyExerciseId: string | null
     createdAt: Date | null
   }
@@ -24806,6 +24985,7 @@ export namespace Prisma {
     id: number
     title: number
     fileUrl: number
+    fileType: number
     dailyExerciseId: number
     createdAt: number
     _all: number
@@ -24816,6 +24996,7 @@ export namespace Prisma {
     id?: true
     title?: true
     fileUrl?: true
+    fileType?: true
     dailyExerciseId?: true
     createdAt?: true
   }
@@ -24824,6 +25005,7 @@ export namespace Prisma {
     id?: true
     title?: true
     fileUrl?: true
+    fileType?: true
     dailyExerciseId?: true
     createdAt?: true
   }
@@ -24832,6 +25014,7 @@ export namespace Prisma {
     id?: true
     title?: true
     fileUrl?: true
+    fileType?: true
     dailyExerciseId?: true
     createdAt?: true
     _all?: true
@@ -24913,6 +25096,7 @@ export namespace Prisma {
     id: string
     title: string
     fileUrl: string
+    fileType: string | null
     dailyExerciseId: string
     createdAt: Date
     _count: ExerciseMaterialCountAggregateOutputType | null
@@ -24938,6 +25122,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     fileUrl?: boolean
+    fileType?: boolean
     dailyExerciseId?: boolean
     createdAt?: boolean
     dailyExercise?: boolean | DailyExerciseDefaultArgs<ExtArgs>
@@ -24947,6 +25132,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     fileUrl?: boolean
+    fileType?: boolean
     dailyExerciseId?: boolean
     createdAt?: boolean
     dailyExercise?: boolean | DailyExerciseDefaultArgs<ExtArgs>
@@ -24956,6 +25142,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     fileUrl?: boolean
+    fileType?: boolean
     dailyExerciseId?: boolean
     createdAt?: boolean
     dailyExercise?: boolean | DailyExerciseDefaultArgs<ExtArgs>
@@ -24965,11 +25152,12 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     fileUrl?: boolean
+    fileType?: boolean
     dailyExerciseId?: boolean
     createdAt?: boolean
   }
 
-  export type ExerciseMaterialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "fileUrl" | "dailyExerciseId" | "createdAt", ExtArgs["result"]["exerciseMaterial"]>
+  export type ExerciseMaterialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "fileUrl" | "fileType" | "dailyExerciseId" | "createdAt", ExtArgs["result"]["exerciseMaterial"]>
   export type ExerciseMaterialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     dailyExercise?: boolean | DailyExerciseDefaultArgs<ExtArgs>
   }
@@ -24989,6 +25177,7 @@ export namespace Prisma {
       id: string
       title: string
       fileUrl: string
+      fileType: string | null
       dailyExerciseId: string
       createdAt: Date
     }, ExtArgs["result"]["exerciseMaterial"]>
@@ -25418,6 +25607,7 @@ export namespace Prisma {
     readonly id: FieldRef<"ExerciseMaterial", 'String'>
     readonly title: FieldRef<"ExerciseMaterial", 'String'>
     readonly fileUrl: FieldRef<"ExerciseMaterial", 'String'>
+    readonly fileType: FieldRef<"ExerciseMaterial", 'String'>
     readonly dailyExerciseId: FieldRef<"ExerciseMaterial", 'String'>
     readonly createdAt: FieldRef<"ExerciseMaterial", 'DateTime'>
   }
@@ -27127,6 +27317,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     fileUrl: string | null
+    fileType: string | null
     examId: string | null
     createdAt: Date | null
   }
@@ -27135,6 +27326,7 @@ export namespace Prisma {
     id: string | null
     title: string | null
     fileUrl: string | null
+    fileType: string | null
     examId: string | null
     createdAt: Date | null
   }
@@ -27143,6 +27335,7 @@ export namespace Prisma {
     id: number
     title: number
     fileUrl: number
+    fileType: number
     examId: number
     createdAt: number
     _all: number
@@ -27153,6 +27346,7 @@ export namespace Prisma {
     id?: true
     title?: true
     fileUrl?: true
+    fileType?: true
     examId?: true
     createdAt?: true
   }
@@ -27161,6 +27355,7 @@ export namespace Prisma {
     id?: true
     title?: true
     fileUrl?: true
+    fileType?: true
     examId?: true
     createdAt?: true
   }
@@ -27169,6 +27364,7 @@ export namespace Prisma {
     id?: true
     title?: true
     fileUrl?: true
+    fileType?: true
     examId?: true
     createdAt?: true
     _all?: true
@@ -27250,6 +27446,7 @@ export namespace Prisma {
     id: string
     title: string
     fileUrl: string
+    fileType: string | null
     examId: string
     createdAt: Date
     _count: ExamMaterialCountAggregateOutputType | null
@@ -27275,6 +27472,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     fileUrl?: boolean
+    fileType?: boolean
     examId?: boolean
     createdAt?: boolean
     exam?: boolean | ExamDefaultArgs<ExtArgs>
@@ -27284,6 +27482,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     fileUrl?: boolean
+    fileType?: boolean
     examId?: boolean
     createdAt?: boolean
     exam?: boolean | ExamDefaultArgs<ExtArgs>
@@ -27293,6 +27492,7 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     fileUrl?: boolean
+    fileType?: boolean
     examId?: boolean
     createdAt?: boolean
     exam?: boolean | ExamDefaultArgs<ExtArgs>
@@ -27302,11 +27502,12 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     fileUrl?: boolean
+    fileType?: boolean
     examId?: boolean
     createdAt?: boolean
   }
 
-  export type ExamMaterialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "fileUrl" | "examId" | "createdAt", ExtArgs["result"]["examMaterial"]>
+  export type ExamMaterialOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "fileUrl" | "fileType" | "examId" | "createdAt", ExtArgs["result"]["examMaterial"]>
   export type ExamMaterialInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     exam?: boolean | ExamDefaultArgs<ExtArgs>
   }
@@ -27326,6 +27527,7 @@ export namespace Prisma {
       id: string
       title: string
       fileUrl: string
+      fileType: string | null
       examId: string
       createdAt: Date
     }, ExtArgs["result"]["examMaterial"]>
@@ -27755,6 +27957,7 @@ export namespace Prisma {
     readonly id: FieldRef<"ExamMaterial", 'String'>
     readonly title: FieldRef<"ExamMaterial", 'String'>
     readonly fileUrl: FieldRef<"ExamMaterial", 'String'>
+    readonly fileType: FieldRef<"ExamMaterial", 'String'>
     readonly examId: FieldRef<"ExamMaterial", 'String'>
     readonly createdAt: FieldRef<"ExamMaterial", 'DateTime'>
   }
@@ -28201,6 +28404,8 @@ export namespace Prisma {
     examId: string | null
     studentId: string | null
     imageUrl: string | null
+    fileUrl: string | null
+    fileType: string | null
     score: number | null
     feedback: string | null
     createdAt: Date | null
@@ -28212,6 +28417,8 @@ export namespace Prisma {
     examId: string | null
     studentId: string | null
     imageUrl: string | null
+    fileUrl: string | null
+    fileType: string | null
     score: number | null
     feedback: string | null
     createdAt: Date | null
@@ -28223,6 +28430,8 @@ export namespace Prisma {
     examId: number
     studentId: number
     imageUrl: number
+    fileUrl: number
+    fileType: number
     score: number
     feedback: number
     createdAt: number
@@ -28244,6 +28453,8 @@ export namespace Prisma {
     examId?: true
     studentId?: true
     imageUrl?: true
+    fileUrl?: true
+    fileType?: true
     score?: true
     feedback?: true
     createdAt?: true
@@ -28255,6 +28466,8 @@ export namespace Prisma {
     examId?: true
     studentId?: true
     imageUrl?: true
+    fileUrl?: true
+    fileType?: true
     score?: true
     feedback?: true
     createdAt?: true
@@ -28266,6 +28479,8 @@ export namespace Prisma {
     examId?: true
     studentId?: true
     imageUrl?: true
+    fileUrl?: true
+    fileType?: true
     score?: true
     feedback?: true
     createdAt?: true
@@ -28363,7 +28578,9 @@ export namespace Prisma {
     id: string
     examId: string
     studentId: string
-    imageUrl: string
+    imageUrl: string | null
+    fileUrl: string | null
+    fileType: string | null
     score: number | null
     feedback: string | null
     createdAt: Date
@@ -28394,6 +28611,8 @@ export namespace Prisma {
     examId?: boolean
     studentId?: boolean
     imageUrl?: boolean
+    fileUrl?: boolean
+    fileType?: boolean
     score?: boolean
     feedback?: boolean
     createdAt?: boolean
@@ -28407,6 +28626,8 @@ export namespace Prisma {
     examId?: boolean
     studentId?: boolean
     imageUrl?: boolean
+    fileUrl?: boolean
+    fileType?: boolean
     score?: boolean
     feedback?: boolean
     createdAt?: boolean
@@ -28420,6 +28641,8 @@ export namespace Prisma {
     examId?: boolean
     studentId?: boolean
     imageUrl?: boolean
+    fileUrl?: boolean
+    fileType?: boolean
     score?: boolean
     feedback?: boolean
     createdAt?: boolean
@@ -28433,13 +28656,15 @@ export namespace Prisma {
     examId?: boolean
     studentId?: boolean
     imageUrl?: boolean
+    fileUrl?: boolean
+    fileType?: boolean
     score?: boolean
     feedback?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type StudentSubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "examId" | "studentId" | "imageUrl" | "score" | "feedback" | "createdAt" | "updatedAt", ExtArgs["result"]["studentSubmission"]>
+  export type StudentSubmissionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "examId" | "studentId" | "imageUrl" | "fileUrl" | "fileType" | "score" | "feedback" | "createdAt" | "updatedAt", ExtArgs["result"]["studentSubmission"]>
   export type StudentSubmissionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     exam?: boolean | ExamDefaultArgs<ExtArgs>
     student?: boolean | UserDefaultArgs<ExtArgs>
@@ -28463,7 +28688,9 @@ export namespace Prisma {
       id: string
       examId: string
       studentId: string
-      imageUrl: string
+      imageUrl: string | null
+      fileUrl: string | null
+      fileType: string | null
       score: number | null
       feedback: string | null
       createdAt: Date
@@ -28897,6 +29124,8 @@ export namespace Prisma {
     readonly examId: FieldRef<"StudentSubmission", 'String'>
     readonly studentId: FieldRef<"StudentSubmission", 'String'>
     readonly imageUrl: FieldRef<"StudentSubmission", 'String'>
+    readonly fileUrl: FieldRef<"StudentSubmission", 'String'>
+    readonly fileType: FieldRef<"StudentSubmission", 'String'>
     readonly score: FieldRef<"StudentSubmission", 'Int'>
     readonly feedback: FieldRef<"StudentSubmission", 'String'>
     readonly createdAt: FieldRef<"StudentSubmission", 'DateTime'>
@@ -35017,6 +35246,1130 @@ export namespace Prisma {
 
 
   /**
+   * Model SubscriptionRequest
+   */
+
+  export type AggregateSubscriptionRequest = {
+    _count: SubscriptionRequestCountAggregateOutputType | null
+    _min: SubscriptionRequestMinAggregateOutputType | null
+    _max: SubscriptionRequestMaxAggregateOutputType | null
+  }
+
+  export type SubscriptionRequestMinAggregateOutputType = {
+    id: string | null
+    studentId: string | null
+    level: string | null
+    stream: string | null
+    wilaya: string | null
+    address: string | null
+    phoneNumber: string | null
+    status: string | null
+    createdAt: Date | null
+  }
+
+  export type SubscriptionRequestMaxAggregateOutputType = {
+    id: string | null
+    studentId: string | null
+    level: string | null
+    stream: string | null
+    wilaya: string | null
+    address: string | null
+    phoneNumber: string | null
+    status: string | null
+    createdAt: Date | null
+  }
+
+  export type SubscriptionRequestCountAggregateOutputType = {
+    id: number
+    studentId: number
+    subjectIds: number
+    level: number
+    stream: number
+    wilaya: number
+    address: number
+    phoneNumber: number
+    status: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type SubscriptionRequestMinAggregateInputType = {
+    id?: true
+    studentId?: true
+    level?: true
+    stream?: true
+    wilaya?: true
+    address?: true
+    phoneNumber?: true
+    status?: true
+    createdAt?: true
+  }
+
+  export type SubscriptionRequestMaxAggregateInputType = {
+    id?: true
+    studentId?: true
+    level?: true
+    stream?: true
+    wilaya?: true
+    address?: true
+    phoneNumber?: true
+    status?: true
+    createdAt?: true
+  }
+
+  export type SubscriptionRequestCountAggregateInputType = {
+    id?: true
+    studentId?: true
+    subjectIds?: true
+    level?: true
+    stream?: true
+    wilaya?: true
+    address?: true
+    phoneNumber?: true
+    status?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type SubscriptionRequestAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubscriptionRequest to aggregate.
+     */
+    where?: SubscriptionRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubscriptionRequests to fetch.
+     */
+    orderBy?: SubscriptionRequestOrderByWithRelationInput | SubscriptionRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SubscriptionRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubscriptionRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubscriptionRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SubscriptionRequests
+    **/
+    _count?: true | SubscriptionRequestCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SubscriptionRequestMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SubscriptionRequestMaxAggregateInputType
+  }
+
+  export type GetSubscriptionRequestAggregateType<T extends SubscriptionRequestAggregateArgs> = {
+        [P in keyof T & keyof AggregateSubscriptionRequest]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSubscriptionRequest[P]>
+      : GetScalarType<T[P], AggregateSubscriptionRequest[P]>
+  }
+
+
+
+
+  export type SubscriptionRequestGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: SubscriptionRequestWhereInput
+    orderBy?: SubscriptionRequestOrderByWithAggregationInput | SubscriptionRequestOrderByWithAggregationInput[]
+    by: SubscriptionRequestScalarFieldEnum[] | SubscriptionRequestScalarFieldEnum
+    having?: SubscriptionRequestScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SubscriptionRequestCountAggregateInputType | true
+    _min?: SubscriptionRequestMinAggregateInputType
+    _max?: SubscriptionRequestMaxAggregateInputType
+  }
+
+  export type SubscriptionRequestGroupByOutputType = {
+    id: string
+    studentId: string
+    subjectIds: string[]
+    level: string
+    stream: string
+    wilaya: string
+    address: string
+    phoneNumber: string
+    status: string
+    createdAt: Date
+    _count: SubscriptionRequestCountAggregateOutputType | null
+    _min: SubscriptionRequestMinAggregateOutputType | null
+    _max: SubscriptionRequestMaxAggregateOutputType | null
+  }
+
+  type GetSubscriptionRequestGroupByPayload<T extends SubscriptionRequestGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SubscriptionRequestGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SubscriptionRequestGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SubscriptionRequestGroupByOutputType[P]>
+            : GetScalarType<T[P], SubscriptionRequestGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SubscriptionRequestSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    studentId?: boolean
+    subjectIds?: boolean
+    level?: boolean
+    stream?: boolean
+    wilaya?: boolean
+    address?: boolean
+    phoneNumber?: boolean
+    status?: boolean
+    createdAt?: boolean
+    student?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["subscriptionRequest"]>
+
+  export type SubscriptionRequestSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    studentId?: boolean
+    subjectIds?: boolean
+    level?: boolean
+    stream?: boolean
+    wilaya?: boolean
+    address?: boolean
+    phoneNumber?: boolean
+    status?: boolean
+    createdAt?: boolean
+    student?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["subscriptionRequest"]>
+
+  export type SubscriptionRequestSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    studentId?: boolean
+    subjectIds?: boolean
+    level?: boolean
+    stream?: boolean
+    wilaya?: boolean
+    address?: boolean
+    phoneNumber?: boolean
+    status?: boolean
+    createdAt?: boolean
+    student?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["subscriptionRequest"]>
+
+  export type SubscriptionRequestSelectScalar = {
+    id?: boolean
+    studentId?: boolean
+    subjectIds?: boolean
+    level?: boolean
+    stream?: boolean
+    wilaya?: boolean
+    address?: boolean
+    phoneNumber?: boolean
+    status?: boolean
+    createdAt?: boolean
+  }
+
+  export type SubscriptionRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "subjectIds" | "level" | "stream" | "wilaya" | "address" | "phoneNumber" | "status" | "createdAt", ExtArgs["result"]["subscriptionRequest"]>
+  export type SubscriptionRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SubscriptionRequestIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type SubscriptionRequestIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    student?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $SubscriptionRequestPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "SubscriptionRequest"
+    objects: {
+      student: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      studentId: string
+      subjectIds: string[]
+      level: string
+      stream: string
+      wilaya: string
+      address: string
+      phoneNumber: string
+      status: string
+      createdAt: Date
+    }, ExtArgs["result"]["subscriptionRequest"]>
+    composites: {}
+  }
+
+  type SubscriptionRequestGetPayload<S extends boolean | null | undefined | SubscriptionRequestDefaultArgs> = $Result.GetResult<Prisma.$SubscriptionRequestPayload, S>
+
+  type SubscriptionRequestCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<SubscriptionRequestFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: SubscriptionRequestCountAggregateInputType | true
+    }
+
+  export interface SubscriptionRequestDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SubscriptionRequest'], meta: { name: 'SubscriptionRequest' } }
+    /**
+     * Find zero or one SubscriptionRequest that matches the filter.
+     * @param {SubscriptionRequestFindUniqueArgs} args - Arguments to find a SubscriptionRequest
+     * @example
+     * // Get one SubscriptionRequest
+     * const subscriptionRequest = await prisma.subscriptionRequest.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends SubscriptionRequestFindUniqueArgs>(args: SelectSubset<T, SubscriptionRequestFindUniqueArgs<ExtArgs>>): Prisma__SubscriptionRequestClient<$Result.GetResult<Prisma.$SubscriptionRequestPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one SubscriptionRequest that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {SubscriptionRequestFindUniqueOrThrowArgs} args - Arguments to find a SubscriptionRequest
+     * @example
+     * // Get one SubscriptionRequest
+     * const subscriptionRequest = await prisma.subscriptionRequest.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends SubscriptionRequestFindUniqueOrThrowArgs>(args: SelectSubset<T, SubscriptionRequestFindUniqueOrThrowArgs<ExtArgs>>): Prisma__SubscriptionRequestClient<$Result.GetResult<Prisma.$SubscriptionRequestPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubscriptionRequest that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionRequestFindFirstArgs} args - Arguments to find a SubscriptionRequest
+     * @example
+     * // Get one SubscriptionRequest
+     * const subscriptionRequest = await prisma.subscriptionRequest.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends SubscriptionRequestFindFirstArgs>(args?: SelectSubset<T, SubscriptionRequestFindFirstArgs<ExtArgs>>): Prisma__SubscriptionRequestClient<$Result.GetResult<Prisma.$SubscriptionRequestPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first SubscriptionRequest that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionRequestFindFirstOrThrowArgs} args - Arguments to find a SubscriptionRequest
+     * @example
+     * // Get one SubscriptionRequest
+     * const subscriptionRequest = await prisma.subscriptionRequest.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends SubscriptionRequestFindFirstOrThrowArgs>(args?: SelectSubset<T, SubscriptionRequestFindFirstOrThrowArgs<ExtArgs>>): Prisma__SubscriptionRequestClient<$Result.GetResult<Prisma.$SubscriptionRequestPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more SubscriptionRequests that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionRequestFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SubscriptionRequests
+     * const subscriptionRequests = await prisma.subscriptionRequest.findMany()
+     * 
+     * // Get first 10 SubscriptionRequests
+     * const subscriptionRequests = await prisma.subscriptionRequest.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const subscriptionRequestWithIdOnly = await prisma.subscriptionRequest.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends SubscriptionRequestFindManyArgs>(args?: SelectSubset<T, SubscriptionRequestFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a SubscriptionRequest.
+     * @param {SubscriptionRequestCreateArgs} args - Arguments to create a SubscriptionRequest.
+     * @example
+     * // Create one SubscriptionRequest
+     * const SubscriptionRequest = await prisma.subscriptionRequest.create({
+     *   data: {
+     *     // ... data to create a SubscriptionRequest
+     *   }
+     * })
+     * 
+     */
+    create<T extends SubscriptionRequestCreateArgs>(args: SelectSubset<T, SubscriptionRequestCreateArgs<ExtArgs>>): Prisma__SubscriptionRequestClient<$Result.GetResult<Prisma.$SubscriptionRequestPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many SubscriptionRequests.
+     * @param {SubscriptionRequestCreateManyArgs} args - Arguments to create many SubscriptionRequests.
+     * @example
+     * // Create many SubscriptionRequests
+     * const subscriptionRequest = await prisma.subscriptionRequest.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends SubscriptionRequestCreateManyArgs>(args?: SelectSubset<T, SubscriptionRequestCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many SubscriptionRequests and returns the data saved in the database.
+     * @param {SubscriptionRequestCreateManyAndReturnArgs} args - Arguments to create many SubscriptionRequests.
+     * @example
+     * // Create many SubscriptionRequests
+     * const subscriptionRequest = await prisma.subscriptionRequest.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many SubscriptionRequests and only return the `id`
+     * const subscriptionRequestWithIdOnly = await prisma.subscriptionRequest.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends SubscriptionRequestCreateManyAndReturnArgs>(args?: SelectSubset<T, SubscriptionRequestCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionRequestPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a SubscriptionRequest.
+     * @param {SubscriptionRequestDeleteArgs} args - Arguments to delete one SubscriptionRequest.
+     * @example
+     * // Delete one SubscriptionRequest
+     * const SubscriptionRequest = await prisma.subscriptionRequest.delete({
+     *   where: {
+     *     // ... filter to delete one SubscriptionRequest
+     *   }
+     * })
+     * 
+     */
+    delete<T extends SubscriptionRequestDeleteArgs>(args: SelectSubset<T, SubscriptionRequestDeleteArgs<ExtArgs>>): Prisma__SubscriptionRequestClient<$Result.GetResult<Prisma.$SubscriptionRequestPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one SubscriptionRequest.
+     * @param {SubscriptionRequestUpdateArgs} args - Arguments to update one SubscriptionRequest.
+     * @example
+     * // Update one SubscriptionRequest
+     * const subscriptionRequest = await prisma.subscriptionRequest.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends SubscriptionRequestUpdateArgs>(args: SelectSubset<T, SubscriptionRequestUpdateArgs<ExtArgs>>): Prisma__SubscriptionRequestClient<$Result.GetResult<Prisma.$SubscriptionRequestPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more SubscriptionRequests.
+     * @param {SubscriptionRequestDeleteManyArgs} args - Arguments to filter SubscriptionRequests to delete.
+     * @example
+     * // Delete a few SubscriptionRequests
+     * const { count } = await prisma.subscriptionRequest.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends SubscriptionRequestDeleteManyArgs>(args?: SelectSubset<T, SubscriptionRequestDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubscriptionRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionRequestUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SubscriptionRequests
+     * const subscriptionRequest = await prisma.subscriptionRequest.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends SubscriptionRequestUpdateManyArgs>(args: SelectSubset<T, SubscriptionRequestUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubscriptionRequests and returns the data updated in the database.
+     * @param {SubscriptionRequestUpdateManyAndReturnArgs} args - Arguments to update many SubscriptionRequests.
+     * @example
+     * // Update many SubscriptionRequests
+     * const subscriptionRequest = await prisma.subscriptionRequest.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more SubscriptionRequests and only return the `id`
+     * const subscriptionRequestWithIdOnly = await prisma.subscriptionRequest.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends SubscriptionRequestUpdateManyAndReturnArgs>(args: SelectSubset<T, SubscriptionRequestUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$SubscriptionRequestPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one SubscriptionRequest.
+     * @param {SubscriptionRequestUpsertArgs} args - Arguments to update or create a SubscriptionRequest.
+     * @example
+     * // Update or create a SubscriptionRequest
+     * const subscriptionRequest = await prisma.subscriptionRequest.upsert({
+     *   create: {
+     *     // ... data to create a SubscriptionRequest
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SubscriptionRequest we want to update
+     *   }
+     * })
+     */
+    upsert<T extends SubscriptionRequestUpsertArgs>(args: SelectSubset<T, SubscriptionRequestUpsertArgs<ExtArgs>>): Prisma__SubscriptionRequestClient<$Result.GetResult<Prisma.$SubscriptionRequestPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of SubscriptionRequests.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionRequestCountArgs} args - Arguments to filter SubscriptionRequests to count.
+     * @example
+     * // Count the number of SubscriptionRequests
+     * const count = await prisma.subscriptionRequest.count({
+     *   where: {
+     *     // ... the filter for the SubscriptionRequests we want to count
+     *   }
+     * })
+    **/
+    count<T extends SubscriptionRequestCountArgs>(
+      args?: Subset<T, SubscriptionRequestCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SubscriptionRequestCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SubscriptionRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionRequestAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SubscriptionRequestAggregateArgs>(args: Subset<T, SubscriptionRequestAggregateArgs>): Prisma.PrismaPromise<GetSubscriptionRequestAggregateType<T>>
+
+    /**
+     * Group by SubscriptionRequest.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriptionRequestGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SubscriptionRequestGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SubscriptionRequestGroupByArgs['orderBy'] }
+        : { orderBy?: SubscriptionRequestGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SubscriptionRequestGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubscriptionRequestGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SubscriptionRequest model
+   */
+  readonly fields: SubscriptionRequestFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SubscriptionRequest.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__SubscriptionRequestClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    student<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the SubscriptionRequest model
+   */
+  interface SubscriptionRequestFieldRefs {
+    readonly id: FieldRef<"SubscriptionRequest", 'String'>
+    readonly studentId: FieldRef<"SubscriptionRequest", 'String'>
+    readonly subjectIds: FieldRef<"SubscriptionRequest", 'String[]'>
+    readonly level: FieldRef<"SubscriptionRequest", 'String'>
+    readonly stream: FieldRef<"SubscriptionRequest", 'String'>
+    readonly wilaya: FieldRef<"SubscriptionRequest", 'String'>
+    readonly address: FieldRef<"SubscriptionRequest", 'String'>
+    readonly phoneNumber: FieldRef<"SubscriptionRequest", 'String'>
+    readonly status: FieldRef<"SubscriptionRequest", 'String'>
+    readonly createdAt: FieldRef<"SubscriptionRequest", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * SubscriptionRequest findUnique
+   */
+  export type SubscriptionRequestFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionRequest
+     */
+    select?: SubscriptionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionRequest
+     */
+    omit?: SubscriptionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which SubscriptionRequest to fetch.
+     */
+    where: SubscriptionRequestWhereUniqueInput
+  }
+
+  /**
+   * SubscriptionRequest findUniqueOrThrow
+   */
+  export type SubscriptionRequestFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionRequest
+     */
+    select?: SubscriptionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionRequest
+     */
+    omit?: SubscriptionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which SubscriptionRequest to fetch.
+     */
+    where: SubscriptionRequestWhereUniqueInput
+  }
+
+  /**
+   * SubscriptionRequest findFirst
+   */
+  export type SubscriptionRequestFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionRequest
+     */
+    select?: SubscriptionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionRequest
+     */
+    omit?: SubscriptionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which SubscriptionRequest to fetch.
+     */
+    where?: SubscriptionRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubscriptionRequests to fetch.
+     */
+    orderBy?: SubscriptionRequestOrderByWithRelationInput | SubscriptionRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubscriptionRequests.
+     */
+    cursor?: SubscriptionRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubscriptionRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubscriptionRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubscriptionRequests.
+     */
+    distinct?: SubscriptionRequestScalarFieldEnum | SubscriptionRequestScalarFieldEnum[]
+  }
+
+  /**
+   * SubscriptionRequest findFirstOrThrow
+   */
+  export type SubscriptionRequestFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionRequest
+     */
+    select?: SubscriptionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionRequest
+     */
+    omit?: SubscriptionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which SubscriptionRequest to fetch.
+     */
+    where?: SubscriptionRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubscriptionRequests to fetch.
+     */
+    orderBy?: SubscriptionRequestOrderByWithRelationInput | SubscriptionRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubscriptionRequests.
+     */
+    cursor?: SubscriptionRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubscriptionRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubscriptionRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubscriptionRequests.
+     */
+    distinct?: SubscriptionRequestScalarFieldEnum | SubscriptionRequestScalarFieldEnum[]
+  }
+
+  /**
+   * SubscriptionRequest findMany
+   */
+  export type SubscriptionRequestFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionRequest
+     */
+    select?: SubscriptionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionRequest
+     */
+    omit?: SubscriptionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionRequestInclude<ExtArgs> | null
+    /**
+     * Filter, which SubscriptionRequests to fetch.
+     */
+    where?: SubscriptionRequestWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubscriptionRequests to fetch.
+     */
+    orderBy?: SubscriptionRequestOrderByWithRelationInput | SubscriptionRequestOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SubscriptionRequests.
+     */
+    cursor?: SubscriptionRequestWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubscriptionRequests from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubscriptionRequests.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubscriptionRequests.
+     */
+    distinct?: SubscriptionRequestScalarFieldEnum | SubscriptionRequestScalarFieldEnum[]
+  }
+
+  /**
+   * SubscriptionRequest create
+   */
+  export type SubscriptionRequestCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionRequest
+     */
+    select?: SubscriptionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionRequest
+     */
+    omit?: SubscriptionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SubscriptionRequest.
+     */
+    data: XOR<SubscriptionRequestCreateInput, SubscriptionRequestUncheckedCreateInput>
+  }
+
+  /**
+   * SubscriptionRequest createMany
+   */
+  export type SubscriptionRequestCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SubscriptionRequests.
+     */
+    data: SubscriptionRequestCreateManyInput | SubscriptionRequestCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SubscriptionRequest createManyAndReturn
+   */
+  export type SubscriptionRequestCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionRequest
+     */
+    select?: SubscriptionRequestSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionRequest
+     */
+    omit?: SubscriptionRequestOmit<ExtArgs> | null
+    /**
+     * The data used to create many SubscriptionRequests.
+     */
+    data: SubscriptionRequestCreateManyInput | SubscriptionRequestCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionRequestIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SubscriptionRequest update
+   */
+  export type SubscriptionRequestUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionRequest
+     */
+    select?: SubscriptionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionRequest
+     */
+    omit?: SubscriptionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionRequestInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SubscriptionRequest.
+     */
+    data: XOR<SubscriptionRequestUpdateInput, SubscriptionRequestUncheckedUpdateInput>
+    /**
+     * Choose, which SubscriptionRequest to update.
+     */
+    where: SubscriptionRequestWhereUniqueInput
+  }
+
+  /**
+   * SubscriptionRequest updateMany
+   */
+  export type SubscriptionRequestUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SubscriptionRequests.
+     */
+    data: XOR<SubscriptionRequestUpdateManyMutationInput, SubscriptionRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which SubscriptionRequests to update
+     */
+    where?: SubscriptionRequestWhereInput
+    /**
+     * Limit how many SubscriptionRequests to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubscriptionRequest updateManyAndReturn
+   */
+  export type SubscriptionRequestUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionRequest
+     */
+    select?: SubscriptionRequestSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionRequest
+     */
+    omit?: SubscriptionRequestOmit<ExtArgs> | null
+    /**
+     * The data used to update SubscriptionRequests.
+     */
+    data: XOR<SubscriptionRequestUpdateManyMutationInput, SubscriptionRequestUncheckedUpdateManyInput>
+    /**
+     * Filter which SubscriptionRequests to update
+     */
+    where?: SubscriptionRequestWhereInput
+    /**
+     * Limit how many SubscriptionRequests to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionRequestIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * SubscriptionRequest upsert
+   */
+  export type SubscriptionRequestUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionRequest
+     */
+    select?: SubscriptionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionRequest
+     */
+    omit?: SubscriptionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionRequestInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SubscriptionRequest to update in case it exists.
+     */
+    where: SubscriptionRequestWhereUniqueInput
+    /**
+     * In case the SubscriptionRequest found by the `where` argument doesn't exist, create a new SubscriptionRequest with this data.
+     */
+    create: XOR<SubscriptionRequestCreateInput, SubscriptionRequestUncheckedCreateInput>
+    /**
+     * In case the SubscriptionRequest was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SubscriptionRequestUpdateInput, SubscriptionRequestUncheckedUpdateInput>
+  }
+
+  /**
+   * SubscriptionRequest delete
+   */
+  export type SubscriptionRequestDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionRequest
+     */
+    select?: SubscriptionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionRequest
+     */
+    omit?: SubscriptionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionRequestInclude<ExtArgs> | null
+    /**
+     * Filter which SubscriptionRequest to delete.
+     */
+    where: SubscriptionRequestWhereUniqueInput
+  }
+
+  /**
+   * SubscriptionRequest deleteMany
+   */
+  export type SubscriptionRequestDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubscriptionRequests to delete
+     */
+    where?: SubscriptionRequestWhereInput
+    /**
+     * Limit how many SubscriptionRequests to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * SubscriptionRequest without action
+   */
+  export type SubscriptionRequestDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscriptionRequest
+     */
+    select?: SubscriptionRequestSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the SubscriptionRequest
+     */
+    omit?: SubscriptionRequestOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: SubscriptionRequestInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -35091,6 +36444,8 @@ export namespace Prisma {
     teacherId: 'teacherId',
     level: 'level',
     stream: 'stream',
+    levels: 'levels',
+    streams: 'streams',
     image: 'image',
     price: 'price',
     accessType: 'accessType',
@@ -35108,6 +36463,8 @@ export namespace Prisma {
     vimeoVideoId: 'vimeoVideoId',
     image: 'image',
     subjectId: 'subjectId',
+    subjectIds: 'subjectIds',
+    streams: 'streams',
     createdAt: 'createdAt'
   };
 
@@ -35118,6 +36475,7 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     fileUrl: 'fileUrl',
+    fileType: 'fileType',
     lessonId: 'lessonId',
     createdAt: 'createdAt'
   };
@@ -35265,6 +36623,7 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     fileUrl: 'fileUrl',
+    fileType: 'fileType',
     dailyExerciseId: 'dailyExerciseId',
     createdAt: 'createdAt'
   };
@@ -35292,6 +36651,7 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     fileUrl: 'fileUrl',
+    fileType: 'fileType',
     examId: 'examId',
     createdAt: 'createdAt'
   };
@@ -35304,6 +36664,8 @@ export namespace Prisma {
     examId: 'examId',
     studentId: 'studentId',
     imageUrl: 'imageUrl',
+    fileUrl: 'fileUrl',
+    fileType: 'fileType',
     score: 'score',
     feedback: 'feedback',
     createdAt: 'createdAt',
@@ -35381,6 +36743,22 @@ export namespace Prisma {
   };
 
   export type ParentTicketScalarFieldEnum = (typeof ParentTicketScalarFieldEnum)[keyof typeof ParentTicketScalarFieldEnum]
+
+
+  export const SubscriptionRequestScalarFieldEnum: {
+    id: 'id',
+    studentId: 'studentId',
+    subjectIds: 'subjectIds',
+    level: 'level',
+    stream: 'stream',
+    wilaya: 'wilaya',
+    address: 'address',
+    phoneNumber: 'phoneNumber',
+    status: 'status',
+    createdAt: 'createdAt'
+  };
+
+  export type SubscriptionRequestScalarFieldEnum = (typeof SubscriptionRequestScalarFieldEnum)[keyof typeof SubscriptionRequestScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -35593,6 +36971,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageListRelationFilter
     friendLinksSource?: StudentFriendLinkListRelationFilter
     friendLinksTarget?: StudentFriendLinkListRelationFilter
+    subscriptionRequests?: SubscriptionRequestListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -35621,6 +37000,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageOrderByRelationAggregateInput
     friendLinksSource?: StudentFriendLinkOrderByRelationAggregateInput
     friendLinksTarget?: StudentFriendLinkOrderByRelationAggregateInput
+    subscriptionRequests?: SubscriptionRequestOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -35652,6 +37032,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageListRelationFilter
     friendLinksSource?: StudentFriendLinkListRelationFilter
     friendLinksTarget?: StudentFriendLinkListRelationFilter
+    subscriptionRequests?: SubscriptionRequestListRelationFilter
   }, "id" | "phoneNumber">
 
   export type UserOrderByWithAggregationInput = {
@@ -35887,6 +37268,8 @@ export namespace Prisma {
     teacherId?: StringNullableFilter<"Subject"> | string | null
     level?: EnumLevelFilter<"Subject"> | $Enums.Level
     stream?: EnumStreamFilter<"Subject"> | $Enums.Stream
+    levels?: EnumLevelNullableListFilter<"Subject">
+    streams?: EnumStreamNullableListFilter<"Subject">
     image?: StringFilter<"Subject"> | string
     price?: FloatFilter<"Subject"> | number
     accessType?: StringFilter<"Subject"> | string
@@ -35914,6 +37297,8 @@ export namespace Prisma {
     teacherId?: SortOrderInput | SortOrder
     level?: SortOrder
     stream?: SortOrder
+    levels?: SortOrder
+    streams?: SortOrder
     image?: SortOrder
     price?: SortOrder
     accessType?: SortOrder
@@ -35944,6 +37329,8 @@ export namespace Prisma {
     teacherId?: StringNullableFilter<"Subject"> | string | null
     level?: EnumLevelFilter<"Subject"> | $Enums.Level
     stream?: EnumStreamFilter<"Subject"> | $Enums.Stream
+    levels?: EnumLevelNullableListFilter<"Subject">
+    streams?: EnumStreamNullableListFilter<"Subject">
     image?: StringFilter<"Subject"> | string
     price?: FloatFilter<"Subject"> | number
     accessType?: StringFilter<"Subject"> | string
@@ -35971,6 +37358,8 @@ export namespace Prisma {
     teacherId?: SortOrderInput | SortOrder
     level?: SortOrder
     stream?: SortOrder
+    levels?: SortOrder
+    streams?: SortOrder
     image?: SortOrder
     price?: SortOrder
     accessType?: SortOrder
@@ -35994,6 +37383,8 @@ export namespace Prisma {
     teacherId?: StringNullableWithAggregatesFilter<"Subject"> | string | null
     level?: EnumLevelWithAggregatesFilter<"Subject"> | $Enums.Level
     stream?: EnumStreamWithAggregatesFilter<"Subject"> | $Enums.Stream
+    levels?: EnumLevelNullableListFilter<"Subject">
+    streams?: EnumStreamNullableListFilter<"Subject">
     image?: StringWithAggregatesFilter<"Subject"> | string
     price?: FloatWithAggregatesFilter<"Subject"> | number
     accessType?: StringWithAggregatesFilter<"Subject"> | string
@@ -36011,6 +37402,8 @@ export namespace Prisma {
     vimeoVideoId?: StringFilter<"Lesson"> | string
     image?: StringNullableFilter<"Lesson"> | string | null
     subjectId?: StringFilter<"Lesson"> | string
+    subjectIds?: StringNullableListFilter<"Lesson">
+    streams?: EnumStreamNullableListFilter<"Lesson">
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
     quiz?: XOR<QuizNullableScalarRelationFilter, QuizWhereInput> | null
@@ -36025,6 +37418,8 @@ export namespace Prisma {
     vimeoVideoId?: SortOrder
     image?: SortOrderInput | SortOrder
     subjectId?: SortOrder
+    subjectIds?: SortOrder
+    streams?: SortOrder
     createdAt?: SortOrder
     subject?: SubjectOrderByWithRelationInput
     quiz?: QuizOrderByWithRelationInput
@@ -36042,6 +37437,8 @@ export namespace Prisma {
     vimeoVideoId?: StringFilter<"Lesson"> | string
     image?: StringNullableFilter<"Lesson"> | string | null
     subjectId?: StringFilter<"Lesson"> | string
+    subjectIds?: StringNullableListFilter<"Lesson">
+    streams?: EnumStreamNullableListFilter<"Lesson">
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
     quiz?: XOR<QuizNullableScalarRelationFilter, QuizWhereInput> | null
@@ -36056,6 +37453,8 @@ export namespace Prisma {
     vimeoVideoId?: SortOrder
     image?: SortOrderInput | SortOrder
     subjectId?: SortOrder
+    subjectIds?: SortOrder
+    streams?: SortOrder
     createdAt?: SortOrder
     _count?: LessonCountOrderByAggregateInput
     _avg?: LessonAvgOrderByAggregateInput
@@ -36074,6 +37473,8 @@ export namespace Prisma {
     vimeoVideoId?: StringWithAggregatesFilter<"Lesson"> | string
     image?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
     subjectId?: StringWithAggregatesFilter<"Lesson"> | string
+    subjectIds?: StringNullableListFilter<"Lesson">
+    streams?: EnumStreamNullableListFilter<"Lesson">
     createdAt?: DateTimeWithAggregatesFilter<"Lesson"> | Date | string
   }
 
@@ -36084,6 +37485,7 @@ export namespace Prisma {
     id?: StringFilter<"LessonMaterial"> | string
     title?: StringFilter<"LessonMaterial"> | string
     fileUrl?: StringFilter<"LessonMaterial"> | string
+    fileType?: StringNullableFilter<"LessonMaterial"> | string | null
     lessonId?: StringFilter<"LessonMaterial"> | string
     createdAt?: DateTimeFilter<"LessonMaterial"> | Date | string
     lesson?: XOR<LessonScalarRelationFilter, LessonWhereInput>
@@ -36093,6 +37495,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     fileUrl?: SortOrder
+    fileType?: SortOrderInput | SortOrder
     lessonId?: SortOrder
     createdAt?: SortOrder
     lesson?: LessonOrderByWithRelationInput
@@ -36105,6 +37508,7 @@ export namespace Prisma {
     NOT?: LessonMaterialWhereInput | LessonMaterialWhereInput[]
     title?: StringFilter<"LessonMaterial"> | string
     fileUrl?: StringFilter<"LessonMaterial"> | string
+    fileType?: StringNullableFilter<"LessonMaterial"> | string | null
     lessonId?: StringFilter<"LessonMaterial"> | string
     createdAt?: DateTimeFilter<"LessonMaterial"> | Date | string
     lesson?: XOR<LessonScalarRelationFilter, LessonWhereInput>
@@ -36114,6 +37518,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     fileUrl?: SortOrder
+    fileType?: SortOrderInput | SortOrder
     lessonId?: SortOrder
     createdAt?: SortOrder
     _count?: LessonMaterialCountOrderByAggregateInput
@@ -36128,6 +37533,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"LessonMaterial"> | string
     title?: StringWithAggregatesFilter<"LessonMaterial"> | string
     fileUrl?: StringWithAggregatesFilter<"LessonMaterial"> | string
+    fileType?: StringNullableWithAggregatesFilter<"LessonMaterial"> | string | null
     lessonId?: StringWithAggregatesFilter<"LessonMaterial"> | string
     createdAt?: DateTimeWithAggregatesFilter<"LessonMaterial"> | Date | string
   }
@@ -36870,6 +38276,7 @@ export namespace Prisma {
     id?: StringFilter<"ExerciseMaterial"> | string
     title?: StringFilter<"ExerciseMaterial"> | string
     fileUrl?: StringFilter<"ExerciseMaterial"> | string
+    fileType?: StringNullableFilter<"ExerciseMaterial"> | string | null
     dailyExerciseId?: StringFilter<"ExerciseMaterial"> | string
     createdAt?: DateTimeFilter<"ExerciseMaterial"> | Date | string
     dailyExercise?: XOR<DailyExerciseScalarRelationFilter, DailyExerciseWhereInput>
@@ -36879,6 +38286,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     fileUrl?: SortOrder
+    fileType?: SortOrderInput | SortOrder
     dailyExerciseId?: SortOrder
     createdAt?: SortOrder
     dailyExercise?: DailyExerciseOrderByWithRelationInput
@@ -36891,6 +38299,7 @@ export namespace Prisma {
     NOT?: ExerciseMaterialWhereInput | ExerciseMaterialWhereInput[]
     title?: StringFilter<"ExerciseMaterial"> | string
     fileUrl?: StringFilter<"ExerciseMaterial"> | string
+    fileType?: StringNullableFilter<"ExerciseMaterial"> | string | null
     dailyExerciseId?: StringFilter<"ExerciseMaterial"> | string
     createdAt?: DateTimeFilter<"ExerciseMaterial"> | Date | string
     dailyExercise?: XOR<DailyExerciseScalarRelationFilter, DailyExerciseWhereInput>
@@ -36900,6 +38309,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     fileUrl?: SortOrder
+    fileType?: SortOrderInput | SortOrder
     dailyExerciseId?: SortOrder
     createdAt?: SortOrder
     _count?: ExerciseMaterialCountOrderByAggregateInput
@@ -36914,6 +38324,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"ExerciseMaterial"> | string
     title?: StringWithAggregatesFilter<"ExerciseMaterial"> | string
     fileUrl?: StringWithAggregatesFilter<"ExerciseMaterial"> | string
+    fileType?: StringNullableWithAggregatesFilter<"ExerciseMaterial"> | string | null
     dailyExerciseId?: StringWithAggregatesFilter<"ExerciseMaterial"> | string
     createdAt?: DateTimeWithAggregatesFilter<"ExerciseMaterial"> | Date | string
   }
@@ -37019,6 +38430,7 @@ export namespace Prisma {
     id?: StringFilter<"ExamMaterial"> | string
     title?: StringFilter<"ExamMaterial"> | string
     fileUrl?: StringFilter<"ExamMaterial"> | string
+    fileType?: StringNullableFilter<"ExamMaterial"> | string | null
     examId?: StringFilter<"ExamMaterial"> | string
     createdAt?: DateTimeFilter<"ExamMaterial"> | Date | string
     exam?: XOR<ExamScalarRelationFilter, ExamWhereInput>
@@ -37028,6 +38440,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     fileUrl?: SortOrder
+    fileType?: SortOrderInput | SortOrder
     examId?: SortOrder
     createdAt?: SortOrder
     exam?: ExamOrderByWithRelationInput
@@ -37040,6 +38453,7 @@ export namespace Prisma {
     NOT?: ExamMaterialWhereInput | ExamMaterialWhereInput[]
     title?: StringFilter<"ExamMaterial"> | string
     fileUrl?: StringFilter<"ExamMaterial"> | string
+    fileType?: StringNullableFilter<"ExamMaterial"> | string | null
     examId?: StringFilter<"ExamMaterial"> | string
     createdAt?: DateTimeFilter<"ExamMaterial"> | Date | string
     exam?: XOR<ExamScalarRelationFilter, ExamWhereInput>
@@ -37049,6 +38463,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     fileUrl?: SortOrder
+    fileType?: SortOrderInput | SortOrder
     examId?: SortOrder
     createdAt?: SortOrder
     _count?: ExamMaterialCountOrderByAggregateInput
@@ -37063,6 +38478,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"ExamMaterial"> | string
     title?: StringWithAggregatesFilter<"ExamMaterial"> | string
     fileUrl?: StringWithAggregatesFilter<"ExamMaterial"> | string
+    fileType?: StringNullableWithAggregatesFilter<"ExamMaterial"> | string | null
     examId?: StringWithAggregatesFilter<"ExamMaterial"> | string
     createdAt?: DateTimeWithAggregatesFilter<"ExamMaterial"> | Date | string
   }
@@ -37074,7 +38490,9 @@ export namespace Prisma {
     id?: StringFilter<"StudentSubmission"> | string
     examId?: StringFilter<"StudentSubmission"> | string
     studentId?: StringFilter<"StudentSubmission"> | string
-    imageUrl?: StringFilter<"StudentSubmission"> | string
+    imageUrl?: StringNullableFilter<"StudentSubmission"> | string | null
+    fileUrl?: StringNullableFilter<"StudentSubmission"> | string | null
+    fileType?: StringNullableFilter<"StudentSubmission"> | string | null
     score?: IntNullableFilter<"StudentSubmission"> | number | null
     feedback?: StringNullableFilter<"StudentSubmission"> | string | null
     createdAt?: DateTimeFilter<"StudentSubmission"> | Date | string
@@ -37087,7 +38505,9 @@ export namespace Prisma {
     id?: SortOrder
     examId?: SortOrder
     studentId?: SortOrder
-    imageUrl?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    fileUrl?: SortOrderInput | SortOrder
+    fileType?: SortOrderInput | SortOrder
     score?: SortOrderInput | SortOrder
     feedback?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -37104,7 +38524,9 @@ export namespace Prisma {
     NOT?: StudentSubmissionWhereInput | StudentSubmissionWhereInput[]
     examId?: StringFilter<"StudentSubmission"> | string
     studentId?: StringFilter<"StudentSubmission"> | string
-    imageUrl?: StringFilter<"StudentSubmission"> | string
+    imageUrl?: StringNullableFilter<"StudentSubmission"> | string | null
+    fileUrl?: StringNullableFilter<"StudentSubmission"> | string | null
+    fileType?: StringNullableFilter<"StudentSubmission"> | string | null
     score?: IntNullableFilter<"StudentSubmission"> | number | null
     feedback?: StringNullableFilter<"StudentSubmission"> | string | null
     createdAt?: DateTimeFilter<"StudentSubmission"> | Date | string
@@ -37117,7 +38539,9 @@ export namespace Prisma {
     id?: SortOrder
     examId?: SortOrder
     studentId?: SortOrder
-    imageUrl?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    fileUrl?: SortOrderInput | SortOrder
+    fileType?: SortOrderInput | SortOrder
     score?: SortOrderInput | SortOrder
     feedback?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -37136,7 +38560,9 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"StudentSubmission"> | string
     examId?: StringWithAggregatesFilter<"StudentSubmission"> | string
     studentId?: StringWithAggregatesFilter<"StudentSubmission"> | string
-    imageUrl?: StringWithAggregatesFilter<"StudentSubmission"> | string
+    imageUrl?: StringNullableWithAggregatesFilter<"StudentSubmission"> | string | null
+    fileUrl?: StringNullableWithAggregatesFilter<"StudentSubmission"> | string | null
+    fileType?: StringNullableWithAggregatesFilter<"StudentSubmission"> | string | null
     score?: IntNullableWithAggregatesFilter<"StudentSubmission"> | number | null
     feedback?: StringNullableWithAggregatesFilter<"StudentSubmission"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"StudentSubmission"> | Date | string
@@ -37508,6 +38934,86 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"ParentTicket"> | Date | string
   }
 
+  export type SubscriptionRequestWhereInput = {
+    AND?: SubscriptionRequestWhereInput | SubscriptionRequestWhereInput[]
+    OR?: SubscriptionRequestWhereInput[]
+    NOT?: SubscriptionRequestWhereInput | SubscriptionRequestWhereInput[]
+    id?: StringFilter<"SubscriptionRequest"> | string
+    studentId?: StringFilter<"SubscriptionRequest"> | string
+    subjectIds?: StringNullableListFilter<"SubscriptionRequest">
+    level?: StringFilter<"SubscriptionRequest"> | string
+    stream?: StringFilter<"SubscriptionRequest"> | string
+    wilaya?: StringFilter<"SubscriptionRequest"> | string
+    address?: StringFilter<"SubscriptionRequest"> | string
+    phoneNumber?: StringFilter<"SubscriptionRequest"> | string
+    status?: StringFilter<"SubscriptionRequest"> | string
+    createdAt?: DateTimeFilter<"SubscriptionRequest"> | Date | string
+    student?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type SubscriptionRequestOrderByWithRelationInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    subjectIds?: SortOrder
+    level?: SortOrder
+    stream?: SortOrder
+    wilaya?: SortOrder
+    address?: SortOrder
+    phoneNumber?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    student?: UserOrderByWithRelationInput
+  }
+
+  export type SubscriptionRequestWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: SubscriptionRequestWhereInput | SubscriptionRequestWhereInput[]
+    OR?: SubscriptionRequestWhereInput[]
+    NOT?: SubscriptionRequestWhereInput | SubscriptionRequestWhereInput[]
+    studentId?: StringFilter<"SubscriptionRequest"> | string
+    subjectIds?: StringNullableListFilter<"SubscriptionRequest">
+    level?: StringFilter<"SubscriptionRequest"> | string
+    stream?: StringFilter<"SubscriptionRequest"> | string
+    wilaya?: StringFilter<"SubscriptionRequest"> | string
+    address?: StringFilter<"SubscriptionRequest"> | string
+    phoneNumber?: StringFilter<"SubscriptionRequest"> | string
+    status?: StringFilter<"SubscriptionRequest"> | string
+    createdAt?: DateTimeFilter<"SubscriptionRequest"> | Date | string
+    student?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type SubscriptionRequestOrderByWithAggregationInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    subjectIds?: SortOrder
+    level?: SortOrder
+    stream?: SortOrder
+    wilaya?: SortOrder
+    address?: SortOrder
+    phoneNumber?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    _count?: SubscriptionRequestCountOrderByAggregateInput
+    _max?: SubscriptionRequestMaxOrderByAggregateInput
+    _min?: SubscriptionRequestMinOrderByAggregateInput
+  }
+
+  export type SubscriptionRequestScalarWhereWithAggregatesInput = {
+    AND?: SubscriptionRequestScalarWhereWithAggregatesInput | SubscriptionRequestScalarWhereWithAggregatesInput[]
+    OR?: SubscriptionRequestScalarWhereWithAggregatesInput[]
+    NOT?: SubscriptionRequestScalarWhereWithAggregatesInput | SubscriptionRequestScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"SubscriptionRequest"> | string
+    studentId?: StringWithAggregatesFilter<"SubscriptionRequest"> | string
+    subjectIds?: StringNullableListFilter<"SubscriptionRequest">
+    level?: StringWithAggregatesFilter<"SubscriptionRequest"> | string
+    stream?: StringWithAggregatesFilter<"SubscriptionRequest"> | string
+    wilaya?: StringWithAggregatesFilter<"SubscriptionRequest"> | string
+    address?: StringWithAggregatesFilter<"SubscriptionRequest"> | string
+    phoneNumber?: StringWithAggregatesFilter<"SubscriptionRequest"> | string
+    status?: StringWithAggregatesFilter<"SubscriptionRequest"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SubscriptionRequest"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     fullName: string
@@ -37534,6 +39040,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -37562,6 +39069,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserUpdateInput = {
@@ -37590,6 +39098,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -37618,6 +39127,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -37863,6 +39373,8 @@ export namespace Prisma {
     teacherName: string
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -37890,6 +39402,8 @@ export namespace Prisma {
     teacherId?: string | null
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -37915,6 +39429,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -37942,6 +39458,8 @@ export namespace Prisma {
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -37968,6 +39486,8 @@ export namespace Prisma {
     teacherId?: string | null
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -37982,6 +39502,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -37997,6 +39519,8 @@ export namespace Prisma {
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -38010,6 +39534,8 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    subjectIds?: LessonCreatesubjectIdsInput | string[]
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
     subject: SubjectCreateNestedOneWithoutLessonsInput
     quiz?: QuizCreateNestedOneWithoutLessonInput
@@ -38024,6 +39550,8 @@ export namespace Prisma {
     vimeoVideoId: string
     image?: string | null
     subjectId: string
+    subjectIds?: LessonCreatesubjectIdsInput | string[]
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
     mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutLessonInput
@@ -38036,6 +39564,8 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    subjectIds?: LessonUpdatesubjectIdsInput | string[]
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subject?: SubjectUpdateOneRequiredWithoutLessonsNestedInput
     quiz?: QuizUpdateOneWithoutLessonNestedInput
@@ -38050,6 +39580,8 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: StringFieldUpdateOperationsInput | string
+    subjectIds?: LessonUpdatesubjectIdsInput | string[]
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
@@ -38063,6 +39595,8 @@ export namespace Prisma {
     vimeoVideoId: string
     image?: string | null
     subjectId: string
+    subjectIds?: LessonCreatesubjectIdsInput | string[]
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
   }
 
@@ -38072,6 +39606,8 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    subjectIds?: LessonUpdatesubjectIdsInput | string[]
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -38082,6 +39618,8 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: StringFieldUpdateOperationsInput | string
+    subjectIds?: LessonUpdatesubjectIdsInput | string[]
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -38089,6 +39627,7 @@ export namespace Prisma {
     id?: string
     title: string
     fileUrl: string
+    fileType?: string | null
     createdAt?: Date | string
     lesson: LessonCreateNestedOneWithoutMaterialsInput
   }
@@ -38097,6 +39636,7 @@ export namespace Prisma {
     id?: string
     title: string
     fileUrl: string
+    fileType?: string | null
     lessonId: string
     createdAt?: Date | string
   }
@@ -38105,6 +39645,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lesson?: LessonUpdateOneRequiredWithoutMaterialsNestedInput
   }
@@ -38113,6 +39654,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     lessonId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -38121,6 +39663,7 @@ export namespace Prisma {
     id?: string
     title: string
     fileUrl: string
+    fileType?: string | null
     lessonId: string
     createdAt?: Date | string
   }
@@ -38129,6 +39672,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -38136,6 +39680,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     lessonId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -38862,6 +40407,7 @@ export namespace Prisma {
     id?: string
     title: string
     fileUrl: string
+    fileType?: string | null
     createdAt?: Date | string
     dailyExercise: DailyExerciseCreateNestedOneWithoutMaterialsInput
   }
@@ -38870,6 +40416,7 @@ export namespace Prisma {
     id?: string
     title: string
     fileUrl: string
+    fileType?: string | null
     dailyExerciseId: string
     createdAt?: Date | string
   }
@@ -38878,6 +40425,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     dailyExercise?: DailyExerciseUpdateOneRequiredWithoutMaterialsNestedInput
   }
@@ -38886,6 +40434,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     dailyExerciseId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -38894,6 +40443,7 @@ export namespace Prisma {
     id?: string
     title: string
     fileUrl: string
+    fileType?: string | null
     dailyExerciseId: string
     createdAt?: Date | string
   }
@@ -38902,6 +40452,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -38909,6 +40460,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     dailyExerciseId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -39018,6 +40570,7 @@ export namespace Prisma {
     id?: string
     title: string
     fileUrl: string
+    fileType?: string | null
     createdAt?: Date | string
     exam: ExamCreateNestedOneWithoutMaterialsInput
   }
@@ -39026,6 +40579,7 @@ export namespace Prisma {
     id?: string
     title: string
     fileUrl: string
+    fileType?: string | null
     examId: string
     createdAt?: Date | string
   }
@@ -39034,6 +40588,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     exam?: ExamUpdateOneRequiredWithoutMaterialsNestedInput
   }
@@ -39042,6 +40597,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     examId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -39050,6 +40606,7 @@ export namespace Prisma {
     id?: string
     title: string
     fileUrl: string
+    fileType?: string | null
     examId: string
     createdAt?: Date | string
   }
@@ -39058,6 +40615,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -39065,13 +40623,16 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     examId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StudentSubmissionCreateInput = {
     id?: string
-    imageUrl: string
+    imageUrl?: string | null
+    fileUrl?: string | null
+    fileType?: string | null
     score?: number | null
     feedback?: string | null
     createdAt?: Date | string
@@ -39084,7 +40645,9 @@ export namespace Prisma {
     id?: string
     examId: string
     studentId: string
-    imageUrl: string
+    imageUrl?: string | null
+    fileUrl?: string | null
+    fileType?: string | null
     score?: number | null
     feedback?: string | null
     createdAt?: Date | string
@@ -39093,7 +40656,9 @@ export namespace Prisma {
 
   export type StudentSubmissionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableIntFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39106,7 +40671,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     examId?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
-    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableIntFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39117,7 +40684,9 @@ export namespace Prisma {
     id?: string
     examId: string
     studentId: string
-    imageUrl: string
+    imageUrl?: string | null
+    fileUrl?: string | null
+    fileType?: string | null
     score?: number | null
     feedback?: string | null
     createdAt?: Date | string
@@ -39126,7 +40695,9 @@ export namespace Prisma {
 
   export type StudentSubmissionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableIntFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39137,7 +40708,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     examId?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
-    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableIntFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39526,6 +41099,96 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SubscriptionRequestCreateInput = {
+    id?: string
+    subjectIds?: SubscriptionRequestCreatesubjectIdsInput | string[]
+    level: string
+    stream: string
+    wilaya: string
+    address: string
+    phoneNumber: string
+    status?: string
+    createdAt?: Date | string
+    student: UserCreateNestedOneWithoutSubscriptionRequestsInput
+  }
+
+  export type SubscriptionRequestUncheckedCreateInput = {
+    id?: string
+    studentId: string
+    subjectIds?: SubscriptionRequestCreatesubjectIdsInput | string[]
+    level: string
+    stream: string
+    wilaya: string
+    address: string
+    phoneNumber: string
+    status?: string
+    createdAt?: Date | string
+  }
+
+  export type SubscriptionRequestUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subjectIds?: SubscriptionRequestUpdatesubjectIdsInput | string[]
+    level?: StringFieldUpdateOperationsInput | string
+    stream?: StringFieldUpdateOperationsInput | string
+    wilaya?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    student?: UserUpdateOneRequiredWithoutSubscriptionRequestsNestedInput
+  }
+
+  export type SubscriptionRequestUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    subjectIds?: SubscriptionRequestUpdatesubjectIdsInput | string[]
+    level?: StringFieldUpdateOperationsInput | string
+    stream?: StringFieldUpdateOperationsInput | string
+    wilaya?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubscriptionRequestCreateManyInput = {
+    id?: string
+    studentId: string
+    subjectIds?: SubscriptionRequestCreatesubjectIdsInput | string[]
+    level: string
+    stream: string
+    wilaya: string
+    address: string
+    phoneNumber: string
+    status?: string
+    createdAt?: Date | string
+  }
+
+  export type SubscriptionRequestUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subjectIds?: SubscriptionRequestUpdatesubjectIdsInput | string[]
+    level?: StringFieldUpdateOperationsInput | string
+    stream?: StringFieldUpdateOperationsInput | string
+    wilaya?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubscriptionRequestUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    studentId?: StringFieldUpdateOperationsInput | string
+    subjectIds?: SubscriptionRequestUpdatesubjectIdsInput | string[]
+    level?: StringFieldUpdateOperationsInput | string
+    stream?: StringFieldUpdateOperationsInput | string
+    wilaya?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -39657,6 +41320,12 @@ export namespace Prisma {
     none?: StudentFriendLinkWhereInput
   }
 
+  export type SubscriptionRequestListRelationFilter = {
+    every?: SubscriptionRequestWhereInput
+    some?: SubscriptionRequestWhereInput
+    none?: SubscriptionRequestWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -39699,6 +41368,10 @@ export namespace Prisma {
   }
 
   export type StudentFriendLinkOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SubscriptionRequestOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -40085,6 +41758,8 @@ export namespace Prisma {
     teacherId?: SortOrder
     level?: SortOrder
     stream?: SortOrder
+    levels?: SortOrder
+    streams?: SortOrder
     image?: SortOrder
     price?: SortOrder
     accessType?: SortOrder
@@ -40181,6 +41856,8 @@ export namespace Prisma {
     vimeoVideoId?: SortOrder
     image?: SortOrder
     subjectId?: SortOrder
+    subjectIds?: SortOrder
+    streams?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -40221,6 +41898,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     fileUrl?: SortOrder
+    fileType?: SortOrder
     lessonId?: SortOrder
     createdAt?: SortOrder
   }
@@ -40229,6 +41907,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     fileUrl?: SortOrder
+    fileType?: SortOrder
     lessonId?: SortOrder
     createdAt?: SortOrder
   }
@@ -40237,6 +41916,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     fileUrl?: SortOrder
+    fileType?: SortOrder
     lessonId?: SortOrder
     createdAt?: SortOrder
   }
@@ -40725,6 +42405,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     fileUrl?: SortOrder
+    fileType?: SortOrder
     dailyExerciseId?: SortOrder
     createdAt?: SortOrder
   }
@@ -40733,6 +42414,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     fileUrl?: SortOrder
+    fileType?: SortOrder
     dailyExerciseId?: SortOrder
     createdAt?: SortOrder
   }
@@ -40741,6 +42423,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     fileUrl?: SortOrder
+    fileType?: SortOrder
     dailyExerciseId?: SortOrder
     createdAt?: SortOrder
   }
@@ -40813,6 +42496,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     fileUrl?: SortOrder
+    fileType?: SortOrder
     examId?: SortOrder
     createdAt?: SortOrder
   }
@@ -40821,6 +42505,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     fileUrl?: SortOrder
+    fileType?: SortOrder
     examId?: SortOrder
     createdAt?: SortOrder
   }
@@ -40829,6 +42514,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     fileUrl?: SortOrder
+    fileType?: SortOrder
     examId?: SortOrder
     createdAt?: SortOrder
   }
@@ -40854,6 +42540,8 @@ export namespace Prisma {
     examId?: SortOrder
     studentId?: SortOrder
     imageUrl?: SortOrder
+    fileUrl?: SortOrder
+    fileType?: SortOrder
     score?: SortOrder
     feedback?: SortOrder
     createdAt?: SortOrder
@@ -40869,6 +42557,8 @@ export namespace Prisma {
     examId?: SortOrder
     studentId?: SortOrder
     imageUrl?: SortOrder
+    fileUrl?: SortOrder
+    fileType?: SortOrder
     score?: SortOrder
     feedback?: SortOrder
     createdAt?: SortOrder
@@ -40880,6 +42570,8 @@ export namespace Prisma {
     examId?: SortOrder
     studentId?: SortOrder
     imageUrl?: SortOrder
+    fileUrl?: SortOrder
+    fileType?: SortOrder
     score?: SortOrder
     feedback?: SortOrder
     createdAt?: SortOrder
@@ -41134,6 +42826,43 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type SubscriptionRequestCountOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    subjectIds?: SortOrder
+    level?: SortOrder
+    stream?: SortOrder
+    wilaya?: SortOrder
+    address?: SortOrder
+    phoneNumber?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SubscriptionRequestMaxOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    level?: SortOrder
+    stream?: SortOrder
+    wilaya?: SortOrder
+    address?: SortOrder
+    phoneNumber?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type SubscriptionRequestMinOrderByAggregateInput = {
+    id?: SortOrder
+    studentId?: SortOrder
+    level?: SortOrder
+    stream?: SortOrder
+    wilaya?: SortOrder
+    address?: SortOrder
+    phoneNumber?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+  }
+
   export type UserCreatedeviceFingerprintsInput = {
     set: string[]
   }
@@ -41240,6 +42969,13 @@ export namespace Prisma {
     connect?: StudentFriendLinkWhereUniqueInput | StudentFriendLinkWhereUniqueInput[]
   }
 
+  export type SubscriptionRequestCreateNestedManyWithoutStudentInput = {
+    create?: XOR<SubscriptionRequestCreateWithoutStudentInput, SubscriptionRequestUncheckedCreateWithoutStudentInput> | SubscriptionRequestCreateWithoutStudentInput[] | SubscriptionRequestUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: SubscriptionRequestCreateOrConnectWithoutStudentInput | SubscriptionRequestCreateOrConnectWithoutStudentInput[]
+    createMany?: SubscriptionRequestCreateManyStudentInputEnvelope
+    connect?: SubscriptionRequestWhereUniqueInput | SubscriptionRequestWhereUniqueInput[]
+  }
+
   export type StudentProfileUncheckedCreateNestedOneWithoutUserInput = {
     create?: XOR<StudentProfileCreateWithoutUserInput, StudentProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: StudentProfileCreateOrConnectWithoutUserInput
@@ -41340,6 +43076,13 @@ export namespace Prisma {
     connectOrCreate?: StudentFriendLinkCreateOrConnectWithoutFriendInput | StudentFriendLinkCreateOrConnectWithoutFriendInput[]
     createMany?: StudentFriendLinkCreateManyFriendInputEnvelope
     connect?: StudentFriendLinkWhereUniqueInput | StudentFriendLinkWhereUniqueInput[]
+  }
+
+  export type SubscriptionRequestUncheckedCreateNestedManyWithoutStudentInput = {
+    create?: XOR<SubscriptionRequestCreateWithoutStudentInput, SubscriptionRequestUncheckedCreateWithoutStudentInput> | SubscriptionRequestCreateWithoutStudentInput[] | SubscriptionRequestUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: SubscriptionRequestCreateOrConnectWithoutStudentInput | SubscriptionRequestCreateOrConnectWithoutStudentInput[]
+    createMany?: SubscriptionRequestCreateManyStudentInputEnvelope
+    connect?: SubscriptionRequestWhereUniqueInput | SubscriptionRequestWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -41561,6 +43304,20 @@ export namespace Prisma {
     deleteMany?: StudentFriendLinkScalarWhereInput | StudentFriendLinkScalarWhereInput[]
   }
 
+  export type SubscriptionRequestUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<SubscriptionRequestCreateWithoutStudentInput, SubscriptionRequestUncheckedCreateWithoutStudentInput> | SubscriptionRequestCreateWithoutStudentInput[] | SubscriptionRequestUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: SubscriptionRequestCreateOrConnectWithoutStudentInput | SubscriptionRequestCreateOrConnectWithoutStudentInput[]
+    upsert?: SubscriptionRequestUpsertWithWhereUniqueWithoutStudentInput | SubscriptionRequestUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: SubscriptionRequestCreateManyStudentInputEnvelope
+    set?: SubscriptionRequestWhereUniqueInput | SubscriptionRequestWhereUniqueInput[]
+    disconnect?: SubscriptionRequestWhereUniqueInput | SubscriptionRequestWhereUniqueInput[]
+    delete?: SubscriptionRequestWhereUniqueInput | SubscriptionRequestWhereUniqueInput[]
+    connect?: SubscriptionRequestWhereUniqueInput | SubscriptionRequestWhereUniqueInput[]
+    update?: SubscriptionRequestUpdateWithWhereUniqueWithoutStudentInput | SubscriptionRequestUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: SubscriptionRequestUpdateManyWithWhereWithoutStudentInput | SubscriptionRequestUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: SubscriptionRequestScalarWhereInput | SubscriptionRequestScalarWhereInput[]
+  }
+
   export type StudentProfileUncheckedUpdateOneWithoutUserNestedInput = {
     create?: XOR<StudentProfileCreateWithoutUserInput, StudentProfileUncheckedCreateWithoutUserInput>
     connectOrCreate?: StudentProfileCreateOrConnectWithoutUserInput
@@ -41759,6 +43516,20 @@ export namespace Prisma {
     deleteMany?: StudentFriendLinkScalarWhereInput | StudentFriendLinkScalarWhereInput[]
   }
 
+  export type SubscriptionRequestUncheckedUpdateManyWithoutStudentNestedInput = {
+    create?: XOR<SubscriptionRequestCreateWithoutStudentInput, SubscriptionRequestUncheckedCreateWithoutStudentInput> | SubscriptionRequestCreateWithoutStudentInput[] | SubscriptionRequestUncheckedCreateWithoutStudentInput[]
+    connectOrCreate?: SubscriptionRequestCreateOrConnectWithoutStudentInput | SubscriptionRequestCreateOrConnectWithoutStudentInput[]
+    upsert?: SubscriptionRequestUpsertWithWhereUniqueWithoutStudentInput | SubscriptionRequestUpsertWithWhereUniqueWithoutStudentInput[]
+    createMany?: SubscriptionRequestCreateManyStudentInputEnvelope
+    set?: SubscriptionRequestWhereUniqueInput | SubscriptionRequestWhereUniqueInput[]
+    disconnect?: SubscriptionRequestWhereUniqueInput | SubscriptionRequestWhereUniqueInput[]
+    delete?: SubscriptionRequestWhereUniqueInput | SubscriptionRequestWhereUniqueInput[]
+    connect?: SubscriptionRequestWhereUniqueInput | SubscriptionRequestWhereUniqueInput[]
+    update?: SubscriptionRequestUpdateWithWhereUniqueWithoutStudentInput | SubscriptionRequestUpdateWithWhereUniqueWithoutStudentInput[]
+    updateMany?: SubscriptionRequestUpdateManyWithWhereWithoutStudentInput | SubscriptionRequestUpdateManyWithWhereWithoutStudentInput[]
+    deleteMany?: SubscriptionRequestScalarWhereInput | SubscriptionRequestScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutStudentProfileInput = {
     create?: XOR<UserCreateWithoutStudentProfileInput, UserUncheckedCreateWithoutStudentProfileInput>
     connectOrCreate?: UserCreateOrConnectWithoutStudentProfileInput
@@ -41881,6 +43652,14 @@ export namespace Prisma {
     update?: SubjectUpdateWithWhereUniqueWithoutTeacherInput | SubjectUpdateWithWhereUniqueWithoutTeacherInput[]
     updateMany?: SubjectUpdateManyWithWhereWithoutTeacherInput | SubjectUpdateManyWithWhereWithoutTeacherInput[]
     deleteMany?: SubjectScalarWhereInput | SubjectScalarWhereInput[]
+  }
+
+  export type SubjectCreatelevelsInput = {
+    set: $Enums.Level[]
+  }
+
+  export type SubjectCreatestreamsInput = {
+    set: $Enums.Stream[]
   }
 
   export type TeacherCreateNestedOneWithoutSubjectsInput = {
@@ -42041,6 +43820,16 @@ export namespace Prisma {
     connectOrCreate?: ClassForumCreateOrConnectWithoutSubjectInput | ClassForumCreateOrConnectWithoutSubjectInput[]
     createMany?: ClassForumCreateManySubjectInputEnvelope
     connect?: ClassForumWhereUniqueInput | ClassForumWhereUniqueInput[]
+  }
+
+  export type SubjectUpdatelevelsInput = {
+    set?: $Enums.Level[]
+    push?: $Enums.Level | $Enums.Level[]
+  }
+
+  export type SubjectUpdatestreamsInput = {
+    set?: $Enums.Stream[]
+    push?: $Enums.Stream | $Enums.Stream[]
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -42373,6 +44162,14 @@ export namespace Prisma {
     deleteMany?: ClassForumScalarWhereInput | ClassForumScalarWhereInput[]
   }
 
+  export type LessonCreatesubjectIdsInput = {
+    set: string[]
+  }
+
+  export type LessonCreatestreamsInput = {
+    set: $Enums.Stream[]
+  }
+
   export type SubjectCreateNestedOneWithoutLessonsInput = {
     create?: XOR<SubjectCreateWithoutLessonsInput, SubjectUncheckedCreateWithoutLessonsInput>
     connectOrCreate?: SubjectCreateOrConnectWithoutLessonsInput
@@ -42417,6 +44214,16 @@ export namespace Prisma {
     connectOrCreate?: LessonMaterialCreateOrConnectWithoutLessonInput | LessonMaterialCreateOrConnectWithoutLessonInput[]
     createMany?: LessonMaterialCreateManyLessonInputEnvelope
     connect?: LessonMaterialWhereUniqueInput | LessonMaterialWhereUniqueInput[]
+  }
+
+  export type LessonUpdatesubjectIdsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type LessonUpdatestreamsInput = {
+    set?: $Enums.Stream[]
+    push?: $Enums.Stream | $Enums.Stream[]
   }
 
   export type SubjectUpdateOneRequiredWithoutLessonsNestedInput = {
@@ -43331,6 +45138,29 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutParentTicketsInput, UserUpdateWithoutParentTicketsInput>, UserUncheckedUpdateWithoutParentTicketsInput>
   }
 
+  export type SubscriptionRequestCreatesubjectIdsInput = {
+    set: string[]
+  }
+
+  export type UserCreateNestedOneWithoutSubscriptionRequestsInput = {
+    create?: XOR<UserCreateWithoutSubscriptionRequestsInput, UserUncheckedCreateWithoutSubscriptionRequestsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSubscriptionRequestsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type SubscriptionRequestUpdatesubjectIdsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdateOneRequiredWithoutSubscriptionRequestsNestedInput = {
+    create?: XOR<UserCreateWithoutSubscriptionRequestsInput, UserUncheckedCreateWithoutSubscriptionRequestsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSubscriptionRequestsInput
+    upsert?: UserUpsertWithoutSubscriptionRequestsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSubscriptionRequestsInput, UserUpdateWithoutSubscriptionRequestsInput>, UserUncheckedUpdateWithoutSubscriptionRequestsInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -43819,7 +45649,9 @@ export namespace Prisma {
 
   export type StudentSubmissionCreateWithoutStudentInput = {
     id?: string
-    imageUrl: string
+    imageUrl?: string | null
+    fileUrl?: string | null
+    fileType?: string | null
     score?: number | null
     feedback?: string | null
     createdAt?: Date | string
@@ -43830,7 +45662,9 @@ export namespace Prisma {
   export type StudentSubmissionUncheckedCreateWithoutStudentInput = {
     id?: string
     examId: string
-    imageUrl: string
+    imageUrl?: string | null
+    fileUrl?: string | null
+    fileType?: string | null
     score?: number | null
     feedback?: string | null
     createdAt?: Date | string
@@ -44018,6 +45852,40 @@ export namespace Prisma {
 
   export type StudentFriendLinkCreateManyFriendInputEnvelope = {
     data: StudentFriendLinkCreateManyFriendInput | StudentFriendLinkCreateManyFriendInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SubscriptionRequestCreateWithoutStudentInput = {
+    id?: string
+    subjectIds?: SubscriptionRequestCreatesubjectIdsInput | string[]
+    level: string
+    stream: string
+    wilaya: string
+    address: string
+    phoneNumber: string
+    status?: string
+    createdAt?: Date | string
+  }
+
+  export type SubscriptionRequestUncheckedCreateWithoutStudentInput = {
+    id?: string
+    subjectIds?: SubscriptionRequestCreatesubjectIdsInput | string[]
+    level: string
+    stream: string
+    wilaya: string
+    address: string
+    phoneNumber: string
+    status?: string
+    createdAt?: Date | string
+  }
+
+  export type SubscriptionRequestCreateOrConnectWithoutStudentInput = {
+    where: SubscriptionRequestWhereUniqueInput
+    create: XOR<SubscriptionRequestCreateWithoutStudentInput, SubscriptionRequestUncheckedCreateWithoutStudentInput>
+  }
+
+  export type SubscriptionRequestCreateManyStudentInputEnvelope = {
+    data: SubscriptionRequestCreateManyStudentInput | SubscriptionRequestCreateManyStudentInput[]
     skipDuplicates?: boolean
   }
 
@@ -44230,7 +46098,9 @@ export namespace Prisma {
     id?: StringFilter<"StudentSubmission"> | string
     examId?: StringFilter<"StudentSubmission"> | string
     studentId?: StringFilter<"StudentSubmission"> | string
-    imageUrl?: StringFilter<"StudentSubmission"> | string
+    imageUrl?: StringNullableFilter<"StudentSubmission"> | string | null
+    fileUrl?: StringNullableFilter<"StudentSubmission"> | string | null
+    fileType?: StringNullableFilter<"StudentSubmission"> | string | null
     score?: IntNullableFilter<"StudentSubmission"> | number | null
     feedback?: StringNullableFilter<"StudentSubmission"> | string | null
     createdAt?: DateTimeFilter<"StudentSubmission"> | Date | string
@@ -44418,6 +46288,38 @@ export namespace Prisma {
     data: XOR<StudentFriendLinkUpdateManyMutationInput, StudentFriendLinkUncheckedUpdateManyWithoutFriendInput>
   }
 
+  export type SubscriptionRequestUpsertWithWhereUniqueWithoutStudentInput = {
+    where: SubscriptionRequestWhereUniqueInput
+    update: XOR<SubscriptionRequestUpdateWithoutStudentInput, SubscriptionRequestUncheckedUpdateWithoutStudentInput>
+    create: XOR<SubscriptionRequestCreateWithoutStudentInput, SubscriptionRequestUncheckedCreateWithoutStudentInput>
+  }
+
+  export type SubscriptionRequestUpdateWithWhereUniqueWithoutStudentInput = {
+    where: SubscriptionRequestWhereUniqueInput
+    data: XOR<SubscriptionRequestUpdateWithoutStudentInput, SubscriptionRequestUncheckedUpdateWithoutStudentInput>
+  }
+
+  export type SubscriptionRequestUpdateManyWithWhereWithoutStudentInput = {
+    where: SubscriptionRequestScalarWhereInput
+    data: XOR<SubscriptionRequestUpdateManyMutationInput, SubscriptionRequestUncheckedUpdateManyWithoutStudentInput>
+  }
+
+  export type SubscriptionRequestScalarWhereInput = {
+    AND?: SubscriptionRequestScalarWhereInput | SubscriptionRequestScalarWhereInput[]
+    OR?: SubscriptionRequestScalarWhereInput[]
+    NOT?: SubscriptionRequestScalarWhereInput | SubscriptionRequestScalarWhereInput[]
+    id?: StringFilter<"SubscriptionRequest"> | string
+    studentId?: StringFilter<"SubscriptionRequest"> | string
+    subjectIds?: StringNullableListFilter<"SubscriptionRequest">
+    level?: StringFilter<"SubscriptionRequest"> | string
+    stream?: StringFilter<"SubscriptionRequest"> | string
+    wilaya?: StringFilter<"SubscriptionRequest"> | string
+    address?: StringFilter<"SubscriptionRequest"> | string
+    phoneNumber?: StringFilter<"SubscriptionRequest"> | string
+    status?: StringFilter<"SubscriptionRequest"> | string
+    createdAt?: DateTimeFilter<"SubscriptionRequest"> | Date | string
+  }
+
   export type UserCreateWithoutStudentProfileInput = {
     id?: string
     fullName: string
@@ -44443,6 +46345,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutStudentProfileInput = {
@@ -44470,6 +46373,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutStudentProfileInput = {
@@ -44513,6 +46417,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudentProfileInput = {
@@ -44540,6 +46445,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type UserCreateWithoutParentProfileInput = {
@@ -44567,6 +46473,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutParentProfileInput = {
@@ -44594,6 +46501,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutParentProfileInput = {
@@ -44637,6 +46545,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutParentProfileInput = {
@@ -44664,6 +46573,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type UserCreateWithoutTeacherProfileInput = {
@@ -44691,6 +46601,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutTeacherProfileInput = {
@@ -44718,6 +46629,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutTeacherProfileInput = {
@@ -44732,6 +46644,8 @@ export namespace Prisma {
     teacherName: string
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -44757,6 +46671,8 @@ export namespace Prisma {
     teacherName: string
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -44821,6 +46737,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutTeacherProfileInput = {
@@ -44848,6 +46765,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type SubjectUpsertWithWhereUniqueWithoutTeacherInput = {
@@ -44877,6 +46795,8 @@ export namespace Prisma {
     teacherId?: StringNullableFilter<"Subject"> | string | null
     level?: EnumLevelFilter<"Subject"> | $Enums.Level
     stream?: EnumStreamFilter<"Subject"> | $Enums.Stream
+    levels?: EnumLevelNullableListFilter<"Subject">
+    streams?: EnumStreamNullableListFilter<"Subject">
     image?: StringFilter<"Subject"> | string
     price?: FloatFilter<"Subject"> | number
     accessType?: StringFilter<"Subject"> | string
@@ -44915,6 +46835,8 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    subjectIds?: LessonCreatesubjectIdsInput | string[]
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
     quiz?: QuizCreateNestedOneWithoutLessonInput
     mistakes?: StudentMistakeCreateNestedManyWithoutLessonInput
@@ -44927,6 +46849,8 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    subjectIds?: LessonCreatesubjectIdsInput | string[]
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
     mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutLessonInput
@@ -45340,6 +47264,8 @@ export namespace Prisma {
     vimeoVideoId?: StringFilter<"Lesson"> | string
     image?: StringNullableFilter<"Lesson"> | string | null
     subjectId?: StringFilter<"Lesson"> | string
+    subjectIds?: StringNullableListFilter<"Lesson">
+    streams?: EnumStreamNullableListFilter<"Lesson">
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
   }
 
@@ -45587,6 +47513,8 @@ export namespace Prisma {
     teacherName: string
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -45613,6 +47541,8 @@ export namespace Prisma {
     teacherId?: string | null
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -45694,6 +47624,7 @@ export namespace Prisma {
     id?: string
     title: string
     fileUrl: string
+    fileType?: string | null
     createdAt?: Date | string
   }
 
@@ -45701,6 +47632,7 @@ export namespace Prisma {
     id?: string
     title: string
     fileUrl: string
+    fileType?: string | null
     createdAt?: Date | string
   }
 
@@ -45732,6 +47664,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -45758,6 +47692,8 @@ export namespace Prisma {
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -45847,6 +47783,7 @@ export namespace Prisma {
     id?: StringFilter<"LessonMaterial"> | string
     title?: StringFilter<"LessonMaterial"> | string
     fileUrl?: StringFilter<"LessonMaterial"> | string
+    fileType?: StringNullableFilter<"LessonMaterial"> | string | null
     lessonId?: StringFilter<"LessonMaterial"> | string
     createdAt?: DateTimeFilter<"LessonMaterial"> | Date | string
   }
@@ -45857,6 +47794,8 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    subjectIds?: LessonCreatesubjectIdsInput | string[]
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
     subject: SubjectCreateNestedOneWithoutLessonsInput
     quiz?: QuizCreateNestedOneWithoutLessonInput
@@ -45870,6 +47809,8 @@ export namespace Prisma {
     vimeoVideoId: string
     image?: string | null
     subjectId: string
+    subjectIds?: LessonCreatesubjectIdsInput | string[]
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
     mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutLessonInput
@@ -45897,6 +47838,8 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    subjectIds?: LessonUpdatesubjectIdsInput | string[]
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subject?: SubjectUpdateOneRequiredWithoutLessonsNestedInput
     quiz?: QuizUpdateOneWithoutLessonNestedInput
@@ -45910,6 +47853,8 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: StringFieldUpdateOperationsInput | string
+    subjectIds?: LessonUpdatesubjectIdsInput | string[]
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
@@ -45921,6 +47866,8 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    subjectIds?: LessonCreatesubjectIdsInput | string[]
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
     subject: SubjectCreateNestedOneWithoutLessonsInput
     mistakes?: StudentMistakeCreateNestedManyWithoutLessonInput
@@ -45934,6 +47881,8 @@ export namespace Prisma {
     vimeoVideoId: string
     image?: string | null
     subjectId: string
+    subjectIds?: LessonCreatesubjectIdsInput | string[]
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
     mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutLessonInput
     materials?: LessonMaterialUncheckedCreateNestedManyWithoutLessonInput
@@ -46057,6 +48006,8 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    subjectIds?: LessonUpdatesubjectIdsInput | string[]
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subject?: SubjectUpdateOneRequiredWithoutLessonsNestedInput
     mistakes?: StudentMistakeUpdateManyWithoutLessonNestedInput
@@ -46070,6 +48021,8 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: StringFieldUpdateOperationsInput | string
+    subjectIds?: LessonUpdatesubjectIdsInput | string[]
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
     materials?: LessonMaterialUncheckedUpdateManyWithoutLessonNestedInput
@@ -46196,6 +48149,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutAccessCodesInput = {
@@ -46223,6 +48177,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutAccessCodesInput = {
@@ -46237,6 +48192,8 @@ export namespace Prisma {
     teacherName: string
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -46263,6 +48220,8 @@ export namespace Prisma {
     teacherId?: string | null
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -46321,6 +48280,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccessCodesInput = {
@@ -46348,6 +48308,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type SubjectUpsertWithoutCodesInput = {
@@ -46368,6 +48329,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -46394,6 +48357,8 @@ export namespace Prisma {
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -46436,6 +48401,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutParentLinksInput = {
@@ -46463,6 +48429,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutParentLinksInput = {
@@ -46495,6 +48462,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutStudentLinksInput = {
@@ -46522,6 +48490,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutStudentLinksInput = {
@@ -46565,6 +48534,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutParentLinksInput = {
@@ -46592,6 +48562,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUpsertWithoutStudentLinksInput = {
@@ -46630,6 +48601,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutStudentLinksInput = {
@@ -46657,6 +48629,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type UserCreateWithoutFriendLinksSourceInput = {
@@ -46684,6 +48657,7 @@ export namespace Prisma {
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutFriendLinksSourceInput = {
@@ -46711,6 +48685,7 @@ export namespace Prisma {
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutFriendLinksSourceInput = {
@@ -46743,6 +48718,7 @@ export namespace Prisma {
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
+    subscriptionRequests?: SubscriptionRequestCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutFriendLinksTargetInput = {
@@ -46770,6 +48746,7 @@ export namespace Prisma {
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
+    subscriptionRequests?: SubscriptionRequestUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutFriendLinksTargetInput = {
@@ -46813,6 +48790,7 @@ export namespace Prisma {
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFriendLinksSourceInput = {
@@ -46840,6 +48818,7 @@ export namespace Prisma {
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUpsertWithoutFriendLinksTargetInput = {
@@ -46878,6 +48857,7 @@ export namespace Prisma {
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
+    subscriptionRequests?: SubscriptionRequestUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutFriendLinksTargetInput = {
@@ -46905,6 +48885,7 @@ export namespace Prisma {
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
+    subscriptionRequests?: SubscriptionRequestUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type UserCreateWithoutMistakesInput = {
@@ -46932,6 +48913,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutMistakesInput = {
@@ -46959,6 +48941,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutMistakesInput = {
@@ -46972,6 +48955,8 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    subjectIds?: LessonCreatesubjectIdsInput | string[]
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
     subject: SubjectCreateNestedOneWithoutLessonsInput
     quiz?: QuizCreateNestedOneWithoutLessonInput
@@ -46985,6 +48970,8 @@ export namespace Prisma {
     vimeoVideoId: string
     image?: string | null
     subjectId: string
+    subjectIds?: LessonCreatesubjectIdsInput | string[]
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
     materials?: LessonMaterialUncheckedCreateNestedManyWithoutLessonInput
@@ -47058,6 +49045,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutMistakesInput = {
@@ -47085,6 +49073,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type LessonUpsertWithoutMistakesInput = {
@@ -47104,6 +49093,8 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    subjectIds?: LessonUpdatesubjectIdsInput | string[]
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subject?: SubjectUpdateOneRequiredWithoutLessonsNestedInput
     quiz?: QuizUpdateOneWithoutLessonNestedInput
@@ -47117,6 +49108,8 @@ export namespace Prisma {
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: StringFieldUpdateOperationsInput | string
+    subjectIds?: LessonUpdatesubjectIdsInput | string[]
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
     materials?: LessonMaterialUncheckedUpdateManyWithoutLessonNestedInput
@@ -47180,6 +49173,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutEnrollmentsInput = {
@@ -47207,6 +49201,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutEnrollmentsInput = {
@@ -47221,6 +49216,8 @@ export namespace Prisma {
     teacherName: string
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -47247,6 +49244,8 @@ export namespace Prisma {
     teacherId?: string | null
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -47305,6 +49304,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEnrollmentsInput = {
@@ -47332,6 +49332,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type SubjectUpsertWithoutEnrollmentsInput = {
@@ -47352,6 +49353,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -47378,6 +49381,8 @@ export namespace Prisma {
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -47402,6 +49407,8 @@ export namespace Prisma {
     teacherName: string
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -47428,6 +49435,8 @@ export namespace Prisma {
     teacherId?: string | null
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -47468,6 +49477,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -47494,6 +49505,8 @@ export namespace Prisma {
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -47536,6 +49549,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutChatSessionsInput = {
@@ -47563,6 +49577,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutChatSessionsInput = {
@@ -47630,6 +49645,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutChatSessionsInput = {
@@ -47657,6 +49673,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type ChatMessageUpsertWithWhereUniqueWithoutChatSessionInput = {
@@ -47737,6 +49754,8 @@ export namespace Prisma {
     teacherName: string
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -47763,6 +49782,8 @@ export namespace Prisma {
     teacherId?: string | null
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -47792,6 +49813,8 @@ export namespace Prisma {
     teacherName: string
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -47818,6 +49841,8 @@ export namespace Prisma {
     teacherId?: string | null
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -47871,6 +49896,7 @@ export namespace Prisma {
     id?: string
     title: string
     fileUrl: string
+    fileType?: string | null
     createdAt?: Date | string
   }
 
@@ -47878,6 +49904,7 @@ export namespace Prisma {
     id?: string
     title: string
     fileUrl: string
+    fileType?: string | null
     createdAt?: Date | string
   }
 
@@ -47909,6 +49936,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -47935,6 +49964,8 @@ export namespace Prisma {
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -47970,6 +50001,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -47996,6 +50029,8 @@ export namespace Prisma {
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -48069,6 +50104,7 @@ export namespace Prisma {
     id?: StringFilter<"ExerciseMaterial"> | string
     title?: StringFilter<"ExerciseMaterial"> | string
     fileUrl?: StringFilter<"ExerciseMaterial"> | string
+    fileType?: StringNullableFilter<"ExerciseMaterial"> | string | null
     dailyExerciseId?: StringFilter<"ExerciseMaterial"> | string
     createdAt?: DateTimeFilter<"ExerciseMaterial"> | Date | string
   }
@@ -48152,6 +50188,8 @@ export namespace Prisma {
     teacherName: string
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -48178,6 +50216,8 @@ export namespace Prisma {
     teacherId?: string | null
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -48207,6 +50247,8 @@ export namespace Prisma {
     teacherName: string
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -48233,6 +50275,8 @@ export namespace Prisma {
     teacherId?: string | null
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -48286,6 +50330,7 @@ export namespace Prisma {
     id?: string
     title: string
     fileUrl: string
+    fileType?: string | null
     createdAt?: Date | string
   }
 
@@ -48293,6 +50338,7 @@ export namespace Prisma {
     id?: string
     title: string
     fileUrl: string
+    fileType?: string | null
     createdAt?: Date | string
   }
 
@@ -48308,7 +50354,9 @@ export namespace Prisma {
 
   export type StudentSubmissionCreateWithoutExamInput = {
     id?: string
-    imageUrl: string
+    imageUrl?: string | null
+    fileUrl?: string | null
+    fileType?: string | null
     score?: number | null
     feedback?: string | null
     createdAt?: Date | string
@@ -48319,7 +50367,9 @@ export namespace Prisma {
   export type StudentSubmissionUncheckedCreateWithoutExamInput = {
     id?: string
     studentId: string
-    imageUrl: string
+    imageUrl?: string | null
+    fileUrl?: string | null
+    fileType?: string | null
     score?: number | null
     feedback?: string | null
     createdAt?: Date | string
@@ -48354,6 +50404,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -48380,6 +50432,8 @@ export namespace Prisma {
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -48415,6 +50469,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -48441,6 +50497,8 @@ export namespace Prisma {
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -48514,6 +50572,7 @@ export namespace Prisma {
     id?: StringFilter<"ExamMaterial"> | string
     title?: StringFilter<"ExamMaterial"> | string
     fileUrl?: StringFilter<"ExamMaterial"> | string
+    fileType?: StringNullableFilter<"ExamMaterial"> | string | null
     examId?: StringFilter<"ExamMaterial"> | string
     createdAt?: DateTimeFilter<"ExamMaterial"> | Date | string
   }
@@ -48670,6 +50729,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutSubmissionsInput = {
@@ -48697,6 +50757,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutSubmissionsInput = {
@@ -48781,6 +50842,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSubmissionsInput = {
@@ -48808,6 +50870,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type SubjectCreateWithoutNotificationsInput = {
@@ -48817,6 +50880,8 @@ export namespace Prisma {
     teacherName: string
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -48843,6 +50908,8 @@ export namespace Prisma {
     teacherId?: string | null
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -48890,6 +50957,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutNotificationsInput = {
@@ -48917,6 +50985,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutNotificationsInput = {
@@ -48942,6 +51011,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -48968,6 +51039,8 @@ export namespace Prisma {
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -49021,6 +51094,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutNotificationsInput = {
@@ -49048,6 +51122,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type SubjectCreateWithoutReviewCardsInput = {
@@ -49057,6 +51132,8 @@ export namespace Prisma {
     teacherName: string
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -49083,6 +51160,8 @@ export namespace Prisma {
     teacherId?: string | null
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -49123,6 +51202,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -49149,6 +51230,8 @@ export namespace Prisma {
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -49173,6 +51256,8 @@ export namespace Prisma {
     teacherName: string
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -49199,6 +51284,8 @@ export namespace Prisma {
     teacherId?: string | null
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -49263,6 +51350,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -49289,6 +51378,8 @@ export namespace Prisma {
     teacherId?: NullableStringFieldUpdateOperationsInput | string | null
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -49376,6 +51467,7 @@ export namespace Prisma {
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutForumMessagesInput = {
@@ -49403,6 +51495,7 @@ export namespace Prisma {
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutForumMessagesInput = {
@@ -49481,6 +51574,7 @@ export namespace Prisma {
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutForumMessagesInput = {
@@ -49508,6 +51602,7 @@ export namespace Prisma {
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUncheckedUpdateManyWithoutStudentNestedInput
   }
 
   export type UserCreateWithoutParentTicketsInput = {
@@ -49535,6 +51630,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestCreateNestedManyWithoutStudentInput
   }
 
   export type UserUncheckedCreateWithoutParentTicketsInput = {
@@ -49562,6 +51658,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+    subscriptionRequests?: SubscriptionRequestUncheckedCreateNestedManyWithoutStudentInput
   }
 
   export type UserCreateOrConnectWithoutParentTicketsInput = {
@@ -49605,6 +51702,7 @@ export namespace Prisma {
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUpdateManyWithoutStudentNestedInput
   }
 
   export type UserUncheckedUpdateWithoutParentTicketsInput = {
@@ -49629,6 +51727,135 @@ export namespace Prisma {
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
+    friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
+    friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
+    subscriptionRequests?: SubscriptionRequestUncheckedUpdateManyWithoutStudentNestedInput
+  }
+
+  export type UserCreateWithoutSubscriptionRequestsInput = {
+    id?: string
+    fullName: string
+    phoneNumber: string
+    passwordHash?: string
+    avatarUrl?: string | null
+    role: $Enums.Role
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string
+    deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
+    parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
+    teacherProfile?: TeacherCreateNestedOneWithoutUserInput
+    parentLinks?: ParentStudentLinkCreateNestedManyWithoutParentInput
+    studentLinks?: ParentStudentLinkCreateNestedManyWithoutStudentInput
+    accessCodes?: AccessCodeCreateNestedManyWithoutUserInput
+    mistakes?: StudentMistakeCreateNestedManyWithoutUserInput
+    submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
+    enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
+    chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
+    notifications?: NotificationCreateNestedManyWithoutUserInput
+    parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
+    forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
+    friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
+    friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
+  }
+
+  export type UserUncheckedCreateWithoutSubscriptionRequestsInput = {
+    id?: string
+    fullName: string
+    phoneNumber: string
+    passwordHash?: string
+    avatarUrl?: string | null
+    role: $Enums.Role
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    lastLoginAt?: Date | string
+    deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
+    parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
+    teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
+    parentLinks?: ParentStudentLinkUncheckedCreateNestedManyWithoutParentInput
+    studentLinks?: ParentStudentLinkUncheckedCreateNestedManyWithoutStudentInput
+    accessCodes?: AccessCodeUncheckedCreateNestedManyWithoutUserInput
+    mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutUserInput
+    submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
+    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
+    chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
+    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
+    parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
+    forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
+    friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
+    friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
+  }
+
+  export type UserCreateOrConnectWithoutSubscriptionRequestsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSubscriptionRequestsInput, UserUncheckedCreateWithoutSubscriptionRequestsInput>
+  }
+
+  export type UserUpsertWithoutSubscriptionRequestsInput = {
+    update: XOR<UserUpdateWithoutSubscriptionRequestsInput, UserUncheckedUpdateWithoutSubscriptionRequestsInput>
+    create: XOR<UserCreateWithoutSubscriptionRequestsInput, UserUncheckedCreateWithoutSubscriptionRequestsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSubscriptionRequestsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSubscriptionRequestsInput, UserUncheckedUpdateWithoutSubscriptionRequestsInput>
+  }
+
+  export type UserUpdateWithoutSubscriptionRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
+    parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
+    teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
+    parentLinks?: ParentStudentLinkUpdateManyWithoutParentNestedInput
+    studentLinks?: ParentStudentLinkUpdateManyWithoutStudentNestedInput
+    accessCodes?: AccessCodeUpdateManyWithoutUserNestedInput
+    mistakes?: StudentMistakeUpdateManyWithoutUserNestedInput
+    submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
+    enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
+    chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUpdateManyWithoutUserNestedInput
+    parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
+    forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
+    friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
+    friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSubscriptionRequestsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    fullName?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    passwordHash?: StringFieldUpdateOperationsInput | string
+    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
+    parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
+    teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
+    parentLinks?: ParentStudentLinkUncheckedUpdateManyWithoutParentNestedInput
+    studentLinks?: ParentStudentLinkUncheckedUpdateManyWithoutStudentNestedInput
+    accessCodes?: AccessCodeUncheckedUpdateManyWithoutUserNestedInput
+    mistakes?: StudentMistakeUncheckedUpdateManyWithoutUserNestedInput
+    submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
+    enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
+    chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
+    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
+    parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -49668,7 +51895,9 @@ export namespace Prisma {
   export type StudentSubmissionCreateManyStudentInput = {
     id?: string
     examId: string
-    imageUrl: string
+    imageUrl?: string | null
+    fileUrl?: string | null
+    fileType?: string | null
     score?: number | null
     feedback?: string | null
     createdAt?: Date | string
@@ -49723,6 +51952,18 @@ export namespace Prisma {
   export type StudentFriendLinkCreateManyFriendInput = {
     id?: string
     studentId: string
+    createdAt?: Date | string
+  }
+
+  export type SubscriptionRequestCreateManyStudentInput = {
+    id?: string
+    subjectIds?: SubscriptionRequestCreatesubjectIdsInput | string[]
+    level: string
+    stream: string
+    wilaya: string
+    address: string
+    phoneNumber: string
+    status?: string
     createdAt?: Date | string
   }
 
@@ -49821,7 +52062,9 @@ export namespace Prisma {
 
   export type StudentSubmissionUpdateWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
-    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableIntFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -49832,7 +52075,9 @@ export namespace Prisma {
   export type StudentSubmissionUncheckedUpdateWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
     examId?: StringFieldUpdateOperationsInput | string
-    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableIntFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -49842,7 +52087,9 @@ export namespace Prisma {
   export type StudentSubmissionUncheckedUpdateManyWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
     examId?: StringFieldUpdateOperationsInput | string
-    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableIntFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50004,6 +52251,42 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SubscriptionRequestUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subjectIds?: SubscriptionRequestUpdatesubjectIdsInput | string[]
+    level?: StringFieldUpdateOperationsInput | string
+    stream?: StringFieldUpdateOperationsInput | string
+    wilaya?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubscriptionRequestUncheckedUpdateWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subjectIds?: SubscriptionRequestUpdatesubjectIdsInput | string[]
+    level?: StringFieldUpdateOperationsInput | string
+    stream?: StringFieldUpdateOperationsInput | string
+    wilaya?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type SubscriptionRequestUncheckedUpdateManyWithoutStudentInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subjectIds?: SubscriptionRequestUpdatesubjectIdsInput | string[]
+    level?: StringFieldUpdateOperationsInput | string
+    stream?: StringFieldUpdateOperationsInput | string
+    wilaya?: StringFieldUpdateOperationsInput | string
+    address?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type SubjectCreateManyTeacherInput = {
     id?: string
     title: string
@@ -50011,6 +52294,8 @@ export namespace Prisma {
     teacherName: string
     level: $Enums.Level
     stream: $Enums.Stream
+    levels?: SubjectCreatelevelsInput | $Enums.Level[]
+    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
     image: string
     price: number
     accessType: string
@@ -50025,6 +52310,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -50050,6 +52337,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -50075,6 +52364,8 @@ export namespace Prisma {
     teacherName?: StringFieldUpdateOperationsInput | string
     level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
     stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
+    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
+    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
     image?: StringFieldUpdateOperationsInput | string
     price?: FloatFieldUpdateOperationsInput | number
     accessType?: StringFieldUpdateOperationsInput | string
@@ -50088,6 +52379,8 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    subjectIds?: LessonCreatesubjectIdsInput | string[]
+    streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
   }
 
@@ -50206,6 +52499,8 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    subjectIds?: LessonUpdatesubjectIdsInput | string[]
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUpdateOneWithoutLessonNestedInput
     mistakes?: StudentMistakeUpdateManyWithoutLessonNestedInput
@@ -50218,6 +52513,8 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    subjectIds?: LessonUpdatesubjectIdsInput | string[]
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
@@ -50230,6 +52527,8 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    subjectIds?: LessonUpdatesubjectIdsInput | string[]
+    streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -50595,6 +52894,7 @@ export namespace Prisma {
     id?: string
     title: string
     fileUrl: string
+    fileType?: string | null
     createdAt?: Date | string
   }
 
@@ -50629,6 +52929,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -50636,6 +52937,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -50643,6 +52945,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -50714,6 +53017,7 @@ export namespace Prisma {
     id?: string
     title: string
     fileUrl: string
+    fileType?: string | null
     createdAt?: Date | string
   }
 
@@ -50721,6 +53025,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -50728,6 +53033,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -50735,6 +53041,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -50742,13 +53049,16 @@ export namespace Prisma {
     id?: string
     title: string
     fileUrl: string
+    fileType?: string | null
     createdAt?: Date | string
   }
 
   export type StudentSubmissionCreateManyExamInput = {
     id?: string
     studentId: string
-    imageUrl: string
+    imageUrl?: string | null
+    fileUrl?: string | null
+    fileType?: string | null
     score?: number | null
     feedback?: string | null
     createdAt?: Date | string
@@ -50759,6 +53069,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -50766,6 +53077,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -50773,12 +53085,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     fileUrl?: StringFieldUpdateOperationsInput | string
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StudentSubmissionUpdateWithoutExamInput = {
     id?: StringFieldUpdateOperationsInput | string
-    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableIntFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50789,7 +53104,9 @@ export namespace Prisma {
   export type StudentSubmissionUncheckedUpdateWithoutExamInput = {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
-    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableIntFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -50799,7 +53116,9 @@ export namespace Prisma {
   export type StudentSubmissionUncheckedUpdateManyWithoutExamInput = {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
-    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    fileType?: NullableStringFieldUpdateOperationsInput | string | null
     score?: NullableIntFieldUpdateOperationsInput | number | null
     feedback?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

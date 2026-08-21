@@ -46,7 +46,7 @@ export async function createExamAndExtractQuiz(formData: FormData) {
     const quizType = formData.get("quizType") as string || (triggerAi ? "AI" : "MANUAL");
     const secondarySubjectId = formData.get("secondarySubjectId") as string || null;
 
-    let materialsData: { title: string, fileUrl: string }[] = [];
+    let materialsData: { title: string, fileUrl: string, fileType?: string }[] = [];
     const rawMaterials = formData.get("materials") as string;
     if (rawMaterials) {
       try {
@@ -95,6 +95,7 @@ export async function createExamAndExtractQuiz(formData: FormData) {
           create: materialsData.map(m => ({
             title: m.title,
             fileUrl: m.fileUrl,
+            fileType: m.fileType,
           })),
         },
       }
@@ -188,13 +189,15 @@ export async function gradeStudentSubmission(formData: FormData) {
     if (!exam) return { error: "الاختبار غير موجود" };
 
     // 2. Upload student submission to 'exams' bucket
-    const imageUrl = await uploadToSupabase(file, "exams", `submission-${studentId}-${examId}`);
+    const fileUrl = await uploadToSupabase(file, "exams", `submission-${studentId}-${examId}`);
+    const fileType = file.type;
+    const imageUrl = fileType.startsWith("image/") ? fileUrl : null;
 
     // 3. Call AI Vision to Grade
     let score = 0;
     let feedback = "تم استلام الحل بنجاح سيتم تصحيحه قريباً";
 
-    if (exam.quiz && exam.quiz.questions) {
+    if (exam.quiz && exam.quiz.questions && imageUrl) {
       try {
         const questionsStr = JSON.stringify(exam.quiz.questions);
         const prompt = `أنت أستاذ ذكي تصحح ورقة التلميذ
@@ -244,6 +247,8 @@ ${questionsStr}
       },
       update: {
         imageUrl,
+        fileUrl,
+        fileType,
         score,
         feedback
       },
@@ -251,6 +256,8 @@ ${questionsStr}
         examId,
         studentId,
         imageUrl,
+        fileUrl,
+        fileType,
         score,
         feedback
       }

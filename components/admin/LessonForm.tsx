@@ -9,6 +9,7 @@ import { supabase } from "@/lib/supabase";
 import { MonthSelect } from "@/components/shared/MonthSelect";
 import { compressImageForAi } from "@/lib/utils/image-compression";
 import { MathPreview } from "@/components/shared/MathPreview";
+import { STREAMS } from "@/lib/constants";
 
 type Subject = {
   id: string;
@@ -30,9 +31,18 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
   const [error, setError] = useState<string | null>(null);
 
   const [title, setTitle] = useState("");
-  const [subjectId, setSubjectId] = useState("");
+  const [subjectIds, setSubjectIds] = useState<string[]>([]);
+  const [selectedStreams, setSelectedStreams] = useState<string[]>([]);
   const [month, setMonth] = useState("1");
   const [vimeoVideoId, setVimeoVideoId] = useState("");
+
+  const handleSubjectToggle = (id: string) => {
+    setSubjectIds(prev => prev.includes(id) ? prev.filter(s => s !== id) : [...prev, id]);
+  };
+
+  const handleStreamToggle = (val: string) => {
+    setSelectedStreams(prev => prev.includes(val) ? prev.filter(v => v !== val) : [...prev, val]);
+  };
 
   const [quizType, setQuizType] = useState<"MANUAL" | "AI">("MANUAL");
   const [quizMaxScore, setQuizMaxScore] = useState(20);
@@ -130,8 +140,8 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!title || !subjectId || !month || !vimeoVideoId) {
-      setError("جميع الحقول الأساسية مطلوبة");
+    if (!title || subjectIds.length === 0 || !month || !vimeoVideoId) {
+      setError("جميع الحقول الأساسية مطلوبة (بما في ذلك اختيار مادة واحدة على الأقل)");
       return;
     }
 
@@ -145,7 +155,7 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
       for (const mat of materials) {
         const fileExt = mat.file.name.split('.').pop();
         const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
-        const filePath = `${subjectId}/${fileName}`;
+        const filePath = `${subjectIds[0]}/${fileName}`;
 
         const { error: uploadError } = await supabase.storage
           .from("lesson-materials")
@@ -159,7 +169,8 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
 
         uploadedMaterials.push({
           title: mat.title,
-          fileUrl: publicUrl
+          fileUrl: publicUrl,
+          fileType: mat.file.type
         });
       }
 
@@ -167,7 +178,9 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
 
       const payload: LessonPayload = {
         title,
-        subjectId,
+        subjectId: subjectIds[0],
+        subjectIds,
+        streams: selectedStreams as any[],
         month: parseInt(month),
         vimeoVideoId,
         materials: uploadedMaterials,
@@ -224,19 +237,48 @@ export function LessonForm({ subjects }: { subjects: Subject[] }) {
             />
           </div>
 
-          <div className="space-y-2">
-            <label className="text-sm font-bold text-slate-700 ">المادة</label>
-            <select 
-              value={subjectId}
-              onChange={e => setSubjectId(e.target.value)}
-              className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-500"
-              required
-            >
-              <option value="">اختر المادة</option>
-              {subjects.map(s => (
-                <option key={s.id} value={s.id}>{s.title} ({s.level} {s.stream})</option>
+          <div className="space-y-2 md:col-span-2">
+            <label className="text-sm font-bold text-slate-700 ">المواد (يمكنك اختيار أكثر من مادة)</label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto pr-1">
+              {subjects.map(s => {
+                const isSelected = subjectIds.includes(s.id);
+                return (
+                  <button
+                    key={s.id}
+                    type="button"
+                    onClick={() => handleSubjectToggle(s.id)}
+                    className={`p-3 rounded-xl border text-sm font-bold transition-all text-right flex items-center justify-between ${
+                      isSelected
+                        ? "border-sky-500 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400"
+                        : "border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-400 hover:border-sky-300 dark:hover:border-sky-700"
+                    }`}
+                  >
+                    <span>{s.title} ({s.level} {s.stream})</span>
+                    {isSelected && <CheckCircle2 className="w-4 h-4 text-sky-500" />}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="space-y-2 md:col-span-2">
+            <label className="text-sm font-bold text-slate-700 ">الشعب (يمكن اختيار أكثر من شعبة)</label>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+              {STREAMS.map(s => (
+                <button
+                  key={s.value}
+                  type="button"
+                  onClick={() => handleStreamToggle(s.value)}
+                  className={`p-2.5 rounded-xl border text-sm font-bold transition-all text-right ${
+                    selectedStreams.includes(s.value)
+                      ? "border-sky-500 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400"
+                      : "border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-600 dark:text-slate-400 hover:border-sky-300 dark:hover:border-sky-700"
+                  }`}
+                >
+                  {s.label.replace(/\./g, '')}
+                </button>
               ))}
-            </select>
+            </div>
           </div>
 
           <div className="space-y-2">

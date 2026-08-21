@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import { ChevronLeft, Download, FileText, GraduationCap } from "lucide-react";
+import { UniversalFileViewer } from "@/components/shared/UniversalFileViewer";
 import Link from "next/link";
 import { ExamSubmissionForm } from "@/components/student/ExamSubmissionForm";
 
@@ -126,33 +127,16 @@ export default async function ExamStudyViewPage({
               
               <div className="mt-auto space-y-3">
                 {exam.materials.length > 0 ? (
-                  exam.materials.map(mat => (
-                    <div key={mat.id} className="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/50">
-                      <span className="font-bold text-sm text-slate-700 line-clamp-1 pl-4 flex-1">
-                        {mat.title}
-                      </span>
-                      <div className="flex items-center gap-2">
-                        <a 
-                          href={mat.fileUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="shrink-0 bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2"
-                        >
-                          عرض
-                        </a>
-                        <a 
-                          href={`${mat.fileUrl}?download=`}
-                          download
-                          target="_blank"
-                          rel="noreferrer"
-                          className="shrink-0 bg-sky-50 text-sky-700 hover:bg-sky-100 px-4 py-2 rounded-lg text-xs font-bold transition-all flex items-center gap-2"
-                        >
-                          <Download className="w-3.5 h-3.5" />
-                          تحميل
-                        </a>
-                      </div>
-                    </div>
-                  ))
+                  <div className="grid grid-cols-1 gap-3 w-full">
+                    {exam.materials.map(mat => (
+                      <UniversalFileViewer
+                        key={mat.id}
+                        title={mat.title}
+                        fileUrl={mat.fileUrl}
+                        fileType={(mat as any).fileType}
+                      />
+                    ))}
+                  </div>
                 ) : (
                   <div className="w-full text-center bg-slate-50 text-slate-400 py-3.5 rounded-xl font-bold border border-slate-100">
                     لا توجد مرفقات إضافية

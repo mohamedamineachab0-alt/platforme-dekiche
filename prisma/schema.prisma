@@ -117,6 +117,7 @@ model User {
   forumMessages      ForumMessage[]
   friendLinksSource  StudentFriendLink[] @relation("StudentLinkSource")
   friendLinksTarget  StudentFriendLink[] @relation("StudentLinkTarget")
+  subscriptionRequests SubscriptionRequest[]
 }
 
 model StudentProfile {
@@ -160,6 +161,8 @@ model Subject {
   teacher     Teacher?     @relation(fields: [teacherId], references: [id])
   level       Level
   stream      Stream
+  levels      Level[]      @default([])
+  streams     Stream[]     @default([])
   image       String // Square image URL from Supabase Storage
   price       Float
   accessType  String // 'MONTHLY' or 'YEARLY'
@@ -186,6 +189,8 @@ model Lesson {
   image     String? // Square image URL for the lesson from Supabase Storage
   subjectId String
   subject   Subject          @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  subjectIds String[]        @default([])
+  streams   Stream[]         @default([])
   quiz      Quiz? // One-to-one relation with AI Quiz
   mistakes  StudentMistake[]
   materials LessonMaterial[]
@@ -196,6 +201,7 @@ model LessonMaterial {
   id        String   @id @default(uuid())
   title     String
   fileUrl   String
+  fileType  String?
   lessonId  String
   lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
@@ -337,6 +343,7 @@ model ExerciseMaterial {
   id              String         @id @default(uuid())
   title           String
   fileUrl         String
+  fileType        String?
   dailyExerciseId String
   dailyExercise   DailyExercise  @relation(fields: [dailyExerciseId], references: [id], onDelete: Cascade)
   createdAt       DateTime       @default(now())
@@ -364,6 +371,7 @@ model ExamMaterial {
   id        String   @id @default(uuid())
   title     String
   fileUrl   String
+  fileType  String?
   examId    String
   exam      Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
@@ -375,7 +383,9 @@ model StudentSubmission {
   exam        Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
   studentId   String
   student     User     @relation("StudentSubmissions", fields: [studentId], references: [id], onDelete: Cascade)
-  imageUrl    String
+  imageUrl    String?
+  fileUrl     String?
+  fileType    String?
   score       Int?
   feedback    String?
   createdAt   DateTime @default(now())
@@ -445,4 +455,18 @@ model ParentTicket {
   message   String
   status    String   @default("OPEN")
   createdAt DateTime @default(now())
+}
+
+model SubscriptionRequest {
+  id          String   @id @default(cuid())
+  studentId   String
+  student     User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  subjectIds  String[]
+  level       String
+  stream      String
+  wilaya      String
+  address     String
+  phoneNumber String
+  status      String   @default("PENDING")
+  createdAt   DateTime @default(now())
 }

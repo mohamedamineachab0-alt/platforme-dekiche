@@ -16,8 +16,8 @@ export function SubjectCreationClient({
   const [teacherId, setTeacherId] = useState("");
   const [manualTeacherName, setManualTeacherName] = useState("");
   const [teacherInputMethod, setTeacherInputMethod] = useState<"LIST" | "MANUAL">("LIST");
-  const [level, setLevel] = useState("FIRST_YEAR");
-  const [stream, setStream] = useState("SCIENCE");
+  const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
+  const [selectedStreams, setSelectedStreams] = useState<string[]>([]);
   const [isFree, setIsFree] = useState(false);
   const [price, setPrice] = useState("2500");
   const [accessType, setAccessType] = useState("MONTHLY");
@@ -43,6 +43,8 @@ export function SubjectCreationClient({
     setDescription("");
     setTeacherId("");
     setManualTeacherName("");
+    setSelectedLevels([]);
+    setSelectedStreams([]);
     setImageFile(null);
     setImageUrl("");
   }
@@ -156,18 +158,51 @@ export function SubjectCreationClient({
             )}
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <label className="text-sm font-bold text-slate-700 dark:text-slate-300">المستوى</label>
-              <select name="level" required value={level} onChange={e => setLevel(e.target.value)} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
-                {LEVELS.map(l => <option key={l.value} value={l.value}>{l.label.replace(/\./g, '')}</option>)}
-              </select>
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-slate-700 dark:text-slate-300">المستويات الدراسية (يمكن اختيار أكثر من مستوى)</label>
+              <div className="grid grid-cols-2 gap-2">
+                {LEVELS.map(l => (
+                  <button
+                    key={l.value}
+                    type="button"
+                    onClick={() => setSelectedLevels(prev => prev.includes(l.value) ? prev.filter(v => v !== l.value) : [...prev, l.value])}
+                    className={`p-2.5 rounded-xl border text-sm font-bold transition-all text-right ${
+                      selectedLevels.includes(l.value)
+                        ? "border-sky-500 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400"
+                        : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 hover:border-sky-300 dark:hover:border-sky-700"
+                    }`}
+                  >
+                    {l.label.replace(/\./g, '')}
+                  </button>
+                ))}
+              </div>
+              {selectedLevels.map(l => (
+                <input key={l} type="hidden" name="levels" value={l} />
+              ))}
             </div>
-            <div className="space-y-1">
-              <label className="text-sm font-bold text-slate-700 dark:text-slate-300">الشعبة</label>
-              <select name="stream" required value={stream} onChange={e => setStream(e.target.value)} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
-                {STREAMS.map(s => <option key={s.value} value={s.value}>{s.label.replace(/\./g, '')}</option>)}
-              </select>
+
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-slate-700 dark:text-slate-300">الشعب (يمكن اختيار أكثر من شعبة)</label>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
+                {STREAMS.map(s => (
+                  <button
+                    key={s.value}
+                    type="button"
+                    onClick={() => setSelectedStreams(prev => prev.includes(s.value) ? prev.filter(v => v !== s.value) : [...prev, s.value])}
+                    className={`p-2.5 rounded-xl border text-sm font-bold transition-all text-right ${
+                      selectedStreams.includes(s.value)
+                        ? "border-sky-500 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400"
+                        : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 hover:border-sky-300 dark:hover:border-sky-700"
+                    }`}
+                  >
+                    {s.label.replace(/\./g, '')}
+                  </button>
+                ))}
+              </div>
+              {selectedStreams.map(s => (
+                <input key={s} type="hidden" name="streams" value={s} />
+              ))}
             </div>
           </div>
 

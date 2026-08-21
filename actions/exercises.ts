@@ -14,7 +14,7 @@ export async function createDailyExercise(formData: FormData): Promise<void> {
   const secondarySubjectId = formData.get("secondarySubjectId") as string || null;
   const quizType = formData.get("quizType") as string || "AI";
   
-  let materialsData: { title: string, fileUrl: string }[] = [];
+  let materialsData: { title: string, fileUrl: string, fileType?: string }[] = [];
   const rawMaterials = formData.get("materials") as string;
   if (rawMaterials) {
     try {
@@ -60,6 +60,7 @@ export async function createDailyExercise(formData: FormData): Promise<void> {
           create: materialsData.map(m => ({
             title: m.title,
             fileUrl: m.fileUrl,
+            fileType: m.fileType,
           })),
         },
       },

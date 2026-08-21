@@ -182,7 +182,7 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
           .from("daily-excercicse")
           .getPublicUrl(fPath);
 
-        uploadedMaterials.push({ title: mat.title, fileUrl: mUrl });
+        uploadedMaterials.push({ title: mat.title, fileUrl: mUrl, fileType: mat.file.type });
       }
       formData.set("materials", JSON.stringify(uploadedMaterials));
       

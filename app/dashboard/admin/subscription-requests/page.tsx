@@ -3,6 +3,8 @@ import { getAvailableSubjects } from "@/actions/subscription";
 import { SubscriptionRequestsList } from "@/components/admin/SubscriptionRequestsList";
 import { CreditCard, AlertCircle } from "lucide-react";
 
+export const dynamic = 'force-dynamic';
+
 export const metadata = {
   title: "طلبات الاشتراك | منصة دقيش",
 };

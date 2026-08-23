@@ -19,18 +19,6 @@ export type RegisterState = {
 
 // Advanced Security Mitigation Config
 const ALLOWED_ORIGIN = process.env.NODE_ENV === "production" ? "https://dekiche-academy.com" : "http://localhost:3000";
-const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY!;
-const DISPOSABLE_DOMAINS = ["mailinator.com", "yopmail.com", "tempmail.com", "guerrillamail.com", "10minutemail.com", "temp-mail.org"];
-
-async function verifyTurnstile(token: string) {
-  const res = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: `secret=${TURNSTILE_SECRET_KEY}&response=${token}`,
-  });
-  const data = await res.json();
-  return data.success;
-}
 
 export async function registerUser(
   formData: FormData
@@ -54,27 +42,9 @@ export async function registerUser(
     return { ok: true };
   }
 
-  const turnstileToken = formData.get("cf-turnstile-response") as string;
-  if (!turnstileToken) {
-    return { error: "Missing Turnstile validation token" };
-  }
-
-  const isHuman = await verifyTurnstile(turnstileToken);
-  if (!isHuman) {
-    return { error: "Bot detected. Turnstile challenge failed." };
-  }
-
   const role        = (formData.get("role")        as string)?.trim() || "STUDENT";
   const fullName    = (formData.get("fullName")    as string)?.trim();
   const phoneNumber = (formData.get("phoneNumber") as string)?.trim();
-  const email       = (formData.get("email")       as string)?.trim();
-  
-  if (email) {
-    const domain = email.split("@")[1]?.toLowerCase();
-    if (DISPOSABLE_DOMAINS.includes(domain)) {
-      return { error: "Disposable email providers are prohibited." };
-    }
-  }
 
   if (!fullName || !phoneNumber) {
     return { error: "جميع الحقول مطلوبة" };

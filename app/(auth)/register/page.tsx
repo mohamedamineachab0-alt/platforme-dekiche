@@ -5,10 +5,9 @@ import { registerUser } from "@/actions/auth";
 import { WILAYAS, LEVELS, STREAMS } from "@/lib/constants";
 import {
   User, Phone, Lock, MapPin, GraduationCap, BookOpen,
-  Users, Eye, EyeOff, UserPlus, ChevronDown, Loader2, AlertCircle, Mail
+  Users, Eye, EyeOff, UserPlus, ChevronDown, Loader2, AlertCircle
 } from "lucide-react";
 import Link from "next/link";
-import { Turnstile } from "@marsidev/react-turnstile";
 
 function InputField({
   id, label, name, type = "text", placeholder, icon: Icon, dir,
@@ -232,14 +231,6 @@ export default function RegisterPage() {
                   value={formData.phoneNumber} onChange={handleInputChange} />
               </div>
               
-              {/* Optional Email input for Disposable Check functionality */}
-              <div className="md:col-span-2">
-                <InputField id="reg-email" label="البريد الإلكتروني (اختياري)" name="email" type="email"
-                  placeholder="example@gmail.com" icon={Mail} dir="ltr" autoComplete="email"
-                  required={false}
-                  value={(formData as any).email || ""} onChange={handleInputChange} />
-              </div>
-
               {role === "STUDENT" && (
                 <>
                   <SelectField
@@ -264,10 +255,6 @@ export default function RegisterPage() {
                   </div>
                 </>
               )}
-            </div>
-
-            <div className="flex justify-center mt-4" dir="ltr">
-              <Turnstile siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!} />
             </div>
 
             <button

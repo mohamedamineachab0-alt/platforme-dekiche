@@ -259,8 +259,8 @@ export default function RegisterPage() {
               )}
             </div>
 
-            <div className="flex justify-center mt-4">
-              <Turnstile siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "1x00000000000000000000AA"} />
+            <div className="flex justify-center mt-4" dir="ltr">
+              <Turnstile siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!} />
             </div>
 
             <button

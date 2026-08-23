@@ -15,7 +15,7 @@ export type RegisterState = {
 
 // Advanced Security Mitigation Config
 const ALLOWED_ORIGIN = process.env.NODE_ENV === "production" ? "https://dekiche-academy.com" : "http://localhost:3000";
-const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY || "1x0000000000000000000000000000000AA"; // Dummy default for typing
+const TURNSTILE_SECRET_KEY = process.env.TURNSTILE_SECRET_KEY!;
 const DISPOSABLE_DOMAINS = ["mailinator.com", "yopmail.com", "tempmail.com", "guerrillamail.com", "10minutemail.com", "temp-mail.org"];
 
 async function verifyTurnstile(token: string) {

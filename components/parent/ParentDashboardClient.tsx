@@ -272,12 +272,7 @@ export function ParentDashboardClient({ students, parentId }: ParentDashboardCli
                   disabled={isSubmitting}
                   className="w-full flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 text-white font-black py-4 rounded-xl transition-all shadow-sm hover:shadow-md hover:-translate-y-0.5 disabled:opacity-50 disabled:hover:translate-y-0"
                 >
-                  {isSubmitting ? "جاري الإرسال..." : (
-                    <>
-                      <Send className="w-5 h-5 rtl:rotate-180" />
-                      إرسال للإدارة
-                    </>
-                  )}
+                  {isSubmitting ? "جاري الإرسال..." : "إرسال للإدارة"}
                 </button>
               </form>
             )}

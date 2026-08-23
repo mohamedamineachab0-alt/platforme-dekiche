@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Users, AlertTriangle, MessageSquare, BookOpen, Send, User as UserIcon } from "lucide-react";
 import { submitParentTicket } from "@/actions/parents";
+import { LEVELS, STREAMS } from "@/lib/constants";
 
 type StudentData = {
   id: string;
@@ -115,7 +116,7 @@ export function ParentDashboardClient({ students, parentId }: ParentDashboardCli
                       <div>
                         <h3 className="font-black text-lg text-slate-900">{student.fullName}</h3>
                         <p className="text-xs font-bold text-sky-600">
-                          {student.studentProfile?.level || "غير محدد"} • {student.studentProfile?.stream || "غير محدد"}
+                          {LEVELS.find(l => l.value === student.studentProfile?.level)?.label || student.studentProfile?.level || "غير محدد"} • {STREAMS.find(s => s.value === student.studentProfile?.stream)?.label || student.studentProfile?.stream || "غير محدد"}
                         </p>
                       </div>
                     </div>

@@ -1,6 +1,5 @@
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
-import DOMPurify from "isomorphic-dompurify";
 
 // ============================================================================
 // 1. BROKEN ACCESS CONTROL (IDOR) - Server Action Guard
@@ -103,7 +102,10 @@ export async function secureFileGuard(file: File): Promise<{ error?: string; saf
 // ============================================================================
 // 3. CROSS-SITE SCRIPTING (XSS) PREVENTION
 // ============================================================================
-export function sanitizeHtml(dirtyHtml: string): string {
+export async function sanitizeHtml(dirtyHtml: string): Promise<string> {
+  // Dynamically import to avoid ESM require() crashes in Vercel/Next.js SSR
+  const DOMPurify = (await import("isomorphic-dompurify")).default;
+  
   // Strict isomorphic DOMPurify configuration
   return DOMPurify.sanitize(dirtyHtml, {
     USE_PROFILES: { html: true },

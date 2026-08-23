@@ -109,7 +109,7 @@ export async function sendForumMessage(forumId: string, userId: string, content:
     if (sessionUser.id !== userId) return { error: "IDOR Attempt Blocked: User ID mismatch" };
 
     // 2. Strict XSS Sanitization
-    const sanitizedContent = sanitizeHtml(content);
+    const sanitizedContent = await sanitizeHtml(content);
     if (!sanitizedContent.trim()) return { error: "لا يمكن إرسال رسالة فارغة" };
 
     const forum = await prisma.classForum.findUnique({

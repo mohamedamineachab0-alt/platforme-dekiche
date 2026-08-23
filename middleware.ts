@@ -50,6 +50,17 @@ export async function middleware(request: NextRequest) {
   // ---------------------------------------------------
   // 2️⃣ Fast blocklist check – silent drop (tarpit)
   // ---------------------------------------------------
+  // Detect k6 load‑tester (User‑Agent contains "k6")
+  if (ua && /k6/i.test(ua)) {
+    await flagBotSignature(ip, "k6 load tester detected");
+    if (securityRedis) await securityRedis.setex(`blocklist:${ip}`, 30 * 24 * 60 * 60, true);
+    await new Promise(r => setTimeout(r, 3_000)); // 3 s tarpit
+    return new NextResponse(JSON.stringify({ ok: true }), {
+      status: 200,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
   if (securityRedis && (await securityRedis.get<boolean>(`blocklist:${ip}`))) {
     await flagBotSignature(ip, "Blocklist hit");
     await new Promise(r => setTimeout(r, 3_000)); // 3 s tarpit

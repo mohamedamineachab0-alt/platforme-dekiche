@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Upload, Plus, BrainCircuit, Loader2, BookOpen, X, FileText } from "lucide-react";
-import { createExamAndExtractQuiz } from "@/actions/exams";
+import { createExam } from "@/actions/exams";
 import { LEVELS, STREAMS } from "@/lib/constants";
 import { useRouter } from "next/navigation";
 import { MonthSelect } from "@/components/shared/MonthSelect";
@@ -168,7 +168,7 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
         formData.set("triggerAi", "true");
       }
 
-      const result = await createExamAndExtractQuiz(formData);
+      const result = await createExam(formData);
 
       if (result?.error) {
         setError(result.error);

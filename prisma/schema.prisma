@@ -107,6 +107,8 @@ model User {
   studentLinks       ParentStudentLink[] @relation("StudentLink")
   lastLoginAt        DateTime            @default(now())
   deviceFingerprints String[]            @default([])
+  failedLoginAttempts Int                @default(0)
+  lockedUntil        DateTime?
   accessCodes        AccessCode[]
   mistakes           StudentMistake[]
   submissions        StudentSubmission[] @relation("StudentSubmissions")

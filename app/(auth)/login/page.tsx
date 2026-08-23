@@ -46,9 +46,14 @@ export default function LoginPage() {
     const formData = new FormData(e.currentTarget);
     
     startTransition(async () => {
-      const result = await universalLoginAction({}, formData);
-      if (result?.error) {
-        setError(result.error);
+      try {
+        const result = await universalLoginAction({}, formData);
+        if (result?.error) {
+          setError(result.error);
+        }
+      } catch (err: any) {
+        console.error("Login error caught:", err);
+        setError(err instanceof Error ? err.message : String(err));
       }
     });
   };

@@ -162,7 +162,7 @@ export default function RegisterPage() {
         throw err;
       }
       console.error("Registration error caught:", err);
-      setError("حدث خطا اثناء الاتصال بالخادم");
+      setError(err instanceof Error ? err.message : String(err));
       setIsPending(false);
     }
   };

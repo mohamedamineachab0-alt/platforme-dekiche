@@ -2,7 +2,22 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { Ratelimit } from "@upstash/ratelimit";
-import { securityRedis, flagBotSignature } from "@/lib/security";
+import { Redis } from "@upstash/redis";
+
+// Shared Upstash client (Edge compatible)
+const redisUrl = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+const redisToken = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+const securityRedis = redisUrl && redisToken ? new Redis({ url: redisUrl, token: redisToken }) : null;
+
+/** Log a bot signature event and add the IP to temporary blocklist */
+async function flagBotSignature(ip: string, reason: string) {
+  if (!securityRedis) return;
+  const ts = new Date().toISOString();
+  const entry = JSON.stringify({ ip, reason, timestamp: ts });
+  await securityRedis.lpush("bot-signatures", entry);
+  await securityRedis.ltrim("bot-signatures", 0, 9_999);
+  await securityRedis.setex(`blocklist:${ip}`, 30 * 24 * 60 * 60, true);
+}
 
 // Rate limiter for registration endpoint (3 requests per 15 min per IP)
 const registerLimiter = securityRedis

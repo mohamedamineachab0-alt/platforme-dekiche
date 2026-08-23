@@ -43,6 +43,7 @@ const ADMIN_LINKS = [
   { name: "رموز الدخول", href: "/dashboard/admin/codes", icon: Key },
   { name: "طلبات الاشتراك", href: "/dashboard/admin/subscription-requests", icon: CreditCard, activeBg: "bg-emerald-50 dark:bg-emerald-900/30", activeText: "text-emerald-700 dark:text-emerald-400", iconColor: "text-emerald-600 dark:text-emerald-400" },
   { name: "دردشة القسم", href: "/dashboard/admin/forums", icon: MessageSquare },
+  { name: "رسائل الأولياء", href: "/dashboard/admin/parent-messages", icon: MessageSquare },
   { name: "تمارين يومية", href: "/dashboard/admin/exercises", icon: CheckCircle },
   { name: "الإختبارات والفروض", href: "/dashboard/admin/exams", icon: FileText },
   { name: "بطاقات المراجعة", href: "/dashboard/admin/review-cards", icon: Library },

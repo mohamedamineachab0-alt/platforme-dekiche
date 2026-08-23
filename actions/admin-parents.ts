@@ -69,3 +69,17 @@ export async function sendDirectNotification(userId: string, title: string, cont
     return { error: "حدث خطأ أثناء إرسال الإشعار" };
   }
 }
+
+export async function closeParentTicket(ticketId: string) {
+  try {
+    await prisma.parentTicket.update({
+      where: { id: ticketId },
+      data: { status: "CLOSED" }
+    });
+    revalidatePath("/dashboard/admin/parent-messages");
+    return { success: true };
+  } catch (error) {
+    console.error("Error closing ticket:", error);
+    return { error: "حدث خطأ أثناء إغلاق الرسالة" };
+  }
+}

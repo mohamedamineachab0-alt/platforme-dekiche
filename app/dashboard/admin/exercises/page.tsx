@@ -4,14 +4,20 @@ import { HeroBanner } from "@/components/shared/HeroBanner";
 import { DailyExerciseForm } from "@/components/admin/DailyExerciseForm";
 
 export default async function AdminExercisesPage() {
-  const subjects = await prisma.subject.findMany({
-    orderBy: { title: "asc" },
-  });
+  let subjects: any[] = [];
+  let exercises: any[] = [];
+  try {
+    subjects = await prisma.subject.findMany({
+      orderBy: { title: "asc" },
+    });
 
-  const exercises = await prisma.dailyExercise.findMany({
-    orderBy: { createdAt: "desc" },
-    include: { subject: true, secondarySubject: true, quiz: true },
-  });
+    exercises = await prisma.dailyExercise.findMany({
+      orderBy: { createdAt: "desc" },
+      include: { subject: true, secondarySubject: true, quiz: true },
+    });
+  } catch (error) {
+    console.error("Database fetch error in AdminExercisesPage:", error);
+  }
 
   return (
     <div className="space-y-6">

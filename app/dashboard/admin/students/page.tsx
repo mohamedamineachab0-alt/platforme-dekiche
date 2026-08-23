@@ -14,25 +14,34 @@ export const revalidate = 0;
 export default async function AdminStudentsPage() {
   await assertAuth("ADMIN");
 
-  // 3. ACCURATE COUNT VERIFICATION: Fetch exact totals directly from DB
-  const [totalStudents, totalParents] = await Promise.all([
-    prisma.user.count({ where: { role: "STUDENT" } }),
-    prisma.user.count({ where: { role: "PARENT" } }),
-  ]);
+  // 3. ACCURATE COUNT VERIFICATION & 2. COMPLETE FETCHING wrapped in try-catch
+  let totalStudents = 0;
+  let totalParents = 0;
+  let students: any[] = [];
 
-  // 2. COMPLETE FETCHING: Fetch all students with all nested relations (no limits)
-  const students = await prisma.user.findMany({
-    where: { role: "STUDENT" },
-    include: {
-      studentProfile: true,
-      studentLinks: {
-        include: {
-          parent: true,
+  try {
+    const counts = await Promise.all([
+      prisma.user.count({ where: { role: "STUDENT" } }),
+      prisma.user.count({ where: { role: "PARENT" } }),
+    ]);
+    totalStudents = counts[0];
+    totalParents = counts[1];
+
+    students = await prisma.user.findMany({
+      where: { role: "STUDENT" },
+      include: {
+        studentProfile: true,
+        studentLinks: {
+          include: {
+            parent: true,
+          },
         },
       },
-    },
-    orderBy: { createdAt: "desc" },
-  });
+      orderBy: { createdAt: "desc" },
+    });
+  } catch (error) {
+    console.error("Database fetch error in AdminStudentsPage:", error);
+  }
 
   // (Optional, just to satisfy the instruction to query all parents too if needed for verification)
   // const allParents = await prisma.user.findMany({ where: { role: "PARENT" } });

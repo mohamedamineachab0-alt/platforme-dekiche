@@ -29,17 +29,22 @@ export default async function AdminParentMessagesPage() {
     redirect("/dashboard");
   }
 
-  const tickets = await prisma.parentTicket.findMany({
-    orderBy: { createdAt: "desc" },
-    include: {
-      parent: {
-        select: {
-          fullName: true,
-          phoneNumber: true,
+  let tickets: any[] = [];
+  try {
+    tickets = await prisma.parentTicket.findMany({
+      orderBy: { createdAt: "desc" },
+      include: {
+        parent: {
+          select: {
+            fullName: true,
+            phoneNumber: true,
+          },
         },
       },
-    },
-  });
+    });
+  } catch (error) {
+    console.error("Database fetch error in AdminParentMessagesPage:", error);
+  }
 
   return (
     <div className="p-6 md:p-8 space-y-8">

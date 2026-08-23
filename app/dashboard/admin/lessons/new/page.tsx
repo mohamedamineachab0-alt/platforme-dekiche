@@ -6,17 +6,22 @@ import { ChevronRight } from "lucide-react";
 
 
 export default async function NewLessonPage() {
-  const subjects = await prisma.subject.findMany({
-    select: {
-      id: true,
-      title: true,
-      level: true,
-      stream: true,
-    },
-    orderBy: {
-      createdAt: "desc"
-    }
-  });
+  let subjects: any[] = [];
+  try {
+    subjects = await prisma.subject.findMany({
+      select: {
+        id: true,
+        title: true,
+        level: true,
+        stream: true,
+      },
+      orderBy: {
+        createdAt: "desc"
+      }
+    });
+  } catch (error) {
+    console.error("Database fetch error for subjects dropdown:", error);
+  }
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">

@@ -23,103 +23,91 @@ const ALLOWED_ORIGIN = process.env.NODE_ENV === "production" ? "https://dekiche-
 export async function registerUser(
   formData: FormData
 ): Promise<any> {
-  const reqHeaders = await headers();
-  const origin = reqHeaders.get("origin") || reqHeaders.get("referer");
-  const ip = reqHeaders.get("x-forwarded-for") ?? "127.0.0.1";
-  
-  if (process.env.NODE_ENV === "production" && (!origin || !origin.startsWith(ALLOWED_ORIGIN))) {
-    return { error: "Forbidden: Invalid Origin (Anti-CSRF trigger)" };
-  }
-
-  // ACTIVE DEFENSE: ESCALATING HONEYPOT
-  const honeypot = formData.get("website_url") as string;
-  if (honeypot) {
-    // Flag bot signature and blocklist
-    await flagBotSignature(ip, "Honeypot field filled");
-    if (securityRedis) await securityRedis.setex(`blocklist:${ip}`, 30 * 24 * 60 * 60, true);
-    // Silent 3‑second tarpit then return a harmless success payload
-    await new Promise(r => setTimeout(r, 3_000));
-    return { ok: true };
-  }
-
-  const role        = (formData.get("role")        as string)?.trim() || "STUDENT";
-  const fullName    = (formData.get("fullName")    as string)?.trim();
-  const phoneNumber = (formData.get("phoneNumber") as string)?.trim();
-
-  if (!fullName || !phoneNumber) {
-    return { error: "جميع الحقول مطلوبة" };
-  }
-
-  const isSuperAdmin = phoneNumber === "0562388085";
-
-  const existing = await prisma.user.findUnique({ where: { phoneNumber } });
-  if (existing) return { error: "رقم الهاتف مسجل مسبقا جرب تسجيل الدخول" };
-
-  const passwordHash = "";
-
-  if (role === "PARENT") {
-    const user = await prisma.user.create({
-      data: {
-        fullName,
-        phoneNumber,
-        passwordHash,
-        role: isSuperAdmin ? "ADMIN" : "PARENT",
-        parentProfile: {
-          create: {},
-        },
-      },
-    });
-
-    const cookieStore = await cookies();
-    cookieStore.set("session", user.id, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
-      path: "/",
-      maxAge: 60 * 60 * 24 * 30,
-    });
-
-    if (isSuperAdmin) {
-      redirect("/dashboard/admin");
-    } else {
-      redirect("/dashboard/parent");
+  try {
+    const reqHeaders = await headers();
+    const origin = reqHeaders.get("origin") || reqHeaders.get("referer");
+    const ip = reqHeaders.get("x-forwarded-for") ?? "127.0.0.1";
+    
+    if (process.env.NODE_ENV === "production" && (!origin || !origin.startsWith(ALLOWED_ORIGIN))) {
+      return { error: "Forbidden: Invalid Origin (Anti-CSRF trigger)" };
     }
-  } else {
-    // STUDENT ROLE
-    const wilaya      = formData.get("wilaya")      as string;
-    const level       = formData.get("level")       as string;
-    const stream      = formData.get("stream")      as string;
-    const parentName  = "غير محدد";
-    const parentPhone = "غير محدد";
 
-    if (!wilaya || !level || !stream) {
+    // ACTIVE DEFENSE: ESCALATING HONEYPOT
+    const honeypot = formData.get("website_url") as string;
+    if (honeypot) {
+      await flagBotSignature(ip, "Honeypot field filled");
+      if (securityRedis) await securityRedis.setex(`blocklist:${ip}`, 30 * 24 * 60 * 60, true);
+      await new Promise(r => setTimeout(r, 3_000));
+      return { ok: true };
+    }
+
+    const role        = (formData.get("role")        as string)?.trim() || "STUDENT";
+    const fullName    = (formData.get("fullName")    as string)?.trim();
+    const phoneNumber = (formData.get("phoneNumber") as string)?.trim();
+
+    if (!fullName || !phoneNumber) {
       return { error: "جميع الحقول مطلوبة" };
     }
 
-    if (!Object.values(Wilaya).includes(wilaya as Wilaya)) return { error: "الولاية غير صالحة" };
-    if (!Object.values(Level).includes(level as Level))   return { error: "المستوى غير صالح" };
-    if (!Object.values(Stream).includes(stream as Stream)) return { error: "الشعبة غير صالحة" };
+    const isSuperAdmin = phoneNumber === "0562388085";
 
-    const user = await prisma.user.create({
-      data: {
-        fullName,
-        phoneNumber,
-        passwordHash,
-        role: isSuperAdmin ? "ADMIN" : "STUDENT",
-        studentProfile: {
-          create: {
-            parentName,
-            parentPhone,
-            level: level as Level,
-            stream: stream as Stream,
-            wilaya: wilaya as Wilaya,
+    const existing = await prisma.user.findUnique({ where: { phoneNumber } });
+    if (existing) return { error: "رقم الهاتف مسجل مسبقا جرب تسجيل الدخول" };
+
+    const passwordHash = "";
+    let userId: string | null = null;
+
+    if (role === "PARENT") {
+      const user = await prisma.user.create({
+        data: {
+          fullName,
+          phoneNumber,
+          passwordHash,
+          role: isSuperAdmin ? "ADMIN" : "PARENT",
+          parentProfile: {
+            create: {},
           },
         },
-      },
-    });
+      });
+      userId = user.id;
+    } else {
+      // STUDENT ROLE
+      const wilaya      = formData.get("wilaya")      as string;
+      const level       = formData.get("level")       as string;
+      const stream      = formData.get("stream")      as string;
+      const parentName  = "غير محدد";
+      const parentPhone = "غير محدد";
+
+      if (!wilaya || !level || !stream) {
+        return { error: "جميع الحقول مطلوبة" };
+      }
+
+      if (!Object.values(Wilaya).includes(wilaya as Wilaya)) return { error: "الولاية غير صالحة" };
+      if (!Object.values(Level).includes(level as Level))   return { error: "المستوى غير صالح" };
+      if (!Object.values(Stream).includes(stream as Stream)) return { error: "الشعبة غير صالحة" };
+
+      const user = await prisma.user.create({
+        data: {
+          fullName,
+          phoneNumber,
+          passwordHash,
+          role: isSuperAdmin ? "ADMIN" : "STUDENT",
+          studentProfile: {
+            create: {
+              parentName,
+              parentPhone,
+              level: level as Level,
+              stream: stream as Stream,
+              wilaya: wilaya as Wilaya,
+            },
+          },
+        },
+      });
+      userId = user.id;
+    }
 
     const cookieStore = await cookies();
-    cookieStore.set("session", user.id, {
+    cookieStore.set("session", userId, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
@@ -130,8 +118,14 @@ export async function registerUser(
     if (isSuperAdmin) {
       redirect("/dashboard/admin");
     } else {
-      redirect("/dashboard/student");
+      redirect(role === "PARENT" ? "/dashboard/parent" : "/dashboard/student");
     }
+  } catch (error: any) {
+    if (error?.message === 'NEXT_REDIRECT' || (error?.digest && error.digest.startsWith('NEXT_REDIRECT'))) {
+      throw error;
+    }
+    console.error("Auth Error (Register):", error);
+    return { error: error instanceof Error ? error.message : String(error) };
   }
 }
 

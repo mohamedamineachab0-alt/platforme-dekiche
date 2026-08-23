@@ -52,9 +52,16 @@ export async function universalLoginAction(
       where: { id: user.id },
       data: { lastLoginAt: new Date() },
     });
-  } catch (error) {
-    console.error("Login Error:", error);
-    return { error: "حدث خطأ غير متوقع. يرجى المحاولة لاحقاً.", fullName, phoneNumber };
+  } catch (error: any) {
+    if (error?.message === 'NEXT_REDIRECT' || (error?.digest && error.digest.startsWith('NEXT_REDIRECT'))) {
+      throw error;
+    }
+    console.error("Auth Error (Login):", error);
+    return { 
+      error: error instanceof Error ? error.message : String(error),
+      fullName, 
+      phoneNumber 
+    };
   }
 
   // 6. Dynamic Role-based Redirect

@@ -7,7 +7,7 @@ import {
   LayoutDashboard, BookOpen, CheckCircle, FileText, Video, AlertTriangle, 
   Trophy, Users, Key, LogOut, Settings, Bot, Wallet, Bell, Activity, Map, 
   Library, MessageSquare, ChevronRight, ChevronLeft, Menu, X, Swords, BellRing,
-  Star, UserMinus, Lightbulb, CreditCard
+  Star, UserMinus, Lightbulb, CreditCard, GraduationCap
 } from "lucide-react";
 import { Role } from "@/generated/prisma";
 import { getUserSessionProfile } from "@/actions/user";
@@ -36,6 +36,7 @@ const STUDENT_LINKS = [
 const ADMIN_LINKS = [
   { name: "الرئيسية", href: "/dashboard/admin", icon: LayoutDashboard },
   { name: "الأساتذة", href: "/dashboard/admin/teachers", icon: Users },
+  { name: "التلاميذ والأولياء", href: "/dashboard/admin/students", icon: GraduationCap },
   { name: "مداخيل الأساتذة", href: "/dashboard/admin/teachers/revenues", icon: Wallet },
   { name: "المواد", href: "/dashboard/admin/subjects", icon: BookOpen },
   { name: "الدروس", href: "/dashboard/admin/lessons", icon: FileText },

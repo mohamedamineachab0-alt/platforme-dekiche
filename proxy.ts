@@ -36,7 +36,7 @@ async function logThreat(ip: string, ua: string | null, path: string) {
   await securityRedis.ltrim(dayKey, 0, 9_999);
 }
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for") ?? "127.0.0.1";
   const ua = request.headers.get("user-agent");
   const pathname = request.nextUrl.pathname.toLowerCase();

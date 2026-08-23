@@ -36,10 +36,16 @@ async function logThreat(ip: string, ua: string | null, path: string) {
   await securityRedis.ltrim(dayKey, 0, 9_999);
 }
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for") ?? "127.0.0.1";
   const ua = request.headers.get("user-agent");
   const pathname = request.nextUrl.pathname.toLowerCase();
+
+  // Helper to return HTML for browser WAF blocks instead of JSON (which triggers downloads)
+  const wafBlockResponse = () => new NextResponse(
+    `<!DOCTYPE html><html><head><title>Access Denied</title></head><body><h1>403 Forbidden</h1><p>Your IP (${ip}) has been blocked by the security firewall.</p></body></html>`,
+    { status: 403, headers: { "Content-Type": "text/html" } }
+  );
 
   // ---------------------------------------------------
   // 1️⃣ Log all protected endpoint traffic
@@ -50,24 +56,17 @@ export async function proxy(request: NextRequest) {
   // ---------------------------------------------------
   // 2️⃣ Fast blocklist check – silent drop (tarpit)
   // ---------------------------------------------------
-  // Detect k6 load‑tester (User‑Agent contains "k6")
   if (ua && /k6/i.test(ua)) {
     await flagBotSignature(ip, "k6 load tester detected");
     if (securityRedis) await securityRedis.setex(`blocklist:${ip}`, 30 * 24 * 60 * 60, true);
-    await new Promise(r => setTimeout(r, 3_000)); // 3 s tarpit
-    return new NextResponse(JSON.stringify({ ok: true }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    await new Promise(r => setTimeout(r, 3_000));
+    return wafBlockResponse();
   }
 
   if (securityRedis && (await securityRedis.get<boolean>(`blocklist:${ip}`))) {
     await flagBotSignature(ip, "Blocklist hit");
-    await new Promise(r => setTimeout(r, 3_000)); // 3 s tarpit
-    return new NextResponse(JSON.stringify({ ok: true }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    await new Promise(r => setTimeout(r, 3_000));
+    return wafBlockResponse();
   }
 
   // ---------------------------------------------------
@@ -77,10 +76,7 @@ export async function proxy(request: NextRequest) {
     if (securityRedis) await securityRedis.setex(`blocklist:${ip}`, 30 * 24 * 60 * 60, true);
     await flagBotSignature(ip, `Honey‑URL accessed: ${pathname}`);
     await new Promise(r => setTimeout(r, 3_000));
-    return new NextResponse(JSON.stringify({ ok: true }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return wafBlockResponse();
   }
 
   // ---------------------------------------------------
@@ -92,18 +88,7 @@ export async function proxy(request: NextRequest) {
       if (securityRedis) await securityRedis.setex(`blocklist:${ip}`, 30 * 24 * 60 * 60, true);
       await flagBotSignature(ip, "Rate limit exceeded on /register");
       await new Promise(r => setTimeout(r, 3_000));
-      return new NextResponse(
-        JSON.stringify({ error: "Too Many Requests" }),
-        {
-          status: 429,
-          headers: {
-            "Content-Type": "application/json",
-            "X-RateLimit-Limit": limit.toString(),
-            "X-RateLimit-Remaining": remaining.toString(),
-            "X-RateLimit-Reset": reset.toString(),
-          },
-        }
-      );
+      return wafBlockResponse();
     }
   }
 

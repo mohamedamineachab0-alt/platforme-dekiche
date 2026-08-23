@@ -3,9 +3,11 @@
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { Level, Stream } from "@/generated/prisma";
+import { assertAuth, sanitizeHtml } from "@/lib/security";
 
 export async function createForum(formData: FormData) {
   try {
+    await assertAuth("ADMIN");
     const title = formData.get("title") as string;
     const subjectId = formData.get("subjectId") as string;
     const level = formData.get("level") as Level;
@@ -42,6 +44,7 @@ export async function createForum(formData: FormData) {
 
 export async function toggleForumStatus(forumId: string, isOpen: boolean) {
   try {
+    await assertAuth("ADMIN");
     await prisma.classForum.update({
       where: { id: forumId },
       data: { isOpen }
@@ -58,6 +61,7 @@ export async function toggleForumStatus(forumId: string, isOpen: boolean) {
 
 export async function getAdminForums() {
   try {
+    await assertAuth("ADMIN");
     return await prisma.classForum.findMany({
       include: {
         subject: true,
@@ -75,6 +79,7 @@ export async function getAdminForums() {
 
 export async function getStudentForums(level: Level, stream: Stream) {
   try {
+    await assertAuth("STUDENT");
     return await prisma.classForum.findMany({
       where: {
         level,
@@ -99,7 +104,13 @@ export async function getStudentForums(level: Level, stream: Stream) {
 
 export async function sendForumMessage(forumId: string, userId: string, content: string) {
   try {
-    if (!content.trim()) return { error: "لا يمكن إرسال رسالة فارغة" };
+    // 1. Strict IDOR protection
+    const sessionUser = await assertAuth();
+    if (sessionUser.id !== userId) return { error: "IDOR Attempt Blocked: User ID mismatch" };
+
+    // 2. Strict XSS Sanitization
+    const sanitizedContent = sanitizeHtml(content);
+    if (!sanitizedContent.trim()) return { error: "لا يمكن إرسال رسالة فارغة" };
 
     const forum = await prisma.classForum.findUnique({
       where: { id: forumId },
@@ -129,7 +140,7 @@ export async function sendForumMessage(forumId: string, userId: string, content:
       data: {
         forumId,
         userId,
-        content
+        content: sanitizedContent
       }
     });
 
@@ -143,6 +154,7 @@ export async function sendForumMessage(forumId: string, userId: string, content:
 
 export async function getForumMessages(forumId: string) {
   try {
+    await assertAuth();
     return await prisma.forumMessage.findMany({
       where: { forumId },
       include: {
@@ -165,6 +177,7 @@ export async function getForumMessages(forumId: string) {
 
 export async function getForumDetails(forumId: string) {
   try {
+    await assertAuth();
     return await prisma.classForum.findUnique({
       where: { id: forumId },
       include: {

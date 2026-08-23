@@ -2,6 +2,7 @@
 
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import { assertAuth } from "@/lib/security";
 
 export async function getAvailableSubjects() {
   try {
@@ -39,16 +40,11 @@ export async function createSubscriptionRequest(data: {
   phoneNumber: string;
 }) {
   try {
-    const cookieStore = await cookies();
-    const sessionId = cookieStore.get("session")?.value;
-
-    if (!sessionId) {
-      return { error: "غير مصرح" };
-    }
+    const sessionUser = await assertAuth("STUDENT");
 
     const newRequest = await prisma.subscriptionRequest.create({
       data: {
-        studentId: sessionId,
+        studentId: sessionUser.id,
         subjectIds: data.subjectIds,
         level: data.level,
         stream: data.stream,
@@ -71,21 +67,7 @@ export async function createSubscriptionRequest(data: {
 
 export async function getAdminSubscriptionRequests() {
   try {
-    const cookieStore = await cookies();
-    const sessionId = cookieStore.get("session")?.value;
-
-    if (!sessionId) {
-      return { error: "غير مصرح", requests: [] };
-    }
-
-    const adminUser = await prisma.user.findUnique({
-      where: { id: sessionId },
-      select: { role: true },
-    });
-
-    if (adminUser?.role !== "ADMIN") {
-      return { error: "غير مصرح", requests: [] };
-    }
+    await assertAuth("ADMIN");
 
     const requests = await prisma.subscriptionRequest.findMany({
       orderBy: { createdAt: "desc" },
@@ -105,21 +87,7 @@ export async function getAdminSubscriptionRequests() {
 
 export async function updateSubscriptionRequestStatus(id: string, status: string) {
   try {
-    const cookieStore = await cookies();
-    const sessionId = cookieStore.get("session")?.value;
-
-    if (!sessionId) {
-      return { error: "غير مصرح" };
-    }
-
-    const adminUser = await prisma.user.findUnique({
-      where: { id: sessionId },
-      select: { role: true },
-    });
-
-    if (adminUser?.role !== "ADMIN") {
-      return { error: "غير مصرح" };
-    }
+    await assertAuth("ADMIN");
 
     await prisma.subscriptionRequest.update({
       where: { id },

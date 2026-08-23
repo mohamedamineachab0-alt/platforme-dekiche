@@ -5,6 +5,10 @@ import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
 import { Level, Stream, Wilaya } from "@/generated/prisma";
+// Replaced direct Redis import with shared security utilities
+import { flagBotSignature, securityRedis, silentDrop } from "@/lib/security";
+
+
 
 // ─── REGISTER ──────────────────────────────────────────────────────────────
 
@@ -33,9 +37,21 @@ export async function registerUser(
 ): Promise<any> {
   const reqHeaders = await headers();
   const origin = reqHeaders.get("origin") || reqHeaders.get("referer");
+  const ip = reqHeaders.get("x-forwarded-for") ?? "127.0.0.1";
   
   if (process.env.NODE_ENV === "production" && (!origin || !origin.startsWith(ALLOWED_ORIGIN))) {
     return { error: "Forbidden: Invalid Origin (Anti-CSRF trigger)" };
+  }
+
+  // ACTIVE DEFENSE: ESCALATING HONEYPOT
+  const honeypot = formData.get("website_url") as string;
+  if (honeypot) {
+    // Flag bot signature and blocklist
+    await flagBotSignature(ip, "Honeypot field filled");
+    if (securityRedis) await securityRedis.setex(`blocklist:${ip}`, 30 * 24 * 60 * 60, true);
+    // Silent 3‑second tarpit then return a harmless success payload
+    await new Promise(r => setTimeout(r, 3_000));
+    return { ok: true };
   }
 
   const turnstileToken = formData.get("cf-turnstile-response") as string;

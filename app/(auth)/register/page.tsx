@@ -211,6 +211,13 @@ export default function RegisterPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <input type="hidden" name="role" value={role} />
+            
+            {/* HONEYPOT FIELD (ACTIVE DEFENSE) */}
+            <div className="absolute opacity-0 -z-50 pointer-events-none" aria-hidden="true">
+              <label htmlFor="website_url">Website URL (Do not fill this)</label>
+              <input type="text" id="website_url" name="website_url" tabIndex={-1} autoComplete="off" />
+            </div>
+
             <ErrorBanner message={error} />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">

@@ -35,6 +35,30 @@ export async function withAuthGuard<T>(
   };
 }
 
+export async function assertAuth(requireRole?: "ADMIN" | "TEACHER" | "STUDENT" | "PARENT") {
+  const cookieStore = await cookies();
+  const sessionId = cookieStore.get("session")?.value;
+
+  if (!sessionId) {
+    throw new Error("Unauthorized access (IDOR blocked)");
+  }
+
+  const user = await prisma.user.findUnique({
+    where: { id: sessionId },
+    select: { id: true, role: true },
+  });
+
+  if (!user) {
+    throw new Error("Session invalid or expired");
+  }
+
+  if (requireRole && user.role !== requireRole && user.role !== "ADMIN") {
+    throw new Error("Forbidden: Insufficient privileges");
+  }
+
+  return user;
+}
+
 // ============================================================================
 // 2. SECURE FILE UPLOADS - MIME, Magic Bytes, Size, Sanitization
 // ============================================================================
@@ -86,5 +110,35 @@ export function sanitizeHtml(dirtyHtml: string): string {
     FORBID_TAGS: ["script", "style", "iframe", "object", "embed", "base", "form"],
     FORBID_ATTR: ["onerror", "onload", "onclick", "onmouseover"],
     ALLOW_DATA_ATTR: false, // Prevent React data attribute injections
+  });
+}
+
+// ─── THREAT INTELLIGENCE UTILITIES ───────────────────────────────────────────────
+import { Redis } from "@upstash/redis";
+
+// Shared Upstash client (reuse env vars, fallback to Vercel KV if configured)
+const redisUrl = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL;
+const redisToken = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN;
+export const securityRedis = redisUrl && redisToken ? new Redis({ url: redisUrl, token: redisToken }) : null;
+
+/** Log a bot signature event and add the IP to temporary blocklist */
+export async function flagBotSignature(ip: string, reason: string) {
+  if (!securityRedis) return;
+  const ts = new Date().toISOString();
+  const entry = JSON.stringify({ ip, reason, timestamp: ts });
+  // Keep a rolling log of recent signatures (10k entries)
+  await securityRedis.lpush("bot-signatures", entry);
+  await securityRedis.ltrim("bot-signatures", 0, 9_999);
+  // Block for 30 days
+  await securityRedis.setex(`blocklist:${ip}`, 30 * 24 * 60 * 60, true);
+}
+
+/** Return a delayed generic response to waste bot resources */
+export async function silentDrop<T>(payload: T, status = 200): Promise<Response> {
+  // 3‑second tarpit (adjustable as needed)
+  await new Promise(r => setTimeout(r, 3_000));
+  return new Response(JSON.stringify(payload), {
+    status,
+    headers: { "Content-Type": "application/json" },
   });
 }

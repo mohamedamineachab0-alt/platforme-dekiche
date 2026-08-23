@@ -5,6 +5,7 @@ import { supabase, ensureBucketExists } from "@/lib/supabase";
 import { Level, Stream } from "@/generated/prisma";
 import Groq from "groq-sdk";
 import { revalidatePath } from "next/cache";
+import { assertAuth, secureFileGuard } from "@/lib/security";
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
@@ -13,7 +14,13 @@ const groq = new Groq({
 /**
  * Helper to upload a File to Supabase Storage and return its public URL
  */
-async function uploadToSupabase(file: File, bucketName: string, pathPrefix: string): Promise<string> {
+async function uploadToSupabase(rawFile: File, bucketName: string, pathPrefix: string): Promise<string> {
+  const { error: guardError, safeFile } = await secureFileGuard(rawFile);
+  if (guardError || !safeFile) {
+    throw new Error(guardError || "Security check failed for file upload");
+  }
+  const file = safeFile;
+
   const ext = file.name.split('.').pop() || "jpg";
   const filePath = `${pathPrefix}-${Date.now()}.${ext}`;
   
@@ -33,8 +40,9 @@ async function uploadToSupabase(file: File, bucketName: string, pathPrefix: stri
   return publicUrlData.publicUrl;
 }
 
-export async function createExamAndExtractQuiz(formData: FormData) {
+export async function createExam(formData: FormData) {
   try {
+    await assertAuth("ADMIN");
     const title = formData.get("title") as string;
     const subjectId = formData.get("subjectId") as string;
     const level = formData.get("level") as Level;
@@ -172,7 +180,14 @@ export async function createExamAndExtractQuiz(formData: FormData) {
 
 export async function gradeStudentSubmission(formData: FormData) {
   try {
+    const sessionUser = await assertAuth("STUDENT");
     const studentId = formData.get("studentId") as string;
+    
+    // Strict IDOR protection
+    if (sessionUser.id !== studentId) {
+      return { error: "IDOR Blocked: Cannot submit for another student" };
+    }
+
     const examId = formData.get("examId") as string;
     const file = formData.get("file") as File;
 

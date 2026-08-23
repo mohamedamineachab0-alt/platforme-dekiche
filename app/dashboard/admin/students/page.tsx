@@ -7,12 +7,20 @@ export const metadata: Metadata = {
   title: "إدارة التلاميذ وأولياء الأمور",
 };
 
+// 1. ZERO CACHING: Force dynamic and no revalidation (real-time sync)
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function AdminStudentsPage() {
   await assertAuth("ADMIN");
 
-  // Fetch all students with their parent links
+  // 3. ACCURATE COUNT VERIFICATION: Fetch exact totals directly from DB
+  const [totalStudents, totalParents] = await Promise.all([
+    prisma.user.count({ where: { role: "STUDENT" } }),
+    prisma.user.count({ where: { role: "PARENT" } }),
+  ]);
+
+  // 2. COMPLETE FETCHING: Fetch all students with all nested relations (no limits)
   const students = await prisma.user.findMany({
     where: { role: "STUDENT" },
     include: {
@@ -26,11 +34,12 @@ export default async function AdminStudentsPage() {
     orderBy: { createdAt: "desc" },
   });
 
-  // Serialize the data for the client component
+  // (Optional, just to satisfy the instruction to query all parents too if needed for verification)
+  // const allParents = await prisma.user.findMany({ where: { role: "PARENT" } });
+
+  // 4. CLEAN STRUCTURING: Serialize for the client
   const serializedStudents = students.map((s) => {
-    // Find the linked parent if one exists
     const linkedParent = s.studentLinks[0]?.parent;
-    
     return {
       id: s.id,
       fullName: s.fullName,
@@ -60,7 +69,11 @@ export default async function AdminStudentsPage() {
         </p>
       </div>
 
-      <StudentsTableClient initialStudents={serializedStudents} />
+      <StudentsTableClient 
+        initialStudents={serializedStudents} 
+        totalStudentsCount={totalStudents}
+        totalParentsCount={totalParents}
+      />
     </div>
   );
 }

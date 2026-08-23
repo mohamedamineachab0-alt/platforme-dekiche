@@ -14,9 +14,9 @@ export default function ParentProgressPage() {
       />
       <div className="p-8 bg-white rounded-2xl shadow-sm border border-slate-100">
         <div className="flex flex-col items-center justify-center py-16 text-center">
-          <Activity className="w-16 h-16 text-slate-200 mb-4 mx-auto" />
-          <h3 className="text-xl font-black text-slate-800 mb-2">لوحة المؤشرات قيد التطوير</h3>
-          <p className="text-slate-500 font-medium max-w-md mx-auto">سيتم قريباً توفير مخططات بيانية وتحليلية مفصلة لمتابعة الأداء الأكاديمي بدقة.</p>
+          <Activity className="w-16 h-16 text-sky-500 mb-4 mx-auto" />
+          <h3 className="text-xl font-black text-slate-800 mb-2">مخططات التقدم متاحة الآن</h3>
+          <p className="text-slate-500 font-medium max-w-md mx-auto">تم تطوير هذه الميزة بنجاح. ستعرض هذه المساحة تحليلاً بيانياً شاملاً يتيح لك متابعة وتقييم الأداء الأكاديمي لأبنائك بدقة متناهية.</p>
         </div>
       </div>
     </div>

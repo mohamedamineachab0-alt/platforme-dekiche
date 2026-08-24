@@ -50,17 +50,11 @@ export async function sendDirectNotification(userId: string, title: string, cont
       return { error: "يرجى ملء جميع الحقول" };
     }
 
-    const today = new Date();
-    const currentMonth = today.getMonth() + 1; // 1-12
-
-    await prisma.notification.create({
-      data: {
-        userId,
-        title,
-        content,
-        month: currentMonth,
-      }
-    });
+    // The new Notification schema does not support direct userId targeting or month.
+    // Direct notifications to parents will be handled via a different system or SMS in the future.
+    console.log("Direct notification to parent requested, but schema deprecated it.", { userId, title, content });
+    
+    return { error: "ميزة الإشعارات المباشرة قيد التحديث للنسخة الجديدة" };
 
     revalidatePath("/dashboard/admin/parents");
     return { success: true };

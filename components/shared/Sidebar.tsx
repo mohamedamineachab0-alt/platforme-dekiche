@@ -24,7 +24,7 @@ const STUDENT_LINKS = [
   { name: "تماريني اليومية", href: "/dashboard/student/exercises", icon: CheckCircle, activeBg: "bg-sky-50 dark:bg-sky-900/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
   { name: "إختبارات وفروض", href: "/dashboard/student/exams", icon: FileText, activeBg: "bg-cyan-50 dark:bg-cyan-900/30", activeText: "text-cyan-700 dark:text-cyan-400", iconColor: "text-cyan-600 dark:text-cyan-400" },
   { name: "مساعدي الذكي", href: "/dashboard/student/ai-assistant", icon: Bot, activeBg: "bg-violet-50 dark:bg-violet-900/30", activeText: "text-violet-700 dark:text-violet-400", iconColor: "text-violet-600 dark:text-violet-400" },
-  { name: "الإشعارات", href: "/dashboard/student/notifications", icon: Bell, activeBg: "bg-amber-50 dark:bg-amber-900/30", activeText: "text-amber-700 dark:text-amber-400", iconColor: "text-amber-600 dark:text-amber-400" },
+  { name: "إشعاراتي", href: "/dashboard/student/notifications", icon: Bell, activeBg: "bg-amber-50 dark:bg-amber-900/30", activeText: "text-amber-700 dark:text-amber-400", iconColor: "text-amber-600 dark:text-amber-400" },
   { name: "أخطائي", href: "/dashboard/student/mistakes", icon: AlertTriangle, activeBg: "bg-amber-50 dark:bg-amber-900/30", activeText: "text-amber-700 dark:text-amber-400", iconColor: "text-amber-600 dark:text-amber-400" },
   { name: "حصص مباشرة", href: "/dashboard/student/live-classes", icon: Video, activeBg: "bg-sky-50 dark:bg-sky-900/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
   { name: "الترتيب والنقاط", href: "/dashboard/student/leaderboard", icon: Trophy, activeBg: "bg-amber-50 dark:bg-amber-900/30", activeText: "text-amber-700 dark:text-amber-400", iconColor: "text-amber-600 dark:text-amber-400" },
@@ -50,7 +50,7 @@ const ADMIN_LINKS = [
   { name: "أخطاء تلاميذي", href: "/dashboard/admin/mistakes", icon: AlertTriangle },
   { name: "مراقبة التلاميذ", href: "/dashboard/admin/students/monitoring", icon: Activity },
   { name: "تنبيهاتي", href: "/dashboard/admin/tenebati", icon: BellRing, activeBg: "bg-amber-50 dark:bg-red-900/30", activeText: "text-amber-700 dark:text-red-400", iconColor: "text-amber-600 dark:text-red-400" },
-  { name: "الإشعارات", href: "/dashboard/admin/notifications", icon: Bell },
+  { name: "إرسال إشعار", href: "/dashboard/admin/notifications", icon: Bell },
   { name: "حصص مباشرة", href: "/dashboard/admin/live-classes", icon: Video },
   { name: "الترتيب والنقاط", href: "/dashboard/admin/leaderboard", icon: Trophy },
 ];

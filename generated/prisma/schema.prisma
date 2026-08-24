@@ -114,7 +114,6 @@ model User {
   submissions          StudentSubmission[]   @relation("StudentSubmissions")
   enrollments          Enrollment[]          @relation("StudentEnrollments")
   chatSessions         ChatSession[]
-  notifications        Notification[]        @relation("UserNotifications")
   parentTickets        ParentTicket[]
   forumMessages        ForumMessage[]
   friendLinksSource    StudentFriendLink[]   @relation("StudentLinkSource")
@@ -171,7 +170,6 @@ model Subject {
   isPublished             Boolean         @default(false)
   lessons                 Lesson[] // One-to-many relation
   liveClasses             LiveClass[] // One-to-many relation
-  notifications           Notification[]
   codes                   AccessCode[] // One-to-many relation
   enrollments             Enrollment[]
   dailyExercises          DailyExercise[] @relation("PrimarySubject")
@@ -397,17 +395,13 @@ model StudentSubmission {
 }
 
 model Notification {
-  id        String   @id @default(uuid())
-  title     String
-  content   String
-  level     Level?
-  stream    Stream?
-  month     Int
-  subjectId String?
-  subject   Subject? @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  userId    String?
-  user      User?    @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid())
+  title      String
+  content    String
+  levels     Level[]
+  streams    Stream[]
+  subjectIds String[]
+  createdAt  DateTime @default(now())
 }
 
 model ReviewCard {

@@ -3475,7 +3475,6 @@ export namespace Prisma {
     submissions: number
     enrollments: number
     chatSessions: number
-    notifications: number
     parentTickets: number
     forumMessages: number
     friendLinksSource: number
@@ -3491,7 +3490,6 @@ export namespace Prisma {
     submissions?: boolean | UserCountOutputTypeCountSubmissionsArgs
     enrollments?: boolean | UserCountOutputTypeCountEnrollmentsArgs
     chatSessions?: boolean | UserCountOutputTypeCountChatSessionsArgs
-    notifications?: boolean | UserCountOutputTypeCountNotificationsArgs
     parentTickets?: boolean | UserCountOutputTypeCountParentTicketsArgs
     forumMessages?: boolean | UserCountOutputTypeCountForumMessagesArgs
     friendLinksSource?: boolean | UserCountOutputTypeCountFriendLinksSourceArgs
@@ -3557,13 +3555,6 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountChatSessionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ChatSessionWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: NotificationWhereInput
   }
 
   /**
@@ -3640,7 +3631,6 @@ export namespace Prisma {
   export type SubjectCountOutputType = {
     lessons: number
     liveClasses: number
-    notifications: number
     codes: number
     enrollments: number
     dailyExercises: number
@@ -3654,7 +3644,6 @@ export namespace Prisma {
   export type SubjectCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     lessons?: boolean | SubjectCountOutputTypeCountLessonsArgs
     liveClasses?: boolean | SubjectCountOutputTypeCountLiveClassesArgs
-    notifications?: boolean | SubjectCountOutputTypeCountNotificationsArgs
     codes?: boolean | SubjectCountOutputTypeCountCodesArgs
     enrollments?: boolean | SubjectCountOutputTypeCountEnrollmentsArgs
     dailyExercises?: boolean | SubjectCountOutputTypeCountDailyExercisesArgs
@@ -3688,13 +3677,6 @@ export namespace Prisma {
    */
   export type SubjectCountOutputTypeCountLiveClassesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: LiveClassWhereInput
-  }
-
-  /**
-   * SubjectCountOutputType without action
-   */
-  export type SubjectCountOutputTypeCountNotificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: NotificationWhereInput
   }
 
   /**
@@ -4222,7 +4204,6 @@ export namespace Prisma {
     submissions?: boolean | User$submissionsArgs<ExtArgs>
     enrollments?: boolean | User$enrollmentsArgs<ExtArgs>
     chatSessions?: boolean | User$chatSessionsArgs<ExtArgs>
-    notifications?: boolean | User$notificationsArgs<ExtArgs>
     parentTickets?: boolean | User$parentTicketsArgs<ExtArgs>
     forumMessages?: boolean | User$forumMessagesArgs<ExtArgs>
     friendLinksSource?: boolean | User$friendLinksSourceArgs<ExtArgs>
@@ -4288,7 +4269,6 @@ export namespace Prisma {
     submissions?: boolean | User$submissionsArgs<ExtArgs>
     enrollments?: boolean | User$enrollmentsArgs<ExtArgs>
     chatSessions?: boolean | User$chatSessionsArgs<ExtArgs>
-    notifications?: boolean | User$notificationsArgs<ExtArgs>
     parentTickets?: boolean | User$parentTicketsArgs<ExtArgs>
     forumMessages?: boolean | User$forumMessagesArgs<ExtArgs>
     friendLinksSource?: boolean | User$friendLinksSourceArgs<ExtArgs>
@@ -4312,7 +4292,6 @@ export namespace Prisma {
       submissions: Prisma.$StudentSubmissionPayload<ExtArgs>[]
       enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
       chatSessions: Prisma.$ChatSessionPayload<ExtArgs>[]
-      notifications: Prisma.$NotificationPayload<ExtArgs>[]
       parentTickets: Prisma.$ParentTicketPayload<ExtArgs>[]
       forumMessages: Prisma.$ForumMessagePayload<ExtArgs>[]
       friendLinksSource: Prisma.$StudentFriendLinkPayload<ExtArgs>[]
@@ -4736,7 +4715,6 @@ export namespace Prisma {
     submissions<T extends User$submissionsArgs<ExtArgs> = {}>(args?: Subset<T, User$submissionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentSubmissionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     enrollments<T extends User$enrollmentsArgs<ExtArgs> = {}>(args?: Subset<T, User$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     chatSessions<T extends User$chatSessionsArgs<ExtArgs> = {}>(args?: Subset<T, User$chatSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ChatSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    notifications<T extends User$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, User$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     parentTickets<T extends User$parentTicketsArgs<ExtArgs> = {}>(args?: Subset<T, User$parentTicketsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ParentTicketPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     forumMessages<T extends User$forumMessagesArgs<ExtArgs> = {}>(args?: Subset<T, User$forumMessagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ForumMessagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     friendLinksSource<T extends User$friendLinksSourceArgs<ExtArgs> = {}>(args?: Subset<T, User$friendLinksSourceArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentFriendLinkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -5398,30 +5376,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ChatSessionScalarFieldEnum | ChatSessionScalarFieldEnum[]
-  }
-
-  /**
-   * User.notifications
-   */
-  export type User$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationInclude<ExtArgs> | null
-    where?: NotificationWhereInput
-    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
-    cursor?: NotificationWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
   }
 
   /**
@@ -9144,7 +9098,6 @@ export namespace Prisma {
     teacher?: boolean | Subject$teacherArgs<ExtArgs>
     lessons?: boolean | Subject$lessonsArgs<ExtArgs>
     liveClasses?: boolean | Subject$liveClassesArgs<ExtArgs>
-    notifications?: boolean | Subject$notificationsArgs<ExtArgs>
     codes?: boolean | Subject$codesArgs<ExtArgs>
     enrollments?: boolean | Subject$enrollmentsArgs<ExtArgs>
     dailyExercises?: boolean | Subject$dailyExercisesArgs<ExtArgs>
@@ -9214,7 +9167,6 @@ export namespace Prisma {
     teacher?: boolean | Subject$teacherArgs<ExtArgs>
     lessons?: boolean | Subject$lessonsArgs<ExtArgs>
     liveClasses?: boolean | Subject$liveClassesArgs<ExtArgs>
-    notifications?: boolean | Subject$notificationsArgs<ExtArgs>
     codes?: boolean | Subject$codesArgs<ExtArgs>
     enrollments?: boolean | Subject$enrollmentsArgs<ExtArgs>
     dailyExercises?: boolean | Subject$dailyExercisesArgs<ExtArgs>
@@ -9238,7 +9190,6 @@ export namespace Prisma {
       teacher: Prisma.$TeacherPayload<ExtArgs> | null
       lessons: Prisma.$LessonPayload<ExtArgs>[]
       liveClasses: Prisma.$LiveClassPayload<ExtArgs>[]
-      notifications: Prisma.$NotificationPayload<ExtArgs>[]
       codes: Prisma.$AccessCodePayload<ExtArgs>[]
       enrollments: Prisma.$EnrollmentPayload<ExtArgs>[]
       dailyExercises: Prisma.$DailyExercisePayload<ExtArgs>[]
@@ -9660,7 +9611,6 @@ export namespace Prisma {
     teacher<T extends Subject$teacherArgs<ExtArgs> = {}>(args?: Subset<T, Subject$teacherArgs<ExtArgs>>): Prisma__TeacherClient<$Result.GetResult<Prisma.$TeacherPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     lessons<T extends Subject$lessonsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$lessonsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     liveClasses<T extends Subject$liveClassesArgs<ExtArgs> = {}>(args?: Subset<T, Subject$liveClassesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LiveClassPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    notifications<T extends Subject$notificationsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$notificationsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$NotificationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     codes<T extends Subject$codesArgs<ExtArgs> = {}>(args?: Subset<T, Subject$codesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccessCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     enrollments<T extends Subject$enrollmentsArgs<ExtArgs> = {}>(args?: Subset<T, Subject$enrollmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EnrollmentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     dailyExercises<T extends Subject$dailyExercisesArgs<ExtArgs> = {}>(args?: Subset<T, Subject$dailyExercisesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$DailyExercisePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -10177,30 +10127,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: LiveClassScalarFieldEnum | LiveClassScalarFieldEnum[]
-  }
-
-  /**
-   * Subject.notifications
-   */
-  export type Subject$notificationsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Notification
-     */
-    select?: NotificationSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Notification
-     */
-    omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationInclude<ExtArgs> | null
-    where?: NotificationWhereInput
-    orderBy?: NotificationOrderByWithRelationInput | NotificationOrderByWithRelationInput[]
-    cursor?: NotificationWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: NotificationScalarFieldEnum | NotificationScalarFieldEnum[]
   }
 
   /**
@@ -29615,29 +29541,14 @@ export namespace Prisma {
 
   export type AggregateNotification = {
     _count: NotificationCountAggregateOutputType | null
-    _avg: NotificationAvgAggregateOutputType | null
-    _sum: NotificationSumAggregateOutputType | null
     _min: NotificationMinAggregateOutputType | null
     _max: NotificationMaxAggregateOutputType | null
-  }
-
-  export type NotificationAvgAggregateOutputType = {
-    month: number | null
-  }
-
-  export type NotificationSumAggregateOutputType = {
-    month: number | null
   }
 
   export type NotificationMinAggregateOutputType = {
     id: string | null
     title: string | null
     content: string | null
-    level: $Enums.Level | null
-    stream: $Enums.Stream | null
-    month: number | null
-    subjectId: string | null
-    userId: string | null
     createdAt: Date | null
   }
 
@@ -29645,11 +29556,6 @@ export namespace Prisma {
     id: string | null
     title: string | null
     content: string | null
-    level: $Enums.Level | null
-    stream: $Enums.Stream | null
-    month: number | null
-    subjectId: string | null
-    userId: string | null
     createdAt: Date | null
   }
 
@@ -29657,33 +29563,18 @@ export namespace Prisma {
     id: number
     title: number
     content: number
-    level: number
-    stream: number
-    month: number
-    subjectId: number
-    userId: number
+    levels: number
+    streams: number
+    subjectIds: number
     createdAt: number
     _all: number
   }
 
 
-  export type NotificationAvgAggregateInputType = {
-    month?: true
-  }
-
-  export type NotificationSumAggregateInputType = {
-    month?: true
-  }
-
   export type NotificationMinAggregateInputType = {
     id?: true
     title?: true
     content?: true
-    level?: true
-    stream?: true
-    month?: true
-    subjectId?: true
-    userId?: true
     createdAt?: true
   }
 
@@ -29691,11 +29582,6 @@ export namespace Prisma {
     id?: true
     title?: true
     content?: true
-    level?: true
-    stream?: true
-    month?: true
-    subjectId?: true
-    userId?: true
     createdAt?: true
   }
 
@@ -29703,11 +29589,9 @@ export namespace Prisma {
     id?: true
     title?: true
     content?: true
-    level?: true
-    stream?: true
-    month?: true
-    subjectId?: true
-    userId?: true
+    levels?: true
+    streams?: true
+    subjectIds?: true
     createdAt?: true
     _all?: true
   }
@@ -29750,18 +29634,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: NotificationAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: NotificationSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: NotificationMinAggregateInputType
@@ -29792,8 +29664,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: NotificationCountAggregateInputType | true
-    _avg?: NotificationAvgAggregateInputType
-    _sum?: NotificationSumAggregateInputType
     _min?: NotificationMinAggregateInputType
     _max?: NotificationMaxAggregateInputType
   }
@@ -29802,15 +29672,11 @@ export namespace Prisma {
     id: string
     title: string
     content: string
-    level: $Enums.Level | null
-    stream: $Enums.Stream | null
-    month: number
-    subjectId: string | null
-    userId: string | null
+    levels: $Enums.Level[]
+    streams: $Enums.Stream[]
+    subjectIds: string[]
     createdAt: Date
     _count: NotificationCountAggregateOutputType | null
-    _avg: NotificationAvgAggregateOutputType | null
-    _sum: NotificationSumAggregateOutputType | null
     _min: NotificationMinAggregateOutputType | null
     _max: NotificationMaxAggregateOutputType | null
   }
@@ -29833,85 +29699,54 @@ export namespace Prisma {
     id?: boolean
     title?: boolean
     content?: boolean
-    level?: boolean
-    stream?: boolean
-    month?: boolean
-    subjectId?: boolean
-    userId?: boolean
+    levels?: boolean
+    streams?: boolean
+    subjectIds?: boolean
     createdAt?: boolean
-    subject?: boolean | Notification$subjectArgs<ExtArgs>
-    user?: boolean | Notification$userArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
 
   export type NotificationSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
     content?: boolean
-    level?: boolean
-    stream?: boolean
-    month?: boolean
-    subjectId?: boolean
-    userId?: boolean
+    levels?: boolean
+    streams?: boolean
+    subjectIds?: boolean
     createdAt?: boolean
-    subject?: boolean | Notification$subjectArgs<ExtArgs>
-    user?: boolean | Notification$userArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
 
   export type NotificationSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     title?: boolean
     content?: boolean
-    level?: boolean
-    stream?: boolean
-    month?: boolean
-    subjectId?: boolean
-    userId?: boolean
+    levels?: boolean
+    streams?: boolean
+    subjectIds?: boolean
     createdAt?: boolean
-    subject?: boolean | Notification$subjectArgs<ExtArgs>
-    user?: boolean | Notification$userArgs<ExtArgs>
   }, ExtArgs["result"]["notification"]>
 
   export type NotificationSelectScalar = {
     id?: boolean
     title?: boolean
     content?: boolean
-    level?: boolean
-    stream?: boolean
-    month?: boolean
-    subjectId?: boolean
-    userId?: boolean
+    levels?: boolean
+    streams?: boolean
+    subjectIds?: boolean
     createdAt?: boolean
   }
 
-  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "level" | "stream" | "month" | "subjectId" | "userId" | "createdAt", ExtArgs["result"]["notification"]>
-  export type NotificationInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    subject?: boolean | Notification$subjectArgs<ExtArgs>
-    user?: boolean | Notification$userArgs<ExtArgs>
-  }
-  export type NotificationIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    subject?: boolean | Notification$subjectArgs<ExtArgs>
-    user?: boolean | Notification$userArgs<ExtArgs>
-  }
-  export type NotificationIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    subject?: boolean | Notification$subjectArgs<ExtArgs>
-    user?: boolean | Notification$userArgs<ExtArgs>
-  }
+  export type NotificationOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "content" | "levels" | "streams" | "subjectIds" | "createdAt", ExtArgs["result"]["notification"]>
 
   export type $NotificationPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Notification"
-    objects: {
-      subject: Prisma.$SubjectPayload<ExtArgs> | null
-      user: Prisma.$UserPayload<ExtArgs> | null
-    }
+    objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
       title: string
       content: string
-      level: $Enums.Level | null
-      stream: $Enums.Stream | null
-      month: number
-      subjectId: string | null
-      userId: string | null
+      levels: $Enums.Level[]
+      streams: $Enums.Stream[]
+      subjectIds: string[]
       createdAt: Date
     }, ExtArgs["result"]["notification"]>
     composites: {}
@@ -30307,8 +30142,6 @@ export namespace Prisma {
    */
   export interface Prisma__NotificationClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    subject<T extends Notification$subjectArgs<ExtArgs> = {}>(args?: Subset<T, Notification$subjectArgs<ExtArgs>>): Prisma__SubjectClient<$Result.GetResult<Prisma.$SubjectPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    user<T extends Notification$userArgs<ExtArgs> = {}>(args?: Subset<T, Notification$userArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -30341,11 +30174,9 @@ export namespace Prisma {
     readonly id: FieldRef<"Notification", 'String'>
     readonly title: FieldRef<"Notification", 'String'>
     readonly content: FieldRef<"Notification", 'String'>
-    readonly level: FieldRef<"Notification", 'Level'>
-    readonly stream: FieldRef<"Notification", 'Stream'>
-    readonly month: FieldRef<"Notification", 'Int'>
-    readonly subjectId: FieldRef<"Notification", 'String'>
-    readonly userId: FieldRef<"Notification", 'String'>
+    readonly levels: FieldRef<"Notification", 'Level[]'>
+    readonly streams: FieldRef<"Notification", 'Stream[]'>
+    readonly subjectIds: FieldRef<"Notification", 'String[]'>
     readonly createdAt: FieldRef<"Notification", 'DateTime'>
   }
     
@@ -30363,10 +30194,6 @@ export namespace Prisma {
      * Omit specific fields from the Notification
      */
     omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationInclude<ExtArgs> | null
     /**
      * Filter, which Notification to fetch.
      */
@@ -30386,10 +30213,6 @@ export namespace Prisma {
      */
     omit?: NotificationOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationInclude<ExtArgs> | null
-    /**
      * Filter, which Notification to fetch.
      */
     where: NotificationWhereUniqueInput
@@ -30407,10 +30230,6 @@ export namespace Prisma {
      * Omit specific fields from the Notification
      */
     omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationInclude<ExtArgs> | null
     /**
      * Filter, which Notification to fetch.
      */
@@ -30460,10 +30279,6 @@ export namespace Prisma {
      */
     omit?: NotificationOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationInclude<ExtArgs> | null
-    /**
      * Filter, which Notification to fetch.
      */
     where?: NotificationWhereInput
@@ -30511,10 +30326,6 @@ export namespace Prisma {
      * Omit specific fields from the Notification
      */
     omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationInclude<ExtArgs> | null
     /**
      * Filter, which Notifications to fetch.
      */
@@ -30564,10 +30375,6 @@ export namespace Prisma {
      */
     omit?: NotificationOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationInclude<ExtArgs> | null
-    /**
      * The data needed to create a Notification.
      */
     data: XOR<NotificationCreateInput, NotificationUncheckedCreateInput>
@@ -30601,10 +30408,6 @@ export namespace Prisma {
      */
     data: NotificationCreateManyInput | NotificationCreateManyInput[]
     skipDuplicates?: boolean
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -30619,10 +30422,6 @@ export namespace Prisma {
      * Omit specific fields from the Notification
      */
     omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationInclude<ExtArgs> | null
     /**
      * The data needed to update a Notification.
      */
@@ -30675,10 +30474,6 @@ export namespace Prisma {
      * Limit how many Notifications to update.
      */
     limit?: number
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -30693,10 +30488,6 @@ export namespace Prisma {
      * Omit specific fields from the Notification
      */
     omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationInclude<ExtArgs> | null
     /**
      * The filter to search for the Notification to update in case it exists.
      */
@@ -30724,10 +30515,6 @@ export namespace Prisma {
      */
     omit?: NotificationOmit<ExtArgs> | null
     /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationInclude<ExtArgs> | null
-    /**
      * Filter which Notification to delete.
      */
     where: NotificationWhereUniqueInput
@@ -30748,44 +30535,6 @@ export namespace Prisma {
   }
 
   /**
-   * Notification.subject
-   */
-  export type Notification$subjectArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Subject
-     */
-    select?: SubjectSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Subject
-     */
-    omit?: SubjectOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: SubjectInclude<ExtArgs> | null
-    where?: SubjectWhereInput
-  }
-
-  /**
-   * Notification.user
-   */
-  export type Notification$userArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the User
-     */
-    select?: UserSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the User
-     */
-    omit?: UserOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: UserInclude<ExtArgs> | null
-    where?: UserWhereInput
-  }
-
-  /**
    * Notification without action
    */
   export type NotificationDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -30797,10 +30546,6 @@ export namespace Prisma {
      * Omit specific fields from the Notification
      */
     omit?: NotificationOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: NotificationInclude<ExtArgs> | null
   }
 
 
@@ -36754,11 +36499,9 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     content: 'content',
-    level: 'level',
-    stream: 'stream',
-    month: 'month',
-    subjectId: 'subjectId',
-    userId: 'userId',
+    levels: 'levels',
+    streams: 'streams',
+    subjectIds: 'subjectIds',
     createdAt: 'createdAt'
   };
 
@@ -37044,7 +36787,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionListRelationFilter
     enrollments?: EnrollmentListRelationFilter
     chatSessions?: ChatSessionListRelationFilter
-    notifications?: NotificationListRelationFilter
     parentTickets?: ParentTicketListRelationFilter
     forumMessages?: ForumMessageListRelationFilter
     friendLinksSource?: StudentFriendLinkListRelationFilter
@@ -37075,7 +36817,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionOrderByRelationAggregateInput
     enrollments?: EnrollmentOrderByRelationAggregateInput
     chatSessions?: ChatSessionOrderByRelationAggregateInput
-    notifications?: NotificationOrderByRelationAggregateInput
     parentTickets?: ParentTicketOrderByRelationAggregateInput
     forumMessages?: ForumMessageOrderByRelationAggregateInput
     friendLinksSource?: StudentFriendLinkOrderByRelationAggregateInput
@@ -37109,7 +36850,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionListRelationFilter
     enrollments?: EnrollmentListRelationFilter
     chatSessions?: ChatSessionListRelationFilter
-    notifications?: NotificationListRelationFilter
     parentTickets?: ParentTicketListRelationFilter
     forumMessages?: ForumMessageListRelationFilter
     friendLinksSource?: StudentFriendLinkListRelationFilter
@@ -37366,7 +37106,6 @@ export namespace Prisma {
     teacher?: XOR<TeacherNullableScalarRelationFilter, TeacherWhereInput> | null
     lessons?: LessonListRelationFilter
     liveClasses?: LiveClassListRelationFilter
-    notifications?: NotificationListRelationFilter
     codes?: AccessCodeListRelationFilter
     enrollments?: EnrollmentListRelationFilter
     dailyExercises?: DailyExerciseListRelationFilter
@@ -37395,7 +37134,6 @@ export namespace Prisma {
     teacher?: TeacherOrderByWithRelationInput
     lessons?: LessonOrderByRelationAggregateInput
     liveClasses?: LiveClassOrderByRelationAggregateInput
-    notifications?: NotificationOrderByRelationAggregateInput
     codes?: AccessCodeOrderByRelationAggregateInput
     enrollments?: EnrollmentOrderByRelationAggregateInput
     dailyExercises?: DailyExerciseOrderByRelationAggregateInput
@@ -37427,7 +37165,6 @@ export namespace Prisma {
     teacher?: XOR<TeacherNullableScalarRelationFilter, TeacherWhereInput> | null
     lessons?: LessonListRelationFilter
     liveClasses?: LiveClassListRelationFilter
-    notifications?: NotificationListRelationFilter
     codes?: AccessCodeListRelationFilter
     enrollments?: EnrollmentListRelationFilter
     dailyExercises?: DailyExerciseListRelationFilter
@@ -38664,28 +38401,20 @@ export namespace Prisma {
     id?: StringFilter<"Notification"> | string
     title?: StringFilter<"Notification"> | string
     content?: StringFilter<"Notification"> | string
-    level?: EnumLevelNullableFilter<"Notification"> | $Enums.Level | null
-    stream?: EnumStreamNullableFilter<"Notification"> | $Enums.Stream | null
-    month?: IntFilter<"Notification"> | number
-    subjectId?: StringNullableFilter<"Notification"> | string | null
-    userId?: StringNullableFilter<"Notification"> | string | null
+    levels?: EnumLevelNullableListFilter<"Notification">
+    streams?: EnumStreamNullableListFilter<"Notification">
+    subjectIds?: StringNullableListFilter<"Notification">
     createdAt?: DateTimeFilter<"Notification"> | Date | string
-    subject?: XOR<SubjectNullableScalarRelationFilter, SubjectWhereInput> | null
-    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }
 
   export type NotificationOrderByWithRelationInput = {
     id?: SortOrder
     title?: SortOrder
     content?: SortOrder
-    level?: SortOrderInput | SortOrder
-    stream?: SortOrderInput | SortOrder
-    month?: SortOrder
-    subjectId?: SortOrderInput | SortOrder
-    userId?: SortOrderInput | SortOrder
+    levels?: SortOrder
+    streams?: SortOrder
+    subjectIds?: SortOrder
     createdAt?: SortOrder
-    subject?: SubjectOrderByWithRelationInput
-    user?: UserOrderByWithRelationInput
   }
 
   export type NotificationWhereUniqueInput = Prisma.AtLeast<{
@@ -38695,31 +38424,23 @@ export namespace Prisma {
     NOT?: NotificationWhereInput | NotificationWhereInput[]
     title?: StringFilter<"Notification"> | string
     content?: StringFilter<"Notification"> | string
-    level?: EnumLevelNullableFilter<"Notification"> | $Enums.Level | null
-    stream?: EnumStreamNullableFilter<"Notification"> | $Enums.Stream | null
-    month?: IntFilter<"Notification"> | number
-    subjectId?: StringNullableFilter<"Notification"> | string | null
-    userId?: StringNullableFilter<"Notification"> | string | null
+    levels?: EnumLevelNullableListFilter<"Notification">
+    streams?: EnumStreamNullableListFilter<"Notification">
+    subjectIds?: StringNullableListFilter<"Notification">
     createdAt?: DateTimeFilter<"Notification"> | Date | string
-    subject?: XOR<SubjectNullableScalarRelationFilter, SubjectWhereInput> | null
-    user?: XOR<UserNullableScalarRelationFilter, UserWhereInput> | null
   }, "id">
 
   export type NotificationOrderByWithAggregationInput = {
     id?: SortOrder
     title?: SortOrder
     content?: SortOrder
-    level?: SortOrderInput | SortOrder
-    stream?: SortOrderInput | SortOrder
-    month?: SortOrder
-    subjectId?: SortOrderInput | SortOrder
-    userId?: SortOrderInput | SortOrder
+    levels?: SortOrder
+    streams?: SortOrder
+    subjectIds?: SortOrder
     createdAt?: SortOrder
     _count?: NotificationCountOrderByAggregateInput
-    _avg?: NotificationAvgOrderByAggregateInput
     _max?: NotificationMaxOrderByAggregateInput
     _min?: NotificationMinOrderByAggregateInput
-    _sum?: NotificationSumOrderByAggregateInput
   }
 
   export type NotificationScalarWhereWithAggregatesInput = {
@@ -38729,11 +38450,9 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Notification"> | string
     title?: StringWithAggregatesFilter<"Notification"> | string
     content?: StringWithAggregatesFilter<"Notification"> | string
-    level?: EnumLevelNullableWithAggregatesFilter<"Notification"> | $Enums.Level | null
-    stream?: EnumStreamNullableWithAggregatesFilter<"Notification"> | $Enums.Stream | null
-    month?: IntWithAggregatesFilter<"Notification"> | number
-    subjectId?: StringNullableWithAggregatesFilter<"Notification"> | string | null
-    userId?: StringNullableWithAggregatesFilter<"Notification"> | string | null
+    levels?: EnumLevelNullableListFilter<"Notification">
+    streams?: EnumStreamNullableListFilter<"Notification">
+    subjectIds?: StringNullableListFilter<"Notification">
     createdAt?: DateTimeWithAggregatesFilter<"Notification"> | Date | string
   }
 
@@ -39130,7 +38849,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
@@ -39161,7 +38879,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
@@ -39192,7 +38909,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
@@ -39223,7 +38939,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
@@ -39490,7 +39205,6 @@ export namespace Prisma {
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
     lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseCreateNestedManyWithoutSubjectInput
@@ -39518,7 +39232,6 @@ export namespace Prisma {
     createdAt?: Date | string
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSubjectInput
@@ -39546,7 +39259,6 @@ export namespace Prisma {
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
     lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUpdateManyWithoutSubjectNestedInput
@@ -39574,7 +39286,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSubjectNestedInput
@@ -40828,23 +40539,19 @@ export namespace Prisma {
     id?: string
     title: string
     content: string
-    level?: $Enums.Level | null
-    stream?: $Enums.Stream | null
-    month: number
+    levels?: NotificationCreatelevelsInput | $Enums.Level[]
+    streams?: NotificationCreatestreamsInput | $Enums.Stream[]
+    subjectIds?: NotificationCreatesubjectIdsInput | string[]
     createdAt?: Date | string
-    subject?: SubjectCreateNestedOneWithoutNotificationsInput
-    user?: UserCreateNestedOneWithoutNotificationsInput
   }
 
   export type NotificationUncheckedCreateInput = {
     id?: string
     title: string
     content: string
-    level?: $Enums.Level | null
-    stream?: $Enums.Stream | null
-    month: number
-    subjectId?: string | null
-    userId?: string | null
+    levels?: NotificationCreatelevelsInput | $Enums.Level[]
+    streams?: NotificationCreatestreamsInput | $Enums.Stream[]
+    subjectIds?: NotificationCreatesubjectIdsInput | string[]
     createdAt?: Date | string
   }
 
@@ -40852,23 +40559,19 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
-    stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
-    month?: IntFieldUpdateOperationsInput | number
+    levels?: NotificationUpdatelevelsInput | $Enums.Level[]
+    streams?: NotificationUpdatestreamsInput | $Enums.Stream[]
+    subjectIds?: NotificationUpdatesubjectIdsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    subject?: SubjectUpdateOneWithoutNotificationsNestedInput
-    user?: UserUpdateOneWithoutNotificationsNestedInput
   }
 
   export type NotificationUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
-    stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
-    month?: IntFieldUpdateOperationsInput | number
-    subjectId?: NullableStringFieldUpdateOperationsInput | string | null
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    levels?: NotificationUpdatelevelsInput | $Enums.Level[]
+    streams?: NotificationUpdatestreamsInput | $Enums.Stream[]
+    subjectIds?: NotificationUpdatesubjectIdsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -40876,11 +40579,9 @@ export namespace Prisma {
     id?: string
     title: string
     content: string
-    level?: $Enums.Level | null
-    stream?: $Enums.Stream | null
-    month: number
-    subjectId?: string | null
-    userId?: string | null
+    levels?: NotificationCreatelevelsInput | $Enums.Level[]
+    streams?: NotificationCreatestreamsInput | $Enums.Stream[]
+    subjectIds?: NotificationCreatesubjectIdsInput | string[]
     createdAt?: Date | string
   }
 
@@ -40888,9 +40589,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
-    stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
-    month?: IntFieldUpdateOperationsInput | number
+    levels?: NotificationUpdatelevelsInput | $Enums.Level[]
+    streams?: NotificationUpdatestreamsInput | $Enums.Stream[]
+    subjectIds?: NotificationUpdatesubjectIdsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -40898,11 +40599,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
-    level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
-    stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
-    month?: IntFieldUpdateOperationsInput | number
-    subjectId?: NullableStringFieldUpdateOperationsInput | string | null
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
+    levels?: NotificationUpdatelevelsInput | $Enums.Level[]
+    streams?: NotificationUpdatestreamsInput | $Enums.Stream[]
+    subjectIds?: NotificationUpdatesubjectIdsInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -41432,12 +41131,6 @@ export namespace Prisma {
     none?: ChatSessionWhereInput
   }
 
-  export type NotificationListRelationFilter = {
-    every?: NotificationWhereInput
-    some?: NotificationWhereInput
-    none?: NotificationWhereInput
-  }
-
   export type ParentTicketListRelationFilter = {
     every?: ParentTicketWhereInput
     some?: ParentTicketWhereInput
@@ -41488,10 +41181,6 @@ export namespace Prisma {
   }
 
   export type ChatSessionOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type NotificationOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -42751,45 +42440,20 @@ export namespace Prisma {
     _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
-  export type EnumLevelNullableFilter<$PrismaModel = never> = {
-    equals?: $Enums.Level | EnumLevelFieldRefInput<$PrismaModel> | null
-    in?: $Enums.Level[] | ListEnumLevelFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.Level[] | ListEnumLevelFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumLevelNullableFilter<$PrismaModel> | $Enums.Level | null
-  }
-
-  export type EnumStreamNullableFilter<$PrismaModel = never> = {
-    equals?: $Enums.Stream | EnumStreamFieldRefInput<$PrismaModel> | null
-    in?: $Enums.Stream[] | ListEnumStreamFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.Stream[] | ListEnumStreamFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumStreamNullableFilter<$PrismaModel> | $Enums.Stream | null
-  }
-
   export type NotificationCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     content?: SortOrder
-    level?: SortOrder
-    stream?: SortOrder
-    month?: SortOrder
-    subjectId?: SortOrder
-    userId?: SortOrder
+    levels?: SortOrder
+    streams?: SortOrder
+    subjectIds?: SortOrder
     createdAt?: SortOrder
-  }
-
-  export type NotificationAvgOrderByAggregateInput = {
-    month?: SortOrder
   }
 
   export type NotificationMaxOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     content?: SortOrder
-    level?: SortOrder
-    stream?: SortOrder
-    month?: SortOrder
-    subjectId?: SortOrder
-    userId?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -42797,36 +42461,7 @@ export namespace Prisma {
     id?: SortOrder
     title?: SortOrder
     content?: SortOrder
-    level?: SortOrder
-    stream?: SortOrder
-    month?: SortOrder
-    subjectId?: SortOrder
-    userId?: SortOrder
     createdAt?: SortOrder
-  }
-
-  export type NotificationSumOrderByAggregateInput = {
-    month?: SortOrder
-  }
-
-  export type EnumLevelNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Level | EnumLevelFieldRefInput<$PrismaModel> | null
-    in?: $Enums.Level[] | ListEnumLevelFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.Level[] | ListEnumLevelFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumLevelNullableWithAggregatesFilter<$PrismaModel> | $Enums.Level | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumLevelNullableFilter<$PrismaModel>
-    _max?: NestedEnumLevelNullableFilter<$PrismaModel>
-  }
-
-  export type EnumStreamNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Stream | EnumStreamFieldRefInput<$PrismaModel> | null
-    in?: $Enums.Stream[] | ListEnumStreamFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.Stream[] | ListEnumStreamFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumStreamNullableWithAggregatesFilter<$PrismaModel> | $Enums.Stream | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumStreamNullableFilter<$PrismaModel>
-    _max?: NestedEnumStreamNullableFilter<$PrismaModel>
   }
 
   export type ReviewCardCountOrderByAggregateInput = {
@@ -43090,13 +42725,6 @@ export namespace Prisma {
     connect?: ChatSessionWhereUniqueInput | ChatSessionWhereUniqueInput[]
   }
 
-  export type NotificationCreateNestedManyWithoutUserInput = {
-    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
-    createMany?: NotificationCreateManyUserInputEnvelope
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-  }
-
   export type ParentTicketCreateNestedManyWithoutParentInput = {
     create?: XOR<ParentTicketCreateWithoutParentInput, ParentTicketUncheckedCreateWithoutParentInput> | ParentTicketCreateWithoutParentInput[] | ParentTicketUncheckedCreateWithoutParentInput[]
     connectOrCreate?: ParentTicketCreateOrConnectWithoutParentInput | ParentTicketCreateOrConnectWithoutParentInput[]
@@ -43197,13 +42825,6 @@ export namespace Prisma {
     connectOrCreate?: ChatSessionCreateOrConnectWithoutUserInput | ChatSessionCreateOrConnectWithoutUserInput[]
     createMany?: ChatSessionCreateManyUserInputEnvelope
     connect?: ChatSessionWhereUniqueInput | ChatSessionWhereUniqueInput[]
-  }
-
-  export type NotificationUncheckedCreateNestedManyWithoutUserInput = {
-    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
-    createMany?: NotificationCreateManyUserInputEnvelope
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
   export type ParentTicketUncheckedCreateNestedManyWithoutParentInput = {
@@ -43402,20 +43023,6 @@ export namespace Prisma {
     deleteMany?: ChatSessionScalarWhereInput | ChatSessionScalarWhereInput[]
   }
 
-  export type NotificationUpdateManyWithoutUserNestedInput = {
-    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
-    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: NotificationCreateManyUserInputEnvelope
-    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
-  }
-
   export type ParentTicketUpdateManyWithoutParentNestedInput = {
     create?: XOR<ParentTicketCreateWithoutParentInput, ParentTicketUncheckedCreateWithoutParentInput> | ParentTicketCreateWithoutParentInput[] | ParentTicketUncheckedCreateWithoutParentInput[]
     connectOrCreate?: ParentTicketCreateOrConnectWithoutParentInput | ParentTicketCreateOrConnectWithoutParentInput[]
@@ -43612,20 +43219,6 @@ export namespace Prisma {
     update?: ChatSessionUpdateWithWhereUniqueWithoutUserInput | ChatSessionUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: ChatSessionUpdateManyWithWhereWithoutUserInput | ChatSessionUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: ChatSessionScalarWhereInput | ChatSessionScalarWhereInput[]
-  }
-
-  export type NotificationUncheckedUpdateManyWithoutUserNestedInput = {
-    create?: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput> | NotificationCreateWithoutUserInput[] | NotificationUncheckedCreateWithoutUserInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutUserInput | NotificationCreateOrConnectWithoutUserInput[]
-    upsert?: NotificationUpsertWithWhereUniqueWithoutUserInput | NotificationUpsertWithWhereUniqueWithoutUserInput[]
-    createMany?: NotificationCreateManyUserInputEnvelope
-    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    update?: NotificationUpdateWithWhereUniqueWithoutUserInput | NotificationUpdateWithWhereUniqueWithoutUserInput[]
-    updateMany?: NotificationUpdateManyWithWhereWithoutUserInput | NotificationUpdateManyWithWhereWithoutUserInput[]
-    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
   export type ParentTicketUncheckedUpdateManyWithoutParentNestedInput = {
@@ -43842,13 +43435,6 @@ export namespace Prisma {
     connect?: LiveClassWhereUniqueInput | LiveClassWhereUniqueInput[]
   }
 
-  export type NotificationCreateNestedManyWithoutSubjectInput = {
-    create?: XOR<NotificationCreateWithoutSubjectInput, NotificationUncheckedCreateWithoutSubjectInput> | NotificationCreateWithoutSubjectInput[] | NotificationUncheckedCreateWithoutSubjectInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutSubjectInput | NotificationCreateOrConnectWithoutSubjectInput[]
-    createMany?: NotificationCreateManySubjectInputEnvelope
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-  }
-
   export type AccessCodeCreateNestedManyWithoutSubjectInput = {
     create?: XOR<AccessCodeCreateWithoutSubjectInput, AccessCodeUncheckedCreateWithoutSubjectInput> | AccessCodeCreateWithoutSubjectInput[] | AccessCodeUncheckedCreateWithoutSubjectInput[]
     connectOrCreate?: AccessCodeCreateOrConnectWithoutSubjectInput | AccessCodeCreateOrConnectWithoutSubjectInput[]
@@ -43917,13 +43503,6 @@ export namespace Prisma {
     connectOrCreate?: LiveClassCreateOrConnectWithoutSubjectInput | LiveClassCreateOrConnectWithoutSubjectInput[]
     createMany?: LiveClassCreateManySubjectInputEnvelope
     connect?: LiveClassWhereUniqueInput | LiveClassWhereUniqueInput[]
-  }
-
-  export type NotificationUncheckedCreateNestedManyWithoutSubjectInput = {
-    create?: XOR<NotificationCreateWithoutSubjectInput, NotificationUncheckedCreateWithoutSubjectInput> | NotificationCreateWithoutSubjectInput[] | NotificationUncheckedCreateWithoutSubjectInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutSubjectInput | NotificationCreateOrConnectWithoutSubjectInput[]
-    createMany?: NotificationCreateManySubjectInputEnvelope
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
   }
 
   export type AccessCodeUncheckedCreateNestedManyWithoutSubjectInput = {
@@ -44040,20 +43619,6 @@ export namespace Prisma {
     update?: LiveClassUpdateWithWhereUniqueWithoutSubjectInput | LiveClassUpdateWithWhereUniqueWithoutSubjectInput[]
     updateMany?: LiveClassUpdateManyWithWhereWithoutSubjectInput | LiveClassUpdateManyWithWhereWithoutSubjectInput[]
     deleteMany?: LiveClassScalarWhereInput | LiveClassScalarWhereInput[]
-  }
-
-  export type NotificationUpdateManyWithoutSubjectNestedInput = {
-    create?: XOR<NotificationCreateWithoutSubjectInput, NotificationUncheckedCreateWithoutSubjectInput> | NotificationCreateWithoutSubjectInput[] | NotificationUncheckedCreateWithoutSubjectInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutSubjectInput | NotificationCreateOrConnectWithoutSubjectInput[]
-    upsert?: NotificationUpsertWithWhereUniqueWithoutSubjectInput | NotificationUpsertWithWhereUniqueWithoutSubjectInput[]
-    createMany?: NotificationCreateManySubjectInputEnvelope
-    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    update?: NotificationUpdateWithWhereUniqueWithoutSubjectInput | NotificationUpdateWithWhereUniqueWithoutSubjectInput[]
-    updateMany?: NotificationUpdateManyWithWhereWithoutSubjectInput | NotificationUpdateManyWithWhereWithoutSubjectInput[]
-    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
   export type AccessCodeUpdateManyWithoutSubjectNestedInput = {
@@ -44194,20 +43759,6 @@ export namespace Prisma {
     update?: LiveClassUpdateWithWhereUniqueWithoutSubjectInput | LiveClassUpdateWithWhereUniqueWithoutSubjectInput[]
     updateMany?: LiveClassUpdateManyWithWhereWithoutSubjectInput | LiveClassUpdateManyWithWhereWithoutSubjectInput[]
     deleteMany?: LiveClassScalarWhereInput | LiveClassScalarWhereInput[]
-  }
-
-  export type NotificationUncheckedUpdateManyWithoutSubjectNestedInput = {
-    create?: XOR<NotificationCreateWithoutSubjectInput, NotificationUncheckedCreateWithoutSubjectInput> | NotificationCreateWithoutSubjectInput[] | NotificationUncheckedCreateWithoutSubjectInput[]
-    connectOrCreate?: NotificationCreateOrConnectWithoutSubjectInput | NotificationCreateOrConnectWithoutSubjectInput[]
-    upsert?: NotificationUpsertWithWhereUniqueWithoutSubjectInput | NotificationUpsertWithWhereUniqueWithoutSubjectInput[]
-    createMany?: NotificationCreateManySubjectInputEnvelope
-    set?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    disconnect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    delete?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    connect?: NotificationWhereUniqueInput | NotificationWhereUniqueInput[]
-    update?: NotificationUpdateWithWhereUniqueWithoutSubjectInput | NotificationUpdateWithWhereUniqueWithoutSubjectInput[]
-    updateMany?: NotificationUpdateManyWithWhereWithoutSubjectInput | NotificationUpdateManyWithWhereWithoutSubjectInput[]
-    deleteMany?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
   }
 
   export type AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput = {
@@ -45146,44 +44697,31 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSubmissionsInput, UserUpdateWithoutSubmissionsInput>, UserUncheckedUpdateWithoutSubmissionsInput>
   }
 
-  export type SubjectCreateNestedOneWithoutNotificationsInput = {
-    create?: XOR<SubjectCreateWithoutNotificationsInput, SubjectUncheckedCreateWithoutNotificationsInput>
-    connectOrCreate?: SubjectCreateOrConnectWithoutNotificationsInput
-    connect?: SubjectWhereUniqueInput
+  export type NotificationCreatelevelsInput = {
+    set: $Enums.Level[]
   }
 
-  export type UserCreateNestedOneWithoutNotificationsInput = {
-    create?: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutNotificationsInput
-    connect?: UserWhereUniqueInput
+  export type NotificationCreatestreamsInput = {
+    set: $Enums.Stream[]
   }
 
-  export type NullableEnumLevelFieldUpdateOperationsInput = {
-    set?: $Enums.Level | null
+  export type NotificationCreatesubjectIdsInput = {
+    set: string[]
   }
 
-  export type NullableEnumStreamFieldUpdateOperationsInput = {
-    set?: $Enums.Stream | null
+  export type NotificationUpdatelevelsInput = {
+    set?: $Enums.Level[]
+    push?: $Enums.Level | $Enums.Level[]
   }
 
-  export type SubjectUpdateOneWithoutNotificationsNestedInput = {
-    create?: XOR<SubjectCreateWithoutNotificationsInput, SubjectUncheckedCreateWithoutNotificationsInput>
-    connectOrCreate?: SubjectCreateOrConnectWithoutNotificationsInput
-    upsert?: SubjectUpsertWithoutNotificationsInput
-    disconnect?: SubjectWhereInput | boolean
-    delete?: SubjectWhereInput | boolean
-    connect?: SubjectWhereUniqueInput
-    update?: XOR<XOR<SubjectUpdateToOneWithWhereWithoutNotificationsInput, SubjectUpdateWithoutNotificationsInput>, SubjectUncheckedUpdateWithoutNotificationsInput>
+  export type NotificationUpdatestreamsInput = {
+    set?: $Enums.Stream[]
+    push?: $Enums.Stream | $Enums.Stream[]
   }
 
-  export type UserUpdateOneWithoutNotificationsNestedInput = {
-    create?: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
-    connectOrCreate?: UserCreateOrConnectWithoutNotificationsInput
-    upsert?: UserUpsertWithoutNotificationsInput
-    disconnect?: UserWhereInput | boolean
-    delete?: UserWhereInput | boolean
-    connect?: UserWhereUniqueInput
-    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutNotificationsInput, UserUpdateWithoutNotificationsInput>, UserUncheckedUpdateWithoutNotificationsInput>
+  export type NotificationUpdatesubjectIdsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type SubjectCreateNestedOneWithoutReviewCardsInput = {
@@ -45629,40 +45167,6 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedEnumLevelNullableFilter<$PrismaModel = never> = {
-    equals?: $Enums.Level | EnumLevelFieldRefInput<$PrismaModel> | null
-    in?: $Enums.Level[] | ListEnumLevelFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.Level[] | ListEnumLevelFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumLevelNullableFilter<$PrismaModel> | $Enums.Level | null
-  }
-
-  export type NestedEnumStreamNullableFilter<$PrismaModel = never> = {
-    equals?: $Enums.Stream | EnumStreamFieldRefInput<$PrismaModel> | null
-    in?: $Enums.Stream[] | ListEnumStreamFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.Stream[] | ListEnumStreamFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumStreamNullableFilter<$PrismaModel> | $Enums.Stream | null
-  }
-
-  export type NestedEnumLevelNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Level | EnumLevelFieldRefInput<$PrismaModel> | null
-    in?: $Enums.Level[] | ListEnumLevelFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.Level[] | ListEnumLevelFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumLevelNullableWithAggregatesFilter<$PrismaModel> | $Enums.Level | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumLevelNullableFilter<$PrismaModel>
-    _max?: NestedEnumLevelNullableFilter<$PrismaModel>
-  }
-
-  export type NestedEnumStreamNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.Stream | EnumStreamFieldRefInput<$PrismaModel> | null
-    in?: $Enums.Stream[] | ListEnumStreamFieldRefInput<$PrismaModel> | null
-    notIn?: $Enums.Stream[] | ListEnumStreamFieldRefInput<$PrismaModel> | null
-    not?: NestedEnumStreamNullableWithAggregatesFilter<$PrismaModel> | $Enums.Stream | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedEnumStreamNullableFilter<$PrismaModel>
-    _max?: NestedEnumStreamNullableFilter<$PrismaModel>
-  }
-
   export type StudentProfileCreateWithoutUserInput = {
     id?: string
     parentName: string
@@ -45911,38 +45415,6 @@ export namespace Prisma {
 
   export type ChatSessionCreateManyUserInputEnvelope = {
     data: ChatSessionCreateManyUserInput | ChatSessionCreateManyUserInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type NotificationCreateWithoutUserInput = {
-    id?: string
-    title: string
-    content: string
-    level?: $Enums.Level | null
-    stream?: $Enums.Stream | null
-    month: number
-    createdAt?: Date | string
-    subject?: SubjectCreateNestedOneWithoutNotificationsInput
-  }
-
-  export type NotificationUncheckedCreateWithoutUserInput = {
-    id?: string
-    title: string
-    content: string
-    level?: $Enums.Level | null
-    stream?: $Enums.Stream | null
-    month: number
-    subjectId?: string | null
-    createdAt?: Date | string
-  }
-
-  export type NotificationCreateOrConnectWithoutUserInput = {
-    where: NotificationWhereUniqueInput
-    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
-  }
-
-  export type NotificationCreateManyUserInputEnvelope = {
-    data: NotificationCreateManyUserInput | NotificationCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -46347,37 +45819,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"ChatSession"> | Date | string
   }
 
-  export type NotificationUpsertWithWhereUniqueWithoutUserInput = {
-    where: NotificationWhereUniqueInput
-    update: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
-    create: XOR<NotificationCreateWithoutUserInput, NotificationUncheckedCreateWithoutUserInput>
-  }
-
-  export type NotificationUpdateWithWhereUniqueWithoutUserInput = {
-    where: NotificationWhereUniqueInput
-    data: XOR<NotificationUpdateWithoutUserInput, NotificationUncheckedUpdateWithoutUserInput>
-  }
-
-  export type NotificationUpdateManyWithWhereWithoutUserInput = {
-    where: NotificationScalarWhereInput
-    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutUserInput>
-  }
-
-  export type NotificationScalarWhereInput = {
-    AND?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
-    OR?: NotificationScalarWhereInput[]
-    NOT?: NotificationScalarWhereInput | NotificationScalarWhereInput[]
-    id?: StringFilter<"Notification"> | string
-    title?: StringFilter<"Notification"> | string
-    content?: StringFilter<"Notification"> | string
-    level?: EnumLevelNullableFilter<"Notification"> | $Enums.Level | null
-    stream?: EnumStreamNullableFilter<"Notification"> | $Enums.Stream | null
-    month?: IntFilter<"Notification"> | number
-    subjectId?: StringNullableFilter<"Notification"> | string | null
-    userId?: StringNullableFilter<"Notification"> | string | null
-    createdAt?: DateTimeFilter<"Notification"> | Date | string
-  }
-
   export type ParentTicketUpsertWithWhereUniqueWithoutParentInput = {
     where: ParentTicketWhereUniqueInput
     update: XOR<ParentTicketUpdateWithoutParentInput, ParentTicketUncheckedUpdateWithoutParentInput>
@@ -46530,7 +45971,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
@@ -46560,7 +46000,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
@@ -46606,7 +46045,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
@@ -46636,7 +46074,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
@@ -46666,7 +46103,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
@@ -46696,7 +46132,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
@@ -46742,7 +46177,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
@@ -46772,7 +46206,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
@@ -46802,7 +46235,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
@@ -46832,7 +46264,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
@@ -46861,7 +46292,6 @@ export namespace Prisma {
     createdAt?: Date | string
     lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseCreateNestedManyWithoutSubjectInput
@@ -46888,7 +46318,6 @@ export namespace Prisma {
     createdAt?: Date | string
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSubjectInput
@@ -46942,7 +46371,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
@@ -46972,7 +46400,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
@@ -47104,38 +46531,6 @@ export namespace Prisma {
 
   export type LiveClassCreateManySubjectInputEnvelope = {
     data: LiveClassCreateManySubjectInput | LiveClassCreateManySubjectInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type NotificationCreateWithoutSubjectInput = {
-    id?: string
-    title: string
-    content: string
-    level?: $Enums.Level | null
-    stream?: $Enums.Stream | null
-    month: number
-    createdAt?: Date | string
-    user?: UserCreateNestedOneWithoutNotificationsInput
-  }
-
-  export type NotificationUncheckedCreateWithoutSubjectInput = {
-    id?: string
-    title: string
-    content: string
-    level?: $Enums.Level | null
-    stream?: $Enums.Stream | null
-    month: number
-    userId?: string | null
-    createdAt?: Date | string
-  }
-
-  export type NotificationCreateOrConnectWithoutSubjectInput = {
-    where: NotificationWhereUniqueInput
-    create: XOR<NotificationCreateWithoutSubjectInput, NotificationUncheckedCreateWithoutSubjectInput>
-  }
-
-  export type NotificationCreateManySubjectInputEnvelope = {
-    data: NotificationCreateManySubjectInput | NotificationCreateManySubjectInput[]
     skipDuplicates?: boolean
   }
 
@@ -47510,22 +46905,6 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"LiveClass"> | Date | string
   }
 
-  export type NotificationUpsertWithWhereUniqueWithoutSubjectInput = {
-    where: NotificationWhereUniqueInput
-    update: XOR<NotificationUpdateWithoutSubjectInput, NotificationUncheckedUpdateWithoutSubjectInput>
-    create: XOR<NotificationCreateWithoutSubjectInput, NotificationUncheckedCreateWithoutSubjectInput>
-  }
-
-  export type NotificationUpdateWithWhereUniqueWithoutSubjectInput = {
-    where: NotificationWhereUniqueInput
-    data: XOR<NotificationUpdateWithoutSubjectInput, NotificationUncheckedUpdateWithoutSubjectInput>
-  }
-
-  export type NotificationUpdateManyWithWhereWithoutSubjectInput = {
-    where: NotificationScalarWhereInput
-    data: XOR<NotificationUpdateManyMutationInput, NotificationUncheckedUpdateManyWithoutSubjectInput>
-  }
-
   export type AccessCodeUpsertWithWhereUniqueWithoutSubjectInput = {
     where: AccessCodeWhereUniqueInput
     update: XOR<AccessCodeUpdateWithoutSubjectInput, AccessCodeUncheckedUpdateWithoutSubjectInput>
@@ -47734,7 +47113,6 @@ export namespace Prisma {
     createdAt?: Date | string
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseCreateNestedManyWithoutSubjectInput
@@ -47761,7 +47139,6 @@ export namespace Prisma {
     isPublished?: boolean
     createdAt?: Date | string
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSubjectInput
@@ -47885,7 +47262,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUpdateManyWithoutSubjectNestedInput
@@ -47912,7 +47288,6 @@ export namespace Prisma {
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSubjectNestedInput
@@ -48358,7 +47733,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
@@ -48388,7 +47762,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
@@ -48418,7 +47791,6 @@ export namespace Prisma {
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
     lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseCreateNestedManyWithoutSubjectInput
     secondaryDailyExercises?: DailyExerciseCreateNestedManyWithoutSecondarySubjectInput
@@ -48445,7 +47817,6 @@ export namespace Prisma {
     createdAt?: Date | string
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSubjectInput
     secondaryDailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSecondarySubjectInput
@@ -48493,7 +47864,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
@@ -48523,7 +47893,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
@@ -48559,7 +47928,6 @@ export namespace Prisma {
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
     lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUpdateManyWithoutSubjectNestedInput
     secondaryDailyExercises?: DailyExerciseUpdateManyWithoutSecondarySubjectNestedInput
@@ -48586,7 +47954,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSubjectNestedInput
     secondaryDailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSecondarySubjectNestedInput
@@ -48618,7 +47985,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
@@ -48648,7 +48014,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
@@ -48683,7 +48048,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
@@ -48713,7 +48077,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
@@ -48759,7 +48122,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
@@ -48789,7 +48151,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
@@ -48830,7 +48191,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
@@ -48860,7 +48220,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
@@ -48891,7 +48250,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -48921,7 +48279,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -48956,7 +48313,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
@@ -48986,7 +48342,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
@@ -49032,7 +48387,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -49062,7 +48416,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -49103,7 +48456,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
@@ -49133,7 +48485,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
@@ -49162,7 +48513,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
@@ -49192,7 +48542,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
@@ -49298,7 +48647,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
@@ -49328,7 +48676,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
@@ -49430,7 +48777,6 @@ export namespace Prisma {
     mistakes?: StudentMistakeCreateNestedManyWithoutUserInput
     submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
@@ -49460,7 +48806,6 @@ export namespace Prisma {
     mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutUserInput
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
@@ -49490,7 +48835,6 @@ export namespace Prisma {
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
     lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseCreateNestedManyWithoutSubjectInput
     secondaryDailyExercises?: DailyExerciseCreateNestedManyWithoutSecondarySubjectInput
@@ -49517,7 +48861,6 @@ export namespace Prisma {
     createdAt?: Date | string
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSubjectInput
     secondaryDailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSecondarySubjectInput
@@ -49565,7 +48908,6 @@ export namespace Prisma {
     mistakes?: StudentMistakeUpdateManyWithoutUserNestedInput
     submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
@@ -49595,7 +48937,6 @@ export namespace Prisma {
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutUserNestedInput
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
@@ -49631,7 +48972,6 @@ export namespace Prisma {
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
     lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUpdateManyWithoutSubjectNestedInput
     secondaryDailyExercises?: DailyExerciseUpdateManyWithoutSecondarySubjectNestedInput
@@ -49658,7 +48998,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSubjectNestedInput
     secondaryDailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSecondarySubjectNestedInput
@@ -49684,7 +49023,6 @@ export namespace Prisma {
     createdAt?: Date | string
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
     lessons?: LessonCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseCreateNestedManyWithoutSubjectInput
@@ -49711,7 +49049,6 @@ export namespace Prisma {
     isPublished?: boolean
     createdAt?: Date | string
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSubjectInput
@@ -49754,7 +49091,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
     lessons?: LessonUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUpdateManyWithoutSubjectNestedInput
@@ -49781,7 +49117,6 @@ export namespace Prisma {
     isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSubjectNestedInput
@@ -49814,7 +49149,6 @@ export namespace Prisma {
     mistakes?: StudentMistakeCreateNestedManyWithoutUserInput
     submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
@@ -49844,7 +49178,6 @@ export namespace Prisma {
     mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutUserInput
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
@@ -49914,7 +49247,6 @@ export namespace Prisma {
     mistakes?: StudentMistakeUpdateManyWithoutUserNestedInput
     submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
@@ -49944,7 +49276,6 @@ export namespace Prisma {
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutUserNestedInput
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
@@ -50040,7 +49371,6 @@ export namespace Prisma {
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
     lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentCreateNestedManyWithoutSubjectInput
     secondaryDailyExercises?: DailyExerciseCreateNestedManyWithoutSecondarySubjectInput
@@ -50067,7 +49397,6 @@ export namespace Prisma {
     createdAt?: Date | string
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutSubjectInput
     secondaryDailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSecondarySubjectInput
@@ -50099,7 +49428,6 @@ export namespace Prisma {
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
     lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseCreateNestedManyWithoutSubjectInput
@@ -50126,7 +49454,6 @@ export namespace Prisma {
     createdAt?: Date | string
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSubjectInput
@@ -50222,7 +49549,6 @@ export namespace Prisma {
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
     lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
     secondaryDailyExercises?: DailyExerciseUpdateManyWithoutSecondarySubjectNestedInput
@@ -50249,7 +49575,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
     secondaryDailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSecondarySubjectNestedInput
@@ -50287,7 +49612,6 @@ export namespace Prisma {
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
     lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUpdateManyWithoutSubjectNestedInput
@@ -50314,7 +49638,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSubjectNestedInput
@@ -50474,7 +49797,6 @@ export namespace Prisma {
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
     lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseCreateNestedManyWithoutSubjectInput
@@ -50501,7 +49823,6 @@ export namespace Prisma {
     createdAt?: Date | string
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSubjectInput
@@ -50533,7 +49854,6 @@ export namespace Prisma {
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
     lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseCreateNestedManyWithoutSubjectInput
@@ -50560,7 +49880,6 @@ export namespace Prisma {
     createdAt?: Date | string
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSubjectInput
@@ -50690,7 +50009,6 @@ export namespace Prisma {
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
     lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUpdateManyWithoutSubjectNestedInput
@@ -50717,7 +50035,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSubjectNestedInput
@@ -50755,7 +50072,6 @@ export namespace Prisma {
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
     lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUpdateManyWithoutSubjectNestedInput
@@ -50782,7 +50098,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSubjectNestedInput
@@ -51002,7 +50317,6 @@ export namespace Prisma {
     mistakes?: StudentMistakeCreateNestedManyWithoutUserInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
@@ -51032,7 +50346,6 @@ export namespace Prisma {
     mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutUserInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
@@ -51119,7 +50432,6 @@ export namespace Prisma {
     mistakes?: StudentMistakeUpdateManyWithoutUserNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
@@ -51149,267 +50461,6 @@ export namespace Prisma {
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutUserNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
-    parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
-    forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
-    friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
-    friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
-    subscriptionRequests?: SubscriptionRequestUncheckedUpdateManyWithoutStudentNestedInput
-  }
-
-  export type SubjectCreateWithoutNotificationsInput = {
-    id?: string
-    title: string
-    description: string
-    teacherName: string
-    level: $Enums.Level
-    stream: $Enums.Stream
-    levels?: SubjectCreatelevelsInput | $Enums.Level[]
-    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
-    image: string
-    price: number
-    accessType: string
-    isPublished?: boolean
-    createdAt?: Date | string
-    teacher?: TeacherCreateNestedOneWithoutSubjectsInput
-    lessons?: LessonCreateNestedManyWithoutSubjectInput
-    liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
-    codes?: AccessCodeCreateNestedManyWithoutSubjectInput
-    enrollments?: EnrollmentCreateNestedManyWithoutSubjectInput
-    dailyExercises?: DailyExerciseCreateNestedManyWithoutSubjectInput
-    secondaryDailyExercises?: DailyExerciseCreateNestedManyWithoutSecondarySubjectInput
-    exams?: ExamCreateNestedManyWithoutSubjectInput
-    secondaryExams?: ExamCreateNestedManyWithoutSecondarySubjectInput
-    reviewCards?: ReviewCardCreateNestedManyWithoutSubjectInput
-    classForums?: ClassForumCreateNestedManyWithoutSubjectInput
-  }
-
-  export type SubjectUncheckedCreateWithoutNotificationsInput = {
-    id?: string
-    title: string
-    description: string
-    teacherName: string
-    teacherId?: string | null
-    level: $Enums.Level
-    stream: $Enums.Stream
-    levels?: SubjectCreatelevelsInput | $Enums.Level[]
-    streams?: SubjectCreatestreamsInput | $Enums.Stream[]
-    image: string
-    price: number
-    accessType: string
-    isPublished?: boolean
-    createdAt?: Date | string
-    lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
-    liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
-    codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
-    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutSubjectInput
-    dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSubjectInput
-    secondaryDailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSecondarySubjectInput
-    exams?: ExamUncheckedCreateNestedManyWithoutSubjectInput
-    secondaryExams?: ExamUncheckedCreateNestedManyWithoutSecondarySubjectInput
-    reviewCards?: ReviewCardUncheckedCreateNestedManyWithoutSubjectInput
-    classForums?: ClassForumUncheckedCreateNestedManyWithoutSubjectInput
-  }
-
-  export type SubjectCreateOrConnectWithoutNotificationsInput = {
-    where: SubjectWhereUniqueInput
-    create: XOR<SubjectCreateWithoutNotificationsInput, SubjectUncheckedCreateWithoutNotificationsInput>
-  }
-
-  export type UserCreateWithoutNotificationsInput = {
-    id?: string
-    fullName: string
-    phoneNumber: string
-    passwordHash?: string
-    avatarUrl?: string | null
-    role: $Enums.Role
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    lastLoginAt?: Date | string
-    deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
-    failedLoginAttempts?: number
-    lockedUntil?: Date | string | null
-    studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
-    parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
-    teacherProfile?: TeacherCreateNestedOneWithoutUserInput
-    parentLinks?: ParentStudentLinkCreateNestedManyWithoutParentInput
-    studentLinks?: ParentStudentLinkCreateNestedManyWithoutStudentInput
-    accessCodes?: AccessCodeCreateNestedManyWithoutUserInput
-    mistakes?: StudentMistakeCreateNestedManyWithoutUserInput
-    submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
-    enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
-    chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
-    parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
-    forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
-    friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
-    friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
-    subscriptionRequests?: SubscriptionRequestCreateNestedManyWithoutStudentInput
-  }
-
-  export type UserUncheckedCreateWithoutNotificationsInput = {
-    id?: string
-    fullName: string
-    phoneNumber: string
-    passwordHash?: string
-    avatarUrl?: string | null
-    role: $Enums.Role
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    lastLoginAt?: Date | string
-    deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
-    failedLoginAttempts?: number
-    lockedUntil?: Date | string | null
-    studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
-    parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
-    teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
-    parentLinks?: ParentStudentLinkUncheckedCreateNestedManyWithoutParentInput
-    studentLinks?: ParentStudentLinkUncheckedCreateNestedManyWithoutStudentInput
-    accessCodes?: AccessCodeUncheckedCreateNestedManyWithoutUserInput
-    mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutUserInput
-    submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
-    enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
-    chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
-    parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
-    forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
-    friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
-    friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
-    subscriptionRequests?: SubscriptionRequestUncheckedCreateNestedManyWithoutStudentInput
-  }
-
-  export type UserCreateOrConnectWithoutNotificationsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
-  }
-
-  export type SubjectUpsertWithoutNotificationsInput = {
-    update: XOR<SubjectUpdateWithoutNotificationsInput, SubjectUncheckedUpdateWithoutNotificationsInput>
-    create: XOR<SubjectCreateWithoutNotificationsInput, SubjectUncheckedCreateWithoutNotificationsInput>
-    where?: SubjectWhereInput
-  }
-
-  export type SubjectUpdateToOneWithWhereWithoutNotificationsInput = {
-    where?: SubjectWhereInput
-    data: XOR<SubjectUpdateWithoutNotificationsInput, SubjectUncheckedUpdateWithoutNotificationsInput>
-  }
-
-  export type SubjectUpdateWithoutNotificationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    teacherName?: StringFieldUpdateOperationsInput | string
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
-    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
-    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
-    image?: StringFieldUpdateOperationsInput | string
-    price?: FloatFieldUpdateOperationsInput | number
-    accessType?: StringFieldUpdateOperationsInput | string
-    isPublished?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
-    lessons?: LessonUpdateManyWithoutSubjectNestedInput
-    liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
-    codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
-    enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
-    dailyExercises?: DailyExerciseUpdateManyWithoutSubjectNestedInput
-    secondaryDailyExercises?: DailyExerciseUpdateManyWithoutSecondarySubjectNestedInput
-    exams?: ExamUpdateManyWithoutSubjectNestedInput
-    secondaryExams?: ExamUpdateManyWithoutSecondarySubjectNestedInput
-    reviewCards?: ReviewCardUpdateManyWithoutSubjectNestedInput
-    classForums?: ClassForumUpdateManyWithoutSubjectNestedInput
-  }
-
-  export type SubjectUncheckedUpdateWithoutNotificationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    teacherName?: StringFieldUpdateOperationsInput | string
-    teacherId?: NullableStringFieldUpdateOperationsInput | string | null
-    level?: EnumLevelFieldUpdateOperationsInput | $Enums.Level
-    stream?: EnumStreamFieldUpdateOperationsInput | $Enums.Stream
-    levels?: SubjectUpdatelevelsInput | $Enums.Level[]
-    streams?: SubjectUpdatestreamsInput | $Enums.Stream[]
-    image?: StringFieldUpdateOperationsInput | string
-    price?: FloatFieldUpdateOperationsInput | number
-    accessType?: StringFieldUpdateOperationsInput | string
-    isPublished?: BoolFieldUpdateOperationsInput | boolean
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
-    liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
-    codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
-    enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
-    dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSubjectNestedInput
-    secondaryDailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSecondarySubjectNestedInput
-    exams?: ExamUncheckedUpdateManyWithoutSubjectNestedInput
-    secondaryExams?: ExamUncheckedUpdateManyWithoutSecondarySubjectNestedInput
-    reviewCards?: ReviewCardUncheckedUpdateManyWithoutSubjectNestedInput
-    classForums?: ClassForumUncheckedUpdateManyWithoutSubjectNestedInput
-  }
-
-  export type UserUpsertWithoutNotificationsInput = {
-    update: XOR<UserUpdateWithoutNotificationsInput, UserUncheckedUpdateWithoutNotificationsInput>
-    create: XOR<UserCreateWithoutNotificationsInput, UserUncheckedCreateWithoutNotificationsInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutNotificationsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutNotificationsInput, UserUncheckedUpdateWithoutNotificationsInput>
-  }
-
-  export type UserUpdateWithoutNotificationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    phoneNumber?: StringFieldUpdateOperationsInput | string
-    passwordHash?: StringFieldUpdateOperationsInput | string
-    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
-    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
-    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
-    parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
-    teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
-    parentLinks?: ParentStudentLinkUpdateManyWithoutParentNestedInput
-    studentLinks?: ParentStudentLinkUpdateManyWithoutStudentNestedInput
-    accessCodes?: AccessCodeUpdateManyWithoutUserNestedInput
-    mistakes?: StudentMistakeUpdateManyWithoutUserNestedInput
-    submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
-    enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
-    chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
-    parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
-    forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
-    friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
-    friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
-    subscriptionRequests?: SubscriptionRequestUpdateManyWithoutStudentNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutNotificationsInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    fullName?: StringFieldUpdateOperationsInput | string
-    phoneNumber?: StringFieldUpdateOperationsInput | string
-    passwordHash?: StringFieldUpdateOperationsInput | string
-    avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
-    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
-    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
-    parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
-    teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
-    parentLinks?: ParentStudentLinkUncheckedUpdateManyWithoutParentNestedInput
-    studentLinks?: ParentStudentLinkUncheckedUpdateManyWithoutStudentNestedInput
-    accessCodes?: AccessCodeUncheckedUpdateManyWithoutUserNestedInput
-    mistakes?: StudentMistakeUncheckedUpdateManyWithoutUserNestedInput
-    submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
-    enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
-    chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
@@ -51434,7 +50485,6 @@ export namespace Prisma {
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
     lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseCreateNestedManyWithoutSubjectInput
@@ -51461,7 +50511,6 @@ export namespace Prisma {
     createdAt?: Date | string
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSubjectInput
@@ -51504,7 +50553,6 @@ export namespace Prisma {
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
     lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUpdateManyWithoutSubjectNestedInput
@@ -51531,7 +50579,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSubjectNestedInput
@@ -51558,7 +50605,6 @@ export namespace Prisma {
     teacher?: TeacherCreateNestedOneWithoutSubjectsInput
     lessons?: LessonCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseCreateNestedManyWithoutSubjectInput
@@ -51585,7 +50631,6 @@ export namespace Prisma {
     createdAt?: Date | string
     lessons?: LessonUncheckedCreateNestedManyWithoutSubjectInput
     liveClasses?: LiveClassUncheckedCreateNestedManyWithoutSubjectInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutSubjectInput
     codes?: AccessCodeUncheckedCreateNestedManyWithoutSubjectInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutSubjectInput
     dailyExercises?: DailyExerciseUncheckedCreateNestedManyWithoutSubjectInput
@@ -51652,7 +50697,6 @@ export namespace Prisma {
     teacher?: TeacherUpdateOneWithoutSubjectsNestedInput
     lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUpdateManyWithoutSubjectNestedInput
@@ -51679,7 +50723,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSubjectNestedInput
@@ -51757,7 +50800,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -51787,7 +50829,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -51868,7 +50909,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -51898,7 +50938,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -51928,7 +50967,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkCreateNestedManyWithoutFriendInput
@@ -51958,7 +50996,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
     friendLinksTarget?: StudentFriendLinkUncheckedCreateNestedManyWithoutFriendInput
@@ -52004,7 +51041,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUpdateManyWithoutFriendNestedInput
@@ -52034,7 +51070,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
     friendLinksTarget?: StudentFriendLinkUncheckedUpdateManyWithoutFriendNestedInput
@@ -52064,7 +51099,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionCreateNestedManyWithoutUserInput
-    notifications?: NotificationCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkCreateNestedManyWithoutStudentInput
@@ -52094,7 +51128,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedCreateNestedManyWithoutStudentInput
     enrollments?: EnrollmentUncheckedCreateNestedManyWithoutStudentInput
     chatSessions?: ChatSessionUncheckedCreateNestedManyWithoutUserInput
-    notifications?: NotificationUncheckedCreateNestedManyWithoutUserInput
     parentTickets?: ParentTicketUncheckedCreateNestedManyWithoutParentInput
     forumMessages?: ForumMessageUncheckedCreateNestedManyWithoutUserInput
     friendLinksSource?: StudentFriendLinkUncheckedCreateNestedManyWithoutStudentInput
@@ -52140,7 +51173,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUpdateManyWithoutStudentNestedInput
@@ -52170,7 +51202,6 @@ export namespace Prisma {
     submissions?: StudentSubmissionUncheckedUpdateManyWithoutStudentNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutStudentNestedInput
     chatSessions?: ChatSessionUncheckedUpdateManyWithoutUserNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutUserNestedInput
     parentTickets?: ParentTicketUncheckedUpdateManyWithoutParentNestedInput
     forumMessages?: ForumMessageUncheckedUpdateManyWithoutUserNestedInput
     friendLinksSource?: StudentFriendLinkUncheckedUpdateManyWithoutStudentNestedInput
@@ -52231,17 +51262,6 @@ export namespace Prisma {
     id?: string
     createdAt?: Date | string
     updatedAt?: Date | string
-  }
-
-  export type NotificationCreateManyUserInput = {
-    id?: string
-    title: string
-    content: string
-    level?: $Enums.Level | null
-    stream?: $Enums.Stream | null
-    month: number
-    subjectId?: string | null
-    createdAt?: Date | string
   }
 
   export type ParentTicketCreateManyParentInput = {
@@ -52454,39 +51474,6 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type NotificationUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
-    stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
-    month?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    subject?: SubjectUpdateOneWithoutNotificationsNestedInput
-  }
-
-  export type NotificationUncheckedUpdateWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
-    stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
-    month?: IntFieldUpdateOperationsInput | number
-    subjectId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationUncheckedUpdateManyWithoutUserInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
-    stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
-    month?: IntFieldUpdateOperationsInput | number
-    subjectId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
   export type ParentTicketUpdateWithoutParentInput = {
     id?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
@@ -52639,7 +51626,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessons?: LessonUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUpdateManyWithoutSubjectNestedInput
@@ -52666,7 +51652,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lessons?: LessonUncheckedUpdateManyWithoutSubjectNestedInput
     liveClasses?: LiveClassUncheckedUpdateManyWithoutSubjectNestedInput
-    notifications?: NotificationUncheckedUpdateManyWithoutSubjectNestedInput
     codes?: AccessCodeUncheckedUpdateManyWithoutSubjectNestedInput
     enrollments?: EnrollmentUncheckedUpdateManyWithoutSubjectNestedInput
     dailyExercises?: DailyExerciseUncheckedUpdateManyWithoutSubjectNestedInput
@@ -52710,17 +51695,6 @@ export namespace Prisma {
     zoomLink: string
     month: number
     date: Date | string
-    createdAt?: Date | string
-  }
-
-  export type NotificationCreateManySubjectInput = {
-    id?: string
-    title: string
-    content: string
-    level?: $Enums.Level | null
-    stream?: $Enums.Stream | null
-    month: number
-    userId?: string | null
     createdAt?: Date | string
   }
 
@@ -52876,39 +51850,6 @@ export namespace Prisma {
     zoomLink?: StringFieldUpdateOperationsInput | string
     month?: IntFieldUpdateOperationsInput | number
     date?: DateTimeFieldUpdateOperationsInput | Date | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationUpdateWithoutSubjectInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
-    stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
-    month?: IntFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    user?: UserUpdateOneWithoutNotificationsNestedInput
-  }
-
-  export type NotificationUncheckedUpdateWithoutSubjectInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
-    stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
-    month?: IntFieldUpdateOperationsInput | number
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type NotificationUncheckedUpdateManyWithoutSubjectInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    content?: StringFieldUpdateOperationsInput | string
-    level?: NullableEnumLevelFieldUpdateOperationsInput | $Enums.Level | null
-    stream?: NullableEnumStreamFieldUpdateOperationsInput | $Enums.Stream | null
-    month?: IntFieldUpdateOperationsInput | number
-    userId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

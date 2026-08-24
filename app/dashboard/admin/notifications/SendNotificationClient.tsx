@@ -70,65 +70,55 @@ export function SendNotificationClient({
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 font-arabic" dir="rtl">
-      {/* Background Pattern */}
-      <div 
-        className="fixed inset-0 z-[-1] pointer-events-none opacity-30 bg-white"
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, #9333ea 1px, transparent 1px),
-            linear-gradient(to bottom, #9333ea 1px, transparent 1px)
-          `,
-          backgroundSize: '20px 20px'
-        }}
-      ></div>
-
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 font-arabic bg-slate-50 min-h-screen p-4 md:p-8 rounded-3xl" dir="rtl">
       {/* Creation Form */}
       <div className="lg:col-span-1">
-        <div className="bg-white rounded-none shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] border-black border-2 p-6 sticky top-6">
-          <h2 className="text-xl font-black text-black mb-6 flex items-center gap-2 bg-purple-200 px-3 py-1 border-black border-2 w-fit shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-            <Send className="w-5 h-5" />
+        <div className="bg-white rounded-3xl shadow-sm p-6 sticky top-6 flex flex-col gap-4">
+          <h2 className="text-xl font-bold text-slate-800 mb-2 flex items-center gap-3">
+            <div className="w-10 h-10 rounded-full bg-blue-50 flex items-center justify-center text-blue-600">
+              <Send className="w-5 h-5" />
+            </div>
             إرسال إشعار جديد
           </h2>
           
           {error && (
-            <div className="mb-4 bg-red-200 text-black font-bold p-3 border-black border-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <div className="bg-red-50 text-red-600 font-medium p-4 rounded-xl text-sm">
               {error}
             </div>
           )}
           
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <label className="text-sm font-black text-black uppercase tracking-wider">عنوان الإشعار</label>
+              <label className="text-sm font-semibold text-slate-700">عنوان الإشعار</label>
               <input 
                 type="text" 
                 name="title" 
                 required 
-                className="w-full p-3 border-black border-2 font-bold text-black focus:outline-none focus:ring-0 focus:shadow-[4px_4px_0px_0px_rgba(147,51,234,1)] transition-shadow bg-yellow-50" 
+                className="w-full p-4 rounded-xl bg-slate-100 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-shadow border-none" 
                 placeholder="مثال: إضافة ملخص جديد" 
               />
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-black text-black uppercase tracking-wider">نص الإشعار</label>
+              <label className="text-sm font-semibold text-slate-700">نص الإشعار</label>
               <textarea 
                 name="content" 
                 rows={4} 
                 required 
-                className="w-full p-3 border-black border-2 font-bold text-black focus:outline-none focus:ring-0 focus:shadow-[4px_4px_0px_0px_rgba(147,51,234,1)] transition-shadow bg-white resize-none" 
+                className="w-full p-4 rounded-xl bg-slate-100 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-shadow resize-none border-none" 
                 placeholder="اكتب رسالتك هنا.." 
               />
             </div>
 
-            <div className="pt-6 border-t-2 border-black space-y-6">
-              <p className="text-sm font-bold text-slate-700 bg-slate-100 p-2 border-black border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                تحديد الفئة المستهدفة (اتركها فارغة للإرسال للجميع)
-              </p>
+            <div className="pt-6 border-t border-slate-100 space-y-5">
+              <div className="inline-block bg-purple-100 text-purple-700 text-xs font-bold px-4 py-1.5 rounded-full">
+                تحديد الفئة المستهدفة
+              </div>
               
-              <div className="space-y-4">
+              <div className="space-y-5">
                 <div className="space-y-2">
-                  <label className="text-xs font-black text-black uppercase bg-emerald-200 px-2 py-1 border-black border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] inline-block">المواد المستهدفة</label>
-                  <div className="max-h-48 overflow-y-auto p-2 border-black border-2 bg-slate-50">
+                  <label className="text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full inline-block">المواد المستهدفة</label>
+                  <div className="max-h-48 overflow-y-auto p-2 bg-slate-50 rounded-xl">
                     <NeoMultiSelect
                       name="subjectIds"
                       options={subjectOptions}
@@ -139,23 +129,27 @@ export function SendNotificationClient({
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-black text-black uppercase bg-sky-200 px-2 py-1 border-black border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] inline-block">المستويات المستهدفة</label>
-                  <NeoMultiSelect
-                    name="levels"
-                    options={levelOptions}
-                    selectedValues={selectedLevels}
-                    onChange={setSelectedLevels}
-                  />
+                  <label className="text-xs font-bold text-blue-700 bg-blue-100 px-3 py-1 rounded-full inline-block">المستويات المستهدفة</label>
+                  <div className="p-2 bg-slate-50 rounded-xl">
+                    <NeoMultiSelect
+                      name="levels"
+                      options={levelOptions}
+                      selectedValues={selectedLevels}
+                      onChange={setSelectedLevels}
+                    />
+                  </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-black text-black uppercase bg-amber-200 px-2 py-1 border-black border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] inline-block">الشعب المستهدفة</label>
-                  <NeoMultiSelect
-                    name="streams"
-                    options={streamOptions}
-                    selectedValues={selectedStreams}
-                    onChange={setSelectedStreams}
-                  />
+                  <label className="text-xs font-bold text-orange-700 bg-orange-100 px-3 py-1 rounded-full inline-block">الشعب المستهدفة</label>
+                  <div className="p-2 bg-slate-50 rounded-xl">
+                    <NeoMultiSelect
+                      name="streams"
+                      options={streamOptions}
+                      selectedValues={selectedStreams}
+                      onChange={setSelectedStreams}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -163,7 +157,7 @@ export function SendNotificationClient({
             <button 
               type="submit" 
               disabled={pending}
-              className="w-full flex items-center justify-center gap-2 bg-purple-600 hover:bg-purple-700 disabled:opacity-60 text-white font-black text-lg py-4 border-black border-2 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 transition-all mt-4 uppercase tracking-widest"
+              className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-bold text-base py-4 rounded-xl transition-colors mt-2"
             >
               {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
               {pending ? "جاري الإرسال..." : "إرسال الإشعار"}
@@ -174,54 +168,54 @@ export function SendNotificationClient({
 
       {/* List */}
       <div className="lg:col-span-2">
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 gap-4">
           {notifications.map(notification => {
             const formattedDate = new Date(notification.createdAt).toLocaleString('ar-DZ', { 
               weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
             });
 
             return (
-              <div key={notification.id} className="bg-white shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] border-black border-2 p-6 flex flex-col relative group transition-transform hover:-translate-y-1">
+              <div key={notification.id} className="bg-white shadow-sm rounded-3xl p-6 flex flex-col relative group transition-all hover:shadow-md border border-slate-50">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-4">
-                    <div className="w-14 h-14 bg-purple-200 border-black border-2 flex items-center justify-center text-black shrink-0 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                      <Bell className="w-7 h-7" />
+                    <div className="w-12 h-12 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 shrink-0">
+                      <Bell className="w-6 h-6" />
                     </div>
                     <div>
-                      <h3 className="font-black text-black text-xl">{notification.title}</h3>
-                      <p className="text-xs font-bold text-slate-500 mt-1">{formattedDate}</p>
+                      <h3 className="font-bold text-slate-800 text-lg">{notification.title}</h3>
+                      <p className="text-xs font-medium text-slate-400 mt-1">{formattedDate}</p>
                     </div>
                   </div>
                   
                   <form action={async () => { await deleteNotification(notification.id); }}>
-                    <button type="submit" className="p-2 bg-red-400 text-black border-black border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-0.5 transition-transform" title="حذف الإشعار">
+                    <button type="submit" className="p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors" title="حذف الإشعار">
                       <Trash2 className="w-5 h-5" />
                     </button>
                   </form>
                 </div>
 
-                <div className="mt-4 bg-yellow-50 p-4 border-black border-2 text-black text-sm font-bold leading-relaxed shadow-[inset_2px_2px_0px_rgba(0,0,0,0.1)]">
+                <div className="mt-2 bg-slate-50 p-4 rounded-xl text-slate-600 text-sm font-medium leading-relaxed">
                   {notification.content}
                 </div>
 
-                <div className="mt-6 pt-4 border-t-2 border-black flex flex-wrap gap-2">
+                <div className="mt-5 pt-4 border-t border-slate-100 flex flex-wrap gap-2">
                   {notification.levels.length === 0 && notification.streams.length === 0 && notification.subjectIds.length === 0 && (
-                    <span className="bg-purple-600 text-white text-xs font-black px-3 py-1 border-black border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <span className="bg-purple-100 text-purple-700 text-xs font-bold px-3 py-1.5 rounded-full">
                       الجميع (عام)
                     </span>
                   )}
                   {notification.levels.map(l => (
-                    <span key={l} className="bg-sky-200 text-black text-xs font-black px-3 py-1 border-black border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <span key={l} className="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1.5 rounded-full">
                       مستوى: {LEVELS.find(lvl => lvl.value === l)?.label || l}
                     </span>
                   ))}
                   {notification.streams.map(s => (
-                    <span key={s} className="bg-amber-200 text-black text-xs font-black px-3 py-1 border-black border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <span key={s} className="bg-orange-100 text-orange-700 text-xs font-bold px-3 py-1.5 rounded-full">
                       شعبة: {STREAMS.find(st => st.value === s)?.label || s}
                     </span>
                   ))}
                   {notification.subjectIds.map(sid => (
-                    <span key={sid} className="bg-emerald-200 text-black text-xs font-black px-3 py-1 border-black border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <span key={sid} className="bg-emerald-100 text-emerald-700 text-xs font-bold px-3 py-1.5 rounded-full">
                       مادة: {subjects.find(sub => sub.id === sid)?.title || "مجهولة"}
                     </span>
                   ))}
@@ -230,8 +224,8 @@ export function SendNotificationClient({
             )
           })}
           {notifications.length === 0 && (
-            <div className="col-span-full py-16 text-center bg-slate-50 border-black border-2 shadow-[inset_4px_4px_0px_rgba(0,0,0,0.1)]">
-              <span className="font-black text-slate-500 text-xl">لا توجد إشعارات مرسلة بعد</span>
+            <div className="col-span-full py-16 text-center bg-white rounded-3xl shadow-sm border border-slate-50">
+              <span className="font-semibold text-slate-400 text-lg">لا توجد إشعارات مرسلة بعد</span>
             </div>
           )}
         </div>

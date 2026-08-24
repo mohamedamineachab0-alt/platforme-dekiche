@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { BookOpen, Plus, Loader2, Image as ImageIcon } from "lucide-react";
+import { BookOpen, Plus, Loader2, Image as ImageIcon, Settings, User } from "lucide-react";
 import { STREAMS, LEVELS } from "@/lib/constants";
 import { NeoMultiSelect } from "@/components/shared/NeoMultiSelect";
 
@@ -39,7 +39,7 @@ export function SubjectCreationClient({
     }
     await action(formData);
     setPending(false);
-    // Reset
+    
     setTitle("");
     setDescription("");
     setTeacherId("");
@@ -62,114 +62,86 @@ export function SubjectCreationClient({
   const streamOptions = STREAMS.map(s => ({ value: s.value, label: s.label.replace(/\./g, '') }));
 
   return (
-    <div className="space-y-8 font-arabic relative bg-slate-50 min-h-screen p-4 md:p-8 rounded-3xl" dir="rtl">
-      {/* Header */}
-      <div className="bg-orange-300/80 rounded-t-3xl p-6 md:p-8 shadow-sm">
-        <h1 className="text-2xl font-bold text-slate-900">إدارة المواد التعليمية</h1>
-        <p className="text-sm font-medium text-slate-800 mt-2 opacity-90">قم بإضافة وتعديل المواد التعليمية بشكل مرن وبسيط</p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 px-2 md:px-0 mt-[-24px]">
-        {/* Live Preview Card */}
-        <div className="lg:col-span-1">
-          <div className="bg-white rounded-2xl shadow-sm p-5 flex flex-col sticky top-6">
-            
-            <div className="flex items-center justify-between mb-4">
-              <span className="bg-purple-100 text-purple-700 px-3 py-1 text-xs font-bold rounded-full">
-                معاينة حية
-              </span>
-              <span className="bg-orange-100 text-orange-700 px-3 py-1 text-xs font-bold rounded-full">
-                {isFree ? "مجاناً" : `${price} دج`}
-              </span>
-            </div>
-
-            <div className="aspect-video w-full rounded-xl bg-slate-100 flex items-center justify-center overflow-hidden relative mb-5">
-              {imageUrl ? (
-                <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
-              ) : (
-                <ImageIcon className="w-10 h-10 text-slate-300" />
-              )}
-            </div>
-
-            <div className="flex-1 flex flex-col">
-              <h3 className="font-bold text-slate-900 text-lg line-clamp-1 mb-2">{title || "عنوان المادة"}</h3>
-              <p className="font-medium text-slate-500 text-sm line-clamp-2 leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100">
-                {description || "وصف المادة يظهر هنا"}
-              </p>
-              
-              <div className="mt-5 pt-4 flex items-center gap-2 border-t border-slate-100">
-                <span className="text-xs font-bold text-purple-700 bg-purple-100 px-3 py-1.5 rounded-full">
-                  {selectedTeacherName}
-                </span>
-                <span className="text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1.5 rounded-full">
-                  {accessType === "YEARLY" ? "اشتراك سنوي" : "اشتراك شهري"}
-                </span>
-              </div>
-            </div>
+    <div className="font-arabic space-y-6" dir="rtl">
+      
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 bg-sky-50 text-sky-600 rounded-xl flex items-center justify-center">
+            <Settings className="w-6 h-6" />
+          </div>
+          <div>
+            <h1 className="text-xl font-black text-slate-800">إدارة المواد التعليمية</h1>
+            <p className="text-sm font-bold text-slate-500 mt-1">قم بإضافة وتعديل المواد التعليمية بشكل مرن وبسيط</p>
           </div>
         </div>
+      </div>
 
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
         {/* Form */}
         <div className="lg:col-span-2">
-          <div className="bg-white rounded-3xl shadow-sm p-6 md:p-8">
-            <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-2">
-              <BookOpen className="w-5 h-5 text-blue-500" />
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 md:p-8">
+            <h2 className="text-lg font-black text-slate-800 mb-6 flex items-center gap-2 pb-4 border-b border-slate-100">
+              <BookOpen className="w-5 h-5 text-sky-500" />
               تفاصيل المادة
             </h2>
             
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700">عنوان المادة</label>
+                <label className="text-sm font-bold text-slate-700">عنوان المادة</label>
                 <input 
                   type="text" 
                   name="title" 
                   required 
                   value={title} 
                   onChange={e => setTitle(e.target.value)} 
-                  className="w-full p-4 rounded-xl bg-slate-100 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-shadow border-none" 
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all text-slate-700" 
                   placeholder="الرياضيات المتقدمة" 
                 />
               </div>
               
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700">الوصف</label>
+                <label className="text-sm font-bold text-slate-700">الوصف</label>
                 <textarea 
                   name="description" 
                   required 
                   rows={3} 
                   value={description} 
                   onChange={e => setDescription(e.target.value)} 
-                  className="w-full p-4 rounded-xl bg-slate-100 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-shadow resize-none border-none" 
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all resize-none text-slate-700" 
                   placeholder="وصف المادة"
                 ></textarea>
               </div>
 
               <div className="space-y-2">
-                <label className="text-sm font-semibold text-slate-700">صورة الغلاف (1920x1080)</label>
+                <label className="text-sm font-bold text-slate-700">صورة الغلاف (1920x1080)</label>
                 <input 
                   type="file" 
                   name="image" 
                   accept="image/*"
                   onChange={handleImageChange} 
-                  className="w-full p-3 rounded-xl bg-slate-100 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-shadow border-none file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-none file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200 cursor-pointer" 
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all file:mr-4 file:py-1.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-sky-50 file:text-sky-600 hover:file:bg-sky-100 cursor-pointer text-slate-600" 
                 />
               </div>
 
-              <div className="space-y-4 p-5 rounded-2xl bg-slate-50 border border-slate-100">
+              <div className="space-y-4 p-5 rounded-xl border border-slate-200 bg-slate-50">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                  <label className="text-sm font-semibold text-slate-700">الأستاذ</label>
-                  <div className="flex bg-white p-1 rounded-xl shadow-sm border border-slate-100 w-fit">
+                  <label className="text-sm font-bold text-slate-700 flex items-center gap-2">
+                    <User className="w-4 h-4 text-slate-500" />
+                    الأستاذ
+                  </label>
+                  <div className="flex bg-white p-1 rounded-lg border border-slate-200 w-fit">
                     <button 
                       type="button" 
                       onClick={() => setTeacherInputMethod("LIST")}
-                      className={`px-4 py-1.5 text-sm font-semibold rounded-lg transition-colors ${teacherInputMethod === "LIST" ? "bg-blue-100 text-blue-700" : "text-slate-500 hover:bg-slate-50"}`}
+                      className={`px-4 py-1.5 text-xs font-bold rounded-md transition-colors ${teacherInputMethod === "LIST" ? "bg-slate-100 text-slate-800" : "text-slate-500 hover:bg-slate-50"}`}
                     >
                       من القائمة
                     </button>
                     <button 
                       type="button" 
                       onClick={() => setTeacherInputMethod("MANUAL")}
-                      className={`px-4 py-1.5 text-sm font-semibold rounded-lg transition-colors ${teacherInputMethod === "MANUAL" ? "bg-blue-100 text-blue-700" : "text-slate-500 hover:bg-slate-50"}`}
+                      className={`px-4 py-1.5 text-xs font-bold rounded-md transition-colors ${teacherInputMethod === "MANUAL" ? "bg-slate-100 text-slate-800" : "text-slate-500 hover:bg-slate-50"}`}
                     >
                       إدخال يدوي
                     </button>
@@ -181,7 +153,7 @@ export function SubjectCreationClient({
                     name="teacherId" 
                     value={teacherId} 
                     onChange={e => setTeacherId(e.target.value)} 
-                    className="w-full p-4 rounded-xl bg-slate-100 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-shadow border-none appearance-none"
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all appearance-none text-slate-700"
                   >
                     <option value="">بدون أستاذ</option>
                     {teachers.map(t => (
@@ -194,7 +166,7 @@ export function SubjectCreationClient({
                     name="manualTeacherName" 
                     value={manualTeacherName} 
                     onChange={e => setManualTeacherName(e.target.value)} 
-                    className="w-full p-4 rounded-xl bg-slate-100 text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-100 transition-shadow border-none" 
+                    className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all text-slate-700" 
                     placeholder="أدخل اسم الأستاذ" 
                   />
                 )}
@@ -202,71 +174,67 @@ export function SubjectCreationClient({
 
               <div className="space-y-6 pt-4">
                 <div className="space-y-3">
-                  <label className="text-xs font-bold text-yellow-700 bg-yellow-100 px-3 py-1.5 rounded-full inline-block">
+                  <label className="text-xs font-bold text-slate-500">
                     المستويات الدراسية
                   </label>
-                  <div className="p-2 bg-slate-50 rounded-xl">
-                    <NeoMultiSelect
-                      name="levels"
-                      options={levelOptions}
-                      selectedValues={selectedLevels}
-                      onChange={setSelectedLevels}
-                    />
-                  </div>
+                  <NeoMultiSelect
+                    name="levels"
+                    options={levelOptions}
+                    selectedValues={selectedLevels}
+                    onChange={setSelectedLevels}
+                  />
                 </div>
 
                 <div className="space-y-3">
-                  <label className="text-xs font-bold text-purple-700 bg-purple-100 px-3 py-1.5 rounded-full inline-block">
+                  <label className="text-xs font-bold text-slate-500">
                     الشعب
                   </label>
-                  <div className="p-2 bg-slate-50 rounded-xl">
-                    <NeoMultiSelect
-                      name="streams"
-                      options={streamOptions}
-                      selectedValues={selectedStreams}
-                      onChange={setSelectedStreams}
-                    />
-                  </div>
+                  <NeoMultiSelect
+                    name="streams"
+                    options={streamOptions}
+                    selectedValues={selectedStreams}
+                    onChange={setSelectedStreams}
+                  />
                 </div>
               </div>
 
               <div className="space-y-5 pt-6 border-t border-slate-100">
                 <label className="flex items-center gap-3 cursor-pointer group w-fit">
-                  <div className="relative flex items-center justify-center w-6 h-6 rounded-md border-2 border-slate-300 bg-white group-hover:border-blue-400 transition-colors overflow-hidden">
+                  <div className="relative flex items-center justify-center w-5 h-5 rounded border border-slate-300 bg-white group-hover:border-sky-400 transition-colors">
                     <input 
                       type="checkbox" 
                       checked={isFree} 
                       onChange={(e) => setIsFree(e.target.checked)}
                       className="absolute opacity-0 cursor-pointer w-full h-full z-10" 
                     />
-                    {isFree && <div className="w-full h-full bg-blue-500 flex items-center justify-center">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" className="w-4 h-4"><polyline points="20 6 9 17 4 12"></polyline></svg>  
+                    {isFree && <div className="w-full h-full bg-sky-500 flex items-center justify-center rounded-[3px]">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" className="w-3 h-3"><polyline points="20 6 9 17 4 12"></polyline></svg>  
                     </div>}
                   </div>
-                  <span className="text-sm font-semibold text-slate-700">نشر المادة على أنها مجانية</span>
+                  <span className="text-sm font-bold text-slate-700">نشر المادة على أنها مجانية</span>
                 </label>
 
                 {!isFree && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-5 rounded-2xl bg-blue-50/50 border border-blue-100">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 p-5 rounded-xl border border-slate-200 bg-slate-50">
                     <div className="space-y-2">
-                      <label className="text-sm font-semibold text-slate-700">السعر (دج)</label>
+                      <label className="text-sm font-bold text-slate-700">السعر (دج)</label>
                       <input 
                         type="number" 
                         name="price" 
                         required 
                         value={price} 
                         onChange={e => setPrice(e.target.value)} 
-                        className="w-full p-4 rounded-xl bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-shadow border-none shadow-sm" 
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all text-slate-700" 
                       />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-semibold text-slate-700">نوع الوصول</label>
+                      <label className="text-sm font-bold text-slate-700">نوع الوصول</label>
                       <select 
                         name="accessType" 
                         required 
                         value={accessType} 
                         onChange={e => setAccessType(e.target.value)} 
-                        className="w-full p-4 rounded-xl bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-200 transition-shadow border-none shadow-sm appearance-none"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all appearance-none text-slate-700"
                       >
                         <option value="MONTHLY">شهري</option>
                         <option value="YEARLY">سنوي</option>
@@ -279,14 +247,52 @@ export function SubjectCreationClient({
               <button 
                 type="submit" 
                 disabled={pending} 
-                className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-bold text-base py-4 rounded-xl transition-colors mt-6"
+                className="w-full flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 disabled:opacity-60 text-white font-bold text-sm py-4 rounded-xl transition-colors mt-6"
               >
-                {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : <BookOpen className="w-5 h-5" />}
+                {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : <Plus className="w-5 h-5" />}
                 {pending ? "جاري النشر..." : "نشر المادة"}
               </button>
             </form>
           </div>
         </div>
+
+        {/* Live Preview Card */}
+        <div className="lg:col-span-1">
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden sticky top-6">
+            
+            <div className="aspect-video w-full bg-slate-100 flex items-center justify-center relative">
+              {imageUrl ? (
+                <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
+              ) : (
+                <ImageIcon className="w-10 h-10 text-slate-300" />
+              )}
+              
+              <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-slate-700 px-3 py-1 text-xs font-bold rounded-lg shadow-sm border border-slate-100">
+                معاينة
+              </div>
+              <div className="absolute top-3 left-3 bg-sky-500 text-white px-3 py-1 text-xs font-bold rounded-lg shadow-sm">
+                {isFree ? "مجاناً" : `${price} دج`}
+              </div>
+            </div>
+
+            <div className="p-5 flex flex-col">
+              <h3 className="font-black text-slate-800 text-lg line-clamp-1 mb-2">{title || "عنوان المادة"}</h3>
+              <p className="font-bold text-slate-500 text-sm line-clamp-2 leading-relaxed">
+                {description || "وصف المادة يظهر هنا"}
+              </p>
+              
+              <div className="mt-6 pt-4 flex items-center gap-2 border-t border-slate-100">
+                <span className="text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1.5 rounded-lg border border-slate-200">
+                  {selectedTeacherName}
+                </span>
+                <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-3 py-1.5 rounded-lg border border-emerald-100">
+                  {accessType === "YEARLY" ? "اشتراك سنوي" : "اشتراك شهري"}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   );

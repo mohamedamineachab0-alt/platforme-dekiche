@@ -30,17 +30,40 @@ export async function proxy(request: NextRequest) {
     );
 
     if (!success) {
-      return NextResponse.json(
-        { error: 'تم تجاوز الحد المسموح به. يرجى المحاولة بعد قليل.' },
-        { 
-          status: 429,
-          headers: {
-            'X-RateLimit-Limit': limit.toString(),
-            'X-RateLimit-Remaining': remaining.toString(),
-            'X-RateLimit-Reset': reset.toString(),
-          }
-        }
-      );
+      const headers = {
+        'X-RateLimit-Limit': limit.toString(),
+        'X-RateLimit-Remaining': remaining.toString(),
+        'X-RateLimit-Reset': reset.toString(),
+      };
+      
+      if (request.nextUrl.pathname.startsWith('/api')) {
+        return NextResponse.json(
+          { error: 'تم تجاوز الحد المسموح به. يرجى المحاولة بعد قليل.' },
+          { status: 429, headers }
+        );
+      } else {
+        return new NextResponse(
+          `<!DOCTYPE html>
+           <html dir="rtl" lang="ar">
+           <head>
+             <meta charset="utf-8">
+             <title>حظر مؤقت - 429</title>
+             <style>
+               body { font-family: system-ui, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f8fafc; color: #334155; margin: 0; }
+               .card { background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); text-align: center; max-width: 400px; }
+               h1 { color: #e11d48; margin-top: 0; }
+             </style>
+           </head>
+           <body>
+             <div class="card">
+               <h1>429 - طلبات كثيرة جداً</h1>
+               <p>لقد تجاوزت الحد المسموح به. يرجى المحاولة بعد دقيقة.</p>
+             </div>
+           </body>
+           </html>`,
+          { status: 429, headers: { "Content-Type": "text/html; charset=utf-8", ...headers } }
+        );
+      }
     }
   }
 

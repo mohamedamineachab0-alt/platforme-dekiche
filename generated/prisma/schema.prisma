@@ -107,6 +107,8 @@ model User {
   studentLinks         ParentStudentLink[]   @relation("StudentLink")
   lastLoginAt          DateTime              @default(now())
   deviceFingerprints   String[]              @default([])
+  failedLoginAttempts  Int                   @default(0)
+  lockedUntil          DateTime?
   accessCodes          AccessCode[]
   mistakes             StudentMistake[]
   submissions          StudentSubmission[]   @relation("StudentSubmissions")
@@ -448,13 +450,14 @@ model ForumMessage {
 }
 
 model ParentTicket {
-  id        String   @id @default(cuid())
-  parentId  String
-  parent    User     @relation(fields: [parentId], references: [id], onDelete: Cascade)
-  subject   String
-  message   String
-  status    String   @default("OPEN")
-  createdAt DateTime @default(now())
+  id         String   @id @default(cuid())
+  parentId   String
+  parent     User     @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  subject    String
+  message    String
+  adminReply String?
+  status     String   @default("OPEN")
+  createdAt  DateTime @default(now())
 }
 
 model SubscriptionRequest {

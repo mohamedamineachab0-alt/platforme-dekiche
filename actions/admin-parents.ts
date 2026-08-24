@@ -83,3 +83,23 @@ export async function closeParentTicket(ticketId: string) {
     return { error: "حدث خطأ أثناء إغلاق الرسالة" };
   }
 }
+
+export async function replyToParentTicket(ticketId: string, replyContent: string) {
+  try {
+    if (!replyContent.trim()) {
+      return { error: "لا يمكن إرسال رد فارغ" };
+    }
+    await prisma.parentTicket.update({
+      where: { id: ticketId },
+      data: { 
+        adminReply: replyContent,
+        status: "ANSWERED"
+      }
+    });
+    revalidatePath("/dashboard/admin/parent-messages");
+    return { success: true };
+  } catch (error) {
+    console.error("Error replying to ticket:", error);
+    return { error: "حدث خطأ أثناء الرد على الرسالة" };
+  }
+}

@@ -130,7 +130,9 @@ exports.Prisma.UserScalarFieldEnum = {
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   lastLoginAt: 'lastLoginAt',
-  deviceFingerprints: 'deviceFingerprints'
+  deviceFingerprints: 'deviceFingerprints',
+  failedLoginAttempts: 'failedLoginAttempts',
+  lockedUntil: 'lockedUntil'
 };
 
 exports.Prisma.StudentProfileScalarFieldEnum = {
@@ -397,6 +399,7 @@ exports.Prisma.ParentTicketScalarFieldEnum = {
   parentId: 'parentId',
   subject: 'subject',
   message: 'message',
+  adminReply: 'adminReply',
   status: 'status',
   createdAt: 'createdAt'
 };

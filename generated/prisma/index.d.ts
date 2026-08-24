@@ -3968,8 +3968,18 @@ export namespace Prisma {
 
   export type AggregateUser = {
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
+  }
+
+  export type UserAvgAggregateOutputType = {
+    failedLoginAttempts: number | null
+  }
+
+  export type UserSumAggregateOutputType = {
+    failedLoginAttempts: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -3982,6 +3992,8 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     lastLoginAt: Date | null
+    failedLoginAttempts: number | null
+    lockedUntil: Date | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -3994,6 +4006,8 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     lastLoginAt: Date | null
+    failedLoginAttempts: number | null
+    lockedUntil: Date | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -4007,9 +4021,19 @@ export namespace Prisma {
     updatedAt: number
     lastLoginAt: number
     deviceFingerprints: number
+    failedLoginAttempts: number
+    lockedUntil: number
     _all: number
   }
 
+
+  export type UserAvgAggregateInputType = {
+    failedLoginAttempts?: true
+  }
+
+  export type UserSumAggregateInputType = {
+    failedLoginAttempts?: true
+  }
 
   export type UserMinAggregateInputType = {
     id?: true
@@ -4021,6 +4045,8 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     lastLoginAt?: true
+    failedLoginAttempts?: true
+    lockedUntil?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -4033,6 +4059,8 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     lastLoginAt?: true
+    failedLoginAttempts?: true
+    lockedUntil?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -4046,6 +4074,8 @@ export namespace Prisma {
     updatedAt?: true
     lastLoginAt?: true
     deviceFingerprints?: true
+    failedLoginAttempts?: true
+    lockedUntil?: true
     _all?: true
   }
 
@@ -4087,6 +4117,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: UserAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: UserSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType
@@ -4117,6 +4159,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserCountAggregateInputType | true
+    _avg?: UserAvgAggregateInputType
+    _sum?: UserSumAggregateInputType
     _min?: UserMinAggregateInputType
     _max?: UserMaxAggregateInputType
   }
@@ -4132,7 +4176,11 @@ export namespace Prisma {
     updatedAt: Date
     lastLoginAt: Date
     deviceFingerprints: string[]
+    failedLoginAttempts: number
+    lockedUntil: Date | null
     _count: UserCountAggregateOutputType | null
+    _avg: UserAvgAggregateOutputType | null
+    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
@@ -4162,6 +4210,8 @@ export namespace Prisma {
     updatedAt?: boolean
     lastLoginAt?: boolean
     deviceFingerprints?: boolean
+    failedLoginAttempts?: boolean
+    lockedUntil?: boolean
     studentProfile?: boolean | User$studentProfileArgs<ExtArgs>
     parentProfile?: boolean | User$parentProfileArgs<ExtArgs>
     teacherProfile?: boolean | User$teacherProfileArgs<ExtArgs>
@@ -4192,6 +4242,8 @@ export namespace Prisma {
     updatedAt?: boolean
     lastLoginAt?: boolean
     deviceFingerprints?: boolean
+    failedLoginAttempts?: boolean
+    lockedUntil?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4205,6 +4257,8 @@ export namespace Prisma {
     updatedAt?: boolean
     lastLoginAt?: boolean
     deviceFingerprints?: boolean
+    failedLoginAttempts?: boolean
+    lockedUntil?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -4218,9 +4272,11 @@ export namespace Prisma {
     updatedAt?: boolean
     lastLoginAt?: boolean
     deviceFingerprints?: boolean
+    failedLoginAttempts?: boolean
+    lockedUntil?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "phoneNumber" | "passwordHash" | "avatarUrl" | "role" | "createdAt" | "updatedAt" | "lastLoginAt" | "deviceFingerprints", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "phoneNumber" | "passwordHash" | "avatarUrl" | "role" | "createdAt" | "updatedAt" | "lastLoginAt" | "deviceFingerprints" | "failedLoginAttempts" | "lockedUntil", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     studentProfile?: boolean | User$studentProfileArgs<ExtArgs>
     parentProfile?: boolean | User$parentProfileArgs<ExtArgs>
@@ -4274,6 +4330,8 @@ export namespace Prisma {
       updatedAt: Date
       lastLoginAt: Date
       deviceFingerprints: string[]
+      failedLoginAttempts: number
+      lockedUntil: Date | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -4723,6 +4781,8 @@ export namespace Prisma {
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly lastLoginAt: FieldRef<"User", 'DateTime'>
     readonly deviceFingerprints: FieldRef<"User", 'String[]'>
+    readonly failedLoginAttempts: FieldRef<"User", 'Int'>
+    readonly lockedUntil: FieldRef<"User", 'DateTime'>
   }
     
 
@@ -34184,6 +34244,7 @@ export namespace Prisma {
     parentId: string | null
     subject: string | null
     message: string | null
+    adminReply: string | null
     status: string | null
     createdAt: Date | null
   }
@@ -34193,6 +34254,7 @@ export namespace Prisma {
     parentId: string | null
     subject: string | null
     message: string | null
+    adminReply: string | null
     status: string | null
     createdAt: Date | null
   }
@@ -34202,6 +34264,7 @@ export namespace Prisma {
     parentId: number
     subject: number
     message: number
+    adminReply: number
     status: number
     createdAt: number
     _all: number
@@ -34213,6 +34276,7 @@ export namespace Prisma {
     parentId?: true
     subject?: true
     message?: true
+    adminReply?: true
     status?: true
     createdAt?: true
   }
@@ -34222,6 +34286,7 @@ export namespace Prisma {
     parentId?: true
     subject?: true
     message?: true
+    adminReply?: true
     status?: true
     createdAt?: true
   }
@@ -34231,6 +34296,7 @@ export namespace Prisma {
     parentId?: true
     subject?: true
     message?: true
+    adminReply?: true
     status?: true
     createdAt?: true
     _all?: true
@@ -34313,6 +34379,7 @@ export namespace Prisma {
     parentId: string
     subject: string
     message: string
+    adminReply: string | null
     status: string
     createdAt: Date
     _count: ParentTicketCountAggregateOutputType | null
@@ -34339,6 +34406,7 @@ export namespace Prisma {
     parentId?: boolean
     subject?: boolean
     message?: boolean
+    adminReply?: boolean
     status?: boolean
     createdAt?: boolean
     parent?: boolean | UserDefaultArgs<ExtArgs>
@@ -34349,6 +34417,7 @@ export namespace Prisma {
     parentId?: boolean
     subject?: boolean
     message?: boolean
+    adminReply?: boolean
     status?: boolean
     createdAt?: boolean
     parent?: boolean | UserDefaultArgs<ExtArgs>
@@ -34359,6 +34428,7 @@ export namespace Prisma {
     parentId?: boolean
     subject?: boolean
     message?: boolean
+    adminReply?: boolean
     status?: boolean
     createdAt?: boolean
     parent?: boolean | UserDefaultArgs<ExtArgs>
@@ -34369,11 +34439,12 @@ export namespace Prisma {
     parentId?: boolean
     subject?: boolean
     message?: boolean
+    adminReply?: boolean
     status?: boolean
     createdAt?: boolean
   }
 
-  export type ParentTicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "parentId" | "subject" | "message" | "status" | "createdAt", ExtArgs["result"]["parentTicket"]>
+  export type ParentTicketOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "parentId" | "subject" | "message" | "adminReply" | "status" | "createdAt", ExtArgs["result"]["parentTicket"]>
   export type ParentTicketInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     parent?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -34394,6 +34465,7 @@ export namespace Prisma {
       parentId: string
       subject: string
       message: string
+      adminReply: string | null
       status: string
       createdAt: Date
     }, ExtArgs["result"]["parentTicket"]>
@@ -34824,6 +34896,7 @@ export namespace Prisma {
     readonly parentId: FieldRef<"ParentTicket", 'String'>
     readonly subject: FieldRef<"ParentTicket", 'String'>
     readonly message: FieldRef<"ParentTicket", 'String'>
+    readonly adminReply: FieldRef<"ParentTicket", 'String'>
     readonly status: FieldRef<"ParentTicket", 'String'>
     readonly createdAt: FieldRef<"ParentTicket", 'DateTime'>
   }
@@ -36393,7 +36466,9 @@ export namespace Prisma {
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     lastLoginAt: 'lastLoginAt',
-    deviceFingerprints: 'deviceFingerprints'
+    deviceFingerprints: 'deviceFingerprints',
+    failedLoginAttempts: 'failedLoginAttempts',
+    lockedUntil: 'lockedUntil'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -36738,6 +36813,7 @@ export namespace Prisma {
     parentId: 'parentId',
     subject: 'subject',
     message: 'message',
+    adminReply: 'adminReply',
     status: 'status',
     createdAt: 'createdAt'
   };
@@ -36849,6 +36925,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Level'
    */
   export type EnumLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Level'>
@@ -36887,20 +36977,6 @@ export namespace Prisma {
    * Reference to a field of type 'Wilaya[]'
    */
   export type ListEnumWilayaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Wilaya[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -36956,6 +37032,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     lastLoginAt?: DateTimeFilter<"User"> | Date | string
     deviceFingerprints?: StringNullableListFilter<"User">
+    failedLoginAttempts?: IntFilter<"User"> | number
+    lockedUntil?: DateTimeNullableFilter<"User"> | Date | string | null
     studentProfile?: XOR<StudentProfileNullableScalarRelationFilter, StudentProfileWhereInput> | null
     parentProfile?: XOR<ParentProfileNullableScalarRelationFilter, ParentProfileWhereInput> | null
     teacherProfile?: XOR<TeacherNullableScalarRelationFilter, TeacherWhereInput> | null
@@ -36985,6 +37063,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     lastLoginAt?: SortOrder
     deviceFingerprints?: SortOrder
+    failedLoginAttempts?: SortOrder
+    lockedUntil?: SortOrderInput | SortOrder
     studentProfile?: StudentProfileOrderByWithRelationInput
     parentProfile?: ParentProfileOrderByWithRelationInput
     teacherProfile?: TeacherOrderByWithRelationInput
@@ -37017,6 +37097,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     lastLoginAt?: DateTimeFilter<"User"> | Date | string
     deviceFingerprints?: StringNullableListFilter<"User">
+    failedLoginAttempts?: IntFilter<"User"> | number
+    lockedUntil?: DateTimeNullableFilter<"User"> | Date | string | null
     studentProfile?: XOR<StudentProfileNullableScalarRelationFilter, StudentProfileWhereInput> | null
     parentProfile?: XOR<ParentProfileNullableScalarRelationFilter, ParentProfileWhereInput> | null
     teacherProfile?: XOR<TeacherNullableScalarRelationFilter, TeacherWhereInput> | null
@@ -37046,9 +37128,13 @@ export namespace Prisma {
     updatedAt?: SortOrder
     lastLoginAt?: SortOrder
     deviceFingerprints?: SortOrder
+    failedLoginAttempts?: SortOrder
+    lockedUntil?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
+    _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
+    _sum?: UserSumOrderByAggregateInput
   }
 
   export type UserScalarWhereWithAggregatesInput = {
@@ -37065,6 +37151,8 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     lastLoginAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     deviceFingerprints?: StringNullableListFilter<"User">
+    failedLoginAttempts?: IntWithAggregatesFilter<"User"> | number
+    lockedUntil?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
   }
 
   export type StudentProfileWhereInput = {
@@ -38882,6 +38970,7 @@ export namespace Prisma {
     parentId?: StringFilter<"ParentTicket"> | string
     subject?: StringFilter<"ParentTicket"> | string
     message?: StringFilter<"ParentTicket"> | string
+    adminReply?: StringNullableFilter<"ParentTicket"> | string | null
     status?: StringFilter<"ParentTicket"> | string
     createdAt?: DateTimeFilter<"ParentTicket"> | Date | string
     parent?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -38892,6 +38981,7 @@ export namespace Prisma {
     parentId?: SortOrder
     subject?: SortOrder
     message?: SortOrder
+    adminReply?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     parent?: UserOrderByWithRelationInput
@@ -38905,6 +38995,7 @@ export namespace Prisma {
     parentId?: StringFilter<"ParentTicket"> | string
     subject?: StringFilter<"ParentTicket"> | string
     message?: StringFilter<"ParentTicket"> | string
+    adminReply?: StringNullableFilter<"ParentTicket"> | string | null
     status?: StringFilter<"ParentTicket"> | string
     createdAt?: DateTimeFilter<"ParentTicket"> | Date | string
     parent?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -38915,6 +39006,7 @@ export namespace Prisma {
     parentId?: SortOrder
     subject?: SortOrder
     message?: SortOrder
+    adminReply?: SortOrderInput | SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     _count?: ParentTicketCountOrderByAggregateInput
@@ -38930,6 +39022,7 @@ export namespace Prisma {
     parentId?: StringWithAggregatesFilter<"ParentTicket"> | string
     subject?: StringWithAggregatesFilter<"ParentTicket"> | string
     message?: StringWithAggregatesFilter<"ParentTicket"> | string
+    adminReply?: StringNullableWithAggregatesFilter<"ParentTicket"> | string | null
     status?: StringWithAggregatesFilter<"ParentTicket"> | string
     createdAt?: DateTimeWithAggregatesFilter<"ParentTicket"> | Date | string
   }
@@ -39025,6 +39118,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -39054,6 +39149,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -39083,6 +39180,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -39112,6 +39211,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -39141,6 +39242,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -39154,6 +39257,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -39167,6 +39272,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type StudentProfileCreateInput = {
@@ -41041,6 +41148,7 @@ export namespace Prisma {
     id?: string
     subject: string
     message: string
+    adminReply?: string | null
     status?: string
     createdAt?: Date | string
     parent: UserCreateNestedOneWithoutParentTicketsInput
@@ -41051,6 +41159,7 @@ export namespace Prisma {
     parentId: string
     subject: string
     message: string
+    adminReply?: string | null
     status?: string
     createdAt?: Date | string
   }
@@ -41059,6 +41168,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    adminReply?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     parent?: UserUpdateOneRequiredWithoutParentTicketsNestedInput
@@ -41069,6 +41179,7 @@ export namespace Prisma {
     parentId?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    adminReply?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -41078,6 +41189,7 @@ export namespace Prisma {
     parentId: string
     subject: string
     message: string
+    adminReply?: string | null
     status?: string
     createdAt?: Date | string
   }
@@ -41086,6 +41198,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    adminReply?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -41095,6 +41208,7 @@ export namespace Prisma {
     parentId?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    adminReply?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -41245,6 +41359,28 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type StudentProfileNullableScalarRelationFilter = {
     is?: StudentProfileWhereInput | null
     isNot?: StudentProfileWhereInput | null
@@ -41386,6 +41522,12 @@ export namespace Prisma {
     updatedAt?: SortOrder
     lastLoginAt?: SortOrder
     deviceFingerprints?: SortOrder
+    failedLoginAttempts?: SortOrder
+    lockedUntil?: SortOrder
+  }
+
+  export type UserAvgOrderByAggregateInput = {
+    failedLoginAttempts?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -41398,6 +41540,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     lastLoginAt?: SortOrder
+    failedLoginAttempts?: SortOrder
+    lockedUntil?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -41410,6 +41554,12 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     lastLoginAt?: SortOrder
+    failedLoginAttempts?: SortOrder
+    lockedUntil?: SortOrder
+  }
+
+  export type UserSumOrderByAggregateInput = {
+    failedLoginAttempts?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -41472,6 +41622,36 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type EnumLevelFilter<$PrismaModel = never> = {
     equals?: $Enums.Level | EnumLevelFieldRefInput<$PrismaModel>
     in?: $Enums.Level[] | ListEnumLevelFieldRefInput<$PrismaModel>
@@ -41491,17 +41671,6 @@ export namespace Prisma {
     in?: $Enums.Wilaya[] | ListEnumWilayaFieldRefInput<$PrismaModel>
     notIn?: $Enums.Wilaya[] | ListEnumWilayaFieldRefInput<$PrismaModel>
     not?: NestedEnumWilayaFilter<$PrismaModel> | $Enums.Wilaya
-  }
-
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type UserScalarRelationFilter = {
@@ -41584,22 +41753,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumWilayaFilter<$PrismaModel>
     _max?: NestedEnumWilayaFilter<$PrismaModel>
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type ParentProfileCountOrderByAggregateInput = {
@@ -42804,6 +42957,7 @@ export namespace Prisma {
     parentId?: SortOrder
     subject?: SortOrder
     message?: SortOrder
+    adminReply?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
   }
@@ -42813,6 +42967,7 @@ export namespace Prisma {
     parentId?: SortOrder
     subject?: SortOrder
     message?: SortOrder
+    adminReply?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
   }
@@ -42822,6 +42977,7 @@ export namespace Prisma {
     parentId?: SortOrder
     subject?: SortOrder
     message?: SortOrder
+    adminReply?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
   }
@@ -43104,6 +43260,18 @@ export namespace Prisma {
   export type UserUpdatedeviceFingerprintsInput = {
     set?: string[]
     push?: string | string[]
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type StudentProfileUpdateOneWithoutUserNestedInput = {
@@ -43546,14 +43714,6 @@ export namespace Prisma {
 
   export type EnumWilayaFieldUpdateOperationsInput = {
     set?: $Enums.Wilaya
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type UserUpdateOneRequiredWithoutStudentProfileNestedInput = {
@@ -45207,6 +45367,28 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -45222,17 +45404,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
-  }
-
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -45287,6 +45458,47 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type NestedEnumLevelFilter<$PrismaModel = never> = {
     equals?: $Enums.Level | EnumLevelFieldRefInput<$PrismaModel>
     in?: $Enums.Level[] | ListEnumLevelFieldRefInput<$PrismaModel>
@@ -45336,33 +45548,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumWilayaFilter<$PrismaModel>
     _max?: NestedEnumWilayaFilter<$PrismaModel>
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type NestedBoolFilter<$PrismaModel = never> = {
@@ -45765,6 +45950,7 @@ export namespace Prisma {
     id?: string
     subject: string
     message: string
+    adminReply?: string | null
     status?: string
     createdAt?: Date | string
   }
@@ -45773,6 +45959,7 @@ export namespace Prisma {
     id?: string
     subject: string
     message: string
+    adminReply?: string | null
     status?: string
     createdAt?: Date | string
   }
@@ -46215,6 +46402,7 @@ export namespace Prisma {
     parentId?: StringFilter<"ParentTicket"> | string
     subject?: StringFilter<"ParentTicket"> | string
     message?: StringFilter<"ParentTicket"> | string
+    adminReply?: StringNullableFilter<"ParentTicket"> | string | null
     status?: StringFilter<"ParentTicket"> | string
     createdAt?: DateTimeFilter<"ParentTicket"> | Date | string
   }
@@ -46331,6 +46519,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
     parentLinks?: ParentStudentLinkCreateNestedManyWithoutParentInput
@@ -46359,6 +46549,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
     parentLinks?: ParentStudentLinkUncheckedCreateNestedManyWithoutParentInput
@@ -46403,6 +46595,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
     parentLinks?: ParentStudentLinkUpdateManyWithoutParentNestedInput
@@ -46431,6 +46625,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
     parentLinks?: ParentStudentLinkUncheckedUpdateManyWithoutParentNestedInput
@@ -46459,6 +46655,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
     parentLinks?: ParentStudentLinkCreateNestedManyWithoutParentInput
@@ -46487,6 +46685,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
     parentLinks?: ParentStudentLinkUncheckedCreateNestedManyWithoutParentInput
@@ -46531,6 +46731,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
     parentLinks?: ParentStudentLinkUpdateManyWithoutParentNestedInput
@@ -46559,6 +46761,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
     parentLinks?: ParentStudentLinkUncheckedUpdateManyWithoutParentNestedInput
@@ -46587,6 +46791,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
     parentLinks?: ParentStudentLinkCreateNestedManyWithoutParentInput
@@ -46615,6 +46821,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
     parentLinks?: ParentStudentLinkUncheckedCreateNestedManyWithoutParentInput
@@ -46723,6 +46931,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
     parentLinks?: ParentStudentLinkUpdateManyWithoutParentNestedInput
@@ -46751,6 +46961,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
     parentLinks?: ParentStudentLinkUncheckedUpdateManyWithoutParentNestedInput
@@ -48135,6 +48347,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -48163,6 +48377,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -48266,6 +48482,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -48294,6 +48512,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -48387,6 +48607,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -48415,6 +48637,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -48448,6 +48672,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -48476,6 +48702,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -48520,6 +48748,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -48548,6 +48778,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -48587,6 +48819,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -48615,6 +48849,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -48643,6 +48879,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -48671,6 +48909,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -48704,6 +48944,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -48732,6 +48974,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -48776,6 +49020,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -48804,6 +49050,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -48843,6 +49091,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -48871,6 +49121,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -48899,6 +49151,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -48927,6 +49181,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -49031,6 +49287,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -49059,6 +49317,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -49159,6 +49419,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -49187,6 +49449,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -49290,6 +49554,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -49318,6 +49584,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -49535,6 +49803,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -49563,6 +49833,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -49631,6 +49903,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -49659,6 +49933,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -50715,6 +50991,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -50743,6 +51021,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -50828,6 +51108,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -50856,6 +51138,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -50943,6 +51227,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -50971,6 +51257,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -51080,6 +51368,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -51108,6 +51398,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -51453,6 +51745,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -51481,6 +51775,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -51560,6 +51856,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -51588,6 +51886,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -51616,6 +51916,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -51644,6 +51946,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -51688,6 +51992,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -51716,6 +52022,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -51744,6 +52052,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherCreateNestedOneWithoutUserInput
@@ -51772,6 +52082,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     lastLoginAt?: Date | string
     deviceFingerprints?: UserCreatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: number
+    lockedUntil?: Date | string | null
     studentProfile?: StudentProfileUncheckedCreateNestedOneWithoutUserInput
     parentProfile?: ParentProfileUncheckedCreateNestedOneWithoutUserInput
     teacherProfile?: TeacherUncheckedCreateNestedOneWithoutUserInput
@@ -51816,6 +52128,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUpdateOneWithoutUserNestedInput
@@ -51844,6 +52158,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     lastLoginAt?: DateTimeFieldUpdateOperationsInput | Date | string
     deviceFingerprints?: UserUpdatedeviceFingerprintsInput | string[]
+    failedLoginAttempts?: IntFieldUpdateOperationsInput | number
+    lockedUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     studentProfile?: StudentProfileUncheckedUpdateOneWithoutUserNestedInput
     parentProfile?: ParentProfileUncheckedUpdateOneWithoutUserNestedInput
     teacherProfile?: TeacherUncheckedUpdateOneWithoutUserNestedInput
@@ -51932,6 +52248,7 @@ export namespace Prisma {
     id?: string
     subject: string
     message: string
+    adminReply?: string | null
     status?: string
     createdAt?: Date | string
   }
@@ -52174,6 +52491,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    adminReply?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -52182,6 +52500,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    adminReply?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -52190,6 +52509,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     subject?: StringFieldUpdateOperationsInput | string
     message?: StringFieldUpdateOperationsInput | string
+    adminReply?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

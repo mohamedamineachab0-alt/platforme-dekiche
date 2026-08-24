@@ -38,6 +38,13 @@ export default async function AdminParentMessagesPage() {
           select: {
             fullName: true,
             phoneNumber: true,
+            parentLinks: {
+              include: {
+                student: {
+                  select: { fullName: true }
+                }
+              }
+            }
           },
         },
       },

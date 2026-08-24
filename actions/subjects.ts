@@ -13,6 +13,19 @@ export type SubjectActionState = {
   codes?: any[];
 };
 
+import { z } from "zod";
+
+const SubjectSchema = z.object({
+  title: z.string().min(1, "العنوان مطلوب"),
+  description: z.string().min(1, "الوصف مطلوب"),
+  price: z.number().min(0),
+  accessType: z.enum(["MONTHLY", "YEARLY"]),
+  level: z.string().min(1, "المستوى مطلوب"),
+  stream: z.string().min(1, "الشعبة مطلوبة"),
+  levels: z.array(z.string()).min(1, "اختر مستوى واحد على الأقل"),
+  streams: z.array(z.string()).min(1, "اختر شعبة واحدة على الأقل")
+});
+
 export async function createSubject(
   formData: FormData
 ): Promise<SubjectActionState> {
@@ -37,18 +50,29 @@ export async function createSubject(
     const priceStr = formData.get("price") as string;
     const price = priceStr ? parseFloat(priceStr) : 0;
     const accessType = formData.get("accessType") as string || "YEARLY";
-    const levelStr = formData.get("level") as Level;
-    const streamStr = formData.get("stream") as Stream;
-    const levelsArr = formData.getAll("levels") as Level[];
-    const streamsArr = formData.getAll("streams") as Stream[];
+    const levelStr = formData.get("level") as string;
+    const streamStr = formData.get("stream") as string;
+    const levelsArr = formData.getAll("levels") as string[];
+    const streamsArr = formData.getAll("streams") as string[];
 
     const levels = levelsArr.length > 0 ? levelsArr : (levelStr ? [levelStr] : []);
     const streams = streamsArr.length > 0 ? streamsArr : (streamStr ? [streamStr] : []);
     const level = levelStr || levels[0];
     const stream = streamStr || streams[0];
 
-    if (!title || !description || isNaN(price) || !level || !stream) {
-      return { error: "يرجى ملء جميع الحقول المطلوبة" };
+    const validation = SubjectSchema.safeParse({
+      title,
+      description,
+      price,
+      accessType,
+      level,
+      stream,
+      levels,
+      streams
+    });
+
+    if (!validation.success) {
+      return { error: validation.error.issues?.[0]?.message || "بيانات غير صالحة" };
     }
 
     const teacher = teacherId ? await prisma.teacher.findUnique({ where: { id: teacherId } }) : null;
@@ -62,11 +86,11 @@ export async function createSubject(
         teacherName,
         image: imageUrl,
         price,
-        accessType, // MONTHLY or YEARLY
-        level,
-        stream,
-        levels,
-        streams,
+        accessType, 
+        level: level as Level,
+        stream: stream as Stream,
+        levels: levels as Level[],
+        streams: streams as Stream[],
         isPublished: true,
       },
     });

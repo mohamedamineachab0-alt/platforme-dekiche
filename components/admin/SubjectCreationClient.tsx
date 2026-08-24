@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { BookOpen, Plus, Trash2, Loader2, Image as ImageIcon } from "lucide-react";
+import { BookOpen, Plus, Loader2, Image as ImageIcon } from "lucide-react";
 import { STREAMS, LEVELS } from "@/lib/constants";
+import { NeoMultiSelect } from "@/components/shared/NeoMultiSelect";
 
 export function SubjectCreationClient({ 
   teachers,
@@ -57,32 +58,49 @@ export function SubjectCreationClient({
     }
   };
 
+  const levelOptions = LEVELS.map(l => ({ value: l.value, label: l.label.replace(/\./g, '') }));
+  const streamOptions = STREAMS.map(s => ({ value: s.value, label: s.label.replace(/\./g, '') }));
+
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 font-arabic relative" dir="rtl">
+      {/* Neo-Brutalism Graph Paper Background */}
+      <div 
+        className="fixed inset-0 z-[-1] pointer-events-none opacity-30 bg-white"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, #9333ea 1px, transparent 1px),
+            linear-gradient(to bottom, #9333ea 1px, transparent 1px)
+          `,
+          backgroundSize: '20px 20px'
+        }}
+      ></div>
+
       {/* Live Preview Card */}
-      <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden flex flex-col">
-        <div className="aspect-video w-full relative bg-slate-200 dark:bg-slate-800 flex items-center justify-center">
+      <div className="bg-white border-black border-2 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden flex flex-col">
+        <div className="aspect-video w-full relative bg-purple-100 border-b-2 border-black flex items-center justify-center">
           {imageUrl ? (
             <img src={imageUrl} alt={title} className="w-full h-full object-cover" />
           ) : (
-            <ImageIcon className="w-8 h-8 text-slate-400 dark:text-slate-500" />
+            <ImageIcon className="w-12 h-12 text-black" />
           )}
-          <div className="absolute top-2 left-2 bg-slate-900/90 dark:bg-black/90 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-bold text-white shadow-sm">
+          <div className="absolute top-4 left-4 bg-black px-3 py-1 text-xs font-black text-white shadow-[4px_4px_0px_0px_rgba(147,51,234,1)] uppercase">
             معاينة حية
           </div>
-          <div className="absolute top-2 right-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-bold text-sky-700 dark:text-sky-400 shadow-sm">
+          <div className="absolute top-4 right-4 bg-white border-black border-2 px-3 py-1 text-xs font-black text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             {isFree ? "مجانا" : `${price} دج`}
           </div>
         </div>
-        <div className="p-5 flex-1 flex flex-col">
-          <h3 className="font-black text-slate-900 dark:text-white line-clamp-1">{title || "عنوان المادة"}</h3>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2 leading-relaxed">{description || "وصف المادة يظهر هنا"}</p>
+        <div className="p-6 flex-1 flex flex-col bg-white">
+          <h3 className="font-black text-black text-2xl line-clamp-1">{title || "عنوان المادة"}</h3>
+          <p className="font-bold text-slate-700 mt-2 line-clamp-2 leading-relaxed bg-yellow-50 p-2 border-black border-2">
+            {description || "وصف المادة يظهر هنا"}
+          </p>
           
-          <div className="mt-auto pt-4 flex items-center justify-between">
-            <span className="text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-md">
+          <div className="mt-6 pt-4 flex items-center justify-between border-t-2 border-black">
+            <span className="text-sm font-black text-black bg-purple-200 border-black border-2 px-3 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
               {selectedTeacherName}
             </span>
-            <span className="text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-md">
+            <span className="text-sm font-black text-black bg-emerald-200 border-black border-2 px-3 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
               {accessType === "YEARLY" ? "سنوي" : "شهري"}
             </span>
           </div>
@@ -90,49 +108,64 @@ export function SubjectCreationClient({
       </div>
 
       {/* Form */}
-      <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 p-6">
-        <h2 className="text-lg font-black text-slate-900 dark:text-white mb-4 flex items-center gap-2">
-          <Plus className="w-5 h-5 text-sky-600" />
+      <div className="bg-white border-black border-2 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-8">
+        <h2 className="text-2xl font-black text-black mb-8 inline-block bg-purple-200 px-4 py-2 border-black border-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
           إضافة مادة جديدة
         </h2>
         
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-1">
-            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">عنوان المادة</label>
-            <input type="text" name="title" required value={title} onChange={e => setTitle(e.target.value)} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="الرياضيات المتقدمة" />
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-2">
+            <label className="text-sm font-black text-black uppercase tracking-wider">عنوان المادة</label>
+            <input 
+              type="text" 
+              name="title" 
+              required 
+              value={title} 
+              onChange={e => setTitle(e.target.value)} 
+              className="w-full p-4 border-black border-2 font-bold text-black focus:outline-none focus:ring-0 focus:shadow-[4px_4px_0px_0px_rgba(147,51,234,1)] transition-shadow bg-white" 
+              placeholder="الرياضيات المتقدمة" 
+            />
           </div>
           
-          <div className="space-y-1">
-            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">الوصف</label>
-            <textarea name="description" required rows={3} value={description} onChange={e => setDescription(e.target.value)} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="وصف المادة"></textarea>
+          <div className="space-y-2">
+            <label className="text-sm font-black text-black uppercase tracking-wider">الوصف</label>
+            <textarea 
+              name="description" 
+              required 
+              rows={3} 
+              value={description} 
+              onChange={e => setDescription(e.target.value)} 
+              className="w-full p-4 border-black border-2 font-bold text-black focus:outline-none focus:ring-0 focus:shadow-[4px_4px_0px_0px_rgba(147,51,234,1)] transition-shadow resize-none bg-white" 
+              placeholder="وصف المادة"
+            ></textarea>
           </div>
 
-          <div className="space-y-1">
-            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">صورة الغلاف (1920x1080)</label>
+          <div className="space-y-2">
+            <label className="text-sm font-black text-black uppercase tracking-wider">صورة الغلاف (1920x1080)</label>
             <input 
               type="file" 
               name="image" 
               accept="image/*"
               onChange={handleImageChange} 
-              className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-base focus:outline-none focus:ring-2 focus:ring-sky-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-base file:font-bold file:bg-sky-50 file:text-sky-700 dark:file:bg-slate-950/30 hover:file:bg-sky-100 transition-all cursor-pointer" 
+              className="w-full p-3 border-black border-2 font-bold text-black focus:outline-none focus:ring-0 focus:shadow-[4px_4px_0px_0px_rgba(147,51,234,1)] transition-shadow bg-white file:mr-4 file:py-2 file:px-4 file:border-black file:border-2 file:text-sm file:font-black file:bg-purple-200 file:text-black hover:file:bg-purple-300 file:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] cursor-pointer" 
             />
           </div>
 
-          <div className="space-y-1 border border-slate-100 dark:border-slate-800 p-4 rounded-2xl bg-slate-50/50 dark:bg-slate-900/50">
-            <div className="flex items-center justify-between mb-3">
-              <label className="text-sm font-bold text-slate-700 dark:text-slate-300">الأستاذ</label>
-              <div className="flex bg-slate-200 dark:bg-slate-800 p-1 rounded-lg">
+          <div className="space-y-4 p-6 border-black border-2 bg-slate-50 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <label className="text-sm font-black text-black uppercase tracking-wider">الأستاذ</label>
+              <div className="flex gap-2">
                 <button 
                   type="button" 
                   onClick={() => setTeacherInputMethod("LIST")}
-                  className={`px-3 py-1 text-xs font-bold rounded-md transition-colors ${teacherInputMethod === "LIST" ? "bg-white dark:bg-slate-950 text-sky-600 shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`}
+                  className={`px-4 py-2 text-sm font-black border-black border-2 transition-transform hover:-translate-y-0.5 ${teacherInputMethod === "LIST" ? "bg-purple-600 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" : "bg-white text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-slate-100"}`}
                 >
                   من القائمة
                 </button>
                 <button 
                   type="button" 
                   onClick={() => setTeacherInputMethod("MANUAL")}
-                  className={`px-3 py-1 text-xs font-bold rounded-md transition-colors ${teacherInputMethod === "MANUAL" ? "bg-white dark:bg-slate-950 text-sky-600 shadow-sm" : "text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"}`}
+                  className={`px-4 py-2 text-sm font-black border-black border-2 transition-transform hover:-translate-y-0.5 ${teacherInputMethod === "MANUAL" ? "bg-purple-600 text-white shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]" : "bg-white text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:bg-slate-100"}`}
                 >
                   إدخال يدوي
                 </button>
@@ -140,7 +173,12 @@ export function SubjectCreationClient({
             </div>
             
             {teacherInputMethod === "LIST" ? (
-              <select name="teacherId" value={teacherId} onChange={e => setTeacherId(e.target.value)} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+              <select 
+                name="teacherId" 
+                value={teacherId} 
+                onChange={e => setTeacherId(e.target.value)} 
+                className="w-full p-4 border-black border-2 font-bold text-black focus:outline-none focus:ring-0 focus:shadow-[4px_4px_0px_0px_rgba(147,51,234,1)] transition-shadow bg-white appearance-none"
+              >
                 <option value="">بدون أستاذ</option>
                 {teachers.map(t => (
                   <option key={t.id} value={t.id}>{t.name}</option>
@@ -152,80 +190,74 @@ export function SubjectCreationClient({
                 name="manualTeacherName" 
                 value={manualTeacherName} 
                 onChange={e => setManualTeacherName(e.target.value)} 
-                className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500" 
+                className="w-full p-4 border-black border-2 font-bold text-black focus:outline-none focus:ring-0 focus:shadow-[4px_4px_0px_0px_rgba(147,51,234,1)] transition-shadow bg-white" 
                 placeholder="أدخل اسم الأستاذ" 
               />
             )}
           </div>
 
-          <div className="space-y-4">
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-slate-700 dark:text-slate-300">المستويات الدراسية (يمكن اختيار أكثر من مستوى)</label>
-              <div className="grid grid-cols-2 gap-2">
-                {LEVELS.map(l => (
-                  <button
-                    key={l.value}
-                    type="button"
-                    onClick={() => setSelectedLevels(prev => prev.includes(l.value) ? prev.filter(v => v !== l.value) : [...prev, l.value])}
-                    className={`p-2.5 rounded-xl border text-sm font-bold transition-all text-right ${
-                      selectedLevels.includes(l.value)
-                        ? "border-sky-500 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400"
-                        : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 hover:border-sky-300 dark:hover:border-sky-700"
-                    }`}
-                  >
-                    {l.label.replace(/\./g, '')}
-                  </button>
-                ))}
-              </div>
-              {selectedLevels.map(l => (
-                <input key={l} type="hidden" name="levels" value={l} />
-              ))}
+          <div className="space-y-6 pt-4">
+            <div className="space-y-3">
+              <label className="text-sm font-black text-black uppercase tracking-wider bg-yellow-200 px-2 py-1 border-black border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] inline-block">
+                المستويات الدراسية
+              </label>
+              <NeoMultiSelect
+                name="levels"
+                options={levelOptions}
+                selectedValues={selectedLevels}
+                onChange={setSelectedLevels}
+              />
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-slate-700 dark:text-slate-300">الشعب (يمكن اختيار أكثر من شعبة)</label>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-                {STREAMS.map(s => (
-                  <button
-                    key={s.value}
-                    type="button"
-                    onClick={() => setSelectedStreams(prev => prev.includes(s.value) ? prev.filter(v => v !== s.value) : [...prev, s.value])}
-                    className={`p-2.5 rounded-xl border text-sm font-bold transition-all text-right ${
-                      selectedStreams.includes(s.value)
-                        ? "border-sky-500 bg-sky-50 dark:bg-sky-500/10 text-sky-700 dark:text-sky-400"
-                        : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-600 dark:text-slate-400 hover:border-sky-300 dark:hover:border-sky-700"
-                    }`}
-                  >
-                    {s.label.replace(/\./g, '')}
-                  </button>
-                ))}
-              </div>
-              {selectedStreams.map(s => (
-                <input key={s} type="hidden" name="streams" value={s} />
-              ))}
+            <div className="space-y-3">
+              <label className="text-sm font-black text-black uppercase tracking-wider bg-yellow-200 px-2 py-1 border-black border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] inline-block">
+                الشعب
+              </label>
+              <NeoMultiSelect
+                name="streams"
+                options={streamOptions}
+                selectedValues={selectedStreams}
+                onChange={setSelectedStreams}
+              />
             </div>
           </div>
 
-          <div className="space-y-4 pt-4 border-t border-slate-100 dark:border-slate-800">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input 
-                type="checkbox" 
-                checked={isFree} 
-                onChange={(e) => setIsFree(e.target.checked)}
-                className="w-4 h-4 text-sky-600 rounded border-slate-300 dark:border-slate-700 dark:bg-slate-950 focus:ring-sky-500" 
-              />
-              <span className="text-sm font-bold text-slate-700 dark:text-slate-300">نشر المادة على أنها مجانا</span>
+          <div className="space-y-6 pt-6 border-t-2 border-black">
+            <label className="flex items-center gap-3 cursor-pointer group w-fit">
+              <div className="relative flex items-center justify-center w-6 h-6 border-black border-2 bg-white group-hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-shadow">
+                <input 
+                  type="checkbox" 
+                  checked={isFree} 
+                  onChange={(e) => setIsFree(e.target.checked)}
+                  className="absolute opacity-0 cursor-pointer w-full h-full" 
+                />
+                {isFree && <div className="w-3 h-3 bg-purple-600" />}
+              </div>
+              <span className="text-sm font-black text-black uppercase">نشر المادة على أنها مجانية</span>
             </label>
 
             {!isFree && (
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1">
-                  <label className="text-sm font-bold text-slate-700 dark:text-slate-300">السعر</label>
-                  <input type="number" name="price" required value={price} onChange={e => setPrice(e.target.value)} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500" />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 border-black border-2 bg-purple-50 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                <div className="space-y-2">
+                  <label className="text-sm font-black text-black uppercase tracking-wider">السعر (دج)</label>
+                  <input 
+                    type="number" 
+                    name="price" 
+                    required 
+                    value={price} 
+                    onChange={e => setPrice(e.target.value)} 
+                    className="w-full p-4 border-black border-2 font-bold text-black focus:outline-none focus:ring-0 focus:shadow-[4px_4px_0px_0px_rgba(147,51,234,1)] transition-shadow bg-white" 
+                  />
                 </div>
-                <div className="space-y-1">
-                  <label className="text-sm font-bold text-slate-700 dark:text-slate-300">نوع الوصول</label>
-                  <select name="accessType" required value={accessType} onChange={e => setAccessType(e.target.value)} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+                <div className="space-y-2">
+                  <label className="text-sm font-black text-black uppercase tracking-wider">نوع الوصول</label>
+                  <select 
+                    name="accessType" 
+                    required 
+                    value={accessType} 
+                    onChange={e => setAccessType(e.target.value)} 
+                    className="w-full p-4 border-black border-2 font-bold text-black focus:outline-none focus:ring-0 focus:shadow-[4px_4px_0px_0px_rgba(147,51,234,1)] transition-shadow bg-white appearance-none"
+                  >
                     <option value="MONTHLY">شهري</option>
                     <option value="YEARLY">سنوي</option>
                   </select>
@@ -234,9 +266,13 @@ export function SubjectCreationClient({
             )}
           </div>
 
-          <button type="submit" disabled={pending} className="w-full flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 disabled:opacity-60 text-white font-bold py-3 rounded-xl transition-colors">
-            {pending ? <Loader2 className="w-4 h-4 animate-spin" /> : <BookOpen className="w-4 h-4" />}
-            {pending ? "جاري النشر" : "نشر المادة"}
+          <button 
+            type="submit" 
+            disabled={pending} 
+            className="w-full flex items-center justify-center gap-3 bg-purple-600 hover:bg-purple-700 disabled:opacity-60 text-white font-black text-xl py-5 border-black border-2 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:translate-y-1 transition-all uppercase mt-8"
+          >
+            {pending ? <Loader2 className="w-6 h-6 animate-spin" /> : <BookOpen className="w-6 h-6" />}
+            {pending ? "جاري النشر..." : "نشر المادة"}
           </button>
         </form>
       </div>

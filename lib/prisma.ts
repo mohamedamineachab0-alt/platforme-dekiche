@@ -28,3 +28,20 @@ export const prisma = globalForPrisma.prismaClientV3 ?? new PrismaClient({ adapt
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prismaClientV3 = prisma;
 }
+
+// RLS Helper for Server Actions & API Routes
+export function getPrismaWithRLS(userId: string) {
+  return prisma.$extends({
+    query: {
+      $allModels: {
+        async $allOperations({ args, query }) {
+          // Wrap in a transaction to enforce RLS per query
+          return prisma.$transaction(async (tx) => {
+            await tx.$executeRaw`SELECT set_config('app.current_user_id', ${userId}, true)`;
+            return query(args);
+          });
+        },
+      },
+    },
+  });
+}

@@ -2,6 +2,8 @@ import { getMyNotifications } from "@/actions/notifications";
 import { StudentNotificationsClient } from "./StudentNotificationsClient";
 import { prisma } from "@/lib/prisma";
 
+export const dynamic = 'force-dynamic';
+
 export default async function StudentNotificationsPage() {
   const notifications = await getMyNotifications();
   

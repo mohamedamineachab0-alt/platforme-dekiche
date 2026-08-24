@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { universalLoginAction, LoginState } from "@/actions/auth-login";
 import { User, LogIn, Loader2, AlertCircle } from "lucide-react";
 import Link from "next/link";
+import { isRedirectError } from "next/dist/client/components/redirect";
 
 function SubmitButton({ pending }: { pending: boolean }) {
   return (
@@ -52,6 +53,7 @@ export default function LoginPage() {
           setError(result.error);
         }
       } catch (err: any) {
+        if (isRedirectError(err)) throw err;
         console.error("Login error caught:", err);
         setError(err instanceof Error ? err.message : String(err));
       }

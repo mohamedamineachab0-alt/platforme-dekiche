@@ -7,7 +7,7 @@ import { assertAuth, sanitizeHtml } from "@/lib/security";
 
 export async function createForum(formData: FormData) {
   try {
-    await assertAuth("ADMIN");
+    await assertAuth({ requireRole: "ADMIN" });
     const title = formData.get("title") as string;
     const subjectId = formData.get("subjectId") as string;
     const level = formData.get("level") as Level;
@@ -44,7 +44,7 @@ export async function createForum(formData: FormData) {
 
 export async function toggleForumStatus(forumId: string, isOpen: boolean) {
   try {
-    await assertAuth("ADMIN");
+    await assertAuth({ requireRole: "ADMIN" });
     await prisma.classForum.update({
       where: { id: forumId },
       data: { isOpen }
@@ -61,7 +61,7 @@ export async function toggleForumStatus(forumId: string, isOpen: boolean) {
 
 export async function getAdminForums() {
   try {
-    await assertAuth("ADMIN");
+    await assertAuth({ requireRole: "ADMIN" });
     return await prisma.classForum.findMany({
       include: {
         subject: true,
@@ -79,7 +79,7 @@ export async function getAdminForums() {
 
 export async function getStudentForums(level: Level, stream: Stream) {
   try {
-    await assertAuth("STUDENT");
+    await assertAuth({ requireRole: "STUDENT" });
     return await prisma.classForum.findMany({
       where: {
         level,

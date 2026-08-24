@@ -42,7 +42,7 @@ async function uploadToSupabase(rawFile: File, bucketName: string, pathPrefix: s
 
 export async function createExam(formData: FormData) {
   try {
-    await assertAuth("ADMIN");
+    await assertAuth({ requireRole: "ADMIN" });
     const title = formData.get("title") as string;
     const subjectId = formData.get("subjectId") as string;
     const level = formData.get("level") as Level;
@@ -180,7 +180,7 @@ export async function createExam(formData: FormData) {
 
 export async function gradeStudentSubmission(formData: FormData) {
   try {
-    const sessionUser = await assertAuth("STUDENT");
+    const sessionUser = await assertAuth({ requireRole: "STUDENT" });
     const studentId = formData.get("studentId") as string;
     
     // Strict IDOR protection

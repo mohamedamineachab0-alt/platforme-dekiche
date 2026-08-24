@@ -40,7 +40,7 @@ export async function createSubscriptionRequest(data: {
   phoneNumber: string;
 }) {
   try {
-    const sessionUser = await assertAuth("STUDENT");
+    const sessionUser = await assertAuth({ requireRole: "STUDENT" });
 
     const newRequest = await prisma.subscriptionRequest.create({
       data: {
@@ -67,7 +67,7 @@ export async function createSubscriptionRequest(data: {
 
 export async function getAdminSubscriptionRequests() {
   try {
-    await assertAuth("ADMIN");
+    await assertAuth({ requireRole: "ADMIN" });
 
     const requests = await prisma.subscriptionRequest.findMany({
       orderBy: { createdAt: "desc" },
@@ -87,7 +87,7 @@ export async function getAdminSubscriptionRequests() {
 
 export async function updateSubscriptionRequestStatus(id: string, status: string) {
   try {
-    await assertAuth("ADMIN");
+    await assertAuth({ requireRole: "ADMIN" });
 
     await prisma.subscriptionRequest.update({
       where: { id },

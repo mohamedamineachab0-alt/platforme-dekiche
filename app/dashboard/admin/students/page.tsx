@@ -12,7 +12,7 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export default async function AdminStudentsPage() {
-  await assertAuth("ADMIN");
+  await assertAuth({ requireRole: "ADMIN" });
 
   // 3. ACCURATE COUNT VERIFICATION & 2. COMPLETE FETCHING wrapped in try-catch
   let totalStudents = 0;

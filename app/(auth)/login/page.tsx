@@ -1,13 +1,12 @@
 "use client";
 
-import { useActionState } from "react";
-import { useFormStatus } from "react-dom";
-import { universalLoginAction, LoginState } from "@/actions/auth-login";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { universalLoginAction } from "@/actions/auth-login";
 import { User, LogIn, Loader2, AlertCircle } from "lucide-react";
 import Link from "next/link";
 
-function SubmitButton() {
-  const { pending } = useFormStatus();
+function SubmitButton({ pending }: { pending: boolean }) {
   return (
     <button
       type="submit"
@@ -40,7 +39,30 @@ function ErrorBanner({ message }: { message?: string }) {
 }
 
 export default function LoginPage() {
-  const [state, formAction] = useActionState(universalLoginAction, { error: "", fullName: "", phoneNumber: "" });
+  const router = useRouter();
+  const [error, setError] = useState<string | undefined>("");
+  const [isPending, startTransition] = useTransition();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setError("");
+    const formData = new FormData(e.currentTarget);
+    
+    startTransition(async () => {
+      try {
+        const result = await universalLoginAction(formData);
+        
+        if (result?.error) {
+          setError(result.error);
+        } else if (result?.success && result.redirectUrl) {
+          router.push(result.redirectUrl);
+        }
+      } catch (err: any) {
+        console.error("Login error caught:", err);
+        setError(err instanceof Error ? err.message : String(err));
+      }
+    });
+  };
 
   return (
     <div className="relative min-h-screen bg-[#F8F9FA] dark:bg-slate-950 font-arabic flex items-center justify-center p-4 py-12 overflow-hidden selection:bg-sky-200 dark:selection:bg-slate-950/50" dir="rtl">
@@ -63,8 +85,8 @@ export default function LoginPage() {
             <p className="text-slate-500 dark:text-slate-400 text-sm font-medium mt-1">أدخل بياناتك للوصول إلى حسابك</p>
           </div>
 
-          <form action={formAction} className="space-y-5">
-            <ErrorBanner message={state?.error} />
+          <form onSubmit={handleSubmit} className="space-y-5">
+            <ErrorBanner message={error} />
 
             <div className="space-y-4">
               <div className="space-y-1.5">
@@ -79,7 +101,6 @@ export default function LoginPage() {
                     id="login-name"
                     name="fullName"
                     type="text"
-                    defaultValue={state?.fullName}
                     placeholder="أدخل الاسم الكامل"
                     required
                     className="w-full pr-10 pl-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-800 dark:text-white font-medium text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all"
@@ -100,7 +121,6 @@ export default function LoginPage() {
                     name="phoneNumber"
                     type="tel"
                     dir="ltr"
-                    defaultValue={state?.phoneNumber}
                     placeholder="05XXXXXXXX"
                     required
                     className="w-full pr-10 pl-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-800 dark:text-white font-medium text-base placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all"
@@ -109,7 +129,7 @@ export default function LoginPage() {
               </div>
             </div>
 
-            <SubmitButton />
+            <SubmitButton pending={isPending} />
           </form>
 
           <div className="mt-6 text-center">

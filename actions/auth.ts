@@ -116,14 +116,11 @@ export async function registerUser(
     });
 
     if (isSuperAdmin) {
-      redirect("/dashboard/admin");
+      return { success: true, redirectUrl: "/dashboard/admin" };
     } else {
-      redirect(role === "PARENT" ? "/dashboard/parent" : "/dashboard/student");
+      return { success: true, redirectUrl: role === "PARENT" ? "/dashboard/parent" : "/dashboard/student" };
     }
   } catch (error: any) {
-    if (error?.message === 'NEXT_REDIRECT' || (error?.digest && error.digest.startsWith('NEXT_REDIRECT'))) {
-      throw error;
-    }
     console.error("Auth Error (Register):", error);
     return { error: error instanceof Error ? error.message : String(error) };
   }

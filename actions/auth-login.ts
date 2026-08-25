@@ -2,23 +2,21 @@
 
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 export type LoginState = {
   error?: string;
-  fullName?: string;
-  phoneNumber?: string;
+  success?: boolean;
+  redirectUrl?: string;
 };
 
 export async function universalLoginAction(
-  prevState: LoginState,
   formData: FormData
 ): Promise<LoginState> {
   const fullName = (formData.get("fullName") as string)?.trim();
   const phoneNumber = (formData.get("phoneNumber") as string)?.trim();
 
   if (!fullName || !phoneNumber) {
-    return { error: "يرجى إدخال الاسم الكامل ورقم الهاتف", fullName, phoneNumber };
+    return { error: "يرجى إدخال الاسم الكامل ورقم الهاتف" };
   }
 
   let user = null;
@@ -34,7 +32,7 @@ export async function universalLoginAction(
 
     // 3. Reject if the user does not exist
     if (!user) {
-      return { error: "بيانات الدخول غير صحيحة، أو الحساب غير موجود", fullName, phoneNumber };
+      return { error: "بيانات الدخول غير صحيحة، أو الحساب غير موجود" };
     }
 
     // 4. Encrypt the JWT session and set the HTTP-only session cookie
@@ -56,32 +54,28 @@ export async function universalLoginAction(
       data: { lastLoginAt: new Date() },
     });
   } catch (error: any) {
-    if (error?.message === 'NEXT_REDIRECT' || (error?.digest && error.digest.startsWith('NEXT_REDIRECT'))) {
-      throw error;
-    }
     console.error("Auth Error (Login):", error);
     return { 
-      error: error instanceof Error ? error.message : String(error),
-      fullName, 
-      phoneNumber 
+      error: error instanceof Error ? error.message : String(error)
     };
   }
 
-  // 6. Dynamic Role-based Redirect
+  // 6. Return success and URL instead of throwing a Server-Side redirect
+  let redirectUrl = "/dashboard/student"; // Fallback
   switch (user.role) {
     case "ADMIN":
-      redirect("/dashboard/admin");
+      redirectUrl = "/dashboard/admin";
       break;
     case "TEACHER":
-      redirect("/dashboard/teacher");
+      redirectUrl = "/dashboard/teacher";
       break;
     case "STUDENT":
-      redirect("/dashboard/student");
+      redirectUrl = "/dashboard/student";
       break;
     case "PARENT":
-      redirect("/dashboard/parent");
+      redirectUrl = "/dashboard/parent";
       break;
-    default:
-      redirect("/dashboard/student"); // Fallback route
   }
+  
+  return { success: true, redirectUrl };
 }

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { registerUser } from "@/actions/auth";
 import { WILAYAS, LEVELS, STREAMS } from "@/lib/constants";
 import {
@@ -117,7 +118,7 @@ function ErrorBanner({ message }: { message?: string }) {
 export default function RegisterPage() {
   const [role, setRole] = useState<"STUDENT" | "PARENT">("STUDENT");
   const [error, setError] = useState<string | undefined>();
-  const [isPending, setIsPending] = useState(false);
+  const [isPending, startTransition] = useTransition();
   
   const [formData, setFormData] = useState({
     fullName: "",
@@ -135,36 +136,34 @@ export default function RegisterPage() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const router = useRouter();
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsPending(true);
     setError(undefined);
     
-    try {
-      const data = new FormData(e.currentTarget);
-      const res = await registerUser(data);
-      if (res?.error) {
-        setIsPending(false);
-        const errorMsg = res.error.toLowerCase();
-        if (errorMsg.includes("already exists") || errorMsg.includes("unique")) {
-          setError("هذا الحساب موجود بالفعل الرجاء تسجيل الدخول");
-        } else if (errorMsg.includes("phone") || errorMsg.includes("format")) {
-          setError("صيغة رقم الهاتف غير صحيحة");
-        } else if (errorMsg.includes("password")) {
-          setError("كلمة المرور ضعيفة جدا");
-        } else {
-          setError(res.error);
+    startTransition(async () => {
+      try {
+        const data = new FormData(e.currentTarget);
+        const res = await registerUser(data);
+        if (res?.error) {
+          const errorMsg = res.error.toLowerCase();
+          if (errorMsg.includes("already exists") || errorMsg.includes("unique")) {
+            setError("هذا الحساب موجود بالفعل الرجاء تسجيل الدخول");
+          } else if (errorMsg.includes("phone") || errorMsg.includes("format")) {
+            setError("صيغة رقم الهاتف غير صحيحة");
+          } else if (errorMsg.includes("password")) {
+            setError("كلمة المرور ضعيفة جدا");
+          } else {
+            setError(res.error);
+          }
+        } else if (res?.success && res.redirectUrl) {
+          router.push(res.redirectUrl);
         }
+      } catch (err: any) {
+        console.error("Registration error caught:", err);
+        setError(err instanceof Error ? err.message : String(err));
       }
-    } catch (err: any) {
-      // Next.js redirects throw a specific error, we must not catch and swallow it
-      if (err?.message === 'NEXT_REDIRECT' || (err?.digest && err.digest.startsWith('NEXT_REDIRECT'))) {
-        throw err;
-      }
-      console.error("Registration error caught:", err);
-      setError(err instanceof Error ? err.message : String(err));
-      setIsPending(false);
-    }
+    });
   };
 
   return (

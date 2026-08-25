@@ -35,12 +35,8 @@ export async function universalLoginAction(
       return { error: "بيانات الدخول غير صحيحة، أو الحساب غير موجود" };
     }
 
-    // 4. Encrypt the JWT session and set the HTTP-only session cookie
-    const { encryptSession } = await import("@/lib/security");
-    const jwtToken = await encryptSession({ userId: user.id, role: user.role });
-    
     const cookieStore = await cookies();
-    cookieStore.set("session", jwtToken, {
+    cookieStore.set("session", user.id, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",

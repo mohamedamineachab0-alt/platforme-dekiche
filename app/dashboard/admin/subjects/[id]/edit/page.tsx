@@ -6,9 +6,10 @@ import { BookOpen } from "lucide-react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
-export default async function EditSubjectPage({ params }: { params: { id: string } }) {
+export default async function EditSubjectPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const subject = await prisma.subject.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: { teacher: true }
   });
 

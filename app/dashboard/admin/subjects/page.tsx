@@ -53,7 +53,7 @@ export default async function AdminSubjectsPage() {
                       {subject.price === 0 ? "مجاناً" : `${subject.price} دج`}
                     </div>
                   </div>
-                  <div className="absolute top-3 left-3 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="absolute top-3 left-3 flex items-center gap-2 transition-opacity">
                     <Link href={`/dashboard/admin/subjects/${subject.id}/edit`} className="bg-white/95 hover:bg-white p-2 rounded-lg text-slate-700 shadow-sm transition-colors" title="تعديل">
                       <Edit className="w-4 h-4" />
                     </Link>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { BookOpen, Plus, Loader2, Image as ImageIcon, User, Layers, Tag, Check } from "lucide-react";
 import { STREAMS, LEVELS } from "@/lib/constants";
 import { NeoMultiSelect } from "@/components/shared/NeoMultiSelect";
@@ -27,6 +27,7 @@ export function SubjectEditClient({
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState(subject.image || "");
   const [pending, setPending] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -35,8 +36,18 @@ export function SubjectEditClient({
     if (isFree) {
       formData.set("price", "0");
     }
-    await action(subject.id, formData);
-    setPending(false);
+    try {
+      const res = await action(subject.id, formData) as any;
+      if (res?.error) {
+        alert(res.error);
+      } else {
+        alert("تم الحفظ بنجاح!");
+      }
+    } catch (err: any) {
+      alert("فشل في الاتصال أو رفع الملف. يرجى المحاولة بصورة أصغر حجماً.");
+    } finally {
+      setPending(false);
+    }
   }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -88,13 +99,17 @@ export function SubjectEditClient({
 
         <div className="space-y-2">
           <label className="text-sm font-bold text-slate-700">صورة الغلاف (1920x1080)</label>
-          <div className="relative group overflow-hidden rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/50 hover:bg-slate-50 hover:border-sky-200 transition-all cursor-pointer">
+          <div 
+            className="relative group overflow-hidden rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/50 hover:bg-slate-50 hover:border-sky-200 transition-all cursor-pointer"
+            onClick={() => fileInputRef.current?.click()}
+          >
             <input 
               type="file" 
               name="image" 
               accept="image/*"
               onChange={handleImageChange} 
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" 
+              className="hidden" 
+              ref={fileInputRef}
             />
             {imageUrl ? (
               <div className="relative aspect-[21/9] w-full">

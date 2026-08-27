@@ -112,7 +112,7 @@ export default async function SubjectDetailsPage({
   const accessibleLessons = subject.lessons.filter(l => enrolledMonths.includes(l.month));
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] bg-notebook-grid font-arabic" dir="rtl">
+    <div className="font-arabic" dir="rtl">
       <div className="max-w-6xl mx-auto py-8 px-4 space-y-8">
         
         <Link href="/dashboard/student/subjects" className="inline-flex items-center gap-2 text-sky-600 hover:text-slate-900 font-bold transition-colors bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100">
@@ -120,25 +120,8 @@ export default async function SubjectDetailsPage({
           العودة إلى المواد
         </Link>
 
-        {/* Hero Section */}
-        <div className="w-full bg-sky-600 rounded-3xl shadow-[0_8px_30px_-4px_rgba(14,165,233,0.3)] py-10 px-6 md:py-14 md:px-12 flex flex-col items-center justify-center text-center space-y-6 overflow-hidden relative border border-sky-500">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3"></div>
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-black opacity-10 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3"></div>
-          
-          <h1 className="text-4xl md:text-5xl font-black text-white tracking-tight relative z-10">{subject.title}</h1>
-          <p className="text-sky-100 font-medium max-w-3xl text-lg md:text-xl relative z-10 bg-slate-900/30 px-6 py-3 rounded-2xl border border-sky-500/30">
-            {subject.description}
-          </p>
-          <div className="inline-block bg-sky-500 text-white px-8 py-3 rounded-xl font-bold shadow-lg relative z-10 border border-sky-400">
-            الأستاذ: {subject.teacherName}
-          </div>
-        </div>
-
-        {/* Dashboard Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          
-          {/* Lessons (الدروس) */}
-          <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-shadow">
+        {/* Lessons Section (Full Width) */}
+        <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-shadow mb-8">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-black text-slate-800 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
@@ -151,43 +134,49 @@ export default async function SubjectDetailsPage({
               </span>
             </div>
             {accessibleLessons.length > 0 ? (
-              <div className="space-y-3">
-                {accessibleLessons.slice(0, 3).map(lesson => (
-                  <Link key={lesson.id} href={`/dashboard/student/lessons/${lesson.id}`} className="flex gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100 group items-start">
-                    <div className="w-32 sm:w-36 aspect-video bg-slate-100 rounded-xl overflow-hidden shrink-0 relative shadow-sm group-hover:shadow transition-all border border-slate-100">
-                      {lesson.image ? (
-                        <img src={lesson.image} alt={lesson.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center text-slate-400">
-                          <Play className="w-6 h-6 opacity-50" />
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                  {accessibleLessons.slice(0, 6).map(lesson => (
+                    <Link key={lesson.id} href={`/dashboard/student/lessons/${lesson.id}`} className="flex gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100 group items-start">
+                      <div className="w-32 sm:w-36 aspect-video bg-slate-100 rounded-xl overflow-hidden shrink-0 relative shadow-sm group-hover:shadow transition-all border border-slate-100">
+                        {lesson.image ? (
+                          <img src={lesson.image} alt={lesson.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-slate-400">
+                            <Play className="w-6 h-6 opacity-50" />
+                          </div>
+                        )}
+                        <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
+                        <div className="absolute bottom-1.5 right-1.5 bg-black/70 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-md text-[10px] font-bold flex items-center gap-1">
+                          <Play className="w-2.5 h-2.5 fill-white" /> درس
                         </div>
-                      )}
-                      <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
-                      <div className="absolute bottom-1.5 right-1.5 bg-black/70 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-md text-[10px] font-bold flex items-center gap-1">
-                        <Play className="w-2.5 h-2.5 fill-white" /> درس
                       </div>
-                    </div>
-                    <div className="flex-1 py-1">
-                      <span className="font-bold text-slate-800 group-hover:text-sky-700 line-clamp-2 text-sm leading-snug">
-                        {lesson.title}
-                      </span>
-                      <p className="text-xs text-slate-500 mt-2 font-medium flex items-center gap-1">
-                        <Play className="w-3 h-3" /> ابدأ المشاهدة
-                      </p>
-                    </div>
-                  </Link>
-                ))}
-                {accessibleLessons.length > 3 && (
-                  <Link href={`/dashboard/student/subjects/${id}/lessons`} className="block text-center text-sm font-bold text-sky-600 pt-2">
-                    عرض الكل
-                  </Link>
+                      <div className="flex-1 py-1">
+                        <span className="font-bold text-slate-800 group-hover:text-sky-700 line-clamp-2 text-sm leading-snug">
+                          {lesson.title}
+                        </span>
+                        <p className="text-xs text-slate-500 mt-2 font-medium flex items-center gap-1">
+                          <Play className="w-3 h-3" /> ابدأ المشاهدة
+                        </p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+                {accessibleLessons.length > 6 && (
+                  <div className="pt-2 flex justify-center">
+                    <Link href={`/dashboard/student/subjects/${id}/lessons`} className="inline-block bg-sky-50 text-sky-600 hover:bg-sky-100 px-6 py-2.5 rounded-xl text-sm font-bold transition-colors">
+                      عرض جميع الدروس ({accessibleLessons.length})
+                    </Link>
+                  </div>
                 )}
               </div>
             ) : (
-              <p className="text-slate-400 font-medium text-center py-4">لا توجد دروس متاحة حالياً</p>
+              <p className="text-slate-400 font-medium text-center py-8 bg-slate-50 rounded-2xl border border-dashed border-slate-200">لا توجد دروس متاحة حالياً</p>
             )}
           </div>
-
+        {/* Dashboard Grid (Other Sections) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          
           {/* Review Cards (بطاقات المراجعة) */}
           <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-6">
@@ -308,24 +297,6 @@ export default async function SubjectDetailsPage({
             ) : (
               <p className="text-slate-400 font-medium text-center py-4">لا توجد حصص مباشرة مجدولة</p>
             )}
-          </div>
-
-          {/* Badges/Achievements (الشعارات) */}
-          <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-shadow md:col-span-2 lg:col-span-3">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-black text-slate-800 flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-sky-100 text-sky-600 flex items-center justify-center">
-                  <Award className="w-5 h-5" />
-                </div>
-                الشعارات وإنجازاتي
-              </h2>
-            </div>
-            
-            <div className="flex flex-col items-center justify-center py-10 bg-slate-50 rounded-2xl border border-slate-100">
-              <Award className="w-16 h-16 text-slate-300 mb-4" />
-              <p className="text-slate-500 font-bold text-lg">سيتم إضافة نظام الشعارات قريباً!</p>
-              <p className="text-slate-400 font-medium">استمر في التعلم وحل التمارين لتجمع النقاط.</p>
-            </div>
           </div>
 
         </div>

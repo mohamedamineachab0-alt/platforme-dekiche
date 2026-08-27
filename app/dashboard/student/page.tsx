@@ -51,6 +51,15 @@ export default async function StudentDashboardPage() {
   const enrolledCount = enrolledSubjectIds.length;
   const mistakesCount = user.mistakes.length;
 
+  // Available subjects for the student's level and stream
+  const availableSubjectsCount = await prisma.subject.count({
+    where: {
+      levels: { has: user.studentProfile.level },
+      streams: { has: user.studentProfile.stream },
+      isPublished: true,
+    }
+  });
+
   const SECTIONS = [
     {
       id: "subjects",
@@ -60,7 +69,7 @@ export default async function StudentDashboardPage() {
       iconColor: "text-sky-600",
       iconBg: "bg-sky-100",
       hoverBorder: "hover:border-sky-200",
-      badge: `${enrolledCount} مادة`,
+      badge: `${availableSubjectsCount} مادة`,
       actionText: "تصفح المواد",
       route: "/dashboard/student/subjects"
     },

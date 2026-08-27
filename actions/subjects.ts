@@ -4,7 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { supabase, ensureBucketExists } from "@/lib/supabase";
+import { supabase, adminSupabase, ensureBucketExists } from "@/lib/supabase";
 import { Level, Stream } from "@/generated/prisma";
 
 export type SubjectActionState = {
@@ -37,11 +37,20 @@ export async function createSubject(
     
     let imageUrl = "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop";
     const imageFile = formData.get("image") as File | null;
+    
     if (imageFile && imageFile.size > 0) {
       await ensureBucketExists("subject-covers");
       const fileExt = imageFile.name.split('.').pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
-      const { data, error } = await supabase.storage.from("subject-covers").upload(fileName, imageFile, { upsert: false });
+      
+      const arrayBuffer = await imageFile.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+      
+      const { data, error } = await adminSupabase.storage.from("subject-covers").upload(fileName, buffer, { 
+        contentType: imageFile.type,
+        upsert: false 
+      });
+      
       if (data) {
         const { data: publicUrlData } = supabase.storage.from("subject-covers").getPublicUrl(fileName);
         imageUrl = publicUrlData.publicUrl;
@@ -118,7 +127,14 @@ export async function updateSubject(
       await ensureBucketExists("subject-covers");
       const fileExt = imageFile.name.split('.').pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
-      const { data, error } = await supabase.storage.from("subject-covers").upload(fileName, imageFile, { upsert: false });
+      
+      const arrayBuffer = await imageFile.arrayBuffer();
+      const buffer = Buffer.from(arrayBuffer);
+
+      const { data, error } = await adminSupabase.storage.from("subject-covers").upload(fileName, buffer, { 
+        contentType: imageFile.type,
+        upsert: false 
+      });
       if (data) {
         const { data: publicUrlData } = supabase.storage.from("subject-covers").getPublicUrl(fileName);
         imageUrl = publicUrlData.publicUrl;

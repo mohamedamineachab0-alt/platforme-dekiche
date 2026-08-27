@@ -153,19 +153,25 @@ export default async function SubjectDetailsPage({
             {accessibleLessons.length > 0 ? (
               <div className="space-y-3">
                 {accessibleLessons.slice(0, 3).map(lesson => (
-                  <Link key={lesson.id} href={`/dashboard/student/lessons/${lesson.id}`} className="flex items-center gap-3 bg-slate-50 p-3 rounded-2xl hover:bg-sky-50 transition-colors border border-slate-100 group">
-                    <div className="w-16 h-12 bg-slate-200 rounded-lg overflow-hidden shrink-0 relative">
+                  <Link key={lesson.id} href={`/dashboard/student/lessons/${lesson.id}`} className="block bg-slate-50 rounded-2xl hover:bg-sky-50 transition-colors border border-slate-100 group overflow-hidden shadow-sm hover:shadow-md">
+                    <div className="w-full aspect-video bg-slate-200 relative overflow-hidden">
                       {lesson.image ? (
-                        <img src={lesson.image} alt={lesson.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                        <img src={lesson.image} alt={lesson.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-slate-400">
-                          <Play className="w-4 h-4 opacity-50" />
+                          <Play className="w-8 h-8 opacity-50" />
                         </div>
                       )}
+                      <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
+                      <div className="absolute bottom-2 right-2 bg-black/70 backdrop-blur-sm text-white px-2 py-1 rounded-md text-xs font-bold flex items-center gap-1">
+                        <Play className="w-3 h-3 fill-white" /> درس
+                      </div>
                     </div>
-                    <span className="font-bold text-slate-700 group-hover:text-sky-700 line-clamp-2">
-                      {lesson.title}
-                    </span>
+                    <div className="p-4">
+                      <span className="font-bold text-slate-800 group-hover:text-sky-700 line-clamp-2 text-sm leading-snug">
+                        {lesson.title}
+                      </span>
+                    </div>
                   </Link>
                 ))}
                 {accessibleLessons.length > 3 && (

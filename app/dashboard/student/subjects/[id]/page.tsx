@@ -153,24 +153,27 @@ export default async function SubjectDetailsPage({
             {accessibleLessons.length > 0 ? (
               <div className="space-y-3">
                 {accessibleLessons.slice(0, 3).map(lesson => (
-                  <Link key={lesson.id} href={`/dashboard/student/lessons/${lesson.id}`} className="block bg-slate-50 rounded-2xl hover:bg-sky-50 transition-colors border border-slate-100 group overflow-hidden shadow-sm hover:shadow-md">
-                    <div className="w-full aspect-video bg-slate-200 relative overflow-hidden">
+                  <Link key={lesson.id} href={`/dashboard/student/lessons/${lesson.id}`} className="flex gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100 group items-start">
+                    <div className="w-32 sm:w-36 aspect-video bg-slate-100 rounded-xl overflow-hidden shrink-0 relative shadow-sm group-hover:shadow transition-all border border-slate-100">
                       {lesson.image ? (
                         <img src={lesson.image} alt={lesson.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                       ) : (
                         <div className="w-full h-full flex items-center justify-center text-slate-400">
-                          <Play className="w-8 h-8 opacity-50" />
+                          <Play className="w-6 h-6 opacity-50" />
                         </div>
                       )}
                       <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
-                      <div className="absolute bottom-2 right-2 bg-black/70 backdrop-blur-sm text-white px-2 py-1 rounded-md text-xs font-bold flex items-center gap-1">
-                        <Play className="w-3 h-3 fill-white" /> درس
+                      <div className="absolute bottom-1.5 right-1.5 bg-black/70 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-md text-[10px] font-bold flex items-center gap-1">
+                        <Play className="w-2.5 h-2.5 fill-white" /> درس
                       </div>
                     </div>
-                    <div className="p-4">
+                    <div className="flex-1 py-1">
                       <span className="font-bold text-slate-800 group-hover:text-sky-700 line-clamp-2 text-sm leading-snug">
                         {lesson.title}
                       </span>
+                      <p className="text-xs text-slate-500 mt-2 font-medium flex items-center gap-1">
+                        <Play className="w-3 h-3" /> ابدأ المشاهدة
+                      </p>
                     </div>
                   </Link>
                 ))}

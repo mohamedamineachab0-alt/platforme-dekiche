@@ -38,7 +38,7 @@ export default async function SubjectDetailsPage({
 
   if (!subject) redirect("/dashboard/student/subjects");
 
-  const enrollment = await prisma.enrollment.findUnique({
+  let enrollment = await prisma.enrollment.findUnique({
     where: {
       studentId_subjectId: {
         studentId: sessionId,
@@ -47,7 +47,20 @@ export default async function SubjectDetailsPage({
     }
   });
 
-  if (!enrollment) redirect("/dashboard/student/subjects");
+  if (!enrollment) {
+    if (subject.price === 0 || subject.price === null) {
+      // Auto-enroll in free subject with all months unlocked
+      enrollment = await prisma.enrollment.create({
+        data: {
+          studentId: sessionId,
+          subjectId: id,
+          enrolledMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+        }
+      });
+    } else {
+      redirect("/dashboard/student/subjects");
+    }
+  }
 
   if (enrollment.validUntil && enrollment.validUntil < new Date()) {
     // Access has expired

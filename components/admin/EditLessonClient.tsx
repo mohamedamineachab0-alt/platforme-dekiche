@@ -142,24 +142,26 @@ export function EditLessonClient({
 
   return (
     <>
-      <button 
-        onClick={() => setIsOpen(true)}
-        className="absolute top-3 left-14 bg-white/90 hover:bg-white p-2 rounded-xl text-slate-700 shadow-sm transition-all hover:scale-105 z-10 backdrop-blur-sm border border-slate-100"
-        title="تعديل الدرس"
-      >
-        <Edit2 className="w-4 h-4" />
-      </button>
-
-      {deleteAction && (
+      <div className="absolute top-6 left-6 flex items-center gap-2 z-10">
+        {deleteAction && (
+          <button 
+            onClick={handleDelete}
+            disabled={isDeleting}
+            className="bg-white/90 hover:bg-red-50 p-2 rounded-xl text-red-500 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] transition-all hover:scale-105 backdrop-blur-sm border border-slate-100 hover:border-red-100"
+            title="حذف الدرس"
+          >
+            {isDeleting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+          </button>
+        )}
+        
         <button 
-          onClick={handleDelete}
-          disabled={isDeleting}
-          className="absolute top-3 left-3 bg-red-50 hover:bg-red-100 p-2 rounded-xl text-red-600 shadow-sm transition-all hover:scale-105 z-10 backdrop-blur-sm border border-red-100"
-          title="حذف الدرس"
+          onClick={() => setIsOpen(true)}
+          className="bg-white/90 hover:bg-white p-2 rounded-xl text-slate-700 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.1)] transition-all hover:scale-105 backdrop-blur-sm border border-slate-100"
+          title="تعديل الدرس"
         >
-          {isDeleting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+          <Edit2 className="w-4 h-4" />
         </button>
-      )}
+      </div>
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 font-arabic" dir="rtl">

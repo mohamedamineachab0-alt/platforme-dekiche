@@ -31,7 +31,7 @@ export type ActionState = {
 };
 
 import { z } from "zod";
-import { supabase, ensureBucketExists } from "@/lib/supabase";
+import { supabase, adminSupabase, ensureBucketExists } from "@/lib/supabase";
 
 const LessonSchema = z.object({
   title: z.string().min(1, "عنوان الدرس مطلوب"),
@@ -84,9 +84,9 @@ export async function createLesson(formData: FormData): Promise<ActionState> {
       await ensureBucketExists("lesson-covers");
       const fileExt = imageFile.name.split('.').pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
-      const { data } = await supabase.storage.from("lesson-covers").upload(fileName, imageFile, { upsert: false });
+      const { data } = await adminSupabase.storage.from("lesson-covers").upload(fileName, imageFile, { upsert: false });
       if (data) {
-        const { data: publicUrlData } = supabase.storage.from("lesson-covers").getPublicUrl(fileName);
+        const { data: publicUrlData } = adminSupabase.storage.from("lesson-covers").getPublicUrl(fileName);
         imageUrl = publicUrlData.publicUrl;
       }
     }
@@ -100,9 +100,9 @@ export async function createLesson(formData: FormData): Promise<ActionState> {
         if (file && file.size > 0) {
           const fileExt = file.name.split('.').pop();
           const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
-          const { data } = await supabase.storage.from("lesson-materials").upload(fileName, file, { upsert: false });
+          const { data } = await adminSupabase.storage.from("lesson-materials").upload(fileName, file, { upsert: false });
           if (data) {
-            const { data: publicUrlData } = supabase.storage.from("lesson-materials").getPublicUrl(fileName);
+            const { data: publicUrlData } = adminSupabase.storage.from("lesson-materials").getPublicUrl(fileName);
             uploadedMaterials.push({
               title: file.name,
               fileUrl: publicUrlData.publicUrl,
@@ -219,9 +219,9 @@ export async function updateLesson(id: string, formData: FormData): Promise<Acti
       await ensureBucketExists("lesson-covers");
       const fileExt = imageFile.name.split('.').pop();
       const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
-      const { data } = await supabase.storage.from("lesson-covers").upload(fileName, imageFile, { upsert: false });
+      const { data } = await adminSupabase.storage.from("lesson-covers").upload(fileName, imageFile, { upsert: false });
       if (data) {
-        const { data: publicUrlData } = supabase.storage.from("lesson-covers").getPublicUrl(fileName);
+        const { data: publicUrlData } = adminSupabase.storage.from("lesson-covers").getPublicUrl(fileName);
         imageUrl = publicUrlData.publicUrl;
       }
     }
@@ -235,9 +235,9 @@ export async function updateLesson(id: string, formData: FormData): Promise<Acti
         if (file && file.size > 0) {
           const fileExt = file.name.split('.').pop();
           const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
-          const { data } = await supabase.storage.from("lesson-materials").upload(fileName, file, { upsert: false });
+          const { data } = await adminSupabase.storage.from("lesson-materials").upload(fileName, file, { upsert: false });
           if (data) {
-            const { data: publicUrlData } = supabase.storage.from("lesson-materials").getPublicUrl(fileName);
+            const { data: publicUrlData } = adminSupabase.storage.from("lesson-materials").getPublicUrl(fileName);
             uploadedMaterials.push({
               title: file.name,
               fileUrl: publicUrlData.publicUrl,

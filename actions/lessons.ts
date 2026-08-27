@@ -283,3 +283,19 @@ export async function updateLesson(id: string, formData: FormData): Promise<Acti
   }
 }
 
+
+export async function deleteLesson(id: string): Promise<ActionState> {
+  try {
+    const lesson = await prisma.lesson.findUnique({ where: { id } });
+    if (!lesson) return { error: "الدرس غير موجود" };
+
+    await prisma.lesson.delete({ where: { id } });
+
+    revalidatePath(`/dashboard/admin/lessons`);
+    revalidatePath(`/dashboard/student/subjects/${lesson.subjectId}`);
+    return { success: true };
+  } catch (error) {
+    console.error("خطأ أثناء حذف الدرس", error);
+    return { error: "حدث خطأ أثناء الحذف يرجى المحاولة" };
+  }
+}

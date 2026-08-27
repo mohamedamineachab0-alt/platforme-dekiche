@@ -1,14 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Edit2, X, Upload, File, Loader2, Image as ImageIcon, BrainCircuit, Plus } from "lucide-react";
+import { Edit2, X, Upload, File, Loader2, Image as ImageIcon, BrainCircuit, Plus, Trash2 } from "lucide-react";
 
 export function EditLessonClient({ 
   lesson,
-  action
+  action,
+  deleteAction
 }: { 
   lesson: any;
   action: (id: string, formData: FormData) => Promise<{ error?: string; success?: boolean }>;
+  deleteAction?: (id: string) => Promise<{ error?: string; success?: boolean }>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState(lesson.title || "");
@@ -32,6 +34,7 @@ export function EditLessonClient({
   const [aiImageFile, setAiImageFile] = useState<File | null>(null);
   const [numberOfQuestions, setNumberOfQuestions] = useState(5);
   const [isGeneratingAi, setIsGeneratingAi] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -111,15 +114,36 @@ export function EditLessonClient({
     setManualQuestions(manualQuestions.filter((_, i) => i !== index));
   };
 
+  const handleDelete = async () => {
+    if (!deleteAction || !confirm("هل أنت متأكد من حذف هذا الدرس؟ لا يمكن التراجع عن هذا الإجراء.")) return;
+    setIsDeleting(true);
+    const result = await deleteAction(lesson.id);
+    if (result.error) {
+      alert(result.error);
+    }
+    setIsDeleting(false);
+  };
+
   return (
     <>
       <button 
         onClick={() => setIsOpen(true)}
-        className="absolute top-3 left-3 bg-white/90 hover:bg-white p-2 rounded-xl text-slate-700 shadow-sm transition-all hover:scale-105 z-10 backdrop-blur-sm border border-slate-100"
+        className="absolute top-3 left-14 bg-white/90 hover:bg-white p-2 rounded-xl text-slate-700 shadow-sm transition-all hover:scale-105 z-10 backdrop-blur-sm border border-slate-100"
         title="تعديل الدرس"
       >
         <Edit2 className="w-4 h-4" />
       </button>
+
+      {deleteAction && (
+        <button 
+          onClick={handleDelete}
+          disabled={isDeleting}
+          className="absolute top-3 left-3 bg-red-50 hover:bg-red-100 p-2 rounded-xl text-red-600 shadow-sm transition-all hover:scale-105 z-10 backdrop-blur-sm border border-red-100"
+          title="حذف الدرس"
+        >
+          {isDeleting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Trash2 className="w-4 h-4" />}
+        </button>
+      )}
 
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 font-arabic" dir="rtl">

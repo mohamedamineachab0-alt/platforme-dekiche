@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { Plus, Video, FileText, Download } from "lucide-react";
-import { createLesson, addLessonMaterial, updateLesson } from "@/actions/lessons";
+import { createLesson, addLessonMaterial, updateLesson, deleteLesson } from "@/actions/lessons";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import Link from "next/link";
 import { revalidatePath } from "next/cache";
@@ -94,6 +94,7 @@ export default async function AdminLessonsPage(props: {
                         <EditLessonClient 
                           lesson={lesson} 
                           action={updateLesson}
+                          deleteAction={deleteLesson}
                         />
                         <div className="aspect-video bg-slate-100 rounded-xl overflow-hidden mb-3">
                           <img src={lesson.image || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=400&auto=format&fit=crop"} alt={lesson.title} className="w-full h-full object-cover" />

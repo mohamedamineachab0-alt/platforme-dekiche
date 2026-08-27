@@ -227,6 +227,7 @@ model AccessCode {
   code        String    @unique
   accessType  String // 'MONTHLY' or 'YEARLY'
   validMonths Int[]     @default([]) // Exact months this code unlocks (e.g. [9, 10] for Sept/Oct)
+  validDays   Int? // Number of days valid from redemption
   isUsed      Boolean   @default(false)
   studentId   String? // Relation to the User/Student model
   user        User?     @relation(fields: [studentId], references: [id])
@@ -284,13 +285,14 @@ model StudentMistake {
 }
 
 model Enrollment {
-  id             String   @id @default(uuid())
+  id             String    @id @default(uuid())
   studentId      String
-  student        User     @relation("StudentEnrollments", fields: [studentId], references: [id], onDelete: Cascade)
+  student        User      @relation("StudentEnrollments", fields: [studentId], references: [id], onDelete: Cascade)
   subjectId      String
-  subject        Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  enrolledMonths Int[]    @default([]) // Exact months unlocked
-  createdAt      DateTime @default(now())
+  subject        Subject   @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  enrolledMonths Int[]     @default([]) // Exact months unlocked
+  validUntil     DateTime? // Expiration date if unlocked via time-based code
+  createdAt      DateTime  @default(now())
 
   @@unique([studentId, subjectId])
 }

@@ -217,6 +217,7 @@ exports.Prisma.AccessCodeScalarFieldEnum = {
   code: 'code',
   accessType: 'accessType',
   validMonths: 'validMonths',
+  validDays: 'validDays',
   isUsed: 'isUsed',
   studentId: 'studentId',
   subjectId: 'subjectId',
@@ -265,6 +266,7 @@ exports.Prisma.EnrollmentScalarFieldEnum = {
   studentId: 'studentId',
   subjectId: 'subjectId',
   enrolledMonths: 'enrolledMonths',
+  validUntil: 'validUntil',
   createdAt: 'createdAt'
 };
 

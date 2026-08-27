@@ -13887,16 +13887,19 @@ export namespace Prisma {
 
   export type AccessCodeAvgAggregateOutputType = {
     validMonths: number | null
+    validDays: number | null
   }
 
   export type AccessCodeSumAggregateOutputType = {
     validMonths: number[]
+    validDays: number | null
   }
 
   export type AccessCodeMinAggregateOutputType = {
     id: string | null
     code: string | null
     accessType: string | null
+    validDays: number | null
     isUsed: boolean | null
     studentId: string | null
     subjectId: string | null
@@ -13909,6 +13912,7 @@ export namespace Prisma {
     id: string | null
     code: string | null
     accessType: string | null
+    validDays: number | null
     isUsed: boolean | null
     studentId: string | null
     subjectId: string | null
@@ -13922,6 +13926,7 @@ export namespace Prisma {
     code: number
     accessType: number
     validMonths: number
+    validDays: number
     isUsed: number
     studentId: number
     subjectId: number
@@ -13934,16 +13939,19 @@ export namespace Prisma {
 
   export type AccessCodeAvgAggregateInputType = {
     validMonths?: true
+    validDays?: true
   }
 
   export type AccessCodeSumAggregateInputType = {
     validMonths?: true
+    validDays?: true
   }
 
   export type AccessCodeMinAggregateInputType = {
     id?: true
     code?: true
     accessType?: true
+    validDays?: true
     isUsed?: true
     studentId?: true
     subjectId?: true
@@ -13956,6 +13964,7 @@ export namespace Prisma {
     id?: true
     code?: true
     accessType?: true
+    validDays?: true
     isUsed?: true
     studentId?: true
     subjectId?: true
@@ -13969,6 +13978,7 @@ export namespace Prisma {
     code?: true
     accessType?: true
     validMonths?: true
+    validDays?: true
     isUsed?: true
     studentId?: true
     subjectId?: true
@@ -14069,6 +14079,7 @@ export namespace Prisma {
     code: string
     accessType: string
     validMonths: number[]
+    validDays: number | null
     isUsed: boolean
     studentId: string | null
     subjectId: string
@@ -14101,6 +14112,7 @@ export namespace Prisma {
     code?: boolean
     accessType?: boolean
     validMonths?: boolean
+    validDays?: boolean
     isUsed?: boolean
     studentId?: boolean
     subjectId?: boolean
@@ -14116,6 +14128,7 @@ export namespace Prisma {
     code?: boolean
     accessType?: boolean
     validMonths?: boolean
+    validDays?: boolean
     isUsed?: boolean
     studentId?: boolean
     subjectId?: boolean
@@ -14131,6 +14144,7 @@ export namespace Prisma {
     code?: boolean
     accessType?: boolean
     validMonths?: boolean
+    validDays?: boolean
     isUsed?: boolean
     studentId?: boolean
     subjectId?: boolean
@@ -14146,6 +14160,7 @@ export namespace Prisma {
     code?: boolean
     accessType?: boolean
     validMonths?: boolean
+    validDays?: boolean
     isUsed?: boolean
     studentId?: boolean
     subjectId?: boolean
@@ -14154,7 +14169,7 @@ export namespace Prisma {
     createdAt?: boolean
   }
 
-  export type AccessCodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "accessType" | "validMonths" | "isUsed" | "studentId" | "subjectId" | "startDate" | "endDate" | "createdAt", ExtArgs["result"]["accessCode"]>
+  export type AccessCodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "accessType" | "validMonths" | "validDays" | "isUsed" | "studentId" | "subjectId" | "startDate" | "endDate" | "createdAt", ExtArgs["result"]["accessCode"]>
   export type AccessCodeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | AccessCode$userArgs<ExtArgs>
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
@@ -14179,6 +14194,7 @@ export namespace Prisma {
       code: string
       accessType: string
       validMonths: number[]
+      validDays: number | null
       isUsed: boolean
       studentId: string | null
       subjectId: string
@@ -14614,6 +14630,7 @@ export namespace Prisma {
     readonly code: FieldRef<"AccessCode", 'String'>
     readonly accessType: FieldRef<"AccessCode", 'String'>
     readonly validMonths: FieldRef<"AccessCode", 'Int[]'>
+    readonly validDays: FieldRef<"AccessCode", 'Int'>
     readonly isUsed: FieldRef<"AccessCode", 'Boolean'>
     readonly studentId: FieldRef<"AccessCode", 'String'>
     readonly subjectId: FieldRef<"AccessCode", 'String'>
@@ -19376,6 +19393,7 @@ export namespace Prisma {
     id: string | null
     studentId: string | null
     subjectId: string | null
+    validUntil: Date | null
     createdAt: Date | null
   }
 
@@ -19383,6 +19401,7 @@ export namespace Prisma {
     id: string | null
     studentId: string | null
     subjectId: string | null
+    validUntil: Date | null
     createdAt: Date | null
   }
 
@@ -19391,6 +19410,7 @@ export namespace Prisma {
     studentId: number
     subjectId: number
     enrolledMonths: number
+    validUntil: number
     createdAt: number
     _all: number
   }
@@ -19408,6 +19428,7 @@ export namespace Prisma {
     id?: true
     studentId?: true
     subjectId?: true
+    validUntil?: true
     createdAt?: true
   }
 
@@ -19415,6 +19436,7 @@ export namespace Prisma {
     id?: true
     studentId?: true
     subjectId?: true
+    validUntil?: true
     createdAt?: true
   }
 
@@ -19423,6 +19445,7 @@ export namespace Prisma {
     studentId?: true
     subjectId?: true
     enrolledMonths?: true
+    validUntil?: true
     createdAt?: true
     _all?: true
   }
@@ -19518,6 +19541,7 @@ export namespace Prisma {
     studentId: string
     subjectId: string
     enrolledMonths: number[]
+    validUntil: Date | null
     createdAt: Date
     _count: EnrollmentCountAggregateOutputType | null
     _avg: EnrollmentAvgAggregateOutputType | null
@@ -19545,6 +19569,7 @@ export namespace Prisma {
     studentId?: boolean
     subjectId?: boolean
     enrolledMonths?: boolean
+    validUntil?: boolean
     createdAt?: boolean
     student?: boolean | UserDefaultArgs<ExtArgs>
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
@@ -19555,6 +19580,7 @@ export namespace Prisma {
     studentId?: boolean
     subjectId?: boolean
     enrolledMonths?: boolean
+    validUntil?: boolean
     createdAt?: boolean
     student?: boolean | UserDefaultArgs<ExtArgs>
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
@@ -19565,6 +19591,7 @@ export namespace Prisma {
     studentId?: boolean
     subjectId?: boolean
     enrolledMonths?: boolean
+    validUntil?: boolean
     createdAt?: boolean
     student?: boolean | UserDefaultArgs<ExtArgs>
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
@@ -19575,10 +19602,11 @@ export namespace Prisma {
     studentId?: boolean
     subjectId?: boolean
     enrolledMonths?: boolean
+    validUntil?: boolean
     createdAt?: boolean
   }
 
-  export type EnrollmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "subjectId" | "enrolledMonths" | "createdAt", ExtArgs["result"]["enrollment"]>
+  export type EnrollmentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "subjectId" | "enrolledMonths" | "validUntil" | "createdAt", ExtArgs["result"]["enrollment"]>
   export type EnrollmentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | UserDefaultArgs<ExtArgs>
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
@@ -19603,6 +19631,7 @@ export namespace Prisma {
       studentId: string
       subjectId: string
       enrolledMonths: number[]
+      validUntil: Date | null
       createdAt: Date
     }, ExtArgs["result"]["enrollment"]>
     composites: {}
@@ -20033,6 +20062,7 @@ export namespace Prisma {
     readonly studentId: FieldRef<"Enrollment", 'String'>
     readonly subjectId: FieldRef<"Enrollment", 'String'>
     readonly enrolledMonths: FieldRef<"Enrollment", 'Int[]'>
+    readonly validUntil: FieldRef<"Enrollment", 'DateTime'>
     readonly createdAt: FieldRef<"Enrollment", 'DateTime'>
   }
     
@@ -36348,6 +36378,7 @@ export namespace Prisma {
     code: 'code',
     accessType: 'accessType',
     validMonths: 'validMonths',
+    validDays: 'validDays',
     isUsed: 'isUsed',
     studentId: 'studentId',
     subjectId: 'subjectId',
@@ -36411,6 +36442,7 @@ export namespace Prisma {
     studentId: 'studentId',
     subjectId: 'subjectId',
     enrolledMonths: 'enrolledMonths',
+    validUntil: 'validUntil',
     createdAt: 'createdAt'
   };
 
@@ -37480,6 +37512,7 @@ export namespace Prisma {
     code?: StringFilter<"AccessCode"> | string
     accessType?: StringFilter<"AccessCode"> | string
     validMonths?: IntNullableListFilter<"AccessCode">
+    validDays?: IntNullableFilter<"AccessCode"> | number | null
     isUsed?: BoolFilter<"AccessCode"> | boolean
     studentId?: StringNullableFilter<"AccessCode"> | string | null
     subjectId?: StringFilter<"AccessCode"> | string
@@ -37495,6 +37528,7 @@ export namespace Prisma {
     code?: SortOrder
     accessType?: SortOrder
     validMonths?: SortOrder
+    validDays?: SortOrderInput | SortOrder
     isUsed?: SortOrder
     studentId?: SortOrderInput | SortOrder
     subjectId?: SortOrder
@@ -37513,6 +37547,7 @@ export namespace Prisma {
     NOT?: AccessCodeWhereInput | AccessCodeWhereInput[]
     accessType?: StringFilter<"AccessCode"> | string
     validMonths?: IntNullableListFilter<"AccessCode">
+    validDays?: IntNullableFilter<"AccessCode"> | number | null
     isUsed?: BoolFilter<"AccessCode"> | boolean
     studentId?: StringNullableFilter<"AccessCode"> | string | null
     subjectId?: StringFilter<"AccessCode"> | string
@@ -37528,6 +37563,7 @@ export namespace Prisma {
     code?: SortOrder
     accessType?: SortOrder
     validMonths?: SortOrder
+    validDays?: SortOrderInput | SortOrder
     isUsed?: SortOrder
     studentId?: SortOrderInput | SortOrder
     subjectId?: SortOrder
@@ -37549,6 +37585,7 @@ export namespace Prisma {
     code?: StringWithAggregatesFilter<"AccessCode"> | string
     accessType?: StringWithAggregatesFilter<"AccessCode"> | string
     validMonths?: IntNullableListFilter<"AccessCode">
+    validDays?: IntNullableWithAggregatesFilter<"AccessCode"> | number | null
     isUsed?: BoolWithAggregatesFilter<"AccessCode"> | boolean
     studentId?: StringNullableWithAggregatesFilter<"AccessCode"> | string | null
     subjectId?: StringWithAggregatesFilter<"AccessCode"> | string
@@ -37813,6 +37850,7 @@ export namespace Prisma {
     studentId?: StringFilter<"Enrollment"> | string
     subjectId?: StringFilter<"Enrollment"> | string
     enrolledMonths?: IntNullableListFilter<"Enrollment">
+    validUntil?: DateTimeNullableFilter<"Enrollment"> | Date | string | null
     createdAt?: DateTimeFilter<"Enrollment"> | Date | string
     student?: XOR<UserScalarRelationFilter, UserWhereInput>
     subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
@@ -37823,6 +37861,7 @@ export namespace Prisma {
     studentId?: SortOrder
     subjectId?: SortOrder
     enrolledMonths?: SortOrder
+    validUntil?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     student?: UserOrderByWithRelationInput
     subject?: SubjectOrderByWithRelationInput
@@ -37837,6 +37876,7 @@ export namespace Prisma {
     studentId?: StringFilter<"Enrollment"> | string
     subjectId?: StringFilter<"Enrollment"> | string
     enrolledMonths?: IntNullableListFilter<"Enrollment">
+    validUntil?: DateTimeNullableFilter<"Enrollment"> | Date | string | null
     createdAt?: DateTimeFilter<"Enrollment"> | Date | string
     student?: XOR<UserScalarRelationFilter, UserWhereInput>
     subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
@@ -37847,6 +37887,7 @@ export namespace Prisma {
     studentId?: SortOrder
     subjectId?: SortOrder
     enrolledMonths?: SortOrder
+    validUntil?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     _count?: EnrollmentCountOrderByAggregateInput
     _avg?: EnrollmentAvgOrderByAggregateInput
@@ -37863,6 +37904,7 @@ export namespace Prisma {
     studentId?: StringWithAggregatesFilter<"Enrollment"> | string
     subjectId?: StringWithAggregatesFilter<"Enrollment"> | string
     enrolledMonths?: IntNullableListFilter<"Enrollment">
+    validUntil?: DateTimeNullableWithAggregatesFilter<"Enrollment"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Enrollment"> | Date | string
   }
 
@@ -39624,6 +39666,7 @@ export namespace Prisma {
     code: string
     accessType: string
     validMonths?: AccessCodeCreatevalidMonthsInput | number[]
+    validDays?: number | null
     isUsed?: boolean
     startDate?: Date | string | null
     endDate?: Date | string | null
@@ -39637,6 +39680,7 @@ export namespace Prisma {
     code: string
     accessType: string
     validMonths?: AccessCodeCreatevalidMonthsInput | number[]
+    validDays?: number | null
     isUsed?: boolean
     studentId?: string | null
     subjectId: string
@@ -39650,6 +39694,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     accessType?: StringFieldUpdateOperationsInput | string
     validMonths?: AccessCodeUpdatevalidMonthsInput | number[]
+    validDays?: NullableIntFieldUpdateOperationsInput | number | null
     isUsed?: BoolFieldUpdateOperationsInput | boolean
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39663,6 +39708,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     accessType?: StringFieldUpdateOperationsInput | string
     validMonths?: AccessCodeUpdatevalidMonthsInput | number[]
+    validDays?: NullableIntFieldUpdateOperationsInput | number | null
     isUsed?: BoolFieldUpdateOperationsInput | boolean
     studentId?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: StringFieldUpdateOperationsInput | string
@@ -39676,6 +39722,7 @@ export namespace Prisma {
     code: string
     accessType: string
     validMonths?: AccessCodeCreatevalidMonthsInput | number[]
+    validDays?: number | null
     isUsed?: boolean
     studentId?: string | null
     subjectId: string
@@ -39689,6 +39736,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     accessType?: StringFieldUpdateOperationsInput | string
     validMonths?: AccessCodeUpdatevalidMonthsInput | number[]
+    validDays?: NullableIntFieldUpdateOperationsInput | number | null
     isUsed?: BoolFieldUpdateOperationsInput | boolean
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -39700,6 +39748,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     accessType?: StringFieldUpdateOperationsInput | string
     validMonths?: AccessCodeUpdatevalidMonthsInput | number[]
+    validDays?: NullableIntFieldUpdateOperationsInput | number | null
     isUsed?: BoolFieldUpdateOperationsInput | boolean
     studentId?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: StringFieldUpdateOperationsInput | string
@@ -39949,6 +39998,7 @@ export namespace Prisma {
   export type EnrollmentCreateInput = {
     id?: string
     enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
+    validUntil?: Date | string | null
     createdAt?: Date | string
     student: UserCreateNestedOneWithoutEnrollmentsInput
     subject: SubjectCreateNestedOneWithoutEnrollmentsInput
@@ -39959,12 +40009,14 @@ export namespace Prisma {
     studentId: string
     subjectId: string
     enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
+    validUntil?: Date | string | null
     createdAt?: Date | string
   }
 
   export type EnrollmentUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutEnrollmentsNestedInput
     subject?: SubjectUpdateOneRequiredWithoutEnrollmentsNestedInput
@@ -39975,6 +40027,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -39983,12 +40036,14 @@ export namespace Prisma {
     studentId: string
     subjectId: string
     enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
+    validUntil?: Date | string | null
     createdAt?: Date | string
   }
 
   export type EnrollmentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -39997,6 +40052,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -41926,11 +41982,23 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type AccessCodeCountOrderByAggregateInput = {
     id?: SortOrder
     code?: SortOrder
     accessType?: SortOrder
     validMonths?: SortOrder
+    validDays?: SortOrder
     isUsed?: SortOrder
     studentId?: SortOrder
     subjectId?: SortOrder
@@ -41941,12 +42009,14 @@ export namespace Prisma {
 
   export type AccessCodeAvgOrderByAggregateInput = {
     validMonths?: SortOrder
+    validDays?: SortOrder
   }
 
   export type AccessCodeMaxOrderByAggregateInput = {
     id?: SortOrder
     code?: SortOrder
     accessType?: SortOrder
+    validDays?: SortOrder
     isUsed?: SortOrder
     studentId?: SortOrder
     subjectId?: SortOrder
@@ -41959,6 +42029,7 @@ export namespace Prisma {
     id?: SortOrder
     code?: SortOrder
     accessType?: SortOrder
+    validDays?: SortOrder
     isUsed?: SortOrder
     studentId?: SortOrder
     subjectId?: SortOrder
@@ -41969,6 +42040,23 @@ export namespace Prisma {
 
   export type AccessCodeSumOrderByAggregateInput = {
     validMonths?: SortOrder
+    validDays?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type ParentStudentLinkParentIdStudentIdCompoundUniqueInput = {
@@ -42109,6 +42197,7 @@ export namespace Prisma {
     studentId?: SortOrder
     subjectId?: SortOrder
     enrolledMonths?: SortOrder
+    validUntil?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -42120,6 +42209,7 @@ export namespace Prisma {
     id?: SortOrder
     studentId?: SortOrder
     subjectId?: SortOrder
+    validUntil?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -42127,6 +42217,7 @@ export namespace Prisma {
     id?: SortOrder
     studentId?: SortOrder
     subjectId?: SortOrder
+    validUntil?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -42419,17 +42510,6 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
-  export type IntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
   export type StudentSubmissionExamIdStudentIdCompoundUniqueInput = {
     examId: string
     studentId: string
@@ -42480,22 +42560,6 @@ export namespace Prisma {
 
   export type StudentSubmissionSumOrderByAggregateInput = {
     score?: SortOrder
-  }
-
-  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _avg?: NestedFloatNullableFilter<$PrismaModel>
-    _sum?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedIntNullableFilter<$PrismaModel>
-    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type NotificationCountOrderByAggregateInput = {
@@ -44204,6 +44268,14 @@ export namespace Prisma {
     push?: number | number[]
   }
 
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type UserUpdateOneWithoutAccessCodesNestedInput = {
     create?: XOR<UserCreateWithoutAccessCodesInput, UserUncheckedCreateWithoutAccessCodesInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccessCodesInput
@@ -44729,14 +44801,6 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutSubmissionsInput, UserUncheckedCreateWithoutSubmissionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutSubmissionsInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type ExamUpdateOneRequiredWithoutSubmissionsNestedInput = {
@@ -45341,6 +45405,7 @@ export namespace Prisma {
     code: string
     accessType: string
     validMonths?: AccessCodeCreatevalidMonthsInput | number[]
+    validDays?: number | null
     isUsed?: boolean
     startDate?: Date | string | null
     endDate?: Date | string | null
@@ -45353,6 +45418,7 @@ export namespace Prisma {
     code: string
     accessType: string
     validMonths?: AccessCodeCreatevalidMonthsInput | number[]
+    validDays?: number | null
     isUsed?: boolean
     subjectId: string
     startDate?: Date | string | null
@@ -45435,6 +45501,7 @@ export namespace Prisma {
   export type EnrollmentCreateWithoutStudentInput = {
     id?: string
     enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
+    validUntil?: Date | string | null
     createdAt?: Date | string
     subject: SubjectCreateNestedOneWithoutEnrollmentsInput
   }
@@ -45443,6 +45510,7 @@ export namespace Prisma {
     id?: string
     subjectId: string
     enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
+    validUntil?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -45761,6 +45829,7 @@ export namespace Prisma {
     code?: StringFilter<"AccessCode"> | string
     accessType?: StringFilter<"AccessCode"> | string
     validMonths?: IntNullableListFilter<"AccessCode">
+    validDays?: IntNullableFilter<"AccessCode"> | number | null
     isUsed?: BoolFilter<"AccessCode"> | boolean
     studentId?: StringNullableFilter<"AccessCode"> | string | null
     subjectId?: StringFilter<"AccessCode"> | string
@@ -45854,6 +45923,7 @@ export namespace Prisma {
     studentId?: StringFilter<"Enrollment"> | string
     subjectId?: StringFilter<"Enrollment"> | string
     enrolledMonths?: IntNullableListFilter<"Enrollment">
+    validUntil?: DateTimeNullableFilter<"Enrollment"> | Date | string | null
     createdAt?: DateTimeFilter<"Enrollment"> | Date | string
   }
 
@@ -46603,6 +46673,7 @@ export namespace Prisma {
     code: string
     accessType: string
     validMonths?: AccessCodeCreatevalidMonthsInput | number[]
+    validDays?: number | null
     isUsed?: boolean
     startDate?: Date | string | null
     endDate?: Date | string | null
@@ -46615,6 +46686,7 @@ export namespace Prisma {
     code: string
     accessType: string
     validMonths?: AccessCodeCreatevalidMonthsInput | number[]
+    validDays?: number | null
     isUsed?: boolean
     studentId?: string | null
     startDate?: Date | string | null
@@ -46635,6 +46707,7 @@ export namespace Prisma {
   export type EnrollmentCreateWithoutSubjectInput = {
     id?: string
     enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
+    validUntil?: Date | string | null
     createdAt?: Date | string
     student: UserCreateNestedOneWithoutEnrollmentsInput
   }
@@ -46643,6 +46716,7 @@ export namespace Prisma {
     id?: string
     studentId: string
     enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
+    validUntil?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -51293,6 +51367,7 @@ export namespace Prisma {
     code: string
     accessType: string
     validMonths?: AccessCodeCreatevalidMonthsInput | number[]
+    validDays?: number | null
     isUsed?: boolean
     subjectId: string
     startDate?: Date | string | null
@@ -51325,6 +51400,7 @@ export namespace Prisma {
     id?: string
     subjectId: string
     enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
+    validUntil?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -51415,6 +51491,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     accessType?: StringFieldUpdateOperationsInput | string
     validMonths?: AccessCodeUpdatevalidMonthsInput | number[]
+    validDays?: NullableIntFieldUpdateOperationsInput | number | null
     isUsed?: BoolFieldUpdateOperationsInput | boolean
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -51427,6 +51504,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     accessType?: StringFieldUpdateOperationsInput | string
     validMonths?: AccessCodeUpdatevalidMonthsInput | number[]
+    validDays?: NullableIntFieldUpdateOperationsInput | number | null
     isUsed?: BoolFieldUpdateOperationsInput | boolean
     subjectId?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -51439,6 +51517,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     accessType?: StringFieldUpdateOperationsInput | string
     validMonths?: AccessCodeUpdatevalidMonthsInput | number[]
+    validDays?: NullableIntFieldUpdateOperationsInput | number | null
     isUsed?: BoolFieldUpdateOperationsInput | boolean
     subjectId?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -51512,6 +51591,7 @@ export namespace Prisma {
   export type EnrollmentUpdateWithoutStudentInput = {
     id?: StringFieldUpdateOperationsInput | string
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subject?: SubjectUpdateOneRequiredWithoutEnrollmentsNestedInput
   }
@@ -51520,6 +51600,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -51527,6 +51608,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     subjectId?: StringFieldUpdateOperationsInput | string
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -51779,6 +51861,7 @@ export namespace Prisma {
     code: string
     accessType: string
     validMonths?: AccessCodeCreatevalidMonthsInput | number[]
+    validDays?: number | null
     isUsed?: boolean
     studentId?: string | null
     startDate?: Date | string | null
@@ -51790,6 +51873,7 @@ export namespace Prisma {
     id?: string
     studentId: string
     enrolledMonths?: EnrollmentCreateenrolledMonthsInput | number[]
+    validUntil?: Date | string | null
     createdAt?: Date | string
   }
 
@@ -51936,6 +52020,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     accessType?: StringFieldUpdateOperationsInput | string
     validMonths?: AccessCodeUpdatevalidMonthsInput | number[]
+    validDays?: NullableIntFieldUpdateOperationsInput | number | null
     isUsed?: BoolFieldUpdateOperationsInput | boolean
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -51948,6 +52033,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     accessType?: StringFieldUpdateOperationsInput | string
     validMonths?: AccessCodeUpdatevalidMonthsInput | number[]
+    validDays?: NullableIntFieldUpdateOperationsInput | number | null
     isUsed?: BoolFieldUpdateOperationsInput | boolean
     studentId?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -51960,6 +52046,7 @@ export namespace Prisma {
     code?: StringFieldUpdateOperationsInput | string
     accessType?: StringFieldUpdateOperationsInput | string
     validMonths?: AccessCodeUpdatevalidMonthsInput | number[]
+    validDays?: NullableIntFieldUpdateOperationsInput | number | null
     isUsed?: BoolFieldUpdateOperationsInput | boolean
     studentId?: NullableStringFieldUpdateOperationsInput | string | null
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -51970,6 +52057,7 @@ export namespace Prisma {
   export type EnrollmentUpdateWithoutSubjectInput = {
     id?: StringFieldUpdateOperationsInput | string
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     student?: UserUpdateOneRequiredWithoutEnrollmentsNestedInput
   }
@@ -51978,6 +52066,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -51985,6 +52074,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     studentId?: StringFieldUpdateOperationsInput | string
     enrolledMonths?: EnrollmentUpdateenrolledMonthsInput | number[]
+    validUntil?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

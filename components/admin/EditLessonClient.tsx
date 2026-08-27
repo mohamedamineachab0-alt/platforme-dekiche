@@ -14,7 +14,12 @@ export function EditLessonClient({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [title, setTitle] = useState(lesson.title || "");
+  const [description, setDescription] = useState(lesson.description || "");
   const [vimeoVideoId, setVimeoVideoId] = useState(lesson.vimeoVideoId || "");
+  
+  const [existingMaterials, setExistingMaterials] = useState<any[]>(lesson.materials || []);
+  const [deletedMaterialIds, setDeletedMaterialIds] = useState<string[]>([]);
+
   const [hasAttachments, setHasAttachments] = useState<"yes" | "no">(
     lesson.materials && lesson.materials.length > 0 ? "yes" : "no"
   );
@@ -51,6 +56,12 @@ export function EditLessonClient({
     const formData = new FormData(e.currentTarget);
     formData.set("subjectId", lesson.subjectId);
     
+    if (description) {
+      formData.set("description", description);
+    }
+    
+    formData.set("deletedMaterialIds", JSON.stringify(deletedMaterialIds));
+
     if (imageFile) {
       formData.set("image", imageFile);
     }
@@ -108,6 +119,11 @@ export function EditLessonClient({
 
   const handleAddQuestion = () => {
     setManualQuestions([...manualQuestions, { question: "", options: ["", "", "", ""], correctAnswerIndex: 0 }]);
+  };
+
+  const handleRemoveExistingMaterial = (id: string) => {
+    setDeletedMaterialIds([...deletedMaterialIds, id]);
+    setExistingMaterials(existingMaterials.filter((m: any) => m.id !== id));
   };
 
   const handleRemoveQuestion = (index: number) => {
@@ -175,6 +191,9 @@ export function EditLessonClient({
             {/* Body */}
             <div className="p-6 overflow-y-auto custom-scrollbar">
               <form id="edit-lesson-form" onSubmit={handleSubmit} className="space-y-6">
+                <div className="bg-sky-50 text-sky-700 text-sm font-bold p-3 rounded-xl flex items-center justify-center">
+                  💡 يمكنك تعديل جميع تفاصيل الدرس وملحقاته في أي وقت
+                </div>
                 
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700">صورة الغلاف (1920x1080)</label>
@@ -230,9 +249,45 @@ export function EditLessonClient({
                   />
                 </div>
 
+                <div className="space-y-2">
+                  <label className="text-sm font-bold text-slate-700">الوصف (اختياري)</label>
+                  <textarea 
+                    name="description"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    rows={4}
+                    className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50/50 text-sm font-bold focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all text-slate-700 placeholder:text-slate-400 custom-scrollbar" 
+                    placeholder="اكتب وصفاً مفصلاً أو ملاحظات للدرس..." 
+                  />
+                </div>
+
                 <div className="pt-4 border-t border-slate-100 space-y-5">
                   <h3 className="font-black text-slate-800 text-lg">إدارة ملحقات الدرس</h3>
                   
+                  {existingMaterials.length > 0 && (
+                    <div className="space-y-3 mb-6">
+                      <label className="text-sm font-bold text-slate-700 block">الملحقات الحالية:</label>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        {existingMaterials.map((material: any) => (
+                          <div key={material.id} className="flex items-center justify-between p-3 rounded-xl border border-slate-200 bg-slate-50">
+                            <div className="flex items-center gap-3 overflow-hidden">
+                              <File className="w-5 h-5 text-sky-500 shrink-0" />
+                              <span className="text-sm font-bold text-slate-700 truncate" title={material.title}>{material.title}</span>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleRemoveExistingMaterial(material.id)}
+                              className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors shrink-0"
+                              title="حذف"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
                   <div className="space-y-3">
                     <label className="text-sm font-bold text-slate-700 block">هل يحتوي الدرس على ملحقات؟</label>
                     <div className="flex gap-4">

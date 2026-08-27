@@ -10366,6 +10366,7 @@ export namespace Prisma {
     month: number | null
     vimeoVideoId: string | null
     image: string | null
+    description: string | null
     subjectId: string | null
     createdAt: Date | null
   }
@@ -10376,6 +10377,7 @@ export namespace Prisma {
     month: number | null
     vimeoVideoId: string | null
     image: string | null
+    description: string | null
     subjectId: string | null
     createdAt: Date | null
   }
@@ -10386,6 +10388,7 @@ export namespace Prisma {
     month: number
     vimeoVideoId: number
     image: number
+    description: number
     subjectId: number
     subjectIds: number
     streams: number
@@ -10408,6 +10411,7 @@ export namespace Prisma {
     month?: true
     vimeoVideoId?: true
     image?: true
+    description?: true
     subjectId?: true
     createdAt?: true
   }
@@ -10418,6 +10422,7 @@ export namespace Prisma {
     month?: true
     vimeoVideoId?: true
     image?: true
+    description?: true
     subjectId?: true
     createdAt?: true
   }
@@ -10428,6 +10433,7 @@ export namespace Prisma {
     month?: true
     vimeoVideoId?: true
     image?: true
+    description?: true
     subjectId?: true
     subjectIds?: true
     streams?: true
@@ -10527,6 +10533,7 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image: string | null
+    description: string | null
     subjectId: string
     subjectIds: string[]
     streams: $Enums.Stream[]
@@ -10558,6 +10565,7 @@ export namespace Prisma {
     month?: boolean
     vimeoVideoId?: boolean
     image?: boolean
+    description?: boolean
     subjectId?: boolean
     subjectIds?: boolean
     streams?: boolean
@@ -10575,6 +10583,7 @@ export namespace Prisma {
     month?: boolean
     vimeoVideoId?: boolean
     image?: boolean
+    description?: boolean
     subjectId?: boolean
     subjectIds?: boolean
     streams?: boolean
@@ -10588,6 +10597,7 @@ export namespace Prisma {
     month?: boolean
     vimeoVideoId?: boolean
     image?: boolean
+    description?: boolean
     subjectId?: boolean
     subjectIds?: boolean
     streams?: boolean
@@ -10601,13 +10611,14 @@ export namespace Prisma {
     month?: boolean
     vimeoVideoId?: boolean
     image?: boolean
+    description?: boolean
     subjectId?: boolean
     subjectIds?: boolean
     streams?: boolean
     createdAt?: boolean
   }
 
-  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "month" | "vimeoVideoId" | "image" | "subjectId" | "subjectIds" | "streams" | "createdAt", ExtArgs["result"]["lesson"]>
+  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "month" | "vimeoVideoId" | "image" | "description" | "subjectId" | "subjectIds" | "streams" | "createdAt", ExtArgs["result"]["lesson"]>
   export type LessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
     quiz?: boolean | Lesson$quizArgs<ExtArgs>
@@ -10636,6 +10647,7 @@ export namespace Prisma {
       month: number
       vimeoVideoId: string
       image: string | null
+      description: string | null
       subjectId: string
       subjectIds: string[]
       streams: $Enums.Stream[]
@@ -11072,6 +11084,7 @@ export namespace Prisma {
     readonly month: FieldRef<"Lesson", 'Int'>
     readonly vimeoVideoId: FieldRef<"Lesson", 'String'>
     readonly image: FieldRef<"Lesson", 'String'>
+    readonly description: FieldRef<"Lesson", 'String'>
     readonly subjectId: FieldRef<"Lesson", 'String'>
     readonly subjectIds: FieldRef<"Lesson", 'String[]'>
     readonly streams: FieldRef<"Lesson", 'Stream[]'>
@@ -36338,6 +36351,7 @@ export namespace Prisma {
     month: 'month',
     vimeoVideoId: 'vimeoVideoId',
     image: 'image',
+    description: 'description',
     subjectId: 'subjectId',
     subjectIds: 'subjectIds',
     streams: 'streams',
@@ -37286,6 +37300,7 @@ export namespace Prisma {
     month?: IntFilter<"Lesson"> | number
     vimeoVideoId?: StringFilter<"Lesson"> | string
     image?: StringNullableFilter<"Lesson"> | string | null
+    description?: StringNullableFilter<"Lesson"> | string | null
     subjectId?: StringFilter<"Lesson"> | string
     subjectIds?: StringNullableListFilter<"Lesson">
     streams?: EnumStreamNullableListFilter<"Lesson">
@@ -37302,6 +37317,7 @@ export namespace Prisma {
     month?: SortOrder
     vimeoVideoId?: SortOrder
     image?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
     subjectId?: SortOrder
     subjectIds?: SortOrder
     streams?: SortOrder
@@ -37321,6 +37337,7 @@ export namespace Prisma {
     month?: IntFilter<"Lesson"> | number
     vimeoVideoId?: StringFilter<"Lesson"> | string
     image?: StringNullableFilter<"Lesson"> | string | null
+    description?: StringNullableFilter<"Lesson"> | string | null
     subjectId?: StringFilter<"Lesson"> | string
     subjectIds?: StringNullableListFilter<"Lesson">
     streams?: EnumStreamNullableListFilter<"Lesson">
@@ -37337,6 +37354,7 @@ export namespace Prisma {
     month?: SortOrder
     vimeoVideoId?: SortOrder
     image?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
     subjectId?: SortOrder
     subjectIds?: SortOrder
     streams?: SortOrder
@@ -37357,6 +37375,7 @@ export namespace Prisma {
     month?: IntWithAggregatesFilter<"Lesson"> | number
     vimeoVideoId?: StringWithAggregatesFilter<"Lesson"> | string
     image?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
+    description?: StringNullableWithAggregatesFilter<"Lesson"> | string | null
     subjectId?: StringWithAggregatesFilter<"Lesson"> | string
     subjectIds?: StringNullableListFilter<"Lesson">
     streams?: EnumStreamNullableListFilter<"Lesson">
@@ -39432,6 +39451,7 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    description?: string | null
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
@@ -39447,6 +39467,7 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    description?: string | null
     subjectId: string
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
@@ -39462,6 +39483,7 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39477,6 +39499,7 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: StringFieldUpdateOperationsInput | string
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
@@ -39492,6 +39515,7 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    description?: string | null
     subjectId: string
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
@@ -39504,6 +39528,7 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -39515,6 +39540,7 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: StringFieldUpdateOperationsInput | string
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
@@ -41805,6 +41831,7 @@ export namespace Prisma {
     month?: SortOrder
     vimeoVideoId?: SortOrder
     image?: SortOrder
+    description?: SortOrder
     subjectId?: SortOrder
     subjectIds?: SortOrder
     streams?: SortOrder
@@ -41821,6 +41848,7 @@ export namespace Prisma {
     month?: SortOrder
     vimeoVideoId?: SortOrder
     image?: SortOrder
+    description?: SortOrder
     subjectId?: SortOrder
     createdAt?: SortOrder
   }
@@ -41831,6 +41859,7 @@ export namespace Prisma {
     month?: SortOrder
     vimeoVideoId?: SortOrder
     image?: SortOrder
+    description?: SortOrder
     subjectId?: SortOrder
     createdAt?: SortOrder
   }
@@ -46608,6 +46637,7 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    description?: string | null
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
@@ -46622,6 +46652,7 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    description?: string | null
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
@@ -47012,6 +47043,7 @@ export namespace Prisma {
     month?: IntFilter<"Lesson"> | number
     vimeoVideoId?: StringFilter<"Lesson"> | string
     image?: StringNullableFilter<"Lesson"> | string | null
+    description?: StringNullableFilter<"Lesson"> | string | null
     subjectId?: StringFilter<"Lesson"> | string
     subjectIds?: StringNullableListFilter<"Lesson">
     streams?: EnumStreamNullableListFilter<"Lesson">
@@ -47523,6 +47555,7 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    description?: string | null
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
@@ -47537,6 +47570,7 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    description?: string | null
     subjectId: string
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
@@ -47567,6 +47601,7 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47581,6 +47616,7 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: StringFieldUpdateOperationsInput | string
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
@@ -47595,6 +47631,7 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    description?: string | null
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
@@ -47609,6 +47646,7 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    description?: string | null
     subjectId: string
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
@@ -47735,6 +47773,7 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -47749,6 +47788,7 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: StringFieldUpdateOperationsInput | string
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
@@ -48702,6 +48742,7 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    description?: string | null
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
@@ -48716,6 +48757,7 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    description?: string | null
     subjectId: string
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
@@ -48842,6 +48884,7 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -48856,6 +48899,7 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectId?: StringFieldUpdateOperationsInput | string
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
@@ -51842,6 +51886,7 @@ export namespace Prisma {
     month: number
     vimeoVideoId: string
     image?: string | null
+    description?: string | null
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
     createdAt?: Date | string
@@ -51955,6 +52000,7 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51969,6 +52015,7 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -51983,6 +52030,7 @@ export namespace Prisma {
     month?: IntFieldUpdateOperationsInput | number
     vimeoVideoId?: StringFieldUpdateOperationsInput | string
     image?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

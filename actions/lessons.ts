@@ -35,6 +35,7 @@ import { supabase, ensureBucketExists } from "@/lib/supabase";
 
 const LessonSchema = z.object({
   title: z.string().min(1, "عنوان الدرس مطلوب"),
+  description: z.string().nullable().optional(),
   subjectId: z.string().min(1, "المادة مطلوبة"),
   month: z.number().min(1).max(12),
   vimeoVideoId: z.string().min(1, "رابط الفيديو مطلوب"),
@@ -47,6 +48,7 @@ const LessonSchema = z.object({
 
 export async function createLesson(formData: FormData): Promise<ActionState> {
   const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
   const subjectId = formData.get("subjectId") as string;
   const monthStr = formData.get("month") as string;
   const vimeoVideoId = formData.get("vimeoVideoId") as string;
@@ -64,6 +66,7 @@ export async function createLesson(formData: FormData): Promise<ActionState> {
 
   const validation = LessonSchema.safeParse({
     title,
+    description,
     subjectId,
     month,
     vimeoVideoId,
@@ -112,6 +115,7 @@ export async function createLesson(formData: FormData): Promise<ActionState> {
     const lesson = await prisma.lesson.create({
       data: {
         title: validation.data.title,
+        description: validation.data.description,
         subjectId: validation.data.subjectId,
         subjectIds: [validation.data.subjectId], // Simplify for now
         month: validation.data.month,
@@ -173,11 +177,15 @@ export async function addLessonMaterial(
 
 export async function updateLesson(id: string, formData: FormData): Promise<ActionState> {
   const title = formData.get("title") as string;
+  const description = formData.get("description") as string;
   const monthStr = formData.get("month") as string;
   const vimeoVideoId = formData.get("vimeoVideoId") as string;
   const quizStr = formData.get("quiz") as string;
+  const deletedMaterialIdsStr = formData.get("deletedMaterialIds") as string;
   const subjectId = formData.get("subjectId") as string;
   const month = parseInt(monthStr || "1");
+
+  const deletedMaterialIds = deletedMaterialIdsStr ? JSON.parse(deletedMaterialIdsStr) : [];
 
   let quizConfig = null;
   if (quizStr) {
@@ -190,6 +198,7 @@ export async function updateLesson(id: string, formData: FormData): Promise<Acti
 
   const validation = LessonSchema.safeParse({
     title,
+    description,
     subjectId: subjectId || "placeholder", // Might not be changed
     month,
     vimeoVideoId,
@@ -241,12 +250,24 @@ export async function updateLesson(id: string, formData: FormData): Promise<Acti
 
     const updateData: any = {
       title: validation.data.title,
+      description: validation.data.description,
       month: validation.data.month,
       vimeoVideoId: validation.data.vimeoVideoId,
     };
     if (imageUrl) {
       updateData.image = imageUrl;
     }
+    
+    // Delete materials marked for deletion
+    if (deletedMaterialIds && deletedMaterialIds.length > 0) {
+      await prisma.lessonMaterial.deleteMany({
+        where: {
+          id: { in: deletedMaterialIds },
+          lessonId: id
+        }
+      });
+    }
+
     if (uploadedMaterials.length > 0) {
       updateData.materials = {
         create: uploadedMaterials

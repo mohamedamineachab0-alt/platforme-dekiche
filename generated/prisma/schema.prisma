@@ -187,6 +187,7 @@ model Lesson {
   month        Int // e.g., 1, 2, 3
   vimeoVideoId String // Vimeo video ID
   image        String? // Square image URL for the lesson from Supabase Storage
+  description  String?          @db.Text
   subjectId    String
   subject      Subject          @relation(fields: [subjectId], references: [id], onDelete: Cascade)
   subjectIds   String[]         @default([])

@@ -186,6 +186,7 @@ exports.Prisma.LessonScalarFieldEnum = {
   month: 'month',
   vimeoVideoId: 'vimeoVideoId',
   image: 'image',
+  description: 'description',
   subjectId: 'subjectId',
   subjectIds: 'subjectIds',
   streams: 'streams',

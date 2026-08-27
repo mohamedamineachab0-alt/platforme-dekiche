@@ -59,8 +59,20 @@ export default async function AdminCodesPage() {
                       </div>
                     </td>
                     <td className="px-6 py-4 font-bold text-slate-700">{code.subject.title}</td>
-                    <td className="px-6 py-4 text-slate-500">{code.accessType === "YEARLY" ? "سنوي" : "شهري"}</td>
-                    <td className="px-6 py-4 text-slate-500 dir-ltr">{code.validMonths.join(", ") || "-"}</td>
+                    <td className="px-6 py-4 text-slate-500">{code.accessType === "YEARLY" ? "سنوي" : code.accessType === "MONTHLY" ? "شهري" : "مؤقت"}</td>
+                    <td className="px-6 py-4">
+                      {code.accessType === "MONTHLY" ? (
+                        <div className="flex flex-wrap gap-1">
+                          {code.validMonths.map(m => (
+                            <span key={m} className="bg-sky-50 text-sky-600 text-xs font-bold px-2 py-0.5 rounded">ش {m}</span>
+                          ))}
+                        </div>
+                      ) : code.accessType === "TIME_BASED" ? (
+                        <span className="text-slate-500 font-bold">{code.validDays} يوم</span>
+                      ) : (
+                        <span className="text-slate-500 font-bold">الكل</span>
+                      )}
+                    </td>
                     <td className="px-6 py-4">
                       {code.isUsed ? (
                         <span className="inline-flex items-center px-2 py-1 rounded-md text-xs font-bold bg-green-50 text-green-700">

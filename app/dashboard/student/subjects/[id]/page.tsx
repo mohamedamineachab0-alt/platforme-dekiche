@@ -49,6 +49,11 @@ export default async function SubjectDetailsPage({
 
   if (!enrollment) redirect("/dashboard/student/subjects");
 
+  if (enrollment.validUntil && enrollment.validUntil < new Date()) {
+    // Access has expired
+    redirect("/dashboard/student/subjects");
+  }
+
   const enrolledMonths = enrollment.enrolledMonths;
 
   // Concurrent fetching of all categories using Promise.all

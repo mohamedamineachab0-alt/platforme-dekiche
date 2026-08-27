@@ -53,8 +53,9 @@ export default async function StudentSubjectsPage() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
           {subjects.map(subject => {
-            const isEnrolled = enrolledSubjectIds.has(subject.id);
             const enrollment = enrollments.find(e => e.subjectId === subject.id);
+            const isExpired = enrollment?.validUntil ? enrollment.validUntil < new Date() : false;
+            const isEnrolled = enrolledSubjectIds.has(subject.id) && !isExpired;
 
             return (
               <div key={subject.id} className="bg-white/90 backdrop-blur-md dark:bg-slate-900/90 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden flex flex-col group max-w-sm mx-auto w-full">
@@ -66,6 +67,10 @@ export default async function StudentSubjectsPage() {
                     {isEnrolled ? (
                       <div className="bg-green-500/90 backdrop-blur-md text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-lg">
                         <Unlock className="w-3.5 h-3.5" /> تم الفتح
+                      </div>
+                    ) : isExpired ? (
+                      <div className="bg-red-500/90 backdrop-blur-md text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-lg">
+                        <Lock className="w-3.5 h-3.5" /> منتهي الصلاحية
                       </div>
                     ) : subject.price && subject.price > 0 ? (
                       <div className="bg-slate-900/80 backdrop-blur-md text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-lg">

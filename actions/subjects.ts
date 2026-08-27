@@ -205,8 +205,9 @@ export async function generateAccessCode(
     }
 
     const subjectId = formData.get("subjectId") as string;
-    const accessType = formData.get("accessType") as string; // MONTHLY or YEARLY
+    const accessType = formData.get("accessType") as string; // MONTHLY, YEARLY, or TIME_BASED
     const validMonthsStr = formData.getAll("validMonths") as string[];
+    const validDaysStr = formData.get("validDays") as string;
     const count = parseInt(formData.get("count") as string) || 1;
     const startDateStr = formData.get("startDate") as string;
     const endDateStr = formData.get("endDate") as string;
@@ -217,6 +218,7 @@ export async function generateAccessCode(
 
     const startDate = startDateStr ? new Date(startDateStr) : null;
     const endDate = endDateStr ? new Date(endDateStr) : null;
+    const validDays = validDaysStr ? parseInt(validDaysStr) : null;
 
     const validMonths = validMonthsStr.map(m => parseInt(m)).filter(n => !isNaN(n));
 
@@ -226,6 +228,7 @@ export async function generateAccessCode(
       subjectId,
       accessType,
       validMonths,
+      validDays,
       startDate,
       endDate,
     }));
@@ -288,21 +291,38 @@ export async function redeemAccessCode(
       if (existingEnrollment) {
         // Merge months
         const newMonths = new Set([...existingEnrollment.enrolledMonths, ...code.validMonths]);
-        if (code.accessType === "YEARLY") {
+        if (code.accessType === "YEARLY" || code.accessType === "TIME_BASED") {
           // Add 1-12
           [1,2,3,4,5,6,7,8,9,10,11,12].forEach(m => newMonths.add(m));
         }
+
+        let newValidUntil = existingEnrollment.validUntil;
+        if (code.validDays) {
+          const baseDate = (newValidUntil && newValidUntil > new Date()) ? newValidUntil : new Date();
+          newValidUntil = new Date(baseDate.getTime() + code.validDays * 24 * 60 * 60 * 1000);
+        }
+
         await tx.enrollment.update({
           where: { id: existingEnrollment.id },
-          data: { enrolledMonths: Array.from(newMonths) },
+          data: { 
+            enrolledMonths: Array.from(newMonths),
+            ...(newValidUntil && { validUntil: newValidUntil })
+          },
         });
       } else {
-        const initialMonths = code.accessType === "YEARLY" ? [1,2,3,4,5,6,7,8,9,10,11,12] : code.validMonths;
+        const initialMonths = (code.accessType === "YEARLY" || code.accessType === "TIME_BASED") ? [1,2,3,4,5,6,7,8,9,10,11,12] : code.validMonths;
+        
+        let initialValidUntil = null;
+        if (code.validDays) {
+          initialValidUntil = new Date(Date.now() + code.validDays * 24 * 60 * 60 * 1000);
+        }
+
         await tx.enrollment.create({
           data: {
             studentId: sessionId,
             subjectId: code.subjectId,
             enrolledMonths: initialMonths,
+            ...(initialValidUntil && { validUntil: initialValidUntil })
           }
         });
       }

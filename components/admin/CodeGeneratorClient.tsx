@@ -54,6 +54,7 @@ export function CodeGeneratorClient({ subjects }: { subjects: { id: string, titl
             <select name="accessType" required className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-base focus:outline-none focus:ring-2 focus:ring-sky-500">
               <option value="MONTHLY">شهري (اختر الشهور)</option>
               <option value="YEARLY">سنوي (كامل المادة)</option>
+              <option value="TIME_BASED">مؤقت بالأيام (اختر عدد الأيام)</option>
             </select>
           </div>
 
@@ -67,6 +68,11 @@ export function CodeGeneratorClient({ subjects }: { subjects: { id: string, titl
                 </label>
               ))}
             </div>
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-sm font-bold text-slate-700 dark:text-slate-300">عدد الأيام الصالحة (للوصول المؤقت فقط)</label>
+            <input type="number" name="validDays" min={1} max={365} className="w-full p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white text-base focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="مثال: 30" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

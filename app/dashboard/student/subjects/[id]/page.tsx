@@ -153,8 +153,19 @@ export default async function SubjectDetailsPage({
             {accessibleLessons.length > 0 ? (
               <div className="space-y-3">
                 {accessibleLessons.slice(0, 3).map(lesson => (
-                  <Link key={lesson.id} href={`/dashboard/student/lessons/${lesson.id}`} className="block bg-slate-50 p-4 rounded-2xl hover:bg-sky-50 hover:text-sky-700 transition-colors border border-slate-100 font-bold text-slate-700">
-                    {lesson.title}
+                  <Link key={lesson.id} href={`/dashboard/student/lessons/${lesson.id}`} className="flex items-center gap-3 bg-slate-50 p-3 rounded-2xl hover:bg-sky-50 transition-colors border border-slate-100 group">
+                    <div className="w-16 h-12 bg-slate-200 rounded-lg overflow-hidden shrink-0 relative">
+                      {lesson.image ? (
+                        <img src={lesson.image} alt={lesson.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-slate-400">
+                          <Play className="w-4 h-4 opacity-50" />
+                        </div>
+                      )}
+                    </div>
+                    <span className="font-bold text-slate-700 group-hover:text-sky-700 line-clamp-2">
+                      {lesson.title}
+                    </span>
                   </Link>
                 ))}
                 {accessibleLessons.length > 3 && (

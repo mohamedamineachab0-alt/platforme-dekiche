@@ -115,25 +115,10 @@ export default async function SubjectDetailsPage({
     <div className="font-arabic" dir="rtl">
       <div className="max-w-6xl mx-auto py-8 px-4 space-y-8">
         
-        <Link href="/dashboard/student/subjects" className="inline-flex items-center gap-2 text-sky-600 hover:text-slate-900 font-bold transition-colors bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100 mb-2">
+        <Link href="/dashboard/student/subjects" className="inline-flex items-center gap-2 text-sky-600 hover:text-slate-900 font-bold transition-colors bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100">
           <ChevronLeft className="w-5 h-5" />
           العودة إلى المواد
         </Link>
-
-        {/* Subject Banner */}
-        <div className="w-full bg-slate-900 rounded-3xl overflow-hidden aspect-[3/1] md:aspect-[4/1] relative shadow-lg mb-8 border border-slate-100">
-          <img 
-            src={subject.image} 
-            alt={subject.title} 
-            className="w-full h-full object-contain"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent flex items-end p-6 md:p-8">
-            <div>
-              <h1 className="text-3xl md:text-4xl font-black text-white drop-shadow-md">{subject.title}</h1>
-              <p className="text-slate-200 mt-2 font-bold text-sm md:text-base">الأستاذ {subject.teacherName}</p>
-            </div>
-          </div>
-        </div>
 
         {/* Lessons Section (Full Width) */}
         <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-shadow mb-8">

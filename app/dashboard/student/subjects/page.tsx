@@ -41,12 +41,6 @@ export default async function StudentSubjectsPage() {
   return (
     <div className="space-y-8">
       
-      <HeroBanner 
-        title="موادي الدراسية"
-        description="اختر المادة التي تود دراستها و أو قم بتفعيل المواد الجديدة باستخدام رمز الدخول (كود الإشتراك) عبر البطاقات أدناه"
-        icon={BookOpen}
-        gradientClass="bg-gradient-to-r from-amber-400 to-amber-500"
-      />
 
       <div>
 

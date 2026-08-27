@@ -223,16 +223,18 @@ model Quiz {
 }
 
 model AccessCode {
-  id          String   @id @default(uuid())
-  code        String   @unique
+  id          String    @id @default(uuid())
+  code        String    @unique
   accessType  String // 'MONTHLY' or 'YEARLY'
-  validMonths Int[]    @default([]) // Exact months this code unlocks (e.g. [9, 10] for Sept/Oct)
-  isUsed      Boolean  @default(false)
+  validMonths Int[]     @default([]) // Exact months this code unlocks (e.g. [9, 10] for Sept/Oct)
+  isUsed      Boolean   @default(false)
   studentId   String? // Relation to the User/Student model
-  user        User?    @relation(fields: [studentId], references: [id])
+  user        User?     @relation(fields: [studentId], references: [id])
   subjectId   String
-  subject     Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
+  subject     Subject   @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime  @default(now())
 }
 
 model ParentStudentLink {

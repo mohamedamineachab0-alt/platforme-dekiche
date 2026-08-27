@@ -1,24 +1,31 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, X, Upload, File, Loader2, BrainCircuit } from "lucide-react";
+import { Edit2, X, Upload, File, Loader2, Image as ImageIcon, BrainCircuit, Plus } from "lucide-react";
 
-export function PublishLessonClient({
-  subjectId,
+export function EditLessonClient({ 
+  lesson,
   action
-}: {
-  subjectId: string;
-  action: (formData: FormData) => Promise<{ error?: string; success?: boolean }>;
+}: { 
+  lesson: any;
+  action: (id: string, formData: FormData) => Promise<{ error?: string; success?: boolean }>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [hasAttachments, setHasAttachments] = useState<"yes" | "no">("no");
+  const [title, setTitle] = useState(lesson.title || "");
+  const [vimeoVideoId, setVimeoVideoId] = useState(lesson.vimeoVideoId || "");
+  const [hasAttachments, setHasAttachments] = useState<"yes" | "no">(
+    lesson.materials && lesson.materials.length > 0 ? "yes" : "no"
+  );
+  
+  // existing attachments could be displayed, but for simplicity here we focus on the form structure
   const [files, setFiles] = useState<File[]>([]);
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState("");
-  const [isPublishing, setIsPublishing] = useState(false);
+  const [imageUrl, setImageUrl] = useState(lesson.image || "");
+  
+  const [isSaving, setIsSaving] = useState(false);
 
   // Quiz State
-  const [hasQuiz, setHasQuiz] = useState<"yes" | "no">("no");
+  const [hasQuiz, setHasQuiz] = useState<"yes" | "no">(lesson.quiz ? "yes" : "no");
   const [quizType, setQuizType] = useState<"MANUAL" | "AI">("MANUAL");
   const [quizMaxScore, setQuizMaxScore] = useState(20);
   const [manualQuestions, setManualQuestions] = useState([{ question: "", options: ["", "", "", ""], correctAnswerIndex: 0 }]);
@@ -36,10 +43,10 @@ export function PublishLessonClient({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsPublishing(true);
+    setIsSaving(true);
     
     const formData = new FormData(e.currentTarget);
-    formData.set("subjectId", subjectId);
+    formData.set("subjectId", lesson.subjectId);
     
     if (imageFile) {
       formData.set("image", imageFile);
@@ -57,18 +64,11 @@ export function PublishLessonClient({
       }));
     }
 
-    const res = await action(formData);
+    const res = await action(lesson.id, formData);
     
-    setIsPublishing(false);
+    setIsSaving(false);
     if (res.success) {
       setIsOpen(false);
-      // Reset form
-      setFiles([]);
-      setImageFile(null);
-      setImageUrl("");
-      setHasAttachments("no");
-      setHasQuiz("no");
-      setManualQuestions([{ question: "", options: ["", "", "", ""], correctAnswerIndex: 0 }]);
     } else {
       alert(res.error || "حدث خطأ ما");
     }
@@ -115,10 +115,10 @@ export function PublishLessonClient({
     <>
       <button 
         onClick={() => setIsOpen(true)}
-        className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-black py-4 rounded-2xl transition-all shadow-[0_4px_14px_0_rgba(14,165,233,0.39)] hover:shadow-[0_6px_20px_rgba(14,165,233,0.23)] hover:-translate-y-0.5 mt-4"
+        className="absolute top-3 left-3 bg-white/90 hover:bg-white p-2 rounded-xl text-slate-700 shadow-sm transition-all hover:scale-105 z-10 backdrop-blur-sm border border-slate-100"
+        title="تعديل الدرس"
       >
-        <Plus className="w-5 h-5" />
-        واجهة نشر الدروس
+        <Edit2 className="w-4 h-4" />
       </button>
 
       {isOpen && (
@@ -134,7 +134,12 @@ export function PublishLessonClient({
             
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-5 border-b border-slate-100">
-              <h2 className="text-xl font-black text-slate-800">تفاصيل الدرس / Publish Lesson</h2>
+              <h2 className="text-xl font-black text-slate-800 flex items-center gap-2">
+                <div className="bg-sky-50 text-sky-500 p-2 rounded-lg">
+                  <Edit2 className="w-5 h-5" />
+                </div>
+                تعديل الدرس
+              </h2>
               <button 
                 onClick={() => setIsOpen(false)}
                 className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-full transition-colors"
@@ -145,7 +150,7 @@ export function PublishLessonClient({
 
             {/* Body */}
             <div className="p-6 overflow-y-auto custom-scrollbar">
-              <form id="publish-lesson-form" onSubmit={handleSubmit} className="space-y-6">
+              <form id="edit-lesson-form" onSubmit={handleSubmit} className="space-y-6">
                 
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700">صورة الغلاف (1920x1080)</label>
@@ -166,7 +171,7 @@ export function PublishLessonClient({
                     ) : (
                       <div className="flex flex-col items-center justify-center py-10 px-4 text-center">
                         <div className="bg-sky-50 text-sky-500 p-4 rounded-full mb-3">
-                          <Upload className="w-6 h-6" />
+                          <ImageIcon className="w-6 h-6" />
                         </div>
                         <span className="text-sm font-bold text-slate-600 mb-1">اضغط هنا لرفع صورة الغلاف</span>
                         <span className="text-xs font-bold text-slate-400">JPG, PNG, WEBP (الحد الأقصى 2MB)</span>
@@ -174,34 +179,14 @@ export function PublishLessonClient({
                     )}
                   </label>
                 </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-slate-100">
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-700">رقم الشهر <span className="text-red-500">*</span></label>
-                    <select name="month" className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50/50 text-sm font-bold focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all text-slate-700">
-                      {[1,2,3,4,5,6,7,8,9,10,11,12].map(m => (
-                        <option key={m} value={m}>الشهر {m}</option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-bold text-slate-700">رابط الفيديو (Vimeo ID) <span className="text-red-500">*</span></label>
-                    <input 
-                      type="text" 
-                      name="vimeoVideoId"
-                      required 
-                      className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50/50 text-sm font-bold focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all text-slate-700 placeholder:text-slate-400 text-left" 
-                      placeholder="e.g. 123456789" 
-                      dir="ltr"
-                    />
-                  </div>
-                </div>
 
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700">عنوان الدرس <span className="text-red-500">*</span></label>
                   <input 
                     type="text" 
                     name="title"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
                     required 
                     className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50/50 text-sm font-bold focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all text-slate-700 placeholder:text-slate-400" 
                     placeholder="مثال: مقدمة في الجبر..." 
@@ -209,17 +194,20 @@ export function PublishLessonClient({
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">وصف الدرس <span className="text-red-500">*</span></label>
-                  <textarea 
+                  <label className="text-sm font-bold text-slate-700">Vimeo ID / رابط الفيديو <span className="text-red-500">*</span></label>
+                  <input 
+                    type="text" 
+                    name="vimeoVideoId"
                     required 
-                    rows={3} 
-                    className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50/50 text-sm font-bold focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all resize-none text-slate-700 placeholder:text-slate-400" 
-                    placeholder="مفاهيم أساسية حول..."
-                  ></textarea>
+                    dir="ltr"
+                    value={vimeoVideoId}
+                    onChange={(e) => setVimeoVideoId(e.target.value)}
+                    className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50/50 text-sm font-bold focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all text-slate-700" 
+                  />
                 </div>
 
                 <div className="pt-4 border-t border-slate-100 space-y-5">
-                  <h3 className="font-black text-slate-800 text-lg">ملحقات الدرس / Lesson Attachments</h3>
+                  <h3 className="font-black text-slate-800 text-lg">إدارة ملحقات الدرس</h3>
                   
                   <div className="space-y-3">
                     <label className="text-sm font-bold text-slate-700 block">هل يحتوي الدرس على ملحقات؟</label>
@@ -228,14 +216,14 @@ export function PublishLessonClient({
                         <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${hasAttachments === 'yes' ? 'border-sky-500' : 'border-slate-300'}`}>
                           {hasAttachments === 'yes' && <div className="w-2.5 h-2.5 rounded-full bg-sky-500" />}
                         </div>
-                        <span className={`font-bold text-sm ${hasAttachments === 'yes' ? 'text-sky-700' : 'text-slate-600'}`}>نعم / Yes</span>
+                        <span className={`font-bold text-sm ${hasAttachments === 'yes' ? 'text-sky-700' : 'text-slate-600'}`}>نعم</span>
                         <input type="radio" name="hasAttachments" value="yes" checked={hasAttachments === 'yes'} onChange={() => setHasAttachments('yes')} className="hidden" />
                       </label>
                       <label className={`flex-1 flex items-center justify-center gap-3 p-4 rounded-2xl border-2 cursor-pointer transition-all ${hasAttachments === 'no' ? 'border-sky-500 bg-sky-50/50' : 'border-slate-200 bg-white hover:border-sky-200'}`}>
                         <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${hasAttachments === 'no' ? 'border-sky-500' : 'border-slate-300'}`}>
                           {hasAttachments === 'no' && <div className="w-2.5 h-2.5 rounded-full bg-sky-500" />}
                         </div>
-                        <span className={`font-bold text-sm ${hasAttachments === 'no' ? 'text-sky-700' : 'text-slate-600'}`}>لا / No</span>
+                        <span className={`font-bold text-sm ${hasAttachments === 'no' ? 'text-sky-700' : 'text-slate-600'}`}>لا</span>
                         <input type="radio" name="hasAttachments" value="no" checked={hasAttachments === 'no'} onChange={() => setHasAttachments('no')} className="hidden" />
                       </label>
                     </div>
@@ -247,8 +235,7 @@ export function PublishLessonClient({
                         <div className="bg-white p-3 rounded-xl shadow-sm mb-3 group-hover:scale-110 transition-transform">
                           <Upload className="w-6 h-6 text-sky-500" />
                         </div>
-                        <span className="font-bold text-slate-700 text-sm mb-1">اضغط هنا أو قم بسحب الملفات</span>
-                        <span className="font-medium text-slate-400 text-xs text-center max-w-[200px]">PDF, DOCX, JPG (الحد الأقصى 10MB)</span>
+                        <span className="font-bold text-slate-700 text-sm mb-1">اضغط هنا أو قم بسحب الملفات الجديدة</span>
                         <input 
                           type="file" 
                           multiple
@@ -285,9 +272,6 @@ export function PublishLessonClient({
                     </div>
                   )}
 
-                  <p className="text-xs font-bold text-slate-400 text-center bg-slate-50 py-3 px-4 rounded-xl border border-slate-100 mt-4">
-                    (يمكنك دائمًا إضافة ملحقات أو تعديلها من قائمة تحرير الدرس بعد النشر)
-                  </p>
                 </div>
 
                 <div className="pt-4 border-t border-slate-100 space-y-5">
@@ -454,21 +438,28 @@ export function PublishLessonClient({
             </div>
 
             {/* Footer */}
-            <div className="p-6 border-t border-slate-100 bg-slate-50/50">
+            <div className="p-6 border-t border-slate-100 bg-slate-50/50 flex items-center gap-4">
               <button 
-                form="publish-lesson-form"
+                form="edit-lesson-form"
                 type="submit" 
-                disabled={isPublishing}
-                className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 disabled:opacity-60 text-white font-black py-4 rounded-2xl shadow-[0_4px_14px_0_rgba(14,165,233,0.39)] hover:shadow-[0_6px_20px_rgba(14,165,233,0.23)] hover:-translate-y-0.5 transition-all"
+                disabled={isSaving}
+                className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 disabled:opacity-60 text-white font-black py-3.5 rounded-xl shadow-[0_4px_14px_0_rgba(14,165,233,0.39)] hover:shadow-[0_6px_20px_rgba(14,165,233,0.23)] transition-all"
               >
-                {isPublishing ? (
+                {isSaving ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
-                    جاري النشر...
+                    جاري الحفظ...
                   </>
                 ) : (
-                  "نشر الدرس / Publish Lesson"
+                  "حفظ التعديلات"
                 )}
+              </button>
+              <button 
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="px-6 py-3.5 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 font-bold rounded-xl transition-all"
+              >
+                إلغاء
               </button>
             </div>
 

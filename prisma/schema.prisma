@@ -232,6 +232,8 @@ model AccessCode {
   user         User?    @relation(fields: [studentId], references: [id])
   subjectId    String
   subject      Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  startDate    DateTime?
+  endDate      DateTime?
   createdAt    DateTime @default(now())
 }
 

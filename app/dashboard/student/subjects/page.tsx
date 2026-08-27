@@ -58,8 +58,8 @@ export default async function StudentSubjectsPage() {
 
             return (
               <div key={subject.id} className="bg-white/90 backdrop-blur-md dark:bg-slate-900/90 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden flex flex-col group max-w-sm mx-auto w-full">
-                <div className="h-36 w-full relative bg-slate-100 dark:bg-slate-800 overflow-hidden">
-                  <img src={subject.image} alt={subject.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div className="aspect-video w-full relative bg-slate-100 dark:bg-slate-800 overflow-hidden">
+                  <img src={subject.image} alt={subject.title} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" />
                   
                   {/* Status Badge */}
                   <div className="absolute top-3 right-3">
@@ -67,11 +67,11 @@ export default async function StudentSubjectsPage() {
                       <div className="bg-green-500/90 backdrop-blur-md text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-lg">
                         <Unlock className="w-3.5 h-3.5" /> تم الفتح
                       </div>
-                    ) : (
+                    ) : subject.price && subject.price > 0 ? (
                       <div className="bg-slate-900/80 backdrop-blur-md text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-lg">
                         <Lock className="w-3.5 h-3.5" /> مغلق
                       </div>
-                    )}
+                    ) : null}
                   </div>
                 </div>
                 
@@ -93,6 +93,14 @@ export default async function StudentSubjectsPage() {
                       >
                         <PlayCircle className="w-5 h-5" />
                         الدخول للمادة
+                      </Link>
+                    ) : (!subject.price || subject.price === 0) ? (
+                      <Link 
+                        href={`/dashboard/student/subjects/${subject.id}`}
+                        className="w-full flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 text-white font-bold py-2.5 rounded-xl transition-all shadow-md hover:shadow-lg"
+                      >
+                        <PlayCircle className="w-5 h-5" />
+                        دخول مجاني
                       </Link>
                     ) : (
                       <form action={redeemAccessCode} className="space-y-3">

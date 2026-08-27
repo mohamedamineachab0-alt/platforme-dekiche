@@ -220,6 +220,8 @@ exports.Prisma.AccessCodeScalarFieldEnum = {
   isUsed: 'isUsed',
   studentId: 'studentId',
   subjectId: 'subjectId',
+  startDate: 'startDate',
+  endDate: 'endDate',
   createdAt: 'createdAt'
 };
 

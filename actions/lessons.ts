@@ -31,19 +31,13 @@ export type ActionState = {
 };
 
 import { z } from "zod";
+import { supabase, ensureBucketExists } from "@/lib/supabase";
 
 const LessonSchema = z.object({
   title: z.string().min(1, "عنوان الدرس مطلوب"),
   subjectId: z.string().min(1, "المادة مطلوبة"),
-  subjectIds: z.array(z.string()).min(1, "اختر مادة واحدة على الأقل"),
   month: z.number().min(1).max(12),
   vimeoVideoId: z.string().min(1, "رابط الفيديو مطلوب"),
-  streams: z.array(z.string()).default([]),
-  materials: z.array(z.object({
-    title: z.string(),
-    fileUrl: z.string(),
-    fileType: z.string().optional()
-  })).default([]),
   quiz: z.object({
     maxScore: z.number(),
     aiGenerated: z.boolean(),
@@ -51,36 +45,87 @@ const LessonSchema = z.object({
   }).nullable().optional()
 });
 
-export async function createLesson(payload: LessonPayload): Promise<ActionState> {
-  const validation = LessonSchema.safeParse(payload);
+export async function createLesson(formData: FormData): Promise<ActionState> {
+  const title = formData.get("title") as string;
+  const subjectId = formData.get("subjectId") as string;
+  const monthStr = formData.get("month") as string;
+  const vimeoVideoId = formData.get("vimeoVideoId") as string;
+  const quizStr = formData.get("quiz") as string;
+  const month = parseInt(monthStr || "1");
+
+  let quizConfig = null;
+  if (quizStr) {
+    try {
+      quizConfig = JSON.parse(quizStr);
+    } catch (e) {
+      console.error("Failed to parse quiz config");
+    }
+  }
+
+  const validation = LessonSchema.safeParse({
+    title,
+    subjectId,
+    month,
+    vimeoVideoId,
+    quiz: quizConfig
+  });
+
   if (!validation.success) {
     return { error: validation.error.issues?.[0]?.message || "بيانات غير صالحة" };
   }
 
-  const validPayload = validation.data;
-
   try {
+    let imageUrl = null;
+    const imageFile = formData.get("image") as File | null;
+    if (imageFile && imageFile.size > 0) {
+      await ensureBucketExists("lesson-covers");
+      const fileExt = imageFile.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
+      const { data } = await supabase.storage.from("lesson-covers").upload(fileName, imageFile, { upsert: false });
+      if (data) {
+        const { data: publicUrlData } = supabase.storage.from("lesson-covers").getPublicUrl(fileName);
+        imageUrl = publicUrlData.publicUrl;
+      }
+    }
+
+    const materialFiles = formData.getAll("materials") as File[];
+    const uploadedMaterials = [];
+
+    if (materialFiles.length > 0) {
+      await ensureBucketExists("lesson-materials");
+      for (const file of materialFiles) {
+        if (file && file.size > 0) {
+          const fileExt = file.name.split('.').pop();
+          const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
+          const { data } = await supabase.storage.from("lesson-materials").upload(fileName, file, { upsert: false });
+          if (data) {
+            const { data: publicUrlData } = supabase.storage.from("lesson-materials").getPublicUrl(fileName);
+            uploadedMaterials.push({
+              title: file.name,
+              fileUrl: publicUrlData.publicUrl,
+              fileType: file.type || fileExt,
+            });
+          }
+        }
+      }
+    }
     const lesson = await prisma.lesson.create({
       data: {
-        title: validPayload.title,
-        subjectId: validPayload.subjectId,
-        subjectIds: validPayload.subjectIds.length ? validPayload.subjectIds : [validPayload.subjectId],
-        streams: validPayload.streams as Stream[],
-        month: validPayload.month,
-        vimeoVideoId: validPayload.vimeoVideoId,
+        title: validation.data.title,
+        subjectId: validation.data.subjectId,
+        subjectIds: [validation.data.subjectId], // Simplify for now
+        month: validation.data.month,
+        vimeoVideoId: validation.data.vimeoVideoId,
+        image: imageUrl,
         materials: {
-          create: validPayload.materials.map(m => ({
-            title: m.title,
-            fileUrl: m.fileUrl,
-            fileType: m.fileType,
-          })),
+          create: uploadedMaterials,
         },
-        ...(validPayload.quiz && {
+        ...(validation.data.quiz && {
           quiz: {
             create: {
-              maxScore: validPayload.quiz.maxScore,
-              aiGenerated: validPayload.quiz.aiGenerated,
-              questions: validPayload.quiz.questions,
+              maxScore: validation.data.quiz.maxScore,
+              aiGenerated: validation.data.quiz.aiGenerated,
+              questions: validation.data.quiz.questions,
             }
           }
         })
@@ -88,7 +133,7 @@ export async function createLesson(payload: LessonPayload): Promise<ActionState>
     });
 
     revalidatePath(`/dashboard/admin/lessons`);
-    revalidatePath(`/dashboard/student/subjects/${payload.subjectId}`);
+    revalidatePath(`/dashboard/student/subjects/${validation.data.subjectId}`);
     return { success: true };
   } catch (error) {
     console.error("خطا اثناء حفظ الدرس", error);
@@ -125,3 +170,116 @@ export async function addLessonMaterial(
     return { error: "حدث خطا اثناء الرفع يرجى المحاولة" };
   }
 }
+
+export async function updateLesson(id: string, formData: FormData): Promise<ActionState> {
+  const title = formData.get("title") as string;
+  const monthStr = formData.get("month") as string;
+  const vimeoVideoId = formData.get("vimeoVideoId") as string;
+  const quizStr = formData.get("quiz") as string;
+  const subjectId = formData.get("subjectId") as string;
+  const month = parseInt(monthStr || "1");
+
+  let quizConfig = null;
+  if (quizStr) {
+    try {
+      quizConfig = JSON.parse(quizStr);
+    } catch (e) {
+      console.error("Failed to parse quiz config");
+    }
+  }
+
+  const validation = LessonSchema.safeParse({
+    title,
+    subjectId: subjectId || "placeholder", // Might not be changed
+    month,
+    vimeoVideoId,
+    quiz: quizConfig
+  });
+
+  if (!validation.success) {
+    return { error: validation.error.issues?.[0]?.message || "بيانات غير صالحة" };
+  }
+
+  try {
+    const existingLesson = await prisma.lesson.findUnique({ where: { id } });
+    if (!existingLesson) return { error: "الدرس غير موجود" };
+
+    let imageUrl = undefined;
+    const imageFile = formData.get("image") as File | null;
+    if (imageFile && imageFile.size > 0) {
+      await ensureBucketExists("lesson-covers");
+      const fileExt = imageFile.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
+      const { data } = await supabase.storage.from("lesson-covers").upload(fileName, imageFile, { upsert: false });
+      if (data) {
+        const { data: publicUrlData } = supabase.storage.from("lesson-covers").getPublicUrl(fileName);
+        imageUrl = publicUrlData.publicUrl;
+      }
+    }
+
+    const materialFiles = formData.getAll("materials") as File[];
+    const uploadedMaterials = [];
+
+    if (materialFiles.length > 0) {
+      await ensureBucketExists("lesson-materials");
+      for (const file of materialFiles) {
+        if (file && file.size > 0) {
+          const fileExt = file.name.split('.').pop();
+          const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
+          const { data } = await supabase.storage.from("lesson-materials").upload(fileName, file, { upsert: false });
+          if (data) {
+            const { data: publicUrlData } = supabase.storage.from("lesson-materials").getPublicUrl(fileName);
+            uploadedMaterials.push({
+              title: file.name,
+              fileUrl: publicUrlData.publicUrl,
+              fileType: file.type || fileExt,
+            });
+          }
+        }
+      }
+    }
+
+    const updateData: any = {
+      title: validation.data.title,
+      month: validation.data.month,
+      vimeoVideoId: validation.data.vimeoVideoId,
+    };
+    if (imageUrl) {
+      updateData.image = imageUrl;
+    }
+    if (uploadedMaterials.length > 0) {
+      updateData.materials = {
+        create: uploadedMaterials
+      };
+    }
+
+    await prisma.lesson.update({
+      where: { id },
+      data: updateData
+    });
+
+    if (validation.data.quiz) {
+      await prisma.quiz.upsert({
+        where: { lessonId: id },
+        create: {
+          lessonId: id,
+          maxScore: validation.data.quiz.maxScore,
+          aiGenerated: validation.data.quiz.aiGenerated,
+          questions: validation.data.quiz.questions,
+        },
+        update: {
+          maxScore: validation.data.quiz.maxScore,
+          aiGenerated: validation.data.quiz.aiGenerated,
+          questions: validation.data.quiz.questions,
+        }
+      });
+    }
+
+    revalidatePath(`/dashboard/admin/lessons`);
+    return { success: true };
+  } catch (error) {
+    console.error("خطا اثناء تعديل الدرس", error);
+    return { error: "حدث خطا اثناء الحفظ يرجى المحاولة" };
+  }
+}
+

@@ -1,17 +1,17 @@
 import { prisma } from "@/lib/prisma";
 import { Plus, Video, FileText, Download } from "lucide-react";
-import { createLesson, addLessonMaterial } from "@/actions/lessons";
+import { createLesson, addLessonMaterial, updateLesson } from "@/actions/lessons";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import { SubjectFilterForm } from "@/components/admin/SubjectFilterForm";
 import { PublishLessonClient } from "@/components/admin/PublishLessonClient";
+import { EditLessonClient } from "@/components/admin/EditLessonClient";
 
-export default async function AdminLessonsPage({
-  searchParams,
-}: {
-  searchParams: { subjectId?: string };
+export default async function AdminLessonsPage(props: {
+  searchParams: Promise<{ subjectId?: string }>;
 }) {
+  const searchParams = await props.searchParams;
   const subjects = await prisma.subject.findMany({
     orderBy: { title: "asc" },
   });
@@ -66,7 +66,10 @@ export default async function AdminLessonsPage({
               <h2 className="text-xl font-black text-slate-900">إضافة درس جديد</h2>
               <p className="text-slate-500 text-sm font-medium">قم بإضافة درس جديد مع كويز وملحقات إضافية عبر الواجهة المخصصة للنشر</p>
               
-              <PublishLessonClient />
+              <PublishLessonClient 
+                subjectId={selectedSubject.id} 
+                action={createLesson}
+              />
             </div>
 
           </div>
@@ -87,7 +90,11 @@ export default async function AdminLessonsPage({
                   </div>
                   <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {monthLessons.map(lesson => (
-                      <div key={lesson.id} className="border border-slate-100 rounded-2xl p-4 flex flex-col">
+                      <div key={lesson.id} className="border border-slate-100 rounded-2xl p-4 flex flex-col relative">
+                        <EditLessonClient 
+                          lesson={lesson} 
+                          action={updateLesson}
+                        />
                         <div className="aspect-video bg-slate-100 rounded-xl overflow-hidden mb-3">
                           <img src={lesson.image || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=400&auto=format&fit=crop"} alt={lesson.title} className="w-full h-full object-cover" />
                         </div>

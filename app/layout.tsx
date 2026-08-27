@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import "katex/dist/katex.min.css";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: "منصة دقيش التعليمية",
@@ -23,6 +25,8 @@ export default function RootLayout({
     <html lang="ar" dir="rtl" className="h-full" suppressHydrationWarning>
       <body className="font-sans antialiased min-h-full flex flex-col w-full max-w-full overflow-x-hidden overscroll-x-none touch-pan-y">
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

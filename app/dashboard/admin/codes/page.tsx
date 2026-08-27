@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { Key, Plus, Hash, Copy } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { CodeGeneratorClient } from "@/components/admin/CodeGeneratorClient";
+import { ExportCodesClient } from "@/components/admin/ExportCodesClient";
 
 export default async function AdminCodesPage() {
   const subjects = await prisma.subject.findMany({
@@ -31,6 +32,13 @@ export default async function AdminCodesPage() {
 
         {/* List */}
         <div className="lg:col-span-2">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-black text-slate-800 flex items-center gap-2">
+              <Hash className="w-5 h-5 text-sky-500" />
+              قائمة الرموز المولدة
+            </h2>
+            <ExportCodesClient codes={codes} />
+          </div>
           <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
             <table className="w-full text-sm text-right">
               <thead className="bg-slate-50 border-b border-slate-100 text-slate-500">

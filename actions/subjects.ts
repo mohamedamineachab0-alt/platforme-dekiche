@@ -102,6 +102,88 @@ export async function createSubject(
   }
 }
 
+export async function updateSubject(
+  id: string,
+  formData: FormData
+): Promise<SubjectActionState> {
+  try {
+    const title = formData.get("title") as string;
+    const description = formData.get("description") as string;
+    const teacherId = formData.get("teacherId") as string;
+    const manualTeacherName = formData.get("manualTeacherName") as string;
+    
+    let imageUrl = undefined;
+    const imageFile = formData.get("image") as File | null;
+    if (imageFile && imageFile.size > 0) {
+      await ensureBucketExists("subject-covers");
+      const fileExt = imageFile.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
+      const { data, error } = await supabase.storage.from("subject-covers").upload(fileName, imageFile, { upsert: false });
+      if (data) {
+        const { data: publicUrlData } = supabase.storage.from("subject-covers").getPublicUrl(fileName);
+        imageUrl = publicUrlData.publicUrl;
+      }
+    }
+    const priceStr = formData.get("price") as string;
+    const price = priceStr ? parseFloat(priceStr) : 0;
+    const accessType = formData.get("accessType") as string || "YEARLY";
+    const levelStr = formData.get("level") as string;
+    const streamStr = formData.get("stream") as string;
+    const levelsArr = formData.getAll("levels") as string[];
+    const streamsArr = formData.getAll("streams") as string[];
+
+    const levels = levelsArr.length > 0 ? levelsArr : (levelStr ? [levelStr] : []);
+    const streams = streamsArr.length > 0 ? streamsArr : (streamStr ? [streamStr] : []);
+    const level = levelStr || levels[0];
+    const stream = streamStr || streams[0];
+
+    const validation = SubjectSchema.safeParse({
+      title,
+      description,
+      price,
+      accessType,
+      level,
+      stream,
+      levels,
+      streams
+    });
+
+    if (!validation.success) {
+      return { error: validation.error.issues?.[0]?.message || "بيانات غير صالحة" };
+    }
+
+    const teacher = teacherId ? await prisma.teacher.findUnique({ where: { id: teacherId } }) : null;
+    const teacherName = teacher?.name || manualTeacherName || "غير محدد";
+
+    const dataToUpdate: any = {
+      title,
+      description,
+      teacherId: teacherId || null,
+      teacherName,
+      price,
+      accessType, 
+      level: level as Level,
+      stream: stream as Stream,
+      levels: levels as Level[],
+      streams: streams as Stream[],
+    };
+
+    if (imageUrl) {
+      dataToUpdate.image = imageUrl;
+    }
+
+    await prisma.subject.update({
+      where: { id },
+      data: dataToUpdate,
+    });
+
+    revalidatePath("/dashboard/admin/subjects");
+    return { success: true };
+  } catch (err: any) {
+    return { error: "حدث خطأ أثناء تعديل المادة" };
+  }
+}
+
 export async function generateAccessCode(
   formData: FormData
 ): Promise<SubjectActionState> {
@@ -126,10 +208,15 @@ export async function generateAccessCode(
     const accessType = formData.get("accessType") as string; // MONTHLY or YEARLY
     const validMonthsStr = formData.getAll("validMonths") as string[];
     const count = parseInt(formData.get("count") as string) || 1;
+    const startDateStr = formData.get("startDate") as string;
+    const endDateStr = formData.get("endDate") as string;
 
     if (!subjectId || !accessType || count < 1) {
       return { error: "يرجى اختيار المادة ونوع الوصول والعدد" };
     }
+
+    const startDate = startDateStr ? new Date(startDateStr) : null;
+    const endDate = endDateStr ? new Date(endDateStr) : null;
 
     const validMonths = validMonthsStr.map(m => parseInt(m)).filter(n => !isNaN(n));
 
@@ -139,6 +226,8 @@ export async function generateAccessCode(
       subjectId,
       accessType,
       validMonths,
+      startDate,
+      endDate,
     }));
 
     await prisma.accessCode.createMany({

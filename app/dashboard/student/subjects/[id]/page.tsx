@@ -115,10 +115,7 @@ export default async function SubjectDetailsPage({
     <div className="font-arabic" dir="rtl">
       <div className="max-w-6xl mx-auto py-8 px-4 space-y-8">
         
-        <Link href="/dashboard/student/subjects" className="inline-flex items-center gap-2 text-sky-600 hover:text-slate-900 font-bold transition-colors bg-white px-4 py-2 rounded-xl shadow-sm border border-slate-100">
-          <ChevronLeft className="w-5 h-5" />
-          العودة إلى المواد
-        </Link>
+
 
         {/* Lessons Section (Full Width) */}
         <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 hover:shadow-md transition-shadow mb-8">

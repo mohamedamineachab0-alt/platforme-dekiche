@@ -20,6 +20,7 @@ const nextConfig: NextConfig = {
   experimental: {
     serverActions: {
       bodySizeLimit: '100mb',
+      allowedOrigins: ['dekiche-academy.com', 'www.dekiche-academy.com', 'localhost:3000'],
     },
   },
   // Allow network access from external local devices (e.g., phones testing on the same Wi-Fi)

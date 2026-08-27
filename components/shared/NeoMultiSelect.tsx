@@ -26,21 +26,25 @@ export function NeoMultiSelect({ options, selectedValues, onChange, name }: NeoM
               key={option.value}
               type="button"
               onClick={() => toggleSelection(option.value)}
-              className={`p-3 border-black border-2 text-sm font-black transition-transform text-right flex items-center justify-between hover:-translate-y-1 ${
+              className={`p-3 rounded-xl border-2 text-sm font-bold transition-all text-right flex items-center justify-between group ${
                 isSelected
-                  ? "bg-purple-600 text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
-                  : "bg-white text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
+                  ? "bg-sky-50 border-sky-500 text-sky-800 shadow-sm"
+                  : "bg-white border-slate-200 text-slate-600 hover:border-sky-200 hover:bg-slate-50"
               }`}
             >
               <div className="flex flex-col">
                 <span>{option.label}</span>
                 {option.subLabel && (
-                  <span className={`text-xs mt-1 ${isSelected ? "text-purple-200" : "text-slate-500"}`}>
+                  <span className={`text-xs mt-1 ${isSelected ? "text-sky-600/80" : "text-slate-400"}`}>
                     {option.subLabel}
                   </span>
                 )}
               </div>
-              {isSelected && <CheckCircle2 className="w-5 h-5 text-white shrink-0" />}
+              {isSelected ? (
+                 <CheckCircle2 className="w-5 h-5 text-sky-500 shrink-0" />
+              ) : (
+                 <div className="w-5 h-5 rounded-full border-2 border-slate-200 group-hover:border-sky-300 transition-colors shrink-0" />
+              )}
             </button>
           );
         })}

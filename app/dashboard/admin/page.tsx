@@ -1,27 +1,14 @@
-import { prisma } from "@/lib/prisma";
 import { HeroBanner } from "@/components/shared/HeroBanner";
-import { Video, Calendar, Users, BookOpen, Key, Link as LinkIcon, BellRing, ChevronLeft } from "lucide-react";
+import { Video, Calendar, BellRing, ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
-export default async function AdminDashboardPage() {
-  const usersCount = await prisma.user.count();
-  const subjectsCount = await prisma.subject.count();
-  const codesCount = await prisma.accessCode.count({ where: { isUsed: false } });
-  
-  // Future live classes (e.g. from today onwards)
-  const upcomingLiveClasses = await prisma.liveClass.findMany({
-    where: { date: { gte: new Date() } },
-    orderBy: { date: "asc" },
-    take: 3,
-    include: { subject: true },
-  });
-
+export default function AdminDashboardPage() {
   return (
     <div className="space-y-8">
       
       <HeroBanner 
         title="مرحباً بك في لوحة تحكم المدير"
-        description="نظرة عامة على نشاط المنصة و الحصص المباشرة القادمة و وإحصائيات الطلاب والمواد"
+        description="نظرة عامة على نشاط المنصة"
         icon={Video}
         action={
           <Link href="/dashboard/admin/live" className="bg-slate-900 hover:bg-black text-white px-6 py-3.5 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 flex items-center gap-2">
@@ -46,66 +33,6 @@ export default async function AdminDashboardPage() {
             <p className="text-xl font-black text-white">تنبيهاتي</p>
           </div>
         </Link>
-        <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-sky-50 flex items-center justify-center shrink-0">
-            <Users className="w-6 h-6 text-sky-600" />
-          </div>
-          <div>
-            <p className="text-sm font-bold text-slate-500">إجمالي المستخدمين</p>
-            <p className="text-2xl font-black text-slate-900">{usersCount}</p>
-          </div>
-        </div>
-        <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-sky-50 flex items-center justify-center shrink-0">
-            <BookOpen className="w-6 h-6 text-sky-600" />
-          </div>
-          <div>
-            <p className="text-sm font-bold text-slate-500">المواد المنشورة</p>
-            <p className="text-2xl font-black text-slate-900">{subjectsCount}</p>
-          </div>
-        </div>
-        <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-slate-100 flex items-center justify-center shrink-0">
-            <Key className="w-6 h-6 text-slate-700" />
-          </div>
-          <div>
-            <p className="text-sm font-bold text-slate-500">رموز غير مستخدمة</p>
-            <p className="text-2xl font-black text-slate-900">{codesCount}</p>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <h2 className="text-xl font-black text-slate-900 mb-6">الحصص المباشرة القادمة</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {upcomingLiveClasses.map(live => (
-            <div key={live.id} className="bg-white border border-slate-100 rounded-3xl p-5 shadow-sm space-y-4 flex flex-col">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center">
-                  <Video className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-slate-900">{live.title}</h3>
-                  <p className="text-xs text-slate-500 font-bold">{live.subject.title}</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center justify-between text-xs font-bold bg-slate-50 p-3 rounded-xl border border-slate-100 text-slate-600">
-                <span className="flex items-center gap-1.5"><Calendar className="w-3.5 h-3.5" /> {live.date.toLocaleDateString("ar-DZ", { weekday: "long", year: "numeric", month: "long", day: "numeric" })}</span>
-              </div>
-              
-              <a href={live.zoomLink} target="_blank" rel="noreferrer" className="w-full mt-auto flex items-center justify-center gap-2 bg-sky-50 hover:bg-sky-100 text-sky-700 font-bold py-2.5 rounded-xl transition-colors text-sm">
-                <LinkIcon className="w-4 h-4" />
-                رابط المنصة
-              </a>
-            </div>
-          ))}
-          {upcomingLiveClasses.length === 0 && (
-            <div className="col-span-full py-8 text-center text-slate-400 font-bold bg-white rounded-3xl border border-slate-100">
-              لا توجد حصص مباشرة مجدولة قريباً
-            </div>
-          )}
-        </div>
       </div>
 
     </div>

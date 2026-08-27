@@ -18,14 +18,14 @@ export default async function AdminSubjectsPage() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8 font-arabic" dir="rtl">
       <HeroBanner 
         title="إدارة المواد التعليمية"
         description="قم بإضافة مواد جديدة و تحديد الأساتذة و وتسعير الاشتراكات الخاصة بها"
         icon={BookOpen}
       />
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* Creation Form */}
         <div className="lg:col-span-1">
@@ -37,40 +37,42 @@ export default async function AdminSubjectsPage() {
 
         {/* List */}
         <div className="lg:col-span-2">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {subjects.map(subject => (
-              <div key={subject.id} className="bg-white dark:bg-slate-900 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800 overflow-hidden flex flex-col">
-                <div className="aspect-video w-full relative bg-slate-100 dark:bg-slate-800 flex items-center justify-center overflow-hidden">
+              <div key={subject.id} className="group bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-slate-100 overflow-hidden flex flex-col hover:-translate-y-1 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+                <div className="aspect-[16/9] w-full relative bg-slate-50 flex items-center justify-center overflow-hidden border-b border-slate-50">
                   {subject.image ? (
                     <img src={subject.image} alt={subject.title} className="w-full h-full object-cover" />
                   ) : (
-                    <ImageIcon className="w-8 h-8 text-slate-400 dark:text-slate-500" />
+                    <div className="flex flex-col items-center justify-center text-slate-300">
+                      <ImageIcon className="w-10 h-10 mb-2 opacity-50" />
+                    </div>
                   )}
-                  <div className="absolute top-2 right-2 flex items-center gap-2">
-                    <div className="bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-bold text-sky-700 shadow-sm">
-                      {subject.price === 0 ? "مجانا" : `${subject.price} دج`}
+                  <div className="absolute top-3 right-3 flex items-center gap-2">
+                    <div className="bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-lg text-xs font-black text-sky-600 shadow-sm border border-white/20">
+                      {subject.price === 0 ? "مجاناً" : `${subject.price} دج`}
                     </div>
                   </div>
-                  <div className="absolute top-2 left-2 flex items-center gap-2">
-                    <Link href={`/dashboard/admin/subjects/${subject.id}/edit`} className="bg-white/90 dark:bg-slate-900/90 hover:bg-white dark:hover:bg-slate-800 backdrop-blur-sm p-1.5 rounded-lg text-slate-700 dark:text-slate-300 shadow-sm transition-colors" title="تعديل">
+                  <div className="absolute top-3 left-3 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <Link href={`/dashboard/admin/subjects/${subject.id}/edit`} className="bg-white/95 hover:bg-white p-2 rounded-lg text-slate-700 shadow-sm transition-colors" title="تعديل">
                       <Edit className="w-4 h-4" />
                     </Link>
                     <form action={deleteSubject.bind(null, subject.id)}>
-                      <button type="submit" className="bg-amber-500/90 hover:bg-amber-600 backdrop-blur-sm p-1.5 rounded-lg text-white shadow-sm transition-colors" title="حذف">
+                      <button type="submit" className="bg-red-500/95 hover:bg-red-500 p-2 rounded-lg text-white shadow-sm transition-colors" title="حذف">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </form>
                   </div>
                 </div>
                 <div className="p-5 flex-1 flex flex-col">
-                  <h3 className="font-black text-slate-900 dark:text-white line-clamp-1">{subject.title}</h3>
-                  <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 line-clamp-2 leading-relaxed">{subject.description}</p>
+                  <h3 className="font-black text-slate-800 text-lg line-clamp-1 mb-2">{subject.title}</h3>
+                  <p className="text-sm text-slate-500 mt-1 line-clamp-2 leading-relaxed font-medium">{subject.description}</p>
                   
-                  <div className="mt-auto pt-4 flex items-center justify-between">
-                    <span className="text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-md">
+                  <div className="mt-auto pt-5 flex items-center justify-between border-t border-slate-50">
+                    <span className="text-xs font-bold text-slate-600 bg-slate-100/80 px-3 py-1.5 rounded-lg">
                       {subject.teacherName}
                     </span>
-                    <span className="text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800 px-2 py-1 rounded-md">
+                    <span className="text-xs font-bold text-sky-700 bg-sky-50 px-3 py-1.5 rounded-lg">
                       {subject.accessType === "YEARLY" ? "سنوي" : "شهري"}
                     </span>
                   </div>
@@ -78,8 +80,10 @@ export default async function AdminSubjectsPage() {
               </div>
             ))}
             {subjects.length === 0 && (
-              <div className="col-span-full py-12 text-center text-slate-400 dark:text-slate-500">
-                لا توجد مواد تعليمية منشورة بعد
+              <div className="col-span-full py-16 text-center bg-white rounded-3xl border border-slate-100 border-dashed">
+                <BookOpen className="w-12 h-12 text-slate-200 mx-auto mb-4" />
+                <p className="text-slate-500 font-bold">لا توجد مواد تعليمية منشورة بعد</p>
+                <p className="text-slate-400 text-sm mt-1">قم بإضافة مادة جديدة من النموذج</p>
               </div>
             )}
           </div>

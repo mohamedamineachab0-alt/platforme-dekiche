@@ -5,6 +5,7 @@ import { HeroBanner } from "@/components/shared/HeroBanner";
 import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import { SubjectFilterForm } from "@/components/admin/SubjectFilterForm";
+import { PublishLessonClient } from "@/components/admin/PublishLessonClient";
 
 export default async function AdminLessonsPage({
   searchParams,
@@ -65,13 +66,7 @@ export default async function AdminLessonsPage({
               <h2 className="text-xl font-black text-slate-900">إضافة درس جديد</h2>
               <p className="text-slate-500 text-sm font-medium">قم بإضافة درس جديد مع كويز وملحقات إضافية عبر الواجهة المخصصة للنشر</p>
               
-              <Link 
-                href="/dashboard/admin/lessons/new"
-                className="w-full flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-500 text-slate-950 font-black font-bold py-3.5 rounded-xl transition-all shadow-md shadow-amber-500/20"
-              >
-                <Plus className="w-5 h-5" />
-                واجهة نشر الدروس
-              </Link>
+              <PublishLessonClient />
             </div>
 
           </div>

@@ -51,9 +51,15 @@ const LessonSchema = z.object({
   }).nullable().optional()
 });
 
+const DEFAULT_DESCRIPTION = "في هذه الحصة، سنتناول المفاهيم الأساسية المتعلقة بموضوع الدرس مع تقديم شرح مبسط وأمثلة تطبيقية لتسهيل الفهم. تأكد من إحضار كراسك وتدوين أهم الملاحظات.";
+
 export async function createLesson(formData: FormData): Promise<ActionState> {
   const title = formData.get("title") as string;
-  const description = formData.get("description") as string;
+  let description = formData.get("description") as string;
+  
+  if (!description || description.trim() === '') {
+    description = DEFAULT_DESCRIPTION;
+  }
   const subjectId = formData.get("subjectId") as string;
   const monthStr = formData.get("month") as string;
   const vimeoVideoId = formData.get("vimeoVideoId") as string;

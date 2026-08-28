@@ -218,13 +218,12 @@ export function PublishLessonClient({
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">وصف الدرس <span className="text-red-500">*</span></label>
+                  <label className="text-sm font-bold text-slate-700">وصف الدرس (اختياري)</label>
                   <textarea 
                     name="description"
-                    required 
                     rows={3} 
                     className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50/50 text-sm font-bold focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all resize-none text-slate-700 placeholder:text-slate-400" 
-                    placeholder="مفاهيم أساسية حول..."
+                    placeholder="مفاهيم أساسية حول... (إذا تُرك فارغاً سيتم وضع وصف افتراضي)"
                   ></textarea>
                 </div>
 

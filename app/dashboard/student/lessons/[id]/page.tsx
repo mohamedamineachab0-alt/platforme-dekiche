@@ -64,7 +64,7 @@ export default async function LessonStudyViewPage({
   return (
     <div className="max-w-6xl mx-auto space-y-8 pb-12 font-arabic" dir="rtl">
       {/* Navigation Breadcrumb */}
-      <div className="flex items-center justify-between">
+      <div className="flex justify-between items-center w-full mt-4 px-4">
         <Link 
           href={`/dashboard/student/subjects/${lesson.subjectId}`} 
           className="inline-flex items-center gap-2 text-slate-500 hover:text-sky-700 font-bold transition-colors"
@@ -94,8 +94,8 @@ export default async function LessonStudyViewPage({
         
         {/* 2. Lesson Header */}
         <div className="text-center md:text-right px-4">
-          <h1 className="text-4xl font-black text-slate-900 dark:text-blue-950 mb-3 tracking-tight">{lesson.title}</h1>
-          <p className="text-slate-500 dark:text-slate-400 font-medium text-lg max-w-3xl">استمتع بمشاهدة الدرس ولا تتردد في تحميل الملحقات وحل الكويز لاختبار فهمك</p>
+          <h1 className="text-xl md:text-2xl lg:text-4xl leading-snug font-black text-slate-900 dark:text-blue-950 mb-3 tracking-tight">{lesson.title}</h1>
+          <p className="text-slate-500 dark:text-slate-400 font-medium text-base md:text-lg max-w-3xl leading-relaxed">استمتع بمشاهدة الدرس ولا تتردد في تحميل الملحقات وحل الكويز لاختبار فهمك</p>
         </div>
 
         {/* 3. Action Cards Grid */}

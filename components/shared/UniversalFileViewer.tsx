@@ -34,14 +34,14 @@ export function UniversalFileViewer({ title, fileUrl, fileType }: FileViewerProp
   };
 
   return (
-    <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-emerald-500/20 rounded-3xl p-4 flex flex-col justify-between shadow-sm transition-all hover:shadow-md hover:border-emerald-500/40 group relative overflow-hidden card-grid">
-      <div className="flex items-start gap-4 mb-4 z-10">
-        <div className="p-3 bg-white dark:bg-zinc-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 shrink-0">
+    <div className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-emerald-500/20 rounded-2xl p-3 flex flex-col justify-between shadow-sm transition-all hover:shadow-md hover:border-emerald-500/40 group relative overflow-hidden card-grid">
+      <div className="flex items-start gap-2 mb-3 z-10">
+        <div className="p-2 bg-white dark:bg-zinc-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 shrink-0 scale-75 md:scale-100">
           {renderIcon()}
         </div>
         <div className="flex-1 min-w-0 pt-1">
-          <h4 className="font-bold text-slate-900 dark:text-white truncate" dir="rtl">{title}</h4>
-          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 uppercase truncate" dir="ltr">
+          <h4 className="font-bold text-sm md:text-base text-slate-900 dark:text-white truncate" dir="rtl">{title}</h4>
+          <p className="text-[10px] md:text-xs text-slate-500 dark:text-slate-400 mt-0.5 uppercase truncate" dir="ltr">
             {isImage ? 'IMAGE' : isPdf ? 'PDF' : 'DOCUMENT'}
           </p>
         </div>
@@ -51,20 +51,20 @@ export function UniversalFileViewer({ title, fileUrl, fileType }: FileViewerProp
         {isViewable && (
           <Link
             href={`/dashboard/student/viewer?url=${encodeURIComponent(fileUrl)}&title=${encodeURIComponent(title)}`}
-            className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-bold rounded-xl transition-colors text-sm"
+            className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-bold rounded-lg transition-colors text-xs md:text-sm"
           >
-            <Eye className="w-4 h-4" />
+            <Eye className="w-3.5 h-3.5" />
             عرض
           </Link>
         )}
         <a
           href={fileUrl}
+          download={title}
           target="_blank"
           rel="noopener noreferrer"
-          download
-          className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold rounded-xl transition-colors text-sm shadow-sm"
+          className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-sky-500/10 hover:bg-sky-500/20 text-sky-600 dark:text-sky-400 font-bold rounded-lg transition-colors text-xs md:text-sm"
         >
-          <Download className="w-4 h-4" />
+          <Download className="w-3.5 h-3.5" />
           تحميل
         </a>
       </div>

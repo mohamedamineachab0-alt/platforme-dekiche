@@ -123,7 +123,7 @@ export default async function LessonStudyViewPage({
         
         {/* 2. Lesson Header */}
         <div className="text-center md:text-right px-4">
-          <h1 className="text-xl md:text-2xl lg:text-4xl leading-snug font-black text-slate-900 dark:text-blue-950 mb-3 tracking-tight truncate">{lesson.title}</h1>
+          <h1 className="text-lg md:text-2xl lg:text-3xl leading-snug font-black text-slate-900 dark:text-blue-950 mb-3 tracking-tight">{lesson.title}</h1>
           <p className="text-slate-500 dark:text-slate-400 font-medium text-base md:text-lg max-w-3xl leading-relaxed">استمتع بمشاهدة الدرس ولا تتردد في تحميل الملحقات وحل الكويز لاختبار فهمك</p>
         </div>
 
@@ -229,7 +229,7 @@ export default async function LessonStudyViewPage({
                     </div>
                   </div>
                   <div className="flex flex-col justify-center py-1 min-w-0">
-                    <h3 className="font-bold text-slate-900 dark:text-slate-100 truncate text-sm md:text-base leading-snug group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
+                    <h3 className="font-bold text-slate-900 dark:text-slate-100 line-clamp-2 text-sm md:text-base leading-snug group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
                       {nextLesson.title}
                     </h3>
                     <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 flex items-center gap-1.5">

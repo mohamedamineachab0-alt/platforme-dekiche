@@ -34,7 +34,8 @@ export default async function SubjectDetailsPage({
   if (!subject) redirect("/dashboard/student/subjects");
 
   const allLessons = await prisma.lesson.findMany({
-    where: { subjectIds: { has: id } },
+    where: { subjectId: id },
+    include: { materials: true, quiz: true, subject: true },
     orderBy: { createdAt: "asc" }
   });
 

@@ -136,18 +136,7 @@ export async function createLesson(formData: FormData): Promise<ActionState> {
     const streams = validation.data.settings.streams as any[];
     const isPublished = validation.data.settings.isPublished;
 
-    // Fetch matching subjects based on levels and streams if provided
-    const matchingSubjects = (levels.length > 0 || streams.length > 0) ? await prisma.subject.findMany({
-      where: {
-        ...(levels.length > 0 && { levels: { hasSome: levels } }),
-        ...(streams.length > 0 && { streams: { hasSome: streams } })
-      }
-    }) : [];
-
-    const subjectIds = Array.from(new Set([
-      validation.data.subjectId, 
-      ...matchingSubjects.map((s: any) => s.id)
-    ]));
+    const subjectIds = [validation.data.subjectId];
 
     const lesson = await prisma.lesson.create({
       data: {

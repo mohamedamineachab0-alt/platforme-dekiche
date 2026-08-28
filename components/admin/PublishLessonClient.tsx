@@ -16,6 +16,9 @@ export function PublishLessonClient({
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState("");
   const [isPublishing, setIsPublishing] = useState(false);
+  const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
+  const [selectedStreams, setSelectedStreams] = useState<string[]>([]);
+  const [isPublished, setIsPublished] = useState(true);
 
   // Quiz State
   const [hasQuiz, setHasQuiz] = useState<"yes" | "no">("no");
@@ -56,6 +59,12 @@ export function PublishLessonClient({
         questions: manualQuestions
       }));
     }
+
+    formData.set("settings", JSON.stringify({
+      levels: selectedLevels,
+      streams: selectedStreams,
+      isPublished: isPublished
+    }));
 
     const res = await action(formData);
     
@@ -211,11 +220,92 @@ export function PublishLessonClient({
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700">وصف الدرس <span className="text-red-500">*</span></label>
                   <textarea 
+                    name="description"
                     required 
                     rows={3} 
                     className="w-full px-5 py-4 rounded-2xl border border-slate-200 bg-slate-50/50 text-sm font-bold focus:outline-none focus:ring-4 focus:ring-sky-500/10 focus:border-sky-500 transition-all resize-none text-slate-700 placeholder:text-slate-400" 
                     placeholder="مفاهيم أساسية حول..."
                   ></textarea>
+                </div>
+
+                {/* Level and Stream Selection */}
+                <div className="pt-4 border-t border-slate-100 space-y-4">
+                  <h3 className="font-black text-slate-800 text-lg">إعدادات النشر والمستويات (اختياري)</h3>
+                  
+                  <div className="flex items-center gap-3 p-4 bg-sky-50 rounded-2xl border border-sky-100">
+                    <input 
+                      type="checkbox" 
+                      id="isPublished" 
+                      checked={isPublished}
+                      onChange={(e) => setIsPublished(e.target.checked)}
+                      className="w-5 h-5 text-sky-600 rounded border-slate-300 focus:ring-sky-500"
+                    />
+                    <label htmlFor="isPublished" className="text-sm font-bold text-slate-700 cursor-pointer">
+                      نشر الدرس فوراً (يظهر للطلاب مباشرة)
+                    </label>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-slate-700">المستويات المعنية بالدرس</label>
+                    <div className="flex flex-wrap gap-2">
+                      {["AS2", "AS3"].map(level => (
+                        <button
+                          key={level}
+                          type="button"
+                          onClick={() => {
+                            if (selectedLevels.includes(level)) {
+                              setSelectedLevels(selectedLevels.filter(l => l !== level));
+                            } else {
+                              setSelectedLevels([...selectedLevels, level]);
+                            }
+                          }}
+                          className={`px-4 py-2 rounded-xl text-sm font-bold transition-all border ${
+                            selectedLevels.includes(level) 
+                              ? 'bg-sky-500 text-white border-sky-500' 
+                              : 'bg-white text-slate-600 border-slate-200 hover:border-sky-300'
+                          }`}
+                        >
+                          {level === "AS2" ? "السنة الثانية" : "السنة الثالثة"}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-slate-700">الشعب المعنية بالدرس</label>
+                    <div className="flex flex-wrap gap-2">
+                      {[
+                        { id: "SCIENCES", label: "علوم تجريبية" },
+                        { id: "MATH", label: "رياضيات" },
+                        { id: "TECH_MATH", label: "تقني رياضي" },
+                        { id: "GESTION", label: "تسيير واقتصاد" },
+                        { id: "LETTRES", label: "آداب وفلسفة" },
+                        { id: "LANGUAGES", label: "لغات أجنبية" },
+                      ].map(stream => (
+                        <button
+                          key={stream.id}
+                          type="button"
+                          onClick={() => {
+                            if (selectedStreams.includes(stream.id)) {
+                              setSelectedStreams(selectedStreams.filter(s => s !== stream.id));
+                            } else {
+                              setSelectedStreams([...selectedStreams, stream.id]);
+                            }
+                          }}
+                          className={`px-4 py-2 rounded-xl text-sm font-bold transition-all border ${
+                            selectedStreams.includes(stream.id) 
+                              ? 'bg-sky-500 text-white border-sky-500' 
+                              : 'bg-white text-slate-600 border-slate-200 hover:border-sky-300'
+                          }`}
+                        >
+                          {stream.label}
+                        </button>
+                      ))}
+                    </div>
+                    <p className="text-xs text-slate-500 font-medium mt-1">
+                      (ملاحظة: سيتم إضافة الدرس تلقائياً لجميع المواد التي تتطابق مع هذه المستويات والشعب، إن وجدت)
+                    </p>
+                  </div>
                 </div>
 
                 <div className="pt-4 border-t border-slate-100 space-y-5">

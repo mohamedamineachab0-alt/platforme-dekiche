@@ -39,6 +39,11 @@ const LessonSchema = z.object({
   subjectId: z.string().min(1, "المادة مطلوبة"),
   month: z.number().min(1).max(12),
   vimeoVideoId: z.string().min(1, "رابط الفيديو مطلوب"),
+  settings: z.object({
+    streams: z.array(z.string()).default([]),
+    levels: z.array(z.string()).default([]),
+    isPublished: z.boolean().default(true)
+  }).optional().default({ streams: [], levels: [], isPublished: true }),
   quiz: z.object({
     maxScore: z.number(),
     aiGenerated: z.boolean(),
@@ -64,13 +69,22 @@ export async function createLesson(formData: FormData): Promise<ActionState> {
     }
   }
 
+  let settingsConfig = undefined;
+  const settingsStr = formData.get("settings") as string | null;
+  if (settingsStr) {
+    try {
+      settingsConfig = JSON.parse(settingsStr);
+    } catch(e) {}
+  }
+
   const validation = LessonSchema.safeParse({
     title,
     description,
     subjectId,
     month,
     vimeoVideoId,
-    quiz: quizConfig
+    quiz: quizConfig,
+    settings: settingsConfig
   });
 
   if (!validation.success) {
@@ -112,15 +126,35 @@ export async function createLesson(formData: FormData): Promise<ActionState> {
         }
       }
     }
+    const levels = validation.data.settings.levels as any[];
+    const streams = validation.data.settings.streams as any[];
+    const isPublished = validation.data.settings.isPublished;
+
+    // Fetch matching subjects based on levels and streams if provided
+    const matchingSubjects = (levels.length > 0 || streams.length > 0) ? await prisma.subject.findMany({
+      where: {
+        ...(levels.length > 0 && { levels: { hasSome: levels } }),
+        ...(streams.length > 0 && { streams: { hasSome: streams } })
+      }
+    }) : [];
+
+    const subjectIds = Array.from(new Set([
+      validation.data.subjectId, 
+      ...matchingSubjects.map((s: any) => s.id)
+    ]));
+
     const lesson = await prisma.lesson.create({
       data: {
         title: validation.data.title,
         description: validation.data.description,
         subjectId: validation.data.subjectId,
-        subjectIds: [validation.data.subjectId], // Simplify for now
+        subjectIds: subjectIds,
         month: validation.data.month,
         vimeoVideoId: validation.data.vimeoVideoId,
         image: imageUrl,
+        levels: levels,
+        streams: streams,
+        isPublished: isPublished,
         materials: {
           create: uploadedMaterials,
         },

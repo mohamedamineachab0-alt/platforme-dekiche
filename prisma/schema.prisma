@@ -92,32 +92,32 @@ enum Stream {
 }
 
 model User {
-  id                 String              @id @default(cuid())
-  fullName           String
-  phoneNumber        String              @unique
-  passwordHash       String              @default("")
-  avatarUrl          String?
-  role               Role
-  createdAt          DateTime            @default(now())
-  updatedAt          DateTime            @updatedAt
-  studentProfile     StudentProfile?
-  parentProfile      ParentProfile?
-  teacherProfile     Teacher?
-  parentLinks        ParentStudentLink[] @relation("ParentLink")
-  studentLinks       ParentStudentLink[] @relation("StudentLink")
-  lastLoginAt        DateTime            @default(now())
-  deviceFingerprints String[]            @default([])
-  failedLoginAttempts Int                @default(0)
-  lockedUntil        DateTime?
-  accessCodes        AccessCode[]
-  mistakes           StudentMistake[]
-  submissions        StudentSubmission[] @relation("StudentSubmissions")
-  enrollments        Enrollment[]        @relation("StudentEnrollments")
-  chatSessions       ChatSession[]
-  parentTickets      ParentTicket[]
-  forumMessages      ForumMessage[]
-  friendLinksSource  StudentFriendLink[] @relation("StudentLinkSource")
-  friendLinksTarget  StudentFriendLink[] @relation("StudentLinkTarget")
+  id                   String                @id @default(cuid())
+  fullName             String
+  phoneNumber          String                @unique
+  passwordHash         String                @default("")
+  avatarUrl            String?
+  role                 Role
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  studentProfile       StudentProfile?
+  parentProfile        ParentProfile?
+  teacherProfile       Teacher?
+  parentLinks          ParentStudentLink[]   @relation("ParentLink")
+  studentLinks         ParentStudentLink[]   @relation("StudentLink")
+  lastLoginAt          DateTime              @default(now())
+  deviceFingerprints   String[]              @default([])
+  failedLoginAttempts  Int                   @default(0)
+  lockedUntil          DateTime?
+  accessCodes          AccessCode[]
+  mistakes             StudentMistake[]
+  submissions          StudentSubmission[]   @relation("StudentSubmissions")
+  enrollments          Enrollment[]          @relation("StudentEnrollments")
+  chatSessions         ChatSession[]
+  parentTickets        ParentTicket[]
+  forumMessages        ForumMessage[]
+  friendLinksSource    StudentFriendLink[]   @relation("StudentLinkSource")
+  friendLinksTarget    StudentFriendLink[]   @relation("StudentLinkTarget")
   subscriptionRequests SubscriptionRequest[]
 }
 
@@ -154,48 +154,50 @@ model Teacher {
 }
 
 model Subject {
-  id          String       @id @default(uuid())
-  title       String
-  description String
-  teacherName String
-  teacherId   String?
-  teacher     Teacher?     @relation(fields: [teacherId], references: [id])
-  level       Level
-  stream      Stream
-  levels      Level[]      @default([])
-  streams     Stream[]     @default([])
-  image       String // Square image URL from Supabase Storage
-  price       Float
-  accessType  String // 'MONTHLY' or 'YEARLY'
-  isPublished Boolean      @default(false)
-  lessons     Lesson[] // One-to-many relation
-  liveClasses LiveClass[] // One-to-many relation
-  codes       AccessCode[] // One-to-many relation
-  enrollments Enrollment[]
-  dailyExercises DailyExercise[] @relation("PrimarySubject")
+  id                      String          @id @default(uuid())
+  title                   String
+  description             String
+  teacherName             String
+  teacherId               String?
+  teacher                 Teacher?        @relation(fields: [teacherId], references: [id])
+  level                   Level
+  stream                  Stream
+  levels                  Level[]         @default([])
+  streams                 Stream[]        @default([])
+  image                   String // Square image URL from Supabase Storage
+  price                   Float
+  accessType              String // 'MONTHLY' or 'YEARLY'
+  isPublished             Boolean         @default(false)
+  lessons                 Lesson[] // One-to-many relation
+  liveClasses             LiveClass[] // One-to-many relation
+  codes                   AccessCode[] // One-to-many relation
+  enrollments             Enrollment[]
+  dailyExercises          DailyExercise[] @relation("PrimarySubject")
   secondaryDailyExercises DailyExercise[] @relation("SecondarySubject")
-  exams       Exam[]       @relation("ExamSubject")
-  secondaryExams Exam[]    @relation("ExamSecondarySubject")
-  reviewCards ReviewCard[]
-  classForums ClassForum[]
-  createdAt   DateTime     @default(now())
+  exams                   Exam[]          @relation("ExamSubject")
+  secondaryExams          Exam[]          @relation("ExamSecondarySubject")
+  reviewCards             ReviewCard[]
+  classForums             ClassForum[]
+  createdAt               DateTime        @default(now())
 }
 
 model Lesson {
-  id        String           @id @default(uuid())
-  title     String
-  month     Int // e.g., 1, 2, 3
+  id           String           @id @default(uuid())
+  title        String
+  month        Int // e.g., 1, 2, 3
   vimeoVideoId String // Vimeo video ID
-  image     String? // Square image URL for the lesson from Supabase Storage
-  description String? @db.Text
-  subjectId String
-  subject   Subject          @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  subjectIds String[]        @default([])
-  streams   Stream[]         @default([])
-  quiz      Quiz? // One-to-one relation with AI Quiz
-  mistakes  StudentMistake[]
-  materials LessonMaterial[]
-  createdAt DateTime         @default(now())
+  image        String? // Square image URL for the lesson from Supabase Storage
+  description  String?          @db.Text
+  subjectId    String
+  subject      Subject          @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  subjectIds   String[]         @default([])
+  streams      Stream[]         @default([])
+  levels       Level[]          @default([])
+  isPublished  Boolean          @default(true)
+  quiz         Quiz? // One-to-one relation with AI Quiz
+  mistakes     StudentMistake[]
+  materials    LessonMaterial[]
+  createdAt    DateTime         @default(now())
 }
 
 model LessonMaterial {
@@ -224,19 +226,19 @@ model Quiz {
 }
 
 model AccessCode {
-  id           String   @id @default(uuid())
-  code         String   @unique
-  accessType   String // 'MONTHLY' or 'YEARLY'
-  validMonths  Int[]    @default([]) // Exact months this code unlocks (e.g. [9, 10] for Sept/Oct)
-  validDays    Int?     // Number of days valid from redemption
-  isUsed       Boolean  @default(false)
-  studentId    String? // Relation to the User/Student model
-  user         User?    @relation(fields: [studentId], references: [id])
-  subjectId    String
-  subject      Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  startDate    DateTime?
-  endDate      DateTime?
-  createdAt    DateTime @default(now())
+  id          String    @id @default(uuid())
+  code        String    @unique
+  accessType  String // 'MONTHLY' or 'YEARLY'
+  validMonths Int[]     @default([]) // Exact months this code unlocks (e.g. [9, 10] for Sept/Oct)
+  validDays   Int? // Number of days valid from redemption
+  isUsed      Boolean   @default(false)
+  studentId   String? // Relation to the User/Student model
+  user        User?     @relation(fields: [studentId], references: [id])
+  subjectId   String
+  subject     Subject   @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime  @default(now())
 }
 
 model ParentStudentLink {
@@ -286,14 +288,14 @@ model StudentMistake {
 }
 
 model Enrollment {
-  id             String   @id @default(uuid())
+  id             String    @id @default(uuid())
   studentId      String
-  student        User     @relation("StudentEnrollments", fields: [studentId], references: [id], onDelete: Cascade)
+  student        User      @relation("StudentEnrollments", fields: [studentId], references: [id], onDelete: Cascade)
   subjectId      String
-  subject        Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  enrolledMonths Int[]    @default([]) // Exact months unlocked
+  subject        Subject   @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  enrolledMonths Int[]     @default([]) // Exact months unlocked
   validUntil     DateTime? // Expiration date if unlocked via time-based code
-  createdAt      DateTime @default(now())
+  createdAt      DateTime  @default(now())
 
   @@unique([studentId, subjectId])
 }
@@ -322,54 +324,54 @@ model ChatMessage {
   id            String      @id @default(uuid())
   chatSessionId String
   chatSession   ChatSession @relation(fields: [chatSessionId], references: [id], onDelete: Cascade)
-  role          String      // 'user' or 'assistant'
+  role          String // 'user' or 'assistant'
   content       String
   createdAt     DateTime    @default(now())
 }
 
 model DailyExercise {
-  id         String   @id @default(uuid())
-  title      String
-  a4ImageUrl String
-  maxScore   Int      @default(20)
-  level      Level
-  stream     Stream
-  subjectId  String
-  subject    Subject  @relation("PrimarySubject", fields: [subjectId], references: [id], onDelete: Cascade)
+  id                 String             @id @default(uuid())
+  title              String
+  a4ImageUrl         String
+  maxScore           Int                @default(20)
+  level              Level
+  stream             Stream
+  subjectId          String
+  subject            Subject            @relation("PrimarySubject", fields: [subjectId], references: [id], onDelete: Cascade)
   secondarySubjectId String?
-  secondarySubject   Subject? @relation("SecondarySubject", fields: [secondarySubjectId], references: [id], onDelete: SetNull)
-  month      Int
-  quiz       Quiz?
-  materials  ExerciseMaterial[]
-  createdAt  DateTime @default(now())
+  secondarySubject   Subject?           @relation("SecondarySubject", fields: [secondarySubjectId], references: [id], onDelete: SetNull)
+  month              Int
+  quiz               Quiz?
+  materials          ExerciseMaterial[]
+  createdAt          DateTime           @default(now())
 }
 
 model ExerciseMaterial {
-  id              String         @id @default(uuid())
+  id              String        @id @default(uuid())
   title           String
   fileUrl         String
   fileType        String?
   dailyExerciseId String
-  dailyExercise   DailyExercise  @relation(fields: [dailyExerciseId], references: [id], onDelete: Cascade)
-  createdAt       DateTime       @default(now())
+  dailyExercise   DailyExercise @relation(fields: [dailyExerciseId], references: [id], onDelete: Cascade)
+  createdAt       DateTime      @default(now())
 }
 
 model Exam {
-  id         String   @id @default(uuid())
-  title      String
-  subjectId  String
-  subject    Subject  @relation("ExamSubject", fields: [subjectId], references: [id], onDelete: Cascade)
+  id                 String              @id @default(uuid())
+  title              String
+  subjectId          String
+  subject            Subject             @relation("ExamSubject", fields: [subjectId], references: [id], onDelete: Cascade)
   secondarySubjectId String?
-  secondarySubject   Subject? @relation("ExamSecondarySubject", fields: [secondarySubjectId], references: [id])
-  level      Level
-  stream     Stream
-  month      Int
-  a4ImageUrl String
-  maxScore   Int      @default(20)
-  quiz       Quiz?
-  materials  ExamMaterial[]
-  submissions StudentSubmission[]
-  createdAt  DateTime @default(now())
+  secondarySubject   Subject?            @relation("ExamSecondarySubject", fields: [secondarySubjectId], references: [id])
+  level              Level
+  stream             Stream
+  month              Int
+  a4ImageUrl         String
+  maxScore           Int                 @default(20)
+  quiz               Quiz?
+  materials          ExamMaterial[]
+  submissions        StudentSubmission[]
+  createdAt          DateTime            @default(now())
 }
 
 model ExamMaterial {
@@ -383,19 +385,19 @@ model ExamMaterial {
 }
 
 model StudentSubmission {
-  id          String   @id @default(uuid())
-  examId      String
-  exam        Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
-  studentId   String
-  student     User     @relation("StudentSubmissions", fields: [studentId], references: [id], onDelete: Cascade)
-  imageUrl    String?
-  fileUrl     String?
-  fileType    String?
-  score       Int?
-  feedback    String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
+  id        String   @id @default(uuid())
+  examId    String
+  exam      Exam     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  studentId String
+  student   User     @relation("StudentSubmissions", fields: [studentId], references: [id], onDelete: Cascade)
+  imageUrl  String?
+  fileUrl   String?
+  fileType  String?
+  score     Int?
+  feedback  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@unique([examId, studentId])
 }
 
@@ -425,27 +427,27 @@ model ReviewCard {
 }
 
 model ClassForum {
-  id          String         @id @default(cuid())
-  title       String
-  subjectId   String
-  subject     Subject        @relation(fields: [subjectId], references: [id], onDelete: Cascade)
-  level       Level
-  stream      Stream
-  month       Int
-  isOpen      Boolean        @default(true)
-  messages    ForumMessage[]
-  createdAt   DateTime       @default(now())
-  updatedAt   DateTime       @updatedAt
+  id        String         @id @default(cuid())
+  title     String
+  subjectId String
+  subject   Subject        @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  level     Level
+  stream    Stream
+  month     Int
+  isOpen    Boolean        @default(true)
+  messages  ForumMessage[]
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
 }
 
 model ForumMessage {
-  id          String      @id @default(cuid())
-  forumId     String
-  forum       ClassForum  @relation(fields: [forumId], references: [id], onDelete: Cascade)
-  userId      String
-  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  content     String
-  createdAt   DateTime    @default(now())
+  id        String     @id @default(cuid())
+  forumId   String
+  forum     ClassForum @relation(fields: [forumId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  content   String
+  createdAt DateTime   @default(now())
 }
 
 model ParentTicket {

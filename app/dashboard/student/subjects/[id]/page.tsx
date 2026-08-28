@@ -28,15 +28,15 @@ export default async function SubjectDetailsPage({
 
   // Fetch subject and enrollment first to get enrolledMonths
   const subject = await prisma.subject.findUnique({
-    where: { id },
-    include: {
-      lessons: {
-        orderBy: { createdAt: "asc" }
-      },
-    }
+    where: { id }
   });
 
   if (!subject) redirect("/dashboard/student/subjects");
+
+  const allLessons = await prisma.lesson.findMany({
+    where: { subjectIds: { has: id } },
+    orderBy: { createdAt: "asc" }
+  });
 
   let enrollment = await prisma.enrollment.findUnique({
     where: {
@@ -108,8 +108,17 @@ export default async function SubjectDetailsPage({
     }),
   ]);
 
-  // Lessons filtered by enrolled months
-  const accessibleLessons = subject.lessons.filter(l => enrolledMonths.includes(l.month));
+  const student = await prisma.user.findUnique({ where: { id: sessionId } });
+
+  // Lessons filtered by enrolled months, publish status, stream and level
+  const accessibleLessons = allLessons.filter(l => {
+    const isEnrolledInMonth = enrolledMonths.includes(l.month);
+    const isPublished = l.isPublished !== false;
+    const matchesLevel = l.levels.length === 0 || (student && l.levels.includes(student.level as any));
+    const matchesStream = l.streams.length === 0 || (student && l.streams.includes(student.stream as any));
+    
+    return isEnrolledInMonth && isPublished && matchesLevel && matchesStream;
+  });
 
   return (
     <div className="font-arabic" dir="rtl">

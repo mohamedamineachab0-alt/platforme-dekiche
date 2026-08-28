@@ -24,11 +24,22 @@ export default async function StudentSubjectsPage() {
   const subjects = await prisma.subject.findMany({
     where: {
       isPublished: true,
-      level,
-      OR: [
-        { stream },
-        { stream: "ALL" },
-        { stream: "COMMON_TRUNK" } // or whatever logic applies
+      AND: [
+        {
+          OR: [
+            { level },
+            { levels: { has: level as any } }
+          ]
+        },
+        {
+          OR: [
+            { stream },
+            { stream: "ALL" },
+            { stream: "COMMON_TRUNK" },
+            { streams: { has: stream as any } },
+            { streams: { has: "ALL" as any } }
+          ]
+        }
       ]
     },
     include: { teacher: true },
@@ -56,32 +67,31 @@ export default async function StudentSubjectsPage() {
                 <div className="aspect-video w-full relative bg-slate-100 dark:bg-slate-800 overflow-hidden">
                   <img src={subject.image} alt={subject.title} className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500" />
                   
-                  {/* Status Badge */}
-                  <div className="absolute top-3 right-3">
-                    {isEnrolled ? (
-                      <div className="bg-green-500/90 backdrop-blur-md text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-lg">
-                        <Unlock className="w-3.5 h-3.5" /> تم الفتح
-                      </div>
-                    ) : isExpired ? (
-                      <div className="bg-red-500/90 backdrop-blur-md text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-lg">
-                        <Lock className="w-3.5 h-3.5" /> منتهي الصلاحية
-                      </div>
-                    ) : subject.price && subject.price > 0 ? (
-                      <div className="bg-slate-900/80 backdrop-blur-md text-white px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5 shadow-lg">
-                        <Lock className="w-3.5 h-3.5" /> مغلق
-                      </div>
-                    ) : null}
-                  </div>
+
                 </div>
                 
                 <div className="p-5 flex-1 flex flex-col">
                   <h3 className="font-black text-lg text-slate-900 dark:text-white line-clamp-1">{subject.title}</h3>
                   <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 line-clamp-2 leading-relaxed">{subject.description}</p>
                   
-                  <div className="mt-4 mb-5">
+                  <div className="mt-4 mb-5 flex items-center justify-between">
                     <span className="text-xs font-bold text-slate-600 dark:text-slate-300 bg-slate-50/80 backdrop-blur-sm dark:bg-slate-800/80 px-2 py-1 rounded-md">
                       الأستاذ {subject.teacherName}
                     </span>
+                    {/* Status Badge */}
+                    {isEnrolled ? (
+                      <div className="bg-green-100 text-green-700 px-2.5 py-1 rounded-md text-[11px] font-bold flex items-center gap-1">
+                        <Unlock className="w-3 h-3" /> تم الفتح
+                      </div>
+                    ) : isExpired ? (
+                      <div className="bg-red-100 text-red-700 px-2.5 py-1 rounded-md text-[11px] font-bold flex items-center gap-1">
+                        <Lock className="w-3 h-3" /> منتهي الصلاحية
+                      </div>
+                    ) : subject.price && subject.price > 0 ? (
+                      <div className="bg-slate-100 text-slate-700 px-2.5 py-1 rounded-md text-[11px] font-bold flex items-center gap-1">
+                        <Lock className="w-3 h-3" /> مغلق
+                      </div>
+                    ) : null}
                   </div>
 
                   <div className="mt-auto">

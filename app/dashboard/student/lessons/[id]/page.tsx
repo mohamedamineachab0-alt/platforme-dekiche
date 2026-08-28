@@ -49,25 +49,39 @@ export default async function LessonStudyViewPage({
     where: {
       subjectId: lesson.subjectId,
       isPublished: true,
-      createdAt: {
-        gt: lesson.createdAt
-      }
+      createdAt: { gt: lesson.createdAt }
     },
     orderBy: { createdAt: 'asc' },
     include: { subject: true }
   });
 
+  const prevLessonsRaw = await prisma.lesson.findMany({
+    where: {
+      subjectId: lesson.subjectId,
+      isPublished: true,
+      createdAt: { lt: lesson.createdAt }
+    },
+    orderBy: { createdAt: 'desc' },
+    include: { subject: true }
+  });
+
   let nextLessons = nextLessonsRaw;
+  let prevLessons = prevLessonsRaw;
   if (student) {
     const studentLevel = student.level;
     const studentStream = student.stream;
-    nextLessons = nextLessonsRaw.filter(l => {
-      const matchesLevel = l.levels.length === 0 || (l.levels as any[]).includes(studentLevel);
-      const matchesStream = l.streams.length === 0 || (l.streams as any[]).includes(studentStream);
+    
+    const filterFn = (l: any) => {
+      const matchesLevel = l.levels.length === 0 || l.levels.includes(studentLevel);
+      const matchesStream = l.streams.length === 0 || l.streams.includes(studentStream);
       return matchesLevel && matchesStream;
-    }).slice(0, 4);
+    };
+    
+    nextLessons = nextLessonsRaw.filter(filterFn).slice(0, 4);
+    prevLessons = prevLessonsRaw.filter(filterFn).slice(0, 4);
   } else {
     nextLessons = nextLessonsRaw.slice(0, 4);
+    prevLessons = prevLessonsRaw.slice(0, 4);
   }
   
   if (!isUnlocked) {
@@ -236,6 +250,46 @@ export default async function LessonStudyViewPage({
                       <span className="bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md font-bold">الشهر {nextLesson.month}</span>
                       <span>•</span>
                       <span>{nextLesson.subject.teacherName}</span>
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 5. Previous Lessons Section */}
+        {prevLessons.length > 0 && (
+          <div className="pt-8 mt-8 border-t border-slate-200 dark:border-slate-800">
+            <div className="flex items-center gap-2 mb-6 px-4">
+              <ListVideo className="w-6 h-6 text-slate-400 dark:text-slate-500" />
+              <h2 className="text-2xl font-black text-slate-900 dark:text-blue-950">الدروس السابقة</h2>
+            </div>
+            <div className="flex flex-col gap-4 px-4">
+              {prevLessons.map((prevLesson) => (
+                <Link
+                  href={`/dashboard/student/lessons/${prevLesson.id}`}
+                  key={prevLesson.id}
+                  className="flex items-center gap-4 p-3 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:border-slate-300 dark:hover:border-slate-700 hover:shadow-md transition-all group opacity-80 hover:opacity-100"
+                >
+                  <div className="relative w-32 md:w-40 aspect-video rounded-xl overflow-hidden shrink-0">
+                    <img 
+                      src={prevLesson.image || prevLesson.subject.image || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600&auto=format&fit=crop"} 
+                      alt={prevLesson.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 grayscale group-hover:grayscale-0"
+                    />
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors flex items-center justify-center">
+                      <PlayCircle className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity scale-75 group-hover:scale-100 duration-300" />
+                    </div>
+                  </div>
+                  <div className="flex flex-col justify-center py-1 min-w-0">
+                    <h3 className="font-bold text-slate-900 dark:text-slate-100 line-clamp-2 text-sm md:text-base leading-snug group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors">
+                      {prevLesson.title}
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 flex items-center gap-1.5">
+                      <span className="bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md font-bold">الشهر {prevLesson.month}</span>
+                      <span>•</span>
+                      <span>{prevLesson.subject.teacherName}</span>
                     </p>
                   </div>
                 </Link>

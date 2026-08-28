@@ -182,13 +182,14 @@ export default async function LessonStudyViewPage({
               
               <div className="mt-auto space-y-3">
                 {lesson.materials.length > 0 ? (
-                  <div className="grid grid-cols-2 gap-3 w-full">
+                  <div className="grid grid-cols-1 gap-3 w-full">
                     {lesson.materials.map(mat => (
                       <UniversalFileViewer
                         key={mat.id}
                         title={mat.title}
                         fileUrl={mat.fileUrl}
                         fileType={(mat as any).fileType}
+                        variant="compact"
                       />
                     ))}
                   </div>

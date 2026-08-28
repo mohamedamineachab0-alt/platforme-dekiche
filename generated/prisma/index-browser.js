@@ -190,6 +190,8 @@ exports.Prisma.LessonScalarFieldEnum = {
   subjectId: 'subjectId',
   subjectIds: 'subjectIds',
   streams: 'streams',
+  levels: 'levels',
+  isPublished: 'isPublished',
   createdAt: 'createdAt'
 };
 

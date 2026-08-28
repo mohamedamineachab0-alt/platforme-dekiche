@@ -108,14 +108,20 @@ export default async function SubjectDetailsPage({
     }),
   ]);
 
-  const student = await prisma.user.findUnique({ where: { id: sessionId } });
+  const student = await prisma.user.findUnique({ 
+    where: { id: sessionId },
+    include: { studentProfile: true }
+  });
 
   // Lessons filtered by enrolled months, publish status, stream and level
   const accessibleLessons = allLessons.filter(l => {
     const isEnrolledInMonth = enrolledMonths.includes(l.month);
-    const isPublished = l.isPublished !== false;
-    const matchesLevel = l.levels.length === 0 || (student && l.levels.includes(student.level as any));
-    const matchesStream = l.streams.length === 0 || (student && l.streams.includes(student.stream as any));
+    const isPublished = (l as any).isPublished !== false;
+    const studentLevel = student?.studentProfile?.level;
+    const studentStream = student?.studentProfile?.stream;
+    
+    const matchesLevel = (l as any).levels.length === 0 || (studentLevel && (l as any).levels.includes(studentLevel));
+    const matchesStream = (l as any).streams.length === 0 || (studentStream && (l as any).streams.includes(studentStream));
     
     return isEnrolledInMonth && isPublished && matchesLevel && matchesStream;
   });

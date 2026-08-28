@@ -10368,6 +10368,7 @@ export namespace Prisma {
     image: string | null
     description: string | null
     subjectId: string | null
+    isPublished: boolean | null
     createdAt: Date | null
   }
 
@@ -10379,6 +10380,7 @@ export namespace Prisma {
     image: string | null
     description: string | null
     subjectId: string | null
+    isPublished: boolean | null
     createdAt: Date | null
   }
 
@@ -10392,6 +10394,8 @@ export namespace Prisma {
     subjectId: number
     subjectIds: number
     streams: number
+    levels: number
+    isPublished: number
     createdAt: number
     _all: number
   }
@@ -10413,6 +10417,7 @@ export namespace Prisma {
     image?: true
     description?: true
     subjectId?: true
+    isPublished?: true
     createdAt?: true
   }
 
@@ -10424,6 +10429,7 @@ export namespace Prisma {
     image?: true
     description?: true
     subjectId?: true
+    isPublished?: true
     createdAt?: true
   }
 
@@ -10437,6 +10443,8 @@ export namespace Prisma {
     subjectId?: true
     subjectIds?: true
     streams?: true
+    levels?: true
+    isPublished?: true
     createdAt?: true
     _all?: true
   }
@@ -10537,6 +10545,8 @@ export namespace Prisma {
     subjectId: string
     subjectIds: string[]
     streams: $Enums.Stream[]
+    levels: $Enums.Level[]
+    isPublished: boolean
     createdAt: Date
     _count: LessonCountAggregateOutputType | null
     _avg: LessonAvgAggregateOutputType | null
@@ -10569,6 +10579,8 @@ export namespace Prisma {
     subjectId?: boolean
     subjectIds?: boolean
     streams?: boolean
+    levels?: boolean
+    isPublished?: boolean
     createdAt?: boolean
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
     quiz?: boolean | Lesson$quizArgs<ExtArgs>
@@ -10587,6 +10599,8 @@ export namespace Prisma {
     subjectId?: boolean
     subjectIds?: boolean
     streams?: boolean
+    levels?: boolean
+    isPublished?: boolean
     createdAt?: boolean
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lesson"]>
@@ -10601,6 +10615,8 @@ export namespace Prisma {
     subjectId?: boolean
     subjectIds?: boolean
     streams?: boolean
+    levels?: boolean
+    isPublished?: boolean
     createdAt?: boolean
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["lesson"]>
@@ -10615,10 +10631,12 @@ export namespace Prisma {
     subjectId?: boolean
     subjectIds?: boolean
     streams?: boolean
+    levels?: boolean
+    isPublished?: boolean
     createdAt?: boolean
   }
 
-  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "month" | "vimeoVideoId" | "image" | "description" | "subjectId" | "subjectIds" | "streams" | "createdAt", ExtArgs["result"]["lesson"]>
+  export type LessonOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "month" | "vimeoVideoId" | "image" | "description" | "subjectId" | "subjectIds" | "streams" | "levels" | "isPublished" | "createdAt", ExtArgs["result"]["lesson"]>
   export type LessonInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     subject?: boolean | SubjectDefaultArgs<ExtArgs>
     quiz?: boolean | Lesson$quizArgs<ExtArgs>
@@ -10651,6 +10669,8 @@ export namespace Prisma {
       subjectId: string
       subjectIds: string[]
       streams: $Enums.Stream[]
+      levels: $Enums.Level[]
+      isPublished: boolean
       createdAt: Date
     }, ExtArgs["result"]["lesson"]>
     composites: {}
@@ -11088,6 +11108,8 @@ export namespace Prisma {
     readonly subjectId: FieldRef<"Lesson", 'String'>
     readonly subjectIds: FieldRef<"Lesson", 'String[]'>
     readonly streams: FieldRef<"Lesson", 'Stream[]'>
+    readonly levels: FieldRef<"Lesson", 'Level[]'>
+    readonly isPublished: FieldRef<"Lesson", 'Boolean'>
     readonly createdAt: FieldRef<"Lesson", 'DateTime'>
   }
     
@@ -36355,6 +36377,8 @@ export namespace Prisma {
     subjectId: 'subjectId',
     subjectIds: 'subjectIds',
     streams: 'streams',
+    levels: 'levels',
+    isPublished: 'isPublished',
     createdAt: 'createdAt'
   };
 
@@ -37304,6 +37328,8 @@ export namespace Prisma {
     subjectId?: StringFilter<"Lesson"> | string
     subjectIds?: StringNullableListFilter<"Lesson">
     streams?: EnumStreamNullableListFilter<"Lesson">
+    levels?: EnumLevelNullableListFilter<"Lesson">
+    isPublished?: BoolFilter<"Lesson"> | boolean
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
     quiz?: XOR<QuizNullableScalarRelationFilter, QuizWhereInput> | null
@@ -37321,6 +37347,8 @@ export namespace Prisma {
     subjectId?: SortOrder
     subjectIds?: SortOrder
     streams?: SortOrder
+    levels?: SortOrder
+    isPublished?: SortOrder
     createdAt?: SortOrder
     subject?: SubjectOrderByWithRelationInput
     quiz?: QuizOrderByWithRelationInput
@@ -37341,6 +37369,8 @@ export namespace Prisma {
     subjectId?: StringFilter<"Lesson"> | string
     subjectIds?: StringNullableListFilter<"Lesson">
     streams?: EnumStreamNullableListFilter<"Lesson">
+    levels?: EnumLevelNullableListFilter<"Lesson">
+    isPublished?: BoolFilter<"Lesson"> | boolean
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
     subject?: XOR<SubjectScalarRelationFilter, SubjectWhereInput>
     quiz?: XOR<QuizNullableScalarRelationFilter, QuizWhereInput> | null
@@ -37358,6 +37388,8 @@ export namespace Prisma {
     subjectId?: SortOrder
     subjectIds?: SortOrder
     streams?: SortOrder
+    levels?: SortOrder
+    isPublished?: SortOrder
     createdAt?: SortOrder
     _count?: LessonCountOrderByAggregateInput
     _avg?: LessonAvgOrderByAggregateInput
@@ -37379,6 +37411,8 @@ export namespace Prisma {
     subjectId?: StringWithAggregatesFilter<"Lesson"> | string
     subjectIds?: StringNullableListFilter<"Lesson">
     streams?: EnumStreamNullableListFilter<"Lesson">
+    levels?: EnumLevelNullableListFilter<"Lesson">
+    isPublished?: BoolWithAggregatesFilter<"Lesson"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Lesson"> | Date | string
   }
 
@@ -39454,6 +39488,8 @@ export namespace Prisma {
     description?: string | null
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
+    isPublished?: boolean
     createdAt?: Date | string
     subject: SubjectCreateNestedOneWithoutLessonsInput
     quiz?: QuizCreateNestedOneWithoutLessonInput
@@ -39471,6 +39507,8 @@ export namespace Prisma {
     subjectId: string
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
+    isPublished?: boolean
     createdAt?: Date | string
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
     mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutLessonInput
@@ -39486,6 +39524,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subject?: SubjectUpdateOneRequiredWithoutLessonsNestedInput
     quiz?: QuizUpdateOneWithoutLessonNestedInput
@@ -39503,6 +39543,8 @@ export namespace Prisma {
     subjectId?: StringFieldUpdateOperationsInput | string
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
@@ -39519,6 +39561,8 @@ export namespace Prisma {
     subjectId: string
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
+    isPublished?: boolean
     createdAt?: Date | string
   }
 
@@ -39531,6 +39575,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -39544,6 +39590,8 @@ export namespace Prisma {
     subjectId?: StringFieldUpdateOperationsInput | string
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -41835,6 +41883,8 @@ export namespace Prisma {
     subjectId?: SortOrder
     subjectIds?: SortOrder
     streams?: SortOrder
+    levels?: SortOrder
+    isPublished?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -41850,6 +41900,7 @@ export namespace Prisma {
     image?: SortOrder
     description?: SortOrder
     subjectId?: SortOrder
+    isPublished?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -41861,6 +41912,7 @@ export namespace Prisma {
     image?: SortOrder
     description?: SortOrder
     subjectId?: SortOrder
+    isPublished?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -44032,6 +44084,10 @@ export namespace Prisma {
     set: $Enums.Stream[]
   }
 
+  export type LessonCreatelevelsInput = {
+    set: $Enums.Level[]
+  }
+
   export type SubjectCreateNestedOneWithoutLessonsInput = {
     create?: XOR<SubjectCreateWithoutLessonsInput, SubjectUncheckedCreateWithoutLessonsInput>
     connectOrCreate?: SubjectCreateOrConnectWithoutLessonsInput
@@ -44086,6 +44142,11 @@ export namespace Prisma {
   export type LessonUpdatestreamsInput = {
     set?: $Enums.Stream[]
     push?: $Enums.Stream | $Enums.Stream[]
+  }
+
+  export type LessonUpdatelevelsInput = {
+    set?: $Enums.Level[]
+    push?: $Enums.Level | $Enums.Level[]
   }
 
   export type SubjectUpdateOneRequiredWithoutLessonsNestedInput = {
@@ -46640,6 +46701,8 @@ export namespace Prisma {
     description?: string | null
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
+    isPublished?: boolean
     createdAt?: Date | string
     quiz?: QuizCreateNestedOneWithoutLessonInput
     mistakes?: StudentMistakeCreateNestedManyWithoutLessonInput
@@ -46655,6 +46718,8 @@ export namespace Prisma {
     description?: string | null
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
+    isPublished?: boolean
     createdAt?: Date | string
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
     mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutLessonInput
@@ -47047,6 +47112,8 @@ export namespace Prisma {
     subjectId?: StringFilter<"Lesson"> | string
     subjectIds?: StringNullableListFilter<"Lesson">
     streams?: EnumStreamNullableListFilter<"Lesson">
+    levels?: EnumLevelNullableListFilter<"Lesson">
+    isPublished?: BoolFilter<"Lesson"> | boolean
     createdAt?: DateTimeFilter<"Lesson"> | Date | string
   }
 
@@ -47558,6 +47625,8 @@ export namespace Prisma {
     description?: string | null
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
+    isPublished?: boolean
     createdAt?: Date | string
     subject: SubjectCreateNestedOneWithoutLessonsInput
     quiz?: QuizCreateNestedOneWithoutLessonInput
@@ -47574,6 +47643,8 @@ export namespace Prisma {
     subjectId: string
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
+    isPublished?: boolean
     createdAt?: Date | string
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
     mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutLessonInput
@@ -47604,6 +47675,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subject?: SubjectUpdateOneRequiredWithoutLessonsNestedInput
     quiz?: QuizUpdateOneWithoutLessonNestedInput
@@ -47620,6 +47693,8 @@ export namespace Prisma {
     subjectId?: StringFieldUpdateOperationsInput | string
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
@@ -47634,6 +47709,8 @@ export namespace Prisma {
     description?: string | null
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
+    isPublished?: boolean
     createdAt?: Date | string
     subject: SubjectCreateNestedOneWithoutLessonsInput
     mistakes?: StudentMistakeCreateNestedManyWithoutLessonInput
@@ -47650,6 +47727,8 @@ export namespace Prisma {
     subjectId: string
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
+    isPublished?: boolean
     createdAt?: Date | string
     mistakes?: StudentMistakeUncheckedCreateNestedManyWithoutLessonInput
     materials?: LessonMaterialUncheckedCreateNestedManyWithoutLessonInput
@@ -47776,6 +47855,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subject?: SubjectUpdateOneRequiredWithoutLessonsNestedInput
     mistakes?: StudentMistakeUpdateManyWithoutLessonNestedInput
@@ -47792,6 +47873,8 @@ export namespace Prisma {
     subjectId?: StringFieldUpdateOperationsInput | string
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
     materials?: LessonMaterialUncheckedUpdateManyWithoutLessonNestedInput
@@ -48745,6 +48828,8 @@ export namespace Prisma {
     description?: string | null
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
+    isPublished?: boolean
     createdAt?: Date | string
     subject: SubjectCreateNestedOneWithoutLessonsInput
     quiz?: QuizCreateNestedOneWithoutLessonInput
@@ -48761,6 +48846,8 @@ export namespace Prisma {
     subjectId: string
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
+    isPublished?: boolean
     createdAt?: Date | string
     quiz?: QuizUncheckedCreateNestedOneWithoutLessonInput
     materials?: LessonMaterialUncheckedCreateNestedManyWithoutLessonInput
@@ -48887,6 +48974,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subject?: SubjectUpdateOneRequiredWithoutLessonsNestedInput
     quiz?: QuizUpdateOneWithoutLessonNestedInput
@@ -48903,6 +48992,8 @@ export namespace Prisma {
     subjectId?: StringFieldUpdateOperationsInput | string
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
     materials?: LessonMaterialUncheckedUpdateManyWithoutLessonNestedInput
@@ -51889,6 +51980,8 @@ export namespace Prisma {
     description?: string | null
     subjectIds?: LessonCreatesubjectIdsInput | string[]
     streams?: LessonCreatestreamsInput | $Enums.Stream[]
+    levels?: LessonCreatelevelsInput | $Enums.Level[]
+    isPublished?: boolean
     createdAt?: Date | string
   }
 
@@ -52003,6 +52096,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUpdateOneWithoutLessonNestedInput
     mistakes?: StudentMistakeUpdateManyWithoutLessonNestedInput
@@ -52018,6 +52113,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     quiz?: QuizUncheckedUpdateOneWithoutLessonNestedInput
     mistakes?: StudentMistakeUncheckedUpdateManyWithoutLessonNestedInput
@@ -52033,6 +52130,8 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
     subjectIds?: LessonUpdatesubjectIdsInput | string[]
     streams?: LessonUpdatestreamsInput | $Enums.Stream[]
+    levels?: LessonUpdatelevelsInput | $Enums.Level[]
+    isPublished?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

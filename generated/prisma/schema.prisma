@@ -192,6 +192,8 @@ model Lesson {
   subject      Subject          @relation(fields: [subjectId], references: [id], onDelete: Cascade)
   subjectIds   String[]         @default([])
   streams      Stream[]         @default([])
+  levels       Level[]          @default([])
+  isPublished  Boolean          @default(true)
   quiz         Quiz? // One-to-one relation with AI Quiz
   mistakes     StudentMistake[]
   materials    LessonMaterial[]

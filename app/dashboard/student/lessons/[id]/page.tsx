@@ -1,7 +1,7 @@
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
-import { ChevronLeft, Download, FileText, CheckCircle2, Lock } from "lucide-react";
+import { ChevronLeft, Download, FileText, CheckCircle2, Lock, PlayCircle, ListVideo } from "lucide-react";
 import { UniversalFileViewer } from "@/components/shared/UniversalFileViewer";
 import Link from "next/link";
 
@@ -40,6 +40,35 @@ export default async function LessonStudyViewPage({
   if (!enrollment) redirect("/dashboard/student/subjects");
 
   const isUnlocked = enrollment.enrolledMonths.includes(lesson.month);
+  
+  const student = await prisma.studentProfile.findUnique({
+    where: { userId: sessionId }
+  });
+
+  const nextLessonsRaw = await prisma.lesson.findMany({
+    where: {
+      subjectId: lesson.subjectId,
+      isPublished: true,
+      createdAt: {
+        gt: lesson.createdAt
+      }
+    },
+    orderBy: { createdAt: 'asc' },
+    include: { subject: true }
+  });
+
+  let nextLessons = nextLessonsRaw;
+  if (student) {
+    const studentLevel = student.level;
+    const studentStream = student.stream;
+    nextLessons = nextLessonsRaw.filter(l => {
+      const matchesLevel = l.levels.length === 0 || (l.levels as any[]).includes(studentLevel);
+      const matchesStream = l.streams.length === 0 || (l.streams as any[]).includes(studentStream);
+      return matchesLevel && matchesStream;
+    }).slice(0, 4);
+  } else {
+    nextLessons = nextLessonsRaw.slice(0, 4);
+  }
   
   if (!isUnlocked) {
     return (
@@ -173,6 +202,46 @@ export default async function LessonStudyViewPage({
           </div>
           
         </div>
+        
+        {/* 4. Up Next Section */}
+        {nextLessons.length > 0 && (
+          <div className="pt-8 mt-8 border-t border-slate-200 dark:border-slate-800">
+            <div className="flex items-center gap-2 mb-6 px-4">
+              <ListVideo className="w-6 h-6 text-sky-500" />
+              <h2 className="text-2xl font-black text-slate-900 dark:text-blue-950">الدروس القادمة</h2>
+            </div>
+            <div className="flex flex-col gap-4 px-4">
+              {nextLessons.map((nextLesson) => (
+                <Link
+                  href={`/dashboard/student/lessons/${nextLesson.id}`}
+                  key={nextLesson.id}
+                  className="flex items-center gap-4 p-3 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:border-sky-200 dark:hover:border-sky-800/50 hover:shadow-md transition-all group"
+                >
+                  <div className="relative w-32 md:w-40 aspect-video rounded-xl overflow-hidden shrink-0">
+                    <img 
+                      src={nextLesson.image || nextLesson.subject.image || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600&auto=format&fit=crop"} 
+                      alt={nextLesson.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors flex items-center justify-center">
+                      <PlayCircle className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity scale-75 group-hover:scale-100 duration-300" />
+                    </div>
+                  </div>
+                  <div className="flex flex-col justify-center py-1">
+                    <h3 className="font-bold text-slate-900 dark:text-slate-100 line-clamp-2 text-sm md:text-base leading-snug group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
+                      {nextLesson.title}
+                    </h3>
+                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 flex items-center gap-1.5">
+                      <span className="bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md font-bold">الشهر {nextLesson.month}</span>
+                      <span>•</span>
+                      <span>{nextLesson.subject.teacherName}</span>
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
-const pdfParse = require('pdf-parse');
-const mammoth = require('mammoth');
+
+export const dynamic = 'force-dynamic';
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || 'user-BQRTDI4AAUJeJucXMheuuVME', // Fallback to existing project key
@@ -58,9 +58,11 @@ export async function POST(req: Request) {
         const base64Image = fileBuffer.toString('base64');
         userContent.push({ type: 'image_url', image_url: { url: `data:${mimeType};base64,${base64Image}` } });
       } else if (mimeType === 'application/pdf') {
+        const pdfParse = require('pdf-parse');
         const pdfData = await pdfParse(fileBuffer);
         userContent.push({ type: 'text', text: `Here is the extracted text from PDF document ${i + 1} (${file.name}):\n\n${pdfData.text}` });
       } else if (mimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' || mimeType === 'application/msword') {
+        const mammoth = require('mammoth');
         const result = await mammoth.extractRawText({ buffer: fileBuffer });
         userContent.push({ type: 'text', text: `Here is the extracted text from Word document ${i + 1} (${file.name}):\n\n${result.value}` });
       } else {

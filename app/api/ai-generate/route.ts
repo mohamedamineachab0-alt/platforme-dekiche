@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
-import pdfParse from 'pdf-parse';
-import mammoth from 'mammoth';
+const pdfParse = require('pdf-parse');
+const mammoth = require('mammoth');
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY || 'user-BQRTDI4AAUJeJucXMheuuVME', // Fallback to existing project key

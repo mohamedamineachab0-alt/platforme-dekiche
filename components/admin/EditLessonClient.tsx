@@ -322,7 +322,7 @@ export function EditLessonClient({
                           multiple
                           onChange={(e) => {
                             if (e.target.files) {
-                              setFiles(Array.from(e.target.files));
+                              setFiles(prev => [...prev, ...Array.from(e.target.files as FileList)]);
                             }
                           }}
                           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
@@ -480,10 +480,10 @@ export function EditLessonClient({
                               <BrainCircuit className="w-6 h-6" />
                             </div>
                             <span className="font-bold text-slate-700 text-sm mb-1">{aiImageFile ? aiImageFile.name : "اضغط لرفع صورة الدرس (ملخص/تمرين)"}</span>
-                            <span className="font-medium text-slate-500 text-xs text-center">سيقوم الذكاء الاصطناعي بقراءة الصورة وتوليد أسئلة دقيقة</span>
+                            <span className="font-medium text-slate-400 text-xs text-center max-w-[200px]">جميع صيغ الملفات مدعومة (الحد الأقصى 10MB)</span>
                             <input 
                               type="file" 
-                              accept="image/*"
+                              multiple
                               onChange={(e) => {
                                 if (e.target.files?.[0]) setAiImageFile(e.target.files[0]);
                               }}

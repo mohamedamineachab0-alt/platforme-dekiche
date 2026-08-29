@@ -337,13 +337,13 @@ export function PublishLessonClient({
                           <Upload className="w-6 h-6 text-sky-500" />
                         </div>
                         <span className="font-bold text-slate-700 text-sm mb-1">اضغط هنا أو قم بسحب الملفات</span>
-                        <span className="font-medium text-slate-400 text-xs text-center max-w-[200px]">PDF, DOCX, JPG (الحد الأقصى 10MB)</span>
+                        <span className="font-medium text-slate-400 text-xs text-center max-w-[200px]">جميع صيغ الملفات مدعومة (الحد الأقصى 10MB)</span>
                         <input 
                           type="file" 
                           multiple
                           onChange={(e) => {
                             if (e.target.files) {
-                              setFiles(Array.from(e.target.files));
+                              setFiles(prev => [...prev, ...Array.from(e.target.files as FileList)]);
                             }
                           }}
                           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 

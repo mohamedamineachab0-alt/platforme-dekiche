@@ -24,7 +24,9 @@ export function UniversalFileViewer({ title, fileUrl, fileType, variant = "defau
   const type = getFileType();
   const isImage = type.startsWith('image/');
   const isPdf = type === 'application/pdf';
-  const isViewable = isImage || isPdf;
+  const isWord = type === 'application/msword' || type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+  const isExcel = type.includes('excel') || type.includes('spreadsheet');
+  const isViewable = isImage || isPdf || isWord || isExcel;
 
   const renderIcon = (compact: boolean = false) => {
     const sizeClasses = compact ? "w-5 h-5" : "w-8 h-8";

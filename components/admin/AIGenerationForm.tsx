@@ -12,7 +12,8 @@ interface AIGenerationFormProps {
 
 export default function AIGenerationForm({ type }: AIGenerationFormProps) {
   const [isGenerating, setIsGenerating] = useState(false);
-  const [imageBase64, setImageBase64] = useState<string | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
+  const [customPrompt, setCustomPrompt] = useState<string>('');
   const [statusMsg, setStatusMsg] = useState<{ type: 'error' | 'success', text: string } | null>(null);
 
   const { register, control, handleSubmit, formState: { errors } } = useForm({
@@ -27,38 +28,40 @@ export default function AIGenerationForm({ type }: AIGenerationFormProps) {
     name: 'questions' 
   });
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => setImageBase64(reader.result as string);
-      reader.readAsDataURL(file);
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setSelectedFiles(prev => [...prev, ...Array.from(e.target.files as FileList)]);
       setStatusMsg(null);
     }
   };
 
   const handleGenerate = async (data: any) => {
-    if (!imageBase64) {
-      setStatusMsg({ type: 'error', text: 'Please upload an image first.' });
+    if (selectedFiles.length === 0) {
+      setStatusMsg({ type: 'error', text: 'Please upload at least one file.' });
       return;
     }
     
     setIsGenerating(true);
     setStatusMsg(null);
     try {
+      const formData = new FormData();
+      if (customPrompt) {
+        formData.append("customPrompt", customPrompt);
+      }
+      selectedFiles.forEach(file => {
+        formData.append("files", file);
+      });
+      formData.append("metadata", JSON.stringify(data.metadata));
+      formData.append("type", type);
+
       const res = await fetch('/api/ai-generate', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          imageBase64: imageBase64.split(',')[1], 
-          metadata: data.metadata, 
-          type 
-        })
+        body: formData
       });
 
       if (!res.ok) {
         const errorData = await res.json().catch(() => ({}));
-        throw new Error(errorData.error || 'Failed to generate questions, please try a clearer image');
+        throw new Error(errorData.error || 'Failed to generate questions, please try a clearer file');
       }
 
       const result = await res.json();
@@ -90,10 +93,28 @@ export default function AIGenerationForm({ type }: AIGenerationFormProps) {
 
         {/* Dropzone */}
         <div className="border-2 border-dashed border-neutral-800 rounded-xl p-10 text-center hover:bg-neutral-900/50 transition-colors relative group">
-          <input type="file" accept="image/*" onChange={handleImageUpload} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+          <input type="file" multiple accept="image/*,.pdf,.doc,.docx" onChange={handleFileUpload} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
           <UploadCloud className="mx-auto h-12 w-12 text-neutral-500 mb-3 group-hover:text-purple-500 transition-colors" />
-          <p className="text-sm text-neutral-400 font-medium">Drag & drop your file here, or click to select</p>
-          {imageBase64 && <p className="text-xs text-emerald-400 mt-2 font-semibold">Image loaded and ready for processing</p>}
+          <p className="text-sm text-neutral-400 font-medium">Drag & drop your files here, or click to select (Images, PDF, Word)</p>
+          {selectedFiles.length > 0 && (
+            <div className="mt-3 space-y-1">
+              <p className="text-xs text-emerald-400 font-semibold">{selectedFiles.length} file(s) loaded:</p>
+              {selectedFiles.map((f, idx) => (
+                <p key={idx} className="text-xs text-neutral-500">{f.name}</p>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Custom Prompt */}
+        <div>
+          <label className="block text-sm font-bold text-neutral-300 mb-2">تعليمات إضافية للذكاء الاصطناعي (اختياري)</label>
+          <textarea 
+            value={customPrompt}
+            onChange={(e) => setCustomPrompt(e.target.value)}
+            placeholder="مثال: ركز على وحدة الميكانيك وتجنب وحدة الكهرباء..."
+            className="w-full bg-neutral-900 border border-neutral-800 rounded-xl p-3 text-sm focus:ring-1 focus:ring-purple-500 outline-none resize-none h-20"
+          />
         </div>
 
         {statusMsg && (

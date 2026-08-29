@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { STREAMS, LEVELS } from "@/lib/constants";
-import { Library, Plus, Trash2 } from "lucide-react";
+import { Library, Plus, Trash2, Edit } from "lucide-react";
+import Link from "next/link";
 import { createReviewCard } from "@/actions/review-cards";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { MonthSelect } from "@/components/shared/MonthSelect";
@@ -120,7 +121,10 @@ export default async function AdminReviewCardsPage() {
                 <div key={card.id} className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 flex flex-col relative overflow-hidden group">
                   <div className="flex items-start justify-between mb-2">
                     <h3 className="font-black text-slate-950 text-lg">{card.title}</h3>
-                    <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                    <div className="opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
+                      <Link href={`/dashboard/admin/review-cards/${card.id}/edit`} className="p-1.5 text-slate-400 hover:text-sky-500 hover:bg-sky-50 rounded-lg transition-colors">
+                        <Edit className="w-4 h-4" />
+                      </Link>
                       <form action={async () => {
                         "use server";
                         await prisma.reviewCard.delete({ where: { id: card.id } });

@@ -32,7 +32,6 @@ export async function ensureBucketExists(bucketName: string) {
     if (!buckets.some(b => b.name === bucketName)) {
       const { error: createError } = await adminSupabase.storage.createBucket(bucketName, {
         public: true,
-        allowedMimeTypes: ["image/jpeg", "image/png", "image/webp", "application/pdf"],
       });
       if (createError) {
         console.error(`Error creating bucket ${bucketName}:`, createError);

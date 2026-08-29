@@ -120,7 +120,12 @@ export async function createLesson(formData: FormData): Promise<ActionState> {
         if (file && file.size > 0) {
           const fileExt = file.name.split('.').pop();
           const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
-          const { data } = await adminSupabase.storage.from("lesson-materials").upload(fileName, file, { upsert: false });
+          const arrayBuffer = await file.arrayBuffer();
+          const buffer = Buffer.from(arrayBuffer);
+          const { data } = await adminSupabase.storage.from("lesson-materials").upload(fileName, buffer, { 
+            contentType: file.type || undefined,
+            upsert: false 
+          });
           if (data) {
             const { data: publicUrlData } = adminSupabase.storage.from("lesson-materials").getPublicUrl(fileName);
             uploadedMaterials.push({
@@ -264,7 +269,12 @@ export async function updateLesson(id: string, formData: FormData): Promise<Acti
         if (file && file.size > 0) {
           const fileExt = file.name.split('.').pop();
           const fileName = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`;
-          const { data } = await adminSupabase.storage.from("lesson-materials").upload(fileName, file, { upsert: false });
+          const arrayBuffer = await file.arrayBuffer();
+          const buffer = Buffer.from(arrayBuffer);
+          const { data } = await adminSupabase.storage.from("lesson-materials").upload(fileName, buffer, { 
+            contentType: file.type || undefined,
+            upsert: false 
+          });
           if (data) {
             const { data: publicUrlData } = adminSupabase.storage.from("lesson-materials").getPublicUrl(fileName);
             uploadedMaterials.push({

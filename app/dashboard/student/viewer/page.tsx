@@ -30,6 +30,7 @@ export default function FileViewerPage() {
   }
 
   const isImage = fileUrl.toLowerCase().match(/\.(jpeg|jpg|gif|png|webp)$/) != null;
+  const isOffice = fileUrl.toLowerCase().match(/\.(doc|docx|xls|xlsx|ppt|pptx)$/) != null;
 
   return (
     <div className="flex flex-col h-[calc(100vh-4rem)] bg-slate-50 dark:bg-slate-950 font-arabic" dir="rtl">
@@ -68,6 +69,12 @@ export default function FileViewerPage() {
               src={fileUrl} 
               alt={title} 
               className="max-w-full max-h-full object-contain p-4"
+            />
+          ) : isOffice ? (
+            <iframe 
+              src={`https://docs.google.com/gview?url=${encodeURIComponent(fileUrl)}&embedded=true`} 
+              className="w-full h-full border-none"
+              title={title}
             />
           ) : (
             <iframe 

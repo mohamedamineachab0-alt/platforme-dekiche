@@ -43,6 +43,46 @@ export async function createReviewCard(formData: FormData) {
   }
 }
 
+export async function updateReviewCard(id: string, formData: FormData) {
+  try {
+    const title = formData.get("title") as string;
+    const question = formData.get("question") as string;
+    const answer = formData.get("answer") as string;
+    const subjectId = formData.get("subjectId") as string;
+    const level = formData.get("level") as Level;
+    const stream = formData.get("stream") as Stream;
+    const monthStr = formData.get("month") as string;
+    const month = monthStr ? parseInt(monthStr) : 1;
+    const exerciseRef = formData.get("exerciseRef") as string | null;
+
+    if (!title || !question || !answer || !subjectId || !level || !stream || !month) {
+      throw new Error("يرجى ملء جميع الحقول الإلزامية");
+    }
+
+    await prisma.reviewCard.update({
+      where: { id },
+      data: {
+        title,
+        question,
+        answer,
+        subjectId,
+        level,
+        stream,
+        month,
+        exerciseRef: exerciseRef || null,
+      }
+    });
+
+    revalidatePath("/dashboard/admin", "layout");
+    revalidatePath("/dashboard/student", "layout");
+    
+    return { success: true };
+  } catch (error: any) {
+    console.error("updateReviewCard error:", error);
+    throw new Error(error.message || "حدث خطأ أثناء تحديث بطاقة المراجعة");
+  }
+}
+
 export async function getStudentCards(level: Level, stream: Stream, subjectId?: string) {
   try {
     const whereClause: any = {

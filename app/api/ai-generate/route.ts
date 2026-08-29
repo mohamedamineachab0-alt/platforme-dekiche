@@ -31,7 +31,8 @@ export async function POST(req: Request) {
       - 'question': نص (نص السؤال)
       - 'options': مصفوفة من 4 نصوص (الخيارات الممكنة للإجابة)
       - 'correctAnswerIndex': رقم (من 0 إلى 3 يشير إلى الخيار الصحيح)
-      الرجاء استخدام صيغة التنسيق LaTeX للمعادلات الرياضية ($...$) مع وضع علامتي شرطة مائلة مزدوجة (double-escape backslashes) إن لزم الأمر.`;
+      الرجاء استخدام صيغة التنسيق LaTeX للمعادلات الرياضية ($...$) مع وضع علامتي شرطة مائلة مزدوجة (double-escape backslashes) إن لزم الأمر.
+      تحذير صارم: لا تقم بتأليف أسئلة عشوائية أو عامة. يجب أن تكون الأسئلة مستمدة حصراً وبدقة من المحتوى المرفق.`;
     } else if (type === 'exam') {
        systemPrompt = `أنت خبير تعليمي محترف ومفتش تربوي. قم بتحليل المحتوى التعليمي المرفق للمستوى: ${level}، الشعبة: ${stream || 'غير محدد'}، المادة: ${subject}، الشهر: ${month}.
       استخرج أسئلة اختبار (Exam) شاملة، مع توزيع نقاط بمجموع كلي يساوي ${maxScore || 20} علامة، مع التأكد من مطابقتها الدقيقة للمنهج الدراسي الرسمي.
@@ -41,7 +42,8 @@ export async function POST(req: Request) {
       - 'question': نص (نص السؤال المستخرج)
       - 'modelAnswer': نص (الإجابة النموذجية المقترحة)
       - 'allocatedMarks': رقم (النقاط المخصصة للسؤال، ويجب أن يكون مجموعها ${maxScore || 20})
-      الرجاء استخدام صيغة التنسيق LaTeX للمعادلات الرياضية ($...$) مع وضع علامتي شرطة مائلة مزدوجة (double-escape backslashes).`;
+      الرجاء استخدام صيغة التنسيق LaTeX للمعادلات الرياضية ($...$) مع وضع علامتي شرطة مائلة مزدوجة (double-escape backslashes).
+      تحذير صارم: لا تقم بتأليف أسئلة عشوائية أو عامة. يجب أن تكون الأسئلة مستمدة حصراً وبدقة من المحتوى المرفق.`;
     }
 
     if (customPrompt) {
@@ -49,7 +51,7 @@ export async function POST(req: Request) {
     }
 
     // Process all files
-    let userContent: any[] = [{ type: 'text', text: 'Generate structured data from this educational content.' }];
+    let userContent: any[] = [{ type: 'text', text: 'بناءً على المحتوى التعليمي التالي، قم بتوليد الأسئلة المطلوبة وفقاً للشروط المحددة مسبقاً:' }];
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];

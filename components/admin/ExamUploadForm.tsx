@@ -34,6 +34,7 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
 
   const [quizType, setQuizType] = useState<"MANUAL" | "AI">("MANUAL");
   const [manualQuestions, setManualQuestions] = useState<QuizQuestion[]>([{ question: "", options: ["", "", "", ""], correctAnswerIndex: 0 }]);
+  const [customPrompt, setCustomPrompt] = useState("");
 
   const filteredSubjects = subjects;
 
@@ -97,20 +98,36 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
     setError("");
 
     try {
-      const base64Data = await compressImageForAi(file);
+      const formData = new FormData();
+      formData.append('files', file); // Main exam file
       
-      const response = await fetch('/api/generate-quiz', {
+      // Also send any uploaded materials to give AI more context
+      materials.forEach(mat => {
+        formData.append('files', mat.file);
+      });
+
+      if (customPrompt) {
+        formData.append('customPrompt', customPrompt);
+      }
+
+      const selectedSubject = subjects.find(s => s.id === (document.querySelector('select[name="subjectId"]') as HTMLSelectElement)?.value);
+
+      formData.append('metadata', JSON.stringify({
+        level,
+        stream,
+        subject: selectedSubject?.title || '',
+        month: (document.querySelector('select[name="month"]') as HTMLSelectElement)?.value || '',
+        maxScore: quizMaxScore
+      }));
+      formData.append('type', 'exam');
+      
+      const response = await fetch('/api/ai-generate', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          imageBase64: base64Data,
-          numberOfQuestions: numberOfQuestions,
-          totalPoints: quizMaxScore
-        })
+        body: formData
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.error || "فشل توليد الأسئلة");
       }
 
@@ -261,6 +278,17 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
                   />
                 </div>
               </div>
+              
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-700 block">تعليمات إضافية للذكاء الاصطناعي (اختياري)</label>
+                <textarea 
+                  value={customPrompt}
+                  onChange={(e) => setCustomPrompt(e.target.value)}
+                  placeholder="مثال: ركز على وحدة الميكانيك وتجنب الكهرباء..."
+                  className="w-full bg-white border border-slate-200 rounded-lg px-4 py-2.5 font-bold focus:ring-2 focus:ring-sky-500 outline-none resize-none h-20"
+                />
+              </div>
+
               <button
                 type="button"
                 onClick={handleAiGenerate}

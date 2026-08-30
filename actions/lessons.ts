@@ -230,13 +230,22 @@ export async function updateLesson(id: string, formData: FormData): Promise<Acti
     }
   }
 
+  let settingsConfig = undefined;
+  const settingsStr = formData.get("settings") as string | null;
+  if (settingsStr) {
+    try {
+      settingsConfig = JSON.parse(settingsStr);
+    } catch(e) {}
+  }
+
   const validation = LessonSchema.safeParse({
     title,
     description,
     subjectId: subjectId || "placeholder", // Might not be changed
     month,
     vimeoVideoId,
-    quiz: quizConfig
+    quiz: quizConfig,
+    settings: settingsConfig
   });
 
   if (!validation.success) {
@@ -293,6 +302,13 @@ export async function updateLesson(id: string, formData: FormData): Promise<Acti
       month: validation.data.month,
       vimeoVideoId: validation.data.vimeoVideoId,
     };
+    
+    if (validation.data.settings) {
+      updateData.levels = validation.data.settings.levels;
+      updateData.streams = validation.data.settings.streams;
+      updateData.isPublished = validation.data.settings.isPublished;
+    }
+    
     if (imageUrl) {
       updateData.image = imageUrl;
     }

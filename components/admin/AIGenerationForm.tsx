@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { useForm, useFieldArray } from 'react-hook-form';
 import { UploadCloud, Loader2, Wand2 } from 'lucide-react';
+import { MathPreview } from '@/components/shared/MathPreview';
 
 type GenerationType = 'daily_exercise' | 'exam';
 
@@ -144,6 +145,11 @@ export default function AIGenerationForm({ type }: AIGenerationFormProps) {
                   rows={3} 
                   placeholder="Question Text" 
                 />
+                {((q as any).question?.includes('$') || (q as any).question?.includes('\\')) && (
+                  <div className="bg-neutral-950/80 p-3 rounded-md border border-neutral-800">
+                    <MathPreview text={(q as any).question} />
+                  </div>
+                )}
                 
                 {type === 'daily_exercise' && (
                   <div className="grid grid-cols-2 gap-4">

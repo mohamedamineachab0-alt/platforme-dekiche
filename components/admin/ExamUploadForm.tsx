@@ -438,7 +438,7 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
                         placeholder="نص السؤال"
                         className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-sky-500 text-sm font-medium"
                       />
-                      {q.question.includes('$') && <MathPreview text={q.question} />}
+                      {(q.question.includes('$') || q.question.includes('\\') || /[=+\-*/^_{}]/.test(q.question)) && <MathPreview text={q.question} />}
                     </div>
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -464,7 +464,7 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
                               placeholder={`الخيار ${optIndex + 1}`}
                               className="w-full bg-transparent text-sm font-medium focus:outline-none text-slate-700"
                             />
-                            {opt.includes('$') && <MathPreview text={opt} />}
+                            {(opt.includes('$') || opt.includes('\\') || /[=+\-*/^_{}]/.test(opt)) && <MathPreview text={opt} />}
                           </div>
                         </div>
                       ))}

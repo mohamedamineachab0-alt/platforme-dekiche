@@ -587,7 +587,7 @@ export function EditLessonClient({
                                   className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:border-sky-500 text-sm font-bold"
                                   placeholder="نص السؤال..."
                                 />
-                                {q.question.includes('$') && <MathPreview text={q.question} />}
+                                {(q.question.includes('$') || q.question.includes('\\') || /[=+\-*/^_{}]/.test(q.question)) && <MathPreview text={q.question} />}
                               </div>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 {q.options.map((opt, optIdx) => (
@@ -611,7 +611,7 @@ export function EditLessonClient({
                                         placeholder={`الخيار ${optIdx + 1}`}
                                       />
                                     </div>
-                                    {opt.includes('$') && (
+                                    {(opt.includes('$') || opt.includes('\\') || /[=+\-*/^_{}]/.test(opt)) && (
                                       <div className="pr-7">
                                         <MathPreview text={opt} />
                                       </div>

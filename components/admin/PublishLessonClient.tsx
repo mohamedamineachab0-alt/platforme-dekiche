@@ -29,6 +29,7 @@ export function PublishLessonClient({
   const [aiSourceMode, setAiSourceMode] = useState<"lesson_files" | "custom_upload">("lesson_files");
   const [aiImageFile, setAiImageFile] = useState<File | null>(null);
   const [numberOfQuestions, setNumberOfQuestions] = useState(5);
+  const [aiLanguage, setAiLanguage] = useState<"ar" | "fr" | "en" | "es">("ar");
   const [isGeneratingAi, setIsGeneratingAi] = useState(false);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,6 +116,7 @@ export function PublishLessonClient({
           stream: selectedStreams[0] || "",
           maxScore: quizMaxScore,
           numberOfQuestions: numberOfQuestions || 5,
+          language: aiLanguage,
         })
       );
       formData.append("type", "lesson");
@@ -569,6 +571,33 @@ export function PublishLessonClient({
                                 onChange={e => setQuizMaxScore(Number(e.target.value))}
                                 className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:border-sky-500 font-bold"
                               />
+                            </div>
+                          </div>
+
+                          {/* Language Selection for AI Quiz */}
+                          <div className="space-y-2 pt-1">
+                            <label className="text-sm font-bold text-slate-700 block">لغة صياغة الكويز (Question Language)</label>
+                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                              {[
+                                { id: "ar", label: "العربية", flag: "🇩🇿" },
+                                { id: "fr", label: "Français", flag: "🇫🇷" },
+                                { id: "en", label: "English", flag: "🇬🇧" },
+                                { id: "es", label: "Español", flag: "🇪🇸" },
+                              ].map((l) => (
+                                <button
+                                  key={l.id}
+                                  type="button"
+                                  onClick={() => setAiLanguage(l.id as any)}
+                                  className={`py-2.5 px-3 rounded-xl border-2 text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+                                    aiLanguage === l.id
+                                      ? "border-sky-500 bg-sky-50 text-sky-800 shadow-sm"
+                                      : "border-slate-200 hover:border-sky-200 text-slate-600 bg-white"
+                                  }`}
+                                >
+                                  <span>{l.flag}</span>
+                                  <span>{l.label}</span>
+                                </button>
+                              ))}
                             </div>
                           </div>
                           

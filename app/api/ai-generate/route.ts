@@ -47,9 +47,34 @@ export async function POST(req: Request) {
       }
     }
 
-    const { level, stream, subject, month, maxScore, numberOfQuestions } = metadata;
+    const { level, stream, subject, month, maxScore, numberOfQuestions, language } = metadata;
     const qCount = Number(numberOfQuestions) > 0 ? Number(numberOfQuestions) : 5;
     const score = Number(maxScore) > 0 ? Number(maxScore) : 20;
+    const targetLang = (language || 'ar').toLowerCase();
+
+    let langInstruction = '';
+    let langLabel = 'العربية (Arabic)';
+    if (targetLang === 'fr' || targetLang === 'french' || targetLang === 'francais') {
+      langLabel = 'Français (French)';
+      langInstruction = `Langue obligatoire de rédaction: Français exclusivement (French).
+- Formulez TOUTES les questions et options en français académique irréprochable conforme aux programmes officiels algériens (Baccalauréat / Secondaire).
+- Toutes les expressions mathématiques et scientifiques doivent impérativement être écrites en LaTeX entre $...$.`;
+    } else if (targetLang === 'en' || targetLang === 'english') {
+      langLabel = 'English';
+      langInstruction = `Mandatory Language of Assessment: English exclusively.
+- Formulate ALL questions and options strictly in academic English aligned with official high school and Baccalaureate standards.
+- All mathematical and scientific formulas must be strictly wrapped in LaTeX $...$.`;
+    } else if (targetLang === 'es' || targetLang === 'spanish' || targetLang === 'espanol') {
+      langLabel = 'Español (Spanish)';
+      langInstruction = `Idioma obligatorio de evaluación: Español exclusivamente (Spanish).
+- Formule TODAS las preguntas y opciones estrictamente en español académico conforme al programa oficial de bachillerato.
+- Todas las fórmulas matemáticas y científicas deben estar estrictamente en notación LaTeX entre $...$.`;
+    } else {
+      langLabel = 'العربية (Arabic)';
+      langInstruction = `لغة الصياغة الإلزامية: اللغة العربية الفصحى حصراً (Arabic).
+- صياغة كافة الأسئلة والخيارات باللغة العربية العلمية السليمة المعتمدة في المنهاج الوزاري الجزائري.
+- كتابة كافة الرموز والمعادلات الرياضية والعلمية بصيغة LaTeX محاطة بـ $...$.`;
+    }
 
     const systemPrompt = `أنت كبير مفتشي الامتحانات ومصممي بنوك الأسئلة في منصة "ديكيش أكاديمي" وخبير فك وتحليل الخطوط اليدوية (Expert Handwriting OCR) للمنهاج الجزائري (بكالوريا، ثانوي، ومتوسط).
 
@@ -57,9 +82,12 @@ export async function POST(req: Request) {
 يجب عليك دائماً وأبداً وبدون أي استثناء توليد وإخراج كويز رقمي كامل يتكون من بالضبط ${qCount} أسئلة اختيار من متعدد (QCM) بمجموع علامات ${score}.
 ممنوع منعاً باتاً تحت أي ظرف الاعتذار، أو الرفض، أو إرجاع مصفوفة فارغة، أو إخراج ملاحظة مفادها أن "الوثيقة لا تحتوي على أسئلة" أو "الوثيقة عبارة عن ملخص درس".
 
+لغة الصياغة المحددة إجبارياً (${langLabel}):
+${langInstruction}
+
 بروتوكول معالجة كافة أنواع الوثائق والمستندات (قبول شامل لكافة الملفات):
 1. الوثائق التي تحتوي على تمارين أو أسئلة جاهزة:
-   - قم باستخراجها وتكييفها وصياغتها في شكل أسئلة QCM احترافية بدقة رياضية وعلمية 100%.
+   - قم باستخراجها وتكييفها وصياغتها في شكل أسئلة QCM احترافية بدقة رياضية وعلمية 100% وباللغة المحددة (${langLabel}).
 2. الوثائق التي تمثل ملخصات دروس، شروحات، نظريات، قوانين، تعاريف، أو خط يد للأستاذ:
    - مهمتك الجوهرية هي تحويل هذا الشرح النظري والملخص إلى كويز تطبيقي ذكي! قم بابتكار وصياغة وتأليف أسئلة استيعاب وفهم وتطبيق وتفكير علمي (Comprehension & Application Questions) تختبر استيعاب التلميذ لكافة القوانين والمعادلات والمصطلحات والنتائج الواردة في الوثيقة!
 3. فك الخطوط اليدوية المعقدة والملاحظات الهامشية والمخططات:
@@ -69,7 +97,7 @@ export async function POST(req: Request) {
 
 قواعد الصياغة الرياضية والعلمية الشاملة والإلزامية (100% LaTeX / KaTeX Rigor):
 كل سؤال رياضي أو علمي وكل خيار من الخيارات الأربعة يجب أن يكون مصاغاً بالكامل بالترميز الرياضي والعلمي الصارم المقيد بـ $...$ (LaTeX/KaTeX):
-1. نص السؤال: يجب أن يتضمن التحديد الدقيق للمعطيات والمطلوب بصيغة رياضية بحتة:
+1. نص السؤال: يجب أن يتضمن التحديد الدقيق للمعطيات والمطلوب بصيغة رياضية بحتة وباللغة المحددة (${langLabel}):
    - الدوال والتحليل: لتكن الدالة $f$ المعرفة على $\mathbb{R}$ بالعبارة $f(x) = \frac{2x+1}{x^2+1}$. إن قيمة $\lim_{x \to +\infty} f(x)$ هي:
    - المتتاليات العددية: لتكن المتتالية $(u_n)_{n \in \mathbb{N}}$ حيث $u_0 = 1$ و $u_{n+1} = 2u_n + 3$. عبارة الحد العام $u_n$ بدلالة $n$ هي:
    - الأعداد المركبة: الشكل الأسي للعدد المركب $z = -\sqrt{3} + i$ هو:
@@ -94,14 +122,14 @@ export async function POST(req: Request) {
 - عدد الأسئلة: بالضبط ${qCount}$ أسئلة لا تزيد ولا تنقص.
 - 4 خيارات لكل سؤال ('options'): خيار واحد صحيح تماماً، و 3 خيارات خاطئة (مموهات ذكية مقنعة ومستوحاة من أخطاء التلاميذ الشائعة في هذا الدرس).
 - 'correctAnswerIndex': رقم صحيح (0، 1، 2، أو 3) يحدد موضع الإجابة الصحيحة بدقة.
-- لغة الأسئلة: استخدم لغة الوثيقة والمصطلحات الرسمية للمنهاج الجزائري.
+- لغة الأسئلة والخيارات: ${langLabel} حصراً.
 
 التنسيق الإلزامي الصارم (JSON فقط):
 أخرج كائن JSON حصراً بالشكل التالي دون أي نصوص أو مقدمات أو شروحات:
 {
   "questions": [
     {
-      "question": "لتكن الدالة $f$ المعرفة على $\\mathbb{R}$ بـ $f(x) = 3x^2 - 5x + 2$. العبارة الجبرية للدالة المشتقة $f'(x)$ هي:",
+      "question": "نص السؤال باللغة المحددة ${langLabel} متضمناً الصيغ الرياضية في $...$",
       "options": ["$f'(x) = 6x - 5$", "$f'(x) = 3x^2 - 5$", "$f'(x) = 6x + 5$", "$f'(x) = 3x - 5$"],
       "correctAnswerIndex": 0
     }
@@ -111,7 +139,7 @@ export async function POST(req: Request) {
     const userContent: any[] = [
       {
         type: 'text',
-        text: `بناءً على ملفات ومستندات ومعطيات الدرس المرفقة، قم بتحليلها وفك أي خط يدوي، وصياغة وتوليد بالضبط ${qCount} أسئلة اختيار من متعدد (QCM) بمجموع درجات ${score}:`,
+        text: `بناءً على ملفات ومستندات ومعطيات الدرس المرفقة، قم بتحليلها وصياغة وتوليد بالضبط ${qCount} أسئلة اختيار من متعدد (QCM) باللغة المحددة [${langLabel}] بمجموع درجات ${score}:`,
       },
     ];
 
@@ -358,11 +386,12 @@ export async function POST(req: Request) {
           messages: [
             {
               role: 'system',
-              content: `أنت مفتش تربوي معتمد للمنهاج الجزائري ومسؤول بنك الأسئلة. مهمتك توليد كويز رقمي QCM متكامل بمستوى امتحانات البكالوريا والتعليم الجزائري بدقة 100% وبتنسيق JSON فقط.`
+              content: `أنت مفتش تربوي معتمد للمنهاج الجزائري ومسؤول بنك الأسئلة. مهمتك توليد كويز رقمي QCM متكامل بمستوى امتحانات البكالوريا والتعليم الجزائري بدقة 100% باللغة المطلوبة [${langLabel}] وبتنسيق JSON فقط.`
             },
             {
               role: 'user',
               content: `قم فوراً بتوليد كويز اختباري نموذجي يحتوي على بالضبط ${qCount} أسئلة متعددة الاختيارات (QCM) متوافقة مع المنهاج الجزائري للمادة والمعطيات التالية:
+- لغة الأسئلة والخيارات الإلزامية: ${langLabel} حصراً
 - المادة: ${subject || 'العلوم والرياضيات'}
 - المستوى الدراسي: ${level || 'التعليم الثانوي'}
 - الشعبة: ${stream || 'العامة'}
@@ -371,6 +400,7 @@ export async function POST(req: Request) {
 
 الشروط الإلزامية:
 - عدد الأسئلة: بالضبط ${qCount}.
+- صياغة الأسئلة والخيارات حصراً باللغة: ${langLabel}.
 - كتابة كافة المعادلات والرموز الرياضية والعلمية (دوال، متتاليات، فيزياء، كيمياء) بصيغة LaTeX محاطة بـ $...$ في نص السؤال وفي الخيارات.
 - لكل سؤال 4 خيارات حصرية (options) مع تحديد correctAnswerIndex (0-3).
 - أخرج JSON فقط: {"questions": [{"question": "...", "options": ["...", "...", "...", "..."], "correctAnswerIndex": 0}]}`
@@ -406,17 +436,55 @@ export async function POST(req: Request) {
       const lvl = level || 'المستوى الدراسي';
       const strm = stream || 'الشعبة المحددة';
 
-      rawQuestions = Array.from({ length: qCount }, (_, i) => ({
-        id: `q_gen_${i + 1}`,
-        question: `سؤال تقويمي ${i + 1}: في إطار المنهاج الوزاري لمادة ${subj} (${lvl} - ${strm})، ما هو التطبيق الصحيح للقواعد والمفاهيم الأساسية المقررة؟`,
-        options: [
-          `التطبيق المباشر للقانون الأساسي ومطابقته للشروط العلمية المقررة`,
-          `إهمال الشروط الابتدائية وتطبيق القانون في غير مجاله`,
-          `اعتماد فرضية غير مبررة نظرياً أو تجريبياً`,
-          `استنتاج تقريبي يتعارض مع المعطيات التجريبية`
-        ],
-        correctAnswerIndex: 0
-      }));
+      if (targetLang === 'fr' || targetLang === 'french' || targetLang === 'francais') {
+        rawQuestions = Array.from({ length: qCount }, (_, i) => ({
+          id: `q_gen_${i + 1}`,
+          question: `Question d'évaluation ${i + 1}: Dans le cadre du programme officiel pour (${subj} - ${lvl} / ${strm}), quelle est l'application correcte des concepts fondamentaux?`,
+          options: [
+            `Application directe de la formule fondamentale du cours`,
+            `Erreur d'interprétation des conditions limites`,
+            `Cas particulier inapplicable de manière générale`,
+            `Approximation contradictoire avec les résultats expérimentaux`
+          ],
+          correctAnswerIndex: 0
+        }));
+      } else if (targetLang === 'en' || targetLang === 'english') {
+        rawQuestions = Array.from({ length: qCount }, (_, i) => ({
+          id: `q_gen_${i + 1}`,
+          question: `Assessment Question ${i + 1}: In the official curriculum for (${subj} - ${lvl} / ${strm}), what is the accurate application of the fundamental principles?`,
+          options: [
+            `Direct application of the core scientific formula`,
+            `Misapplication ignoring boundary conditions`,
+            `Specific case not valid in the general domain`,
+            `Approximation conflicting with empirical evidence`
+          ],
+          correctAnswerIndex: 0
+        }));
+      } else if (targetLang === 'es' || targetLang === 'spanish' || targetLang === 'espanol') {
+        rawQuestions = Array.from({ length: qCount }, (_, i) => ({
+          id: `q_gen_${i + 1}`,
+          question: `Pregunta de evaluación ${i + 1}: En el marco del programa oficial de (${subj} - ${lvl} / ${strm}), ¿cuál es la aplicación correcta de los conceptos fundamentales?`,
+          options: [
+            `Aplicación directa de la fórmula fundamental del programa`,
+            `Error de interpretación de las condiciones iniciales`,
+            `Caso especial no generalizable`,
+            `Aproximación incompatible con los resultados experimentales`
+          ],
+          correctAnswerIndex: 0
+        }));
+      } else {
+        rawQuestions = Array.from({ length: qCount }, (_, i) => ({
+          id: `q_gen_${i + 1}`,
+          question: `سؤال تقويمي ${i + 1}: في إطار المنهاج الوزاري لمادة ${subj} (${lvl} - ${strm})، ما هو التطبيق الصحيح للقواعد والمفاهيم الأساسية المقررة؟`,
+          options: [
+            `التطبيق المباشر للقانون الأساسي ومطابقته للشروط العلمية المقررة`,
+            `إهمال الشروط الابتدائية وتطبيق القانون في غير مجاله`,
+            `اعتماد فرضية غير مبررة نظرياً أو تجريبياً`,
+            `استنتاج تقريبي يتعارض مع المعطيات التجريبية`
+          ],
+          correctAnswerIndex: 0
+        }));
+      }
     }
 
     function normalizeMathString(str: string): string {

@@ -15,6 +15,7 @@ export default function AIGenerationForm({ type }: AIGenerationFormProps) {
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [customPrompt, setCustomPrompt] = useState<string>('');
+  const [aiLanguage, setAiLanguage] = useState<"ar" | "fr" | "en" | "es">("ar");
   const [statusMsg, setStatusMsg] = useState<{ type: 'error' | 'success', text: string } | null>(null);
 
   const { register, control, handleSubmit, formState: { errors } } = useForm({
@@ -52,7 +53,7 @@ export default function AIGenerationForm({ type }: AIGenerationFormProps) {
       selectedFiles.forEach(file => {
         formData.append("files", file);
       });
-      formData.append("metadata", JSON.stringify(data.metadata));
+      formData.append("metadata", JSON.stringify({ ...data.metadata, language: aiLanguage }));
       formData.append("type", type);
 
       const res = await fetch('/api/ai-generate', {
@@ -105,6 +106,33 @@ export default function AIGenerationForm({ type }: AIGenerationFormProps) {
               ))}
             </div>
           )}
+        </div>
+
+        {/* Language Selection for AI */}
+        <div>
+          <label className="block text-sm font-bold text-neutral-300 mb-2">لغة صياغة الكويز (Question Language)</label>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {[
+              { id: "ar", label: "العربية", flag: "🇩🇿" },
+              { id: "fr", label: "Français", flag: "🇫🇷" },
+              { id: "en", label: "English", flag: "🇬🇧" },
+              { id: "es", label: "Español", flag: "🇪🇸" },
+            ].map((l) => (
+              <button
+                key={l.id}
+                type="button"
+                onClick={() => setAiLanguage(l.id as any)}
+                className={`py-2 px-3 rounded-lg border text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+                  aiLanguage === l.id
+                    ? "border-purple-500 bg-purple-950/40 text-purple-300 shadow-sm"
+                    : "border-neutral-800 hover:border-neutral-700 text-neutral-400 bg-neutral-900"
+                }`}
+              >
+                <span>{l.flag}</span>
+                <span>{l.label}</span>
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Custom Prompt */}

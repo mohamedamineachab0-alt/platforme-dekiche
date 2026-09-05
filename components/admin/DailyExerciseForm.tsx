@@ -33,6 +33,7 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
   const [quizMaxScore, setQuizMaxScore] = useState(20);
   const [isGeneratingAi, setIsGeneratingAi] = useState(false);
   const [customPrompt, setCustomPrompt] = useState("");
+  const [aiLanguage, setAiLanguage] = useState<"ar" | "fr" | "en" | "es">("ar");
 
   const [materials, setMaterials] = useState<{ file: File; title: string }[]>([]);
   const [materialTitle, setMaterialTitle] = useState("");
@@ -98,7 +99,8 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
         subject: selectedSubject?.title || '',
         month: (document.querySelector('select[name="month"]') as HTMLSelectElement)?.value || '',
         maxScore: quizMaxScore,
-        numberOfQuestions: numberOfQuestions || 5
+        numberOfQuestions: numberOfQuestions || 5,
+        language: aiLanguage
       }));
       formData.append('type', 'daily_exercise');
       
@@ -299,6 +301,33 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
               </div>
             </div>
             
+            {/* Language Selection for AI */}
+            <div className="space-y-2">
+              <label className="text-sm font-bold text-slate-700 block">لغة صياغة الكويز (Question Language)</label>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {[
+                  { id: "ar", label: "العربية", flag: "🇩🇿" },
+                  { id: "fr", label: "Français", flag: "🇫🇷" },
+                  { id: "en", label: "English", flag: "🇬🇧" },
+                  { id: "es", label: "Español", flag: "🇪🇸" },
+                ].map((l) => (
+                  <button
+                    key={l.id}
+                    type="button"
+                    onClick={() => setAiLanguage(l.id as any)}
+                    className={`py-2.5 px-3 rounded-xl border-2 text-xs font-bold transition-all flex items-center justify-center gap-1.5 ${
+                      aiLanguage === l.id
+                        ? "border-sky-500 bg-white text-sky-800 shadow-sm"
+                        : "border-slate-200 hover:border-sky-200 text-slate-600 bg-white/70"
+                    }`}
+                  >
+                    <span>{l.flag}</span>
+                    <span>{l.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="space-y-2">
                 <label className="text-sm font-bold text-slate-700 block">تعليمات إضافية للذكاء الاصطناعي (اختياري)</label>
                 <textarea 

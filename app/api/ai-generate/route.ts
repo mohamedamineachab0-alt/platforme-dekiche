@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { openai } from '@/lib/openai';
+import { extractTextFromPdf } from '@/lib/pdf-parser';
 
 export const dynamic = 'force-dynamic';
 
@@ -94,16 +95,13 @@ export async function POST(req: Request) {
             detail: 'high',
           },
         });
-      } else if (mimeType === 'application/pdf') {
-        try {
-          const pdfParse = require('pdf-parse');
-          const pdfData = await pdfParse(fileBuffer);
+      } else if (mimeType === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
+        const text = await extractTextFromPdf(fileBuffer);
+        if (text) {
           userContent.push({
             type: 'text',
-            text: `[نص مستخرج من ملف الدرس PDF: ${file.name}]\n\n${pdfData.text}`,
+            text: `[نص مستخرج من ملف الدرس PDF: ${file.name}]\n\n${text}`,
           });
-        } catch (pdfErr) {
-          console.warn('PDF parse failed, sending fallback:', pdfErr);
         }
       } else if (
         mimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
@@ -152,15 +150,12 @@ export async function POST(req: Request) {
             },
           });
         } else if (contentType.includes('pdf') || item.url.match(/\.pdf$/i)) {
-          try {
-            const pdfParse = require('pdf-parse');
-            const pdfData = await pdfParse(buffer);
+          const text = await extractTextFromPdf(buffer);
+          if (text) {
             userContent.push({
               type: 'text',
-              text: `[نص من ملحق الدرس: ${item.name || `ملحق ${i + 1}`}]\n\n${pdfData.text}`,
+              text: `[نص من ملحق الدرس: ${item.name || `ملحق ${i + 1}`}]\n\n${text}`,
             });
-          } catch (pdfErr) {
-            console.warn('Remote PDF parse failed:', pdfErr);
           }
         } else if (
           contentType.includes('word') ||

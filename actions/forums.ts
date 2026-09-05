@@ -59,6 +59,22 @@ export async function toggleForumStatus(forumId: string, isOpen: boolean) {
   }
 }
 
+export async function deleteForum(forumId: string) {
+  try {
+    await assertAuth({ requireRole: "ADMIN" });
+    await prisma.classForum.delete({
+      where: { id: forumId }
+    });
+    
+    revalidatePath("/dashboard/admin/forums");
+    revalidatePath("/dashboard/student/forums");
+    return { success: true };
+  } catch (error) {
+    console.error("deleteForum error:", error);
+    return { error: "حدث خطأ أثناء حذف المنتدى" };
+  }
+}
+
 export async function getAdminForums() {
   try {
     await assertAuth({ requireRole: "ADMIN" });

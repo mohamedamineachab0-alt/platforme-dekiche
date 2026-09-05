@@ -1,5 +1,5 @@
-import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import { assertAuth } from "@/lib/security";
 import { redirect } from "next/navigation";
 import { ChevronLeft, Download, FileText, CheckCircle2, Lock, PlayCircle, ListVideo } from "lucide-react";
 import { UniversalFileViewer } from "@/components/shared/UniversalFileViewer";
@@ -12,10 +12,7 @@ export default async function LessonStudyViewPage({
 }) {
   const { id } = await params;
   
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
-
-  if (!sessionId) redirect("/login");
+  const sessionUser = await assertAuth({ requireRole: "STUDENT" });
 
   const lesson = await prisma.lesson.findUnique({
     where: { id },
@@ -31,7 +28,7 @@ export default async function LessonStudyViewPage({
   const enrollment = await prisma.enrollment.findUnique({
     where: {
       studentId_subjectId: {
-        studentId: sessionId,
+        studentId: sessionUser.id,
         subjectId: lesson.subjectId,
       }
     }
@@ -42,7 +39,7 @@ export default async function LessonStudyViewPage({
   const isUnlocked = enrollment.enrolledMonths.includes(lesson.month);
   
   const student = await prisma.studentProfile.findUnique({
-    where: { userId: sessionId }
+    where: { userId: sessionUser.id }
   });
 
   const nextLessonsRaw = await prisma.lesson.findMany({

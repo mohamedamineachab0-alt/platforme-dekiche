@@ -416,6 +416,7 @@ exports.Prisma.SubscriptionRequestScalarFieldEnum = {
   level: 'level',
   stream: 'stream',
   wilaya: 'wilaya',
+  baladiya: 'baladiya',
   address: 'address',
   phoneNumber: 'phoneNumber',
   status: 'status',

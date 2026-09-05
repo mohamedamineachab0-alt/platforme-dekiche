@@ -1,5 +1,5 @@
-import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import { assertAuth } from "@/lib/security";
 import { redirect } from "next/navigation";
 import { 
   ChevronLeft, 
@@ -21,10 +21,7 @@ export default async function SubjectDetailsPage({
 }) {
   const { id } = await params;
   
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
-
-  if (!sessionId) redirect("/login");
+  const sessionUser = await assertAuth({ requireRole: "STUDENT" });
 
   // Fetch subject and enrollment first to get enrolledMonths
   const subject = await prisma.subject.findUnique({
@@ -42,7 +39,7 @@ export default async function SubjectDetailsPage({
   let enrollment = await prisma.enrollment.findUnique({
     where: {
       studentId_subjectId: {
-        studentId: sessionId,
+        studentId: sessionUser.id,
         subjectId: id,
       }
     }
@@ -53,7 +50,7 @@ export default async function SubjectDetailsPage({
       // Auto-enroll in free subject with all months unlocked
       enrollment = await prisma.enrollment.create({
         data: {
-          studentId: sessionId,
+          studentId: sessionUser.id,
           subjectId: id,
           enrolledMonths: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
         }
@@ -103,14 +100,14 @@ export default async function SubjectDetailsPage({
     }),
     prisma.studentMistake.findMany({ 
       where: { 
-        studentId: sessionId, 
+        studentId: sessionUser.id, 
         lesson: { subjectId: id, month: { in: enrolledMonths } } 
       } 
     }),
   ]);
 
   const student = await prisma.user.findUnique({ 
-    where: { id: sessionId },
+    where: { id: sessionUser.id },
     include: { studentProfile: true }
   });
 
@@ -149,9 +146,9 @@ export default async function SubjectDetailsPage({
             {accessibleLessons.length > 0 ? (
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                  {accessibleLessons.slice(0, 6).map(lesson => (
-                    <Link key={lesson.id} href={`/dashboard/student/lessons/${lesson.id}`} className="flex gap-4 p-3 rounded-2xl hover:bg-slate-50 transition-colors border border-transparent hover:border-slate-100 group items-start">
-                      <div className="w-32 sm:w-36 aspect-video bg-slate-100 rounded-xl overflow-hidden shrink-0 relative shadow-sm group-hover:shadow transition-all border border-slate-100">
+                  {accessibleLessons.map(lesson => (
+                    <Link key={lesson.id} href={`/dashboard/student/lessons/${lesson.id}`} className="flex gap-4 p-3 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors border border-transparent hover:border-slate-100 dark:hover:border-slate-700 group items-start">
+                      <div className="w-32 sm:w-36 aspect-video bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden shrink-0 relative shadow-sm group-hover:shadow transition-all border border-slate-100 dark:border-slate-800">
                         {lesson.image ? (
                           <img src={lesson.image} alt={lesson.title} className="w-full h-full object-contain bg-slate-900 group-hover:scale-105 transition-transform duration-500" />
                         ) : (
@@ -165,26 +162,19 @@ export default async function SubjectDetailsPage({
                         </div>
                       </div>
                       <div className="flex-1 py-1">
-                        <span className="font-bold text-slate-800 group-hover:text-sky-700 line-clamp-2 text-sm leading-snug">
+                        <span className="font-bold text-slate-800 dark:text-slate-100 group-hover:text-sky-700 dark:group-hover:text-sky-400 line-clamp-2 text-sm leading-snug">
                           {lesson.title}
                         </span>
-                        <p className="text-xs text-slate-500 mt-2 font-medium flex items-center gap-1">
+                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 font-medium flex items-center gap-1">
                           <Play className="w-3 h-3" /> ابدأ المشاهدة
                         </p>
                       </div>
                     </Link>
                   ))}
                 </div>
-                {accessibleLessons.length > 6 && (
-                  <div className="pt-2 flex justify-center">
-                    <Link href={`/dashboard/student/subjects/${id}/lessons`} className="inline-block bg-sky-50 text-sky-600 hover:bg-sky-100 px-6 py-2.5 rounded-xl text-sm font-bold transition-colors">
-                      عرض جميع الدروس ({accessibleLessons.length})
-                    </Link>
-                  </div>
-                )}
               </div>
             ) : (
-              <p className="text-slate-400 font-medium text-center py-8 bg-slate-50 rounded-2xl border border-dashed border-slate-200">لا توجد دروس متاحة حالياً</p>
+              <p className="text-slate-400 font-medium text-center py-8 bg-slate-50 dark:bg-slate-800/30 rounded-2xl border border-dashed border-slate-200 dark:border-slate-700">لا توجد دروس متاحة حالياً</p>
             )}
           </div>
         {/* Dashboard Grid (Other Sections) */}

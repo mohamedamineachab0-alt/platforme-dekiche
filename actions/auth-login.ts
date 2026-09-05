@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
+import { encryptSession } from "@/lib/security";
 
 export type LoginState = {
   error?: string;
@@ -35,8 +36,10 @@ export async function universalLoginAction(
       return { error: "بيانات الدخول غير صحيحة، أو الحساب غير موجود" };
     }
 
+    const sessionToken = await encryptSession({ userId: user.id });
+
     const cookieStore = await cookies();
-    cookieStore.set("session", user.id, {
+    cookieStore.set("session", sessionToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",

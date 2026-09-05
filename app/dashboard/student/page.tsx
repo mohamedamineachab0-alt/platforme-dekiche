@@ -1,5 +1,6 @@
-import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
+import { assertAuth } from "@/lib/security";
+import { redirect } from "next/navigation";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { 
   BookOpen, 
@@ -22,13 +23,10 @@ import Link from "next/link";
 import { DailyTip } from "@/components/student/DailyTip";
 
 export default async function StudentDashboardPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
-
-  if (!sessionId) return null;
+  const sessionUser = await assertAuth({ requireRole: "STUDENT" });
 
   const user = await prisma.user.findUnique({
-    where: { id: sessionId },
+    where: { id: sessionUser.id },
     include: {
       studentProfile: true,
       enrollments: true,
@@ -36,7 +34,7 @@ export default async function StudentDashboardPage() {
     }
   });
 
-  if (!user || !user.studentProfile) return null;
+  if (!user || !user.studentProfile) redirect("/login");
 
   const enrolledSubjectIds = user.enrollments.map(e => e.subjectId);
 

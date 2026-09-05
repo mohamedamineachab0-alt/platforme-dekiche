@@ -12,11 +12,12 @@ import Link from "next/link";
 
 function InputField({
   id, label, name, type = "text", placeholder, icon: Icon, dir,
-  required = true, autoComplete, value, onChange
+  required = true, autoComplete, pattern, title, value, onChange
 }: {
   id: string; label: string; name: string; type?: string;
   placeholder: string; icon: React.ElementType; dir?: string;
   required?: boolean; autoComplete?: string;
+  pattern?: string; title?: string;
   value: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
   const [show, setShow] = useState(false);
@@ -42,6 +43,8 @@ function InputField({
           placeholder={placeholder}
           required={required}
           autoComplete={autoComplete}
+          pattern={pattern}
+          title={title}
           dir={dir}
           value={value}
           onChange={onChange}
@@ -227,6 +230,7 @@ export default function RegisterPage() {
               <div className="md:col-span-2">
                 <InputField id="reg-phone" label="رقم الهاتف" name="phoneNumber" type="tel"
                   placeholder="05XXXXXXXX" icon={Phone} dir="ltr" autoComplete="tel" 
+                  pattern="^0[567][0-9]{8}$" title="يجب أن يتكون رقم الهاتف من 10 أرقام ويبدأ بـ 05، 06، أو 07"
                   value={formData.phoneNumber} onChange={handleInputChange} />
               </div>
               
@@ -235,7 +239,7 @@ export default function RegisterPage() {
                   <SelectField
                     id="reg-wilaya" label="الولاية" name="wilaya" icon={MapPin}
                     placeholder="اختر الولاية"
-                    options={WILAYAS.map(w => ({ value: w.code, label: `${w.code.replace("W","")} - ${w.name}` }))}
+                    options={WILAYAS.map(w => ({ value: w.code, label: w.name }))}
                     value={formData.wilaya} onChange={handleInputChange}
                   />
                   <SelectField

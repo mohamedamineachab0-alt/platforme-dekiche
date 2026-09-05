@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { SignJWT, jwtVerify } from "jose";
 import { Redis } from "@upstash/redis";
@@ -89,12 +90,12 @@ export async function assertAuth(options: { requireRole?: Role; requirePermissio
   const sessionToken = cookieStore.get("session")?.value;
 
   if (!sessionToken) {
-    throw new Error("Unauthorized access (IDOR blocked)");
+    redirect("/login");
   }
 
   const payload = await decryptSession(sessionToken);
   if (!payload || !payload.userId) {
-    throw new Error("Session invalid or expired");
+    redirect("/login");
   }
 
   const userId = payload.userId as string;
@@ -105,15 +106,15 @@ export async function assertAuth(options: { requireRole?: Role; requirePermissio
   });
 
   if (!user) {
-    throw new Error("User not found or deleted");
+    redirect("/login");
   }
 
   if (options.requireRole && user.role !== options.requireRole && user.role !== "ADMIN") {
-    throw new Error("Forbidden: Insufficient role privileges");
+    redirect("/login");
   }
 
   if (options.requirePermission && !hasPermission(user.role as Role, options.requirePermission)) {
-    throw new Error("Forbidden: Missing required permission");
+    redirect("/login");
   }
 
   return user;

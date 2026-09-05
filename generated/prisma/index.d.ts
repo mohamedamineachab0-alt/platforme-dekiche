@@ -35170,6 +35170,7 @@ export namespace Prisma {
     level: string | null
     stream: string | null
     wilaya: string | null
+    baladiya: string | null
     address: string | null
     phoneNumber: string | null
     status: string | null
@@ -35182,6 +35183,7 @@ export namespace Prisma {
     level: string | null
     stream: string | null
     wilaya: string | null
+    baladiya: string | null
     address: string | null
     phoneNumber: string | null
     status: string | null
@@ -35195,6 +35197,7 @@ export namespace Prisma {
     level: number
     stream: number
     wilaya: number
+    baladiya: number
     address: number
     phoneNumber: number
     status: number
@@ -35209,6 +35212,7 @@ export namespace Prisma {
     level?: true
     stream?: true
     wilaya?: true
+    baladiya?: true
     address?: true
     phoneNumber?: true
     status?: true
@@ -35221,6 +35225,7 @@ export namespace Prisma {
     level?: true
     stream?: true
     wilaya?: true
+    baladiya?: true
     address?: true
     phoneNumber?: true
     status?: true
@@ -35234,6 +35239,7 @@ export namespace Prisma {
     level?: true
     stream?: true
     wilaya?: true
+    baladiya?: true
     address?: true
     phoneNumber?: true
     status?: true
@@ -35320,6 +35326,7 @@ export namespace Prisma {
     level: string
     stream: string
     wilaya: string
+    baladiya: string | null
     address: string
     phoneNumber: string
     status: string
@@ -35350,6 +35357,7 @@ export namespace Prisma {
     level?: boolean
     stream?: boolean
     wilaya?: boolean
+    baladiya?: boolean
     address?: boolean
     phoneNumber?: boolean
     status?: boolean
@@ -35364,6 +35372,7 @@ export namespace Prisma {
     level?: boolean
     stream?: boolean
     wilaya?: boolean
+    baladiya?: boolean
     address?: boolean
     phoneNumber?: boolean
     status?: boolean
@@ -35378,6 +35387,7 @@ export namespace Prisma {
     level?: boolean
     stream?: boolean
     wilaya?: boolean
+    baladiya?: boolean
     address?: boolean
     phoneNumber?: boolean
     status?: boolean
@@ -35392,13 +35402,14 @@ export namespace Prisma {
     level?: boolean
     stream?: boolean
     wilaya?: boolean
+    baladiya?: boolean
     address?: boolean
     phoneNumber?: boolean
     status?: boolean
     createdAt?: boolean
   }
 
-  export type SubscriptionRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "subjectIds" | "level" | "stream" | "wilaya" | "address" | "phoneNumber" | "status" | "createdAt", ExtArgs["result"]["subscriptionRequest"]>
+  export type SubscriptionRequestOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "subjectIds" | "level" | "stream" | "wilaya" | "baladiya" | "address" | "phoneNumber" | "status" | "createdAt", ExtArgs["result"]["subscriptionRequest"]>
   export type SubscriptionRequestInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     student?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -35421,6 +35432,7 @@ export namespace Prisma {
       level: string
       stream: string
       wilaya: string
+      baladiya: string | null
       address: string
       phoneNumber: string
       status: string
@@ -35855,6 +35867,7 @@ export namespace Prisma {
     readonly level: FieldRef<"SubscriptionRequest", 'String'>
     readonly stream: FieldRef<"SubscriptionRequest", 'String'>
     readonly wilaya: FieldRef<"SubscriptionRequest", 'String'>
+    readonly baladiya: FieldRef<"SubscriptionRequest", 'String'>
     readonly address: FieldRef<"SubscriptionRequest", 'String'>
     readonly phoneNumber: FieldRef<"SubscriptionRequest", 'String'>
     readonly status: FieldRef<"SubscriptionRequest", 'String'>
@@ -36669,6 +36682,7 @@ export namespace Prisma {
     level: 'level',
     stream: 'stream',
     wilaya: 'wilaya',
+    baladiya: 'baladiya',
     address: 'address',
     phoneNumber: 'phoneNumber',
     status: 'status',
@@ -38889,6 +38903,7 @@ export namespace Prisma {
     level?: StringFilter<"SubscriptionRequest"> | string
     stream?: StringFilter<"SubscriptionRequest"> | string
     wilaya?: StringFilter<"SubscriptionRequest"> | string
+    baladiya?: StringNullableFilter<"SubscriptionRequest"> | string | null
     address?: StringFilter<"SubscriptionRequest"> | string
     phoneNumber?: StringFilter<"SubscriptionRequest"> | string
     status?: StringFilter<"SubscriptionRequest"> | string
@@ -38903,6 +38918,7 @@ export namespace Prisma {
     level?: SortOrder
     stream?: SortOrder
     wilaya?: SortOrder
+    baladiya?: SortOrderInput | SortOrder
     address?: SortOrder
     phoneNumber?: SortOrder
     status?: SortOrder
@@ -38920,6 +38936,7 @@ export namespace Prisma {
     level?: StringFilter<"SubscriptionRequest"> | string
     stream?: StringFilter<"SubscriptionRequest"> | string
     wilaya?: StringFilter<"SubscriptionRequest"> | string
+    baladiya?: StringNullableFilter<"SubscriptionRequest"> | string | null
     address?: StringFilter<"SubscriptionRequest"> | string
     phoneNumber?: StringFilter<"SubscriptionRequest"> | string
     status?: StringFilter<"SubscriptionRequest"> | string
@@ -38934,6 +38951,7 @@ export namespace Prisma {
     level?: SortOrder
     stream?: SortOrder
     wilaya?: SortOrder
+    baladiya?: SortOrderInput | SortOrder
     address?: SortOrder
     phoneNumber?: SortOrder
     status?: SortOrder
@@ -38953,6 +38971,7 @@ export namespace Prisma {
     level?: StringWithAggregatesFilter<"SubscriptionRequest"> | string
     stream?: StringWithAggregatesFilter<"SubscriptionRequest"> | string
     wilaya?: StringWithAggregatesFilter<"SubscriptionRequest"> | string
+    baladiya?: StringNullableWithAggregatesFilter<"SubscriptionRequest"> | string | null
     address?: StringWithAggregatesFilter<"SubscriptionRequest"> | string
     phoneNumber?: StringWithAggregatesFilter<"SubscriptionRequest"> | string
     status?: StringWithAggregatesFilter<"SubscriptionRequest"> | string
@@ -41100,6 +41119,7 @@ export namespace Prisma {
     level: string
     stream: string
     wilaya: string
+    baladiya?: string | null
     address: string
     phoneNumber: string
     status?: string
@@ -41114,6 +41134,7 @@ export namespace Prisma {
     level: string
     stream: string
     wilaya: string
+    baladiya?: string | null
     address: string
     phoneNumber: string
     status?: string
@@ -41126,6 +41147,7 @@ export namespace Prisma {
     level?: StringFieldUpdateOperationsInput | string
     stream?: StringFieldUpdateOperationsInput | string
     wilaya?: StringFieldUpdateOperationsInput | string
+    baladiya?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -41140,6 +41162,7 @@ export namespace Prisma {
     level?: StringFieldUpdateOperationsInput | string
     stream?: StringFieldUpdateOperationsInput | string
     wilaya?: StringFieldUpdateOperationsInput | string
+    baladiya?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -41153,6 +41176,7 @@ export namespace Prisma {
     level: string
     stream: string
     wilaya: string
+    baladiya?: string | null
     address: string
     phoneNumber: string
     status?: string
@@ -41165,6 +41189,7 @@ export namespace Prisma {
     level?: StringFieldUpdateOperationsInput | string
     stream?: StringFieldUpdateOperationsInput | string
     wilaya?: StringFieldUpdateOperationsInput | string
+    baladiya?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -41178,6 +41203,7 @@ export namespace Prisma {
     level?: StringFieldUpdateOperationsInput | string
     stream?: StringFieldUpdateOperationsInput | string
     wilaya?: StringFieldUpdateOperationsInput | string
+    baladiya?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -42827,6 +42853,7 @@ export namespace Prisma {
     level?: SortOrder
     stream?: SortOrder
     wilaya?: SortOrder
+    baladiya?: SortOrder
     address?: SortOrder
     phoneNumber?: SortOrder
     status?: SortOrder
@@ -42839,6 +42866,7 @@ export namespace Prisma {
     level?: SortOrder
     stream?: SortOrder
     wilaya?: SortOrder
+    baladiya?: SortOrder
     address?: SortOrder
     phoneNumber?: SortOrder
     status?: SortOrder
@@ -42851,6 +42879,7 @@ export namespace Prisma {
     level?: SortOrder
     stream?: SortOrder
     wilaya?: SortOrder
+    baladiya?: SortOrder
     address?: SortOrder
     phoneNumber?: SortOrder
     status?: SortOrder
@@ -45740,6 +45769,7 @@ export namespace Prisma {
     level: string
     stream: string
     wilaya: string
+    baladiya?: string | null
     address: string
     phoneNumber: string
     status?: string
@@ -45752,6 +45782,7 @@ export namespace Prisma {
     level: string
     stream: string
     wilaya: string
+    baladiya?: string | null
     address: string
     phoneNumber: string
     status?: string
@@ -46167,6 +46198,7 @@ export namespace Prisma {
     level?: StringFilter<"SubscriptionRequest"> | string
     stream?: StringFilter<"SubscriptionRequest"> | string
     wilaya?: StringFilter<"SubscriptionRequest"> | string
+    baladiya?: StringNullableFilter<"SubscriptionRequest"> | string | null
     address?: StringFilter<"SubscriptionRequest"> | string
     phoneNumber?: StringFilter<"SubscriptionRequest"> | string
     status?: StringFilter<"SubscriptionRequest"> | string
@@ -51579,6 +51611,7 @@ export namespace Prisma {
     level: string
     stream: string
     wilaya: string
+    baladiya?: string | null
     address: string
     phoneNumber: string
     status?: string
@@ -51857,6 +51890,7 @@ export namespace Prisma {
     level?: StringFieldUpdateOperationsInput | string
     stream?: StringFieldUpdateOperationsInput | string
     wilaya?: StringFieldUpdateOperationsInput | string
+    baladiya?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -51869,6 +51903,7 @@ export namespace Prisma {
     level?: StringFieldUpdateOperationsInput | string
     stream?: StringFieldUpdateOperationsInput | string
     wilaya?: StringFieldUpdateOperationsInput | string
+    baladiya?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
@@ -51881,6 +51916,7 @@ export namespace Prisma {
     level?: StringFieldUpdateOperationsInput | string
     stream?: StringFieldUpdateOperationsInput | string
     wilaya?: StringFieldUpdateOperationsInput | string
+    baladiya?: NullableStringFieldUpdateOperationsInput | string | null
     address?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string

@@ -16,7 +16,7 @@ import { DailyTip } from "@/components/student/DailyTip";
 
 const STUDENT_LINKS = [
   { name: "الرئيسية", href: "/dashboard/student", icon: LayoutDashboard, activeBg: "bg-sky-50 dark:bg-slate-950/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
-  { name: "طلب بطاقة الاشتراك", href: "/dashboard/student/subscription-request", icon: CreditCard, activeBg: "bg-emerald-50 dark:bg-emerald-900/30", activeText: "text-emerald-700 dark:text-emerald-400", iconColor: "text-emerald-600 dark:text-emerald-400" },
+  { name: "طلب بطاقة الاشتراك", href: "/dashboard/student/subscription-request", icon: CreditCard, activeBg: "bg-orange-50 dark:bg-orange-950/30", activeText: "text-orange-700 dark:text-orange-400", iconColor: "text-orange-600 dark:text-orange-400" },
   { name: "موادي", href: "/dashboard/student/subjects", icon: BookOpen, activeBg: "bg-blue-50 dark:bg-blue-900/30", activeText: "text-blue-700 dark:text-blue-400", iconColor: "text-blue-600 dark:text-blue-400" },
   { name: "خريطتي الذكية", href: "/dashboard/student/roadmap", icon: Map, activeBg: "bg-blue-50 dark:bg-blue-900/30", activeText: "text-blue-700 dark:text-blue-400", iconColor: "text-blue-600 dark:text-blue-400" },
   { name: "دردشة القسم", href: "/dashboard/student/forums", icon: MessageSquare, activeBg: "bg-sky-50 dark:bg-sky-900/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },

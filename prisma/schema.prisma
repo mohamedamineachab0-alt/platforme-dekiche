@@ -469,6 +469,7 @@ model SubscriptionRequest {
   level       String
   stream      String
   wilaya      String
+  baladiya    String?
   address     String
   phoneNumber String
   status      String   @default("PENDING")

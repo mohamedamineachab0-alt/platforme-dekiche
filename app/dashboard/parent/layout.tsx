@@ -1,6 +1,4 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
-import { prisma } from "@/lib/prisma";
+import { assertAuth } from "@/lib/security";
 import { DashboardLayoutWrapper } from "@/components/shared/DashboardLayoutWrapper";
 
 export default async function ParentLayout({
@@ -8,21 +6,8 @@ export default async function ParentLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const user = await assertAuth({ requireRole: "PARENT" });
 
-  if (!sessionId) {
-    redirect("/login");
-  }
-
-  const user = await prisma.user.findUnique({
-    where: { id: sessionId },
-    select: { id: true, role: true },
-  });
-
-  if (!user || user.role !== "PARENT") {
-    redirect("/login");
-  }
 
   return (
     <DashboardLayoutWrapper role={user.role}>

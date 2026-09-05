@@ -4,6 +4,7 @@ import { useState } from "react";
 import { updateSubscriptionRequestStatus } from "@/actions/subscription";
 import { CreditCard, Check, X, Clock, MapPin, Phone, GraduationCap, BookOpen, AlertCircle, RefreshCw, Send } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { getWilayaName } from "@/lib/constants";
 
 type RequestType = {
   id: string;
@@ -12,6 +13,7 @@ type RequestType = {
   level: string;
   stream: string;
   wilaya: string;
+  baladiya: string | null;
   address: string;
   phoneNumber: string;
   status: string;
@@ -126,7 +128,7 @@ export function SubscriptionRequestsList({
                   </div>
                   <div className="flex items-center gap-3 text-sm text-slate-600 dark:text-slate-400">
                     <MapPin className="w-4 h-4 text-rose-500" />
-                    <span className="font-medium">{request.wilaya} - {request.address}</span>
+                    <span className="font-medium">{getWilayaName(request.wilaya)}{request.baladiya ? ` - ${request.baladiya}` : ''} - {request.address}</span>
                   </div>
                 </div>
               </div>

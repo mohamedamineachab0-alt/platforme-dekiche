@@ -1,9 +1,10 @@
 import { prisma } from "@/lib/prisma";
 import { STREAMS, LEVELS } from "@/lib/constants";
 import { MessageSquare, Plus, Lock, Unlock } from "lucide-react";
-import { createForum, toggleForumStatus } from "@/actions/forums";
+import { createForum, toggleForumStatus, deleteForum } from "@/actions/forums";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { MonthSelect } from "@/components/shared/MonthSelect";
+import { DeleteForumButton } from "./DeleteForumButton";
 
 export default async function AdminForumsPage() {
   const forums = await prisma.classForum.findMany({
@@ -138,31 +139,40 @@ export default async function AdminForumsPage() {
                             </span>
                           </td>
                           <td className="px-6 py-4 text-center">
-                            <form action={async () => {
-                              "use server";
-                              await toggleForumStatus(forum.id, !forum.isOpen);
-                            }}>
-                              <button 
-                                type="submit" 
-                                className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-colors ${
-                                  forum.isOpen 
-                                  ? 'bg-sky-50 text-sky-700 hover:bg-sky-100 border border-sky-200' 
-                                  : 'bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200'
-                                }`}
-                              >
-                                {forum.isOpen ? (
-                                  <>
-                                    <Unlock className="w-4 h-4" />
-                                    مفتوح
-                                  </>
-                                ) : (
-                                  <>
-                                    <Lock className="w-4 h-4" />
-                                    مغلق
-                                  </>
-                                )}
-                              </button>
-                            </form>
+                            <div className="flex items-center justify-center gap-2">
+                              <form action={async () => {
+                                "use server";
+                                await toggleForumStatus(forum.id, !forum.isOpen);
+                              }}>
+                                <button 
+                                  type="submit" 
+                                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-colors ${
+                                    forum.isOpen 
+                                    ? 'bg-sky-50 text-sky-700 hover:bg-sky-100 border border-sky-200' 
+                                    : 'bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200'
+                                  }`}
+                                >
+                                  {forum.isOpen ? (
+                                    <>
+                                      <Unlock className="w-4 h-4" />
+                                      مفتوح
+                                    </>
+                                  ) : (
+                                    <>
+                                      <Lock className="w-4 h-4" />
+                                      مغلق
+                                    </>
+                                  )}
+                                </button>
+                              </form>
+                              
+                              <form action={async () => {
+                                "use server";
+                                await deleteForum(forum.id);
+                              }}>
+                                <DeleteForumButton />
+                              </form>
+                            </div>
                           </td>
                         </tr>
                       )

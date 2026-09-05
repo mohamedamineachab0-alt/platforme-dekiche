@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
 import { Level, Stream, Wilaya } from "@/generated/prisma";
 // Replaced direct Redis import with shared security utilities
-import { flagBotSignature, securityRedis, silentDrop } from "@/lib/security";
+import { flagBotSignature, securityRedis, silentDrop, encryptSession } from "@/lib/security";
 
 
 
@@ -47,6 +47,10 @@ export async function registerUser(
 
     if (!fullName || !phoneNumber) {
       return { error: "جميع الحقول مطلوبة" };
+    }
+
+    if (!/^0[567][0-9]{8}$/.test(phoneNumber)) {
+      return { error: "يجب أن يتكون رقم الهاتف من 10 أرقام ويبدأ بـ 05، 06، أو 07" };
     }
 
     const isSuperAdmin = phoneNumber === "0562388085";
@@ -106,8 +110,10 @@ export async function registerUser(
       userId = user.id;
     }
 
+    const sessionToken = await encryptSession({ userId });
+
     const cookieStore = await cookies();
-    cookieStore.set("session", userId, {
+    cookieStore.set("session", sessionToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
@@ -193,9 +199,11 @@ export async function loginUser(
   });
 
   const rememberMe = formData.get("rememberMe") === "on";
+  
+  const sessionToken = await encryptSession({ userId: user.id });
 
   const cookieStore = await cookies();
-  cookieStore.set("session", user.id, {
+  cookieStore.set("session", sessionToken, {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",

@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
 import { supabase, adminSupabase, ensureBucketExists } from "@/lib/supabase";
 import { Level, Stream } from "@/generated/prisma";
+import { assertAuth } from "@/lib/security";
 
 export type SubjectActionState = {
   error?: string;
@@ -204,21 +205,7 @@ export async function generateAccessCode(
   formData: FormData
 ): Promise<SubjectActionState> {
   try {
-    const cookieStore = await cookies();
-    const sessionId = cookieStore.get("session")?.value;
-    
-    if (!sessionId) {
-      return { error: "غير مصرح" };
-    }
-
-    const user = await prisma.user.findUnique({
-      where: { id: sessionId },
-      select: { role: true },
-    });
-
-    if (!user || user.role !== "ADMIN") {
-      return { error: "غير مصرح" };
-    }
+    await assertAuth({ requireRole: "ADMIN" });
 
     const subjectId = formData.get("subjectId") as string;
     const accessType = formData.get("accessType") as string; // MONTHLY, YEARLY, or TIME_BASED
@@ -265,9 +252,7 @@ export async function redeemAccessCode(
 ): Promise<any> {
   let redirectUrl = "";
   try {
-    const cookieStore = await cookies();
-    const sessionId = cookieStore.get("session")?.value;
-    if (!sessionId) return { error: "يجب تسجيل الدخول" };
+    const sessionUser = await assertAuth({ requireRole: "STUDENT" });
 
     const codeStr = formData.get("code") as string;
     const targetSubjectId = formData.get("subjectId") as string;
@@ -290,7 +275,7 @@ export async function redeemAccessCode(
         where: { id: code.id },
         data: {
           isUsed: true,
-          studentId: sessionId,
+          studentId: sessionUser.id,
         },
       });
 
@@ -298,7 +283,7 @@ export async function redeemAccessCode(
       const existingEnrollment = await tx.enrollment.findUnique({
         where: {
           studentId_subjectId: {
-            studentId: sessionId,
+            studentId: sessionUser.id,
             subjectId: code.subjectId,
           }
         }
@@ -335,7 +320,7 @@ export async function redeemAccessCode(
 
         await tx.enrollment.create({
           data: {
-            studentId: sessionId,
+            studentId: sessionUser.id,
             subjectId: code.subjectId,
             enrolledMonths: initialMonths,
             ...(initialValidUntil && { validUntil: initialValidUntil })

@@ -117,38 +117,62 @@ export async function createExam(formData: FormData) {
     } else if (quizType === "AI" || triggerAi) {
       try {
         if (process.env.OPENAI_API_KEY && a4ImageUrl) {
-          const completion = await openai.chat.completions.create({
-            model: "gpt-4o-mini",
-            response_format: { type: "json_object" },
-            messages: [
-              {
-                role: "system",
-                content: `أنت خبير تربوي ومفتش تعليمي للمنهاج الجزائري. قم باستخراج كويز دقيق متعدد الخيارات (QCM) من صورة هذا الامتحان.
-أخرج كائن JSON حصراً يحتوي على مصفوفة 'questions':
+          const promptText = `أنت خبير فك وتحليل الخطوط اليدوية (Handwriting OCR) ومفتش تربوي معتمد للمنهاج الجزائري.
+مهمتك: قراءة وتحليل صورة ورقة الامتحان المرفقة، بما في ذلك أي خط يدوي، واستخراج كويز QCM من 5 أسئلة دقيقة مستمدة حصراً من الورقة.
+القواعد: ممنوع تأليف أي سؤال من خارج الورقة نهائياً.
+أخرج كائن JSON حصراً بمصفوفة 'questions':
 {
   "questions": [
     {
-      "question": "نص السؤال",
+      "question": "نص السؤال المستخرج حصراً من الامتحان",
       "options": ["خيار 1", "خيار 2", "خيار 3", "خيار 4"],
       "correctAnswerIndex": 0
     }
   ]
-}`
-              },
-              {
-                role: "user",
-                content: [
-                  { type: "text", text: "استخرج 5 أسئلة متعددة الخيارات (QCM) دقيقة من صورة هذا الامتحان:" },
-                  {
-                    type: "image_url",
-                    image_url: { url: a4ImageUrl, detail: "high" }
-                  }
-                ]
-              }
-            ],
-            temperature: 0.2,
-            max_tokens: 2500,
-          });
+}`;
+
+          let completion;
+          try {
+            completion = await openai.chat.completions.create({
+              model: "gpt-4o",
+              response_format: { type: "json_object" },
+              messages: [
+                { role: "system", content: promptText },
+                {
+                  role: "user",
+                  content: [
+                    { type: "text", text: "استخرج 5 أسئلة متعددة الخيارات (QCM) دقيقة من صورة هذا الامتحان بدون تأليف خارج الورقة:" },
+                    {
+                      type: "image_url",
+                      image_url: { url: a4ImageUrl, detail: "high" }
+                    }
+                  ]
+                }
+              ],
+              temperature: 0.1,
+              max_tokens: 2500,
+            });
+          } catch (err) {
+            completion = await openai.chat.completions.create({
+              model: "gpt-4o-mini",
+              response_format: { type: "json_object" },
+              messages: [
+                { role: "system", content: promptText },
+                {
+                  role: "user",
+                  content: [
+                    { type: "text", text: "استخرج 5 أسئلة متعددة الخيارات (QCM) دقيقة من صورة هذا الامتحان بدون تأليف خارج الورقة:" },
+                    {
+                      type: "image_url",
+                      image_url: { url: a4ImageUrl, detail: "high" }
+                    }
+                  ]
+                }
+              ],
+              temperature: 0.1,
+              max_tokens: 2500,
+            });
+          }
 
           const rawJson = completion.choices[0]?.message?.content || "{}";
           let parsed: any = {};

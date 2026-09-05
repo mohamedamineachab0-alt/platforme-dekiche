@@ -26,48 +26,76 @@ export async function generateQuizFromImage(
       ? base64Image
       : `data:${mimeType};base64,${base64Image}`;
 
-    const systemPrompt = `أنت خبير تربوي ومفتش تعليمي معتمد للمنهاج الجزائري.
-مهمتك: تحليل صورة التمرين أو الفرض أو الدرس المرفقة، واستخراج أو توليد كويز دقيق جداً بصيغة أسئلة متعددة الخيارات (QCM / MCQ).
+    const systemPrompt = `أنت خبير فك وتحليل الخطوط اليدوية (Expert Handwriting OCR) ومفتش تربوي معتمد للمنهاج الجزائري.
+مهمتك: قراءة وتحليل صورة الدرس أو التمرين أو الملخص المرفقة، بما في ذلك أي خط يدوي (Handwriting)، ملاحظات، أو معادلات رياضية مرسومة، واستخراج كويز QCM دقيق مستخلص حصراً ومباشرة من محتوى الصورة.
 
-شروط الإخراج:
-1. استخرج بالضبط ${numQuestions} أسئلة مستمدة مباشرة من محتوى الصورة.
-2. لكل سؤال يجب توفير 4 خيارات حصرية (options) غير مكررة ومنطقية.
-3. حدد رقم الخيار الصحيح (correctAnswerIndex) من 0 إلى 3.
-4. يجب أن تكون صياغة الأسئلة والخيارات بنفس لغة الوثيقة (عربية، فرنسية، إنجليزية).
-5. إذا كان المحتوى يتضمن معادلات أو رموزاً رياضية أو فيزيائية، استخدم صيغة LaTeX بين علامتي $ (مثل $f(x) = 2x + 1$).
-6. أخرج النتيجة فقط بتنسيق JSON حصراً يحتوي على مصفوفة باسم 'questions':
+قواعد صارمة ومطلقة:
+1. الالتزام الكامل بالصورة: ممنوع منعاً باتاً اختراع أي سؤال أو إضافة معلومات من خارج الصورة. كل سؤال يجب أن يكون له أصل صريح ومباشر في الصورة.
+2. فك خط اليد: اقرأ الكلمات والرموز والكسور المكتوبة بخط اليد بتركيز فائق، واستخرج الأسئلة بناءً على ما كُتب بدقة.
+3. استخرج بالضبط ${numQuestions} أسئلة QCM.
+4. لكل سؤال 4 خيارات، واحد منها فقط صحيح و 3 خاطئة.
+5. حدد رقم الخيار الصحيح (correctAnswerIndex) من 0 إلى 3.
+6. استخدم صيغة LaTeX بين علامتي $ للمعادلات والرموز (مثل $f'(x)$).
+7. أخرج JSON حصراً بالمصفوفة 'questions':
 {
   "questions": [
     {
-      "question": "نص السؤال الأول هنا",
+      "question": "نص السؤال المستخرج حصراً من الصورة",
       "options": ["الخيار 1", "الخيار 2", "الخيار 3", "الخيار 4"],
       "correctAnswerIndex": 0
     }
   ]
 }`;
 
-    const response = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
-      response_format: { type: "json_object" },
-      temperature: 0.2,
-      max_tokens: 3000,
-      messages: [
-        { role: "system", content: systemPrompt },
-        {
-          role: "user",
-          content: [
-            { type: "text", text: "قم باستخراج الكويز من هذه الصورة بدقة:" },
-            {
-              type: "image_url",
-              image_url: {
-                url: imageUrl,
-                detail: "high",
+    let response;
+    try {
+      response = await openai.chat.completions.create({
+        model: "gpt-4o",
+        response_format: { type: "json_object" },
+        temperature: 0.1,
+        max_tokens: 3000,
+        messages: [
+          { role: "system", content: systemPrompt },
+          {
+            role: "user",
+            content: [
+              { type: "text", text: "قم بفك الخطوط اليدوية واستخراج الكويز من هذه الصورة بدقة متناهية:" },
+              {
+                type: "image_url",
+                image_url: {
+                  url: imageUrl,
+                  detail: "high",
+                },
               },
-            },
-          ],
-        },
-      ],
-    });
+            ],
+          },
+        ],
+      });
+    } catch (err: any) {
+      console.warn("gpt-4o fallback to gpt-4o-mini in generateQuizFromImage:", err?.message);
+      response = await openai.chat.completions.create({
+        model: "gpt-4o-mini",
+        response_format: { type: "json_object" },
+        temperature: 0.1,
+        max_tokens: 3000,
+        messages: [
+          { role: "system", content: systemPrompt },
+          {
+            role: "user",
+            content: [
+              { type: "text", text: "قم بفك الخطوط اليدوية واستخراج الكويز من هذه الصورة بدقة متناهية:" },
+              {
+                type: "image_url",
+                image_url: {
+                  url: imageUrl,
+                  detail: "high",
+                },
+              },
+            ],
+          },
+        ],
+      });
+    }
 
     const content = response.choices[0]?.message?.content;
     if (!content) {

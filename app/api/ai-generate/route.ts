@@ -51,27 +51,31 @@ export async function POST(req: Request) {
     const qCount = Number(numberOfQuestions) > 0 ? Number(numberOfQuestions) : 5;
     const score = Number(maxScore) > 0 ? Number(maxScore) : 20;
 
-    const systemPrompt = `أنت خبير تعليمي ومفتش تربوي معتمد للمنهاج الجزائري.
-مهمتك: تحليل الوثيقة/المحتوى التعليمي المرفق (فرض، اختبار، درس، أو تمرين) للمستوى: ${level || 'غير محدد'}، الشعبة: ${stream || 'عام'}، المادة: ${subject || 'عام'}، الشهر: ${month || 'غير محدد'}.
+    const systemPrompt = `أنت خبير فك وتحليل الخطوط اليدوية (Expert Handwriting OCR) ومفتش تربوي معتمد للمنهاج الجزائري (بكالوريا وتعليم ثانوي).
 
-المطلوب:
-1. استخرج أو ولد كويز رقمي (QCM / Multiple Choice Quiz) عالي الدقة مبني كلياً على محتوى الدرس أو الوثيقة.
-2. عدد الأسئلة المطلوب بدقة: ${qCount} أسئلة.
-3. لكل سؤال 4 خيارات حصرية (options) لا غير، واحد منها فقط صحيح.
-4. حدد 'correctAnswerIndex' برقم صحيح بين 0 و 3 يشير إلى مكان الخيار الصحيح.
-5. لغة الأسئلة والخيارات يجب أن تطابق لغة الوثيقة تماماً (عربية، فرنسية، إنجليزية).
-6. للمعادلات الرياضية أو العلمية، استخدم تنسيق LaTeX محاطاً بعلامة $ (مثال: $f(x) = x^2 + 1$).
-7. الإخراج يجب أن يكون JSON فقط يحتوي على مصفوفة باسم 'questions':
+المهمة الأساسية:
+قراءة الوثائق والمستندات والصور المرفقة، وفك كافة أنواع الخطوط المكتوبة باليد (خط اليد للأساتذة والتلاميذ، الملاحظات الهامشية، العناوين، والرموز والمعادلات الرياضية والفيزيائية اليدوية)، واستخراج كويز رقمي (QCM) دقيق ومطابق 100% لمحتوى الوثيقة حصراً.
+
+قواعد الالتزام الصارم (عدم التخليط وعدم التأليف):
+1. الالتزام المطلق بمحتوى الوثيقة: ممنوع منعاً باتاً تأليف أسئلة من الذاكرة العامة أو إضافة معلومات من خارج الوثائق المرفقة. كل سؤال وكل خيار يجب أن يكون مستنبطاً ومثبتاً مباشرة في نص أو صور الملف المرفق.
+2. فك خط اليد بامتياز: اقرأ الكلمات والرموز المكتوبة باليد بعناية فائقة. إذا كانت هناك مصطلحات فرنسية أو تقنية أو قوانين علمية مكتوبة باليد، حللها بدقة واستخرج الأسئلة بناءً عليها.
+3. عدد الأسئلة المطلوب بدقة تامة: ${qCount} أسئلة.
+4. بنية كل سؤال (QCM):
+   - 'question': نص السؤال واضح ومحدد مستخلص حصراً من الوثيقة.
+   - 'options': 4 خيارات حصرية وذكية، واحد منها فقط صحيح وثلاثة خيارات خاطئة مستوحاة من نفس الدرس.
+   - 'correctAnswerIndex': رقم صحيح (0 أو 1 أو 2 أو 3) يشير لموضع الخيار الصحيح.
+5. لغة الصياغة: اكتب الأسئلة والخيارات بنفس لغة ومصطلحات الوثيقة المرفقة (عربية، فرنسية، إنجليزية).
+6. الصياغة العلمية والرياضية: استخدم LaTeX بين علامتي $ لأي معادلة أو رمز علمي (مثال: $f(x) = \\frac{2x+1}{x-3}$ أو $[H_3O^+]$).
+7. التنسيق: أخرج كائن JSON حصراً يحتوي على مصفوفة باسم 'questions' دون أي نصوص أو شروحات إضافية:
 {
   "questions": [
     {
-      "question": "نص السؤال هنا",
+      "question": "نص السؤال المستخرج حصراً من الوثيقة",
       "options": ["خيار 1", "خيار 2", "خيار 3", "خيار 4"],
       "correctAnswerIndex": 0
     }
   ]
-}
-تحذير صارم: لا تخرج أي نصوص إضافية خارج كائن الـ JSON.`;
+}`;
 
     const userContent: any[] = [
       {
@@ -185,19 +189,37 @@ export async function POST(req: Request) {
       });
     }
 
-    const response = await openai.chat.completions.create({
-      model: 'gpt-4o-mini',
-      response_format: { type: 'json_object' },
-      messages: [
-        { role: 'system', content: systemPrompt },
-        {
-          role: 'user',
-          content: userContent,
-        },
-      ],
-      temperature: 0.2,
-      max_tokens: 3500,
-    });
+    let response;
+    try {
+      response = await openai.chat.completions.create({
+        model: 'gpt-4o',
+        response_format: { type: 'json_object' },
+        messages: [
+          { role: 'system', content: systemPrompt },
+          {
+            role: 'user',
+            content: userContent,
+          },
+        ],
+        temperature: 0.1,
+        max_tokens: 3500,
+      });
+    } catch (modelErr: any) {
+      console.warn('gpt-4o failed, falling back to gpt-4o-mini:', modelErr?.message);
+      response = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        response_format: { type: 'json_object' },
+        messages: [
+          { role: 'system', content: systemPrompt },
+          {
+            role: 'user',
+            content: userContent,
+          },
+        ],
+        temperature: 0.1,
+        max_tokens: 3500,
+      });
+    }
 
     const result = response.choices[0]?.message?.content;
     if (!result) {

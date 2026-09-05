@@ -36,6 +36,7 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
   const [manualQuestions, setManualQuestions] = useState<QuizQuestion[]>([{ question: "", options: ["", "", "", ""], correctAnswerIndex: 0 }]);
   const [customPrompt, setCustomPrompt] = useState("");
   const [aiLanguage, setAiLanguage] = useState<"ar" | "fr" | "en" | "es">("ar");
+  const [selectedSubjectId, setSelectedSubjectId] = useState<string>("");
 
   const filteredSubjects = subjects;
 
@@ -111,12 +112,18 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
         formData.append('customPrompt', customPrompt);
       }
 
-      const selectedSubject = subjects.find(s => s.id === (document.querySelector('select[name="subjectId"]') as HTMLSelectElement)?.value);
+      const activeSubjectId = selectedSubjectId || (document.querySelector('select[name="subjectId"]') as HTMLSelectElement)?.value;
+      const selectedSubject = subjects.find(s => s.id === activeSubjectId);
+
+      if (!selectedSubject) {
+        alert("يرجى تحديد المادة أولاً لضمان عدم خلط المواد وتوليد أسئلة دقيقة للمادة المحددة حصراً.");
+        return;
+      }
 
       formData.append('metadata', JSON.stringify({
         level,
         stream,
-        subject: selectedSubject?.title || '',
+        subject: selectedSubject.title,
         month: (document.querySelector('select[name="month"]') as HTMLSelectElement)?.value || '',
         maxScore: quizMaxScore,
         numberOfQuestions: numberOfQuestions || 5,
@@ -269,6 +276,25 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
 
           {file && (
             <div className="bg-sky-50 p-6 rounded-2xl border border-sky-100 space-y-4 mt-4">
+              {/* Subject Selection for AI */}
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-slate-700 block">
+                  مادة الامتحان (إلزامي لحصر الأسئلة ومنع خلط المواد)
+                </label>
+                <select
+                  value={selectedSubjectId}
+                  onChange={(e) => setSelectedSubjectId(e.target.value)}
+                  className="w-full bg-white border border-slate-200 rounded-xl px-4 py-2.5 font-bold focus:ring-2 focus:ring-sky-500 outline-none text-slate-800"
+                >
+                  <option value="">-- اختر مادة هذا الامتحان لحصر الأسئلة فيها حصراً --</option>
+                  {subjects.map((sub) => (
+                    <option key={sub.id} value={sub.id}>
+                      {sub.title}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-bold text-slate-700 block">عدد الأسئلة</label>
@@ -392,6 +418,8 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
             <select
               name="subjectId"
               required
+              value={selectedSubjectId}
+              onChange={(e) => setSelectedSubjectId(e.target.value)}
               className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 font-medium focus:ring-2 focus:ring-amber-400 focus:outline-none"
             >
               <option value="">اختر المادة..</option>

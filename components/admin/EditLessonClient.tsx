@@ -6,10 +6,12 @@ import { MathPreview } from "@/components/shared/MathPreview";
 
 export function EditLessonClient({ 
   lesson,
+  subjectTitle,
   action,
   deleteAction
 }: { 
   lesson: any;
+  subjectTitle?: string;
   action: (id: string, formData: FormData) => Promise<{ error?: string; success?: boolean }>;
   deleteAction?: (id: string) => Promise<{ error?: string; success?: boolean }>;
 }) {
@@ -144,6 +146,8 @@ export function EditLessonClient({
       formData.append(
         "metadata",
         JSON.stringify({
+          subject: subjectTitle || lesson.subject?.title || "",
+          lessonTitle: title || lesson.title || "",
           level: selectedLevels[0] || "",
           stream: selectedStreams[0] || "",
           maxScore: quizMaxScore,
@@ -633,6 +637,14 @@ export function EditLessonClient({
                         </div>
                       ) : (
                         <div className="space-y-4">
+                          {(subjectTitle || lesson.subject?.title) && (
+                            <div className="bg-sky-50 border border-sky-200 rounded-xl px-4 py-2.5 flex items-center justify-between text-xs font-bold text-sky-800">
+                              <span>المادة المحددة للكويز:</span>
+                              <span className="bg-white px-2.5 py-1 rounded-lg border border-sky-200 text-sky-900 shadow-sm">
+                                {subjectTitle || lesson.subject?.title}
+                              </span>
+                            </div>
+                          )}
                           <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                               <label className="text-sm font-bold text-slate-700">عدد الأسئلة</label>

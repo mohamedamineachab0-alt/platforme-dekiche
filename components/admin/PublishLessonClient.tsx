@@ -6,9 +6,11 @@ import { MathPreview } from "@/components/shared/MathPreview";
 
 export function PublishLessonClient({
   subjectId,
+  subjectTitle,
   action
 }: {
   subjectId: string;
+  subjectTitle?: string;
   action: (formData: FormData) => Promise<{ error?: string; success?: boolean }>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -109,9 +111,12 @@ export function PublishLessonClient({
       filesToSend.forEach((f) => {
         formData.append("files", f);
       });
+      const lessonTitleInput = (document.querySelector('input[name="title"]') as HTMLInputElement)?.value || "";
       formData.append(
         "metadata",
         JSON.stringify({
+          subject: subjectTitle || "",
+          lessonTitle: lessonTitleInput,
           level: selectedLevels[0] || "",
           stream: selectedStreams[0] || "",
           maxScore: quizMaxScore,
@@ -553,6 +558,12 @@ export function PublishLessonClient({
                         </div>
                       ) : (
                         <div className="space-y-4">
+                          {subjectTitle && (
+                            <div className="bg-sky-50 border border-sky-200 rounded-xl px-4 py-2.5 flex items-center justify-between text-xs font-bold text-sky-800">
+                              <span>المادة المحددة للكويز:</span>
+                              <span className="bg-white px-2.5 py-1 rounded-lg border border-sky-200 text-sky-900 shadow-sm">{subjectTitle}</span>
+                            </div>
+                          )}
                           <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                               <label className="text-sm font-bold text-slate-700">عدد الأسئلة</label>

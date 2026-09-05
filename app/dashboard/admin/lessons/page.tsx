@@ -68,6 +68,7 @@ export default async function AdminLessonsPage(props: {
               
               <PublishLessonClient 
                 subjectId={selectedSubject.id} 
+                subjectTitle={selectedSubject.title}
                 action={createLesson}
               />
             </div>
@@ -93,6 +94,7 @@ export default async function AdminLessonsPage(props: {
                       <div key={lesson.id} className="border border-slate-100 rounded-2xl p-4 flex flex-col relative">
                         <EditLessonClient 
                           lesson={lesson} 
+                          subjectTitle={selectedSubject.title}
                           action={updateLesson}
                           deleteAction={deleteLesson}
                         />

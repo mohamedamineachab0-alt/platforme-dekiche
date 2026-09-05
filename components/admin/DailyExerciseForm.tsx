@@ -273,7 +273,7 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
           </label>
         </div>
 
-        {file && file.type.startsWith("image/") && (
+        {file && (
           <div className="bg-sky-50 p-6 rounded-2xl border border-sky-100 space-y-4 mt-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">

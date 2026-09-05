@@ -13,20 +13,37 @@ export async function POST(req: Request) {
     }
 
     const formData = await req.formData();
-    const files = formData.getAll('files') as File[];
-    const metadataStr = formData.get('metadata') as string;
-    const type = (formData.get('type') as string) || 'daily_exercise';
-    const customPrompt = formData.get('customPrompt') as string | null;
-
-    if (!files || files.length === 0 || !metadataStr) {
-      return NextResponse.json({ error: 'Missing required fields (files or metadata)' }, { status: 400 });
+    const files = (formData.getAll('files') as File[]).filter(f => f && f.size > 0);
+    const fileUrlsStr = formData.get('fileUrls') as string | null;
+    let fileUrls: { url: string; name?: string; type?: string }[] = [];
+    if (fileUrlsStr) {
+      try {
+        const parsed = JSON.parse(fileUrlsStr);
+        if (Array.isArray(parsed)) {
+          fileUrls = parsed.map(item => typeof item === 'string' ? { url: item } : item);
+        }
+      } catch (e) {
+        console.warn('Failed to parse fileUrls:', e);
+      }
     }
 
+    if (files.length === 0 && fileUrls.length === 0) {
+      return NextResponse.json(
+        { error: 'يرجى تزويد ملفات أو تحديد ملحقات الدرس لتوليد الكويز' },
+        { status: 400 }
+      );
+    }
+
+    const metadataStr = formData.get('metadata') as string;
+    const customPrompt = formData.get('customPrompt') as string | null;
+
     let metadata: any = {};
-    try {
-      metadata = JSON.parse(metadataStr);
-    } catch {
-      metadata = {};
+    if (metadataStr) {
+      try {
+        metadata = JSON.parse(metadataStr);
+      } catch {
+        metadata = {};
+      }
     }
 
     const { level, stream, subject, month, maxScore, numberOfQuestions } = metadata;
@@ -34,10 +51,10 @@ export async function POST(req: Request) {
     const score = Number(maxScore) > 0 ? Number(maxScore) : 20;
 
     const systemPrompt = `أنت خبير تعليمي ومفتش تربوي معتمد للمنهاج الجزائري.
-مهمتك: تحليل الوثيقة/الصور المرفقة (فرض، اختبار، درس، أو تمرين) للمستوى: ${level || 'غير محدد'}، الشعبة: ${stream || 'عام'}، المادة: ${subject || 'عام'}، الشهر: ${month || 'غير محدد'}.
+مهمتك: تحليل الوثيقة/المحتوى التعليمي المرفق (فرض، اختبار، درس، أو تمرين) للمستوى: ${level || 'غير محدد'}، الشعبة: ${stream || 'عام'}، المادة: ${subject || 'عام'}، الشهر: ${month || 'غير محدد'}.
 
 المطلوب:
-1. استخرج أو ولد كويز رقمي (QCM / Multiple Choice Quiz) عالي الدقة مبني كلياً على الوثيقة.
+1. استخرج أو ولد كويز رقمي (QCM / Multiple Choice Quiz) عالي الدقة مبني كلياً على محتوى الدرس أو الوثيقة.
 2. عدد الأسئلة المطلوب بدقة: ${qCount} أسئلة.
 3. لكل سؤال 4 خيارات حصرية (options) لا غير، واحد منها فقط صحيح.
 4. حدد 'correctAnswerIndex' برقم صحيح بين 0 و 3 يشير إلى مكان الخيار الصحيح.
@@ -55,14 +72,14 @@ export async function POST(req: Request) {
 }
 تحذير صارم: لا تخرج أي نصوص إضافية خارج كائن الـ JSON.`;
 
-    // Process all files
     const userContent: any[] = [
       {
         type: 'text',
-        text: `بناءً على الوثائق المرفقة، قم باستخراج ${qCount} أسئلة متعددة الخيارات (QCM) بمجموع علامات ${score}:`,
+        text: `بناءً على ملفات ووثائق الدرس المرفقة، قم باستخراج وتوليد ${qCount} أسئلة متعددة الخيارات (QCM) بمجموع علامات ${score}:`,
       },
     ];
 
+    // Process uploaded File objects
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const fileBuffer = Buffer.from(await file.arrayBuffer());
@@ -78,24 +95,31 @@ export async function POST(req: Request) {
           },
         });
       } else if (mimeType === 'application/pdf') {
-        const pdfParse = require('pdf-parse');
-        const pdfData = await pdfParse(fileBuffer);
-        userContent.push({
-          type: 'text',
-          text: `[نص من ملف PDF: ${file.name}]\n\n${pdfData.text}`,
-        });
+        try {
+          const pdfParse = require('pdf-parse');
+          const pdfData = await pdfParse(fileBuffer);
+          userContent.push({
+            type: 'text',
+            text: `[نص مستخرج من ملف الدرس PDF: ${file.name}]\n\n${pdfData.text}`,
+          });
+        } catch (pdfErr) {
+          console.warn('PDF parse failed, sending fallback:', pdfErr);
+        }
       } else if (
         mimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
         mimeType === 'application/msword'
       ) {
-        const mammoth = require('mammoth');
-        const result = await mammoth.extractRawText({ buffer: fileBuffer });
-        userContent.push({
-          type: 'text',
-          text: `[نص من ملف Word: ${file.name}]\n\n${result.value}`,
-        });
+        try {
+          const mammoth = require('mammoth');
+          const result = await mammoth.extractRawText({ buffer: fileBuffer });
+          userContent.push({
+            type: 'text',
+            text: `[نص مستخرج من ملف الدرس Word: ${file.name}]\n\n${result.value}`,
+          });
+        } catch (wordErr) {
+          console.warn('Word parse failed:', wordErr);
+        }
       } else {
-        // Default to attempting image extraction or error
         const base64Fallback = fileBuffer.toString('base64');
         userContent.push({
           type: 'image_url',
@@ -104,6 +128,58 @@ export async function POST(req: Request) {
             detail: 'high',
           },
         });
+      }
+    }
+
+    // Process remote file URLs (e.g. existing materials stored in Supabase)
+    for (let i = 0; i < fileUrls.length; i++) {
+      const item = fileUrls[i];
+      try {
+        const res = await fetch(item.url);
+        if (!res.ok) continue;
+        const arrayBuf = await res.arrayBuffer();
+        const buffer = Buffer.from(arrayBuf);
+        const contentType = (res.headers.get('content-type') || item.type || '').toLowerCase();
+
+        if (contentType.startsWith('image/') || item.url.match(/\.(jpg|jpeg|png|webp|gif)$/i)) {
+          const b64 = buffer.toString('base64');
+          const mime = contentType.startsWith('image/') ? contentType : 'image/jpeg';
+          userContent.push({
+            type: 'image_url',
+            image_url: {
+              url: `data:${mime};base64,${b64}`,
+              detail: 'high',
+            },
+          });
+        } else if (contentType.includes('pdf') || item.url.match(/\.pdf$/i)) {
+          try {
+            const pdfParse = require('pdf-parse');
+            const pdfData = await pdfParse(buffer);
+            userContent.push({
+              type: 'text',
+              text: `[نص من ملحق الدرس: ${item.name || `ملحق ${i + 1}`}]\n\n${pdfData.text}`,
+            });
+          } catch (pdfErr) {
+            console.warn('Remote PDF parse failed:', pdfErr);
+          }
+        } else if (
+          contentType.includes('word') ||
+          contentType.includes('officedocument') ||
+          item.url.match(/\.(docx|doc)$/i)
+        ) {
+          try {
+            const mammoth = require('mammoth');
+            const result = await mammoth.extractRawText({ buffer });
+            userContent.push({
+              type: 'text',
+              text: `[نص من ملحق الدرس Word: ${item.name || `ملحق ${i + 1}`}]\n\n${result.value}`,
+            });
+          } catch (wordErr) {
+            console.warn('Remote Word parse failed:', wordErr);
+          }
+        }
+      } catch (fetchErr) {
+        console.error('Failed to fetch remote material:', item.url, fetchErr);
       }
     }
 

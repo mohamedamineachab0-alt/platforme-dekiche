@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Edit2, X, Upload, File, Loader2, Image as ImageIcon, BrainCircuit, Plus, Trash2 } from "lucide-react";
+import { Edit2, X, Upload, File, Loader2, Image as ImageIcon, BrainCircuit, Plus, Trash2, CheckCircle2 } from "lucide-react";
 
 export function EditLessonClient({ 
   lesson,
@@ -40,6 +40,7 @@ export function EditLessonClient({
   const [quizType, setQuizType] = useState<"MANUAL" | "AI">("MANUAL");
   const [quizMaxScore, setQuizMaxScore] = useState(20);
   const [manualQuestions, setManualQuestions] = useState([{ question: "", options: ["", "", "", ""], correctAnswerIndex: 0 }]);
+  const [aiSourceMode, setAiSourceMode] = useState<"lesson_files" | "custom_upload">("lesson_files");
   const [aiImageFile, setAiImageFile] = useState<File | null>(null);
   const [numberOfQuestions, setNumberOfQuestions] = useState(5);
   const [isGeneratingAi, setIsGeneratingAi] = useState(false);
@@ -99,11 +100,45 @@ export function EditLessonClient({
   };
 
   const handleAiGenerate = async () => {
-    if (!aiImageFile) return;
+    const filesToSend: File[] = [];
+    const fileUrlsToSend: { url: string; name?: string; type?: string }[] = [];
+
+    if (aiSourceMode === "lesson_files") {
+      if (existingMaterials && existingMaterials.length > 0) {
+        existingMaterials.forEach((m) => {
+          if (m.fileUrl) {
+            fileUrlsToSend.push({ url: m.fileUrl, name: m.title, type: m.fileType });
+          }
+        });
+      }
+      if (files && files.length > 0) {
+        filesToSend.push(...files);
+      }
+      if (filesToSend.length === 0 && fileUrlsToSend.length === 0) {
+        if (imageFile) {
+          filesToSend.push(imageFile);
+        } else if (imageUrl) {
+          fileUrlsToSend.push({ url: imageUrl, name: "صورة الدرس" });
+        }
+      }
+    } else if (aiImageFile) {
+      filesToSend.push(aiImageFile);
+    }
+
+    if (filesToSend.length === 0 && fileUrlsToSend.length === 0) {
+      alert("يرجى إرفاق ملحقات للدرس أو رفع ملف مخصص للكويز");
+      return;
+    }
+
     setIsGeneratingAi(true);
     try {
       const formData = new FormData();
-      formData.append("files", aiImageFile);
+      filesToSend.forEach((f) => {
+        formData.append("files", f);
+      });
+      if (fileUrlsToSend.length > 0) {
+        formData.append("fileUrls", JSON.stringify(fileUrlsToSend));
+      }
       formData.append(
         "metadata",
         JSON.stringify({
@@ -146,7 +181,7 @@ export function EditLessonClient({
         setManualQuestions(sanitized);
         setQuizType("MANUAL");
       } else {
-        alert("لم يتم التعرف على أي أسئلة صالحة في الصورة");
+        alert("لم يتم التعرف على أي أسئلة صالحة في الوثائق المقدمة");
       }
     } catch (err: any) {
       alert(err.message || "حدث خطأ أثناء توليد الكويز بواسطة الذكاء الاصطناعي");
@@ -608,37 +643,134 @@ export function EditLessonClient({
                             </div>
                           </div>
                           
-                          <label className="relative flex flex-col items-center justify-center w-full py-8 px-4 border-2 border-dashed border-sky-200 rounded-2xl bg-sky-50/50 hover:bg-sky-50 hover:border-sky-400 transition-all cursor-pointer group">
-                            <div className="bg-white p-3 rounded-xl shadow-sm mb-3 text-sky-500 group-hover:scale-110 transition-transform">
-                              <BrainCircuit className="w-6 h-6" />
+                          {/* Source Selection for AI */}
+                          <div className="space-y-3 pt-2">
+                            <label className="text-sm font-bold text-slate-700 block">مصدر محتوى الكويز</label>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                              <button
+                                type="button"
+                                onClick={() => setAiSourceMode("lesson_files")}
+                                className={`p-3.5 rounded-xl border-2 text-right transition-all flex items-start gap-3 ${
+                                  aiSourceMode === "lesson_files"
+                                    ? "border-sky-500 bg-sky-50/50 shadow-sm"
+                                    : "border-slate-200 bg-white hover:border-sky-200"
+                                }`}
+                              >
+                                <div className={`w-5 h-5 rounded-full border-2 mt-0.5 shrink-0 flex items-center justify-center ${aiSourceMode === "lesson_files" ? "border-sky-500 bg-white" : "border-slate-300"}`}>
+                                  {aiSourceMode === "lesson_files" && <div className="w-2.5 h-2.5 rounded-full bg-sky-500" />}
+                                </div>
+                                <div>
+                                  <span className={`font-bold text-sm block ${aiSourceMode === "lesson_files" ? "text-sky-800" : "text-slate-700"}`}>
+                                    ملفات وملحقات الدرس مباشرة
+                                  </span>
+                                  <span className="text-xs text-slate-500 block mt-0.5">
+                                    {existingMaterials.length > 0 || files.length > 0
+                                      ? `الاعتماد على ملفات الدرس (${existingMaterials.length + files.length} ملف)`
+                                      : imageUrl || imageFile
+                                      ? "الاعتماد على صورة الدرس الحالية"
+                                      : "استخدام ملفات وملحقات الدرس"}
+                                  </span>
+                                </div>
+                              </button>
+
+                              <button
+                                type="button"
+                                onClick={() => setAiSourceMode("custom_upload")}
+                                className={`p-3.5 rounded-xl border-2 text-right transition-all flex items-start gap-3 ${
+                                  aiSourceMode === "custom_upload"
+                                    ? "border-sky-500 bg-sky-50/50 shadow-sm"
+                                    : "border-slate-200 bg-white hover:border-sky-200"
+                                }`}
+                              >
+                                <div className={`w-5 h-5 rounded-full border-2 mt-0.5 shrink-0 flex items-center justify-center ${aiSourceMode === "custom_upload" ? "border-sky-500 bg-white" : "border-slate-300"}`}>
+                                  {aiSourceMode === "custom_upload" && <div className="w-2.5 h-2.5 rounded-full bg-sky-500" />}
+                                </div>
+                                <div>
+                                  <span className={`font-bold text-sm block ${aiSourceMode === "custom_upload" ? "text-sky-800" : "text-slate-700"}`}>
+                                    رفع ملف / صورة مخصصة
+                                  </span>
+                                  <span className="text-xs text-slate-500 block mt-0.5">
+                                    رفع ملخص أو ورقة أسئلة منفصلة
+                                  </span>
+                                </div>
+                              </button>
                             </div>
-                            <span className="font-bold text-slate-700 text-sm mb-1">{aiImageFile ? aiImageFile.name : "اضغط لرفع صورة الدرس (ملخص/تمرين)"}</span>
-                            <span className="font-medium text-slate-400 text-xs text-center max-w-[200px]">جميع صيغ الملفات مدعومة (الحد الأقصى 10MB)</span>
-                            <input 
-                              type="file" 
-                              multiple
-                              onChange={(e) => {
-                                if (e.target.files?.[0]) setAiImageFile(e.target.files[0]);
-                              }}
-                              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
-                            />
-                          </label>
+                          </div>
+
+                          {aiSourceMode === "lesson_files" ? (
+                            <div className="bg-sky-50/70 border border-sky-200 rounded-2xl p-4">
+                              {existingMaterials.length > 0 || files.length > 0 ? (
+                                <div className="space-y-2">
+                                  <div className="flex items-center gap-2 text-xs font-bold text-sky-800">
+                                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                                    <span>جاهز لتوليد الكويز من ملفات الدرس التالية مباشرة بدون إعادة رفع:</span>
+                                  </div>
+                                  <div className="flex flex-wrap gap-2 pt-1">
+                                    {existingMaterials.map((m, i) => (
+                                      <span key={`ex-${i}`} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-sky-200 rounded-lg text-xs font-bold text-slate-700 shadow-sm">
+                                        <File className="w-3.5 h-3.5 text-sky-500 shrink-0" />
+                                        <span className="truncate max-w-[200px]" dir="ltr">{m.title || `ملحق ${i + 1}`}</span>
+                                      </span>
+                                    ))}
+                                    {files.map((f, i) => (
+                                      <span key={`f-${i}`} className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-sky-200 rounded-lg text-xs font-bold text-slate-700 shadow-sm">
+                                        <File className="w-3.5 h-3.5 text-sky-500 shrink-0" />
+                                        <span className="truncate max-w-[200px]" dir="ltr">{f.name}</span>
+                                      </span>
+                                    ))}
+                                  </div>
+                                </div>
+                              ) : imageUrl || imageFile ? (
+                                <div className="flex items-center gap-2 text-xs font-bold text-sky-800">
+                                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                                  <span>سيتم توليد الكويز من صورة الدرس الحالية</span>
+                                </div>
+                              ) : (
+                                <div className="text-xs font-bold text-amber-700 bg-amber-50 p-3 rounded-xl border border-amber-200">
+                                  ⚠️ لا توجد ملحقات حالية في هذا الدرس. قم بإضافة ملحقات أولاً أو اختر "رفع ملف مخصص".
+                                </div>
+                              )}
+                            </div>
+                          ) : (
+                            <label className="relative flex flex-col items-center justify-center w-full py-8 px-4 border-2 border-dashed border-sky-200 rounded-2xl bg-sky-50/50 hover:bg-sky-50 hover:border-sky-400 transition-all cursor-pointer group">
+                              <div className="bg-white p-3 rounded-xl shadow-sm mb-3 text-sky-500 group-hover:scale-110 transition-transform">
+                                <BrainCircuit className="w-6 h-6" />
+                              </div>
+                              <span className="font-bold text-slate-700 text-sm mb-1">{aiImageFile ? aiImageFile.name : "اضغط لرفع ملف أو صورة الكويز"}</span>
+                              <span className="font-medium text-slate-400 text-xs text-center max-w-[200px]">جميع صيغ الملفات مدعومة (الحد الأقصى 10MB)</span>
+                              <input 
+                                type="file" 
+                                accept="image/*,.pdf,.doc,.docx"
+                                onChange={(e) => {
+                                  if (e.target.files?.[0]) setAiImageFile(e.target.files[0]);
+                                }}
+                                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" 
+                              />
+                            </label>
+                          )}
 
                           <button
                             type="button"
                             onClick={handleAiGenerate}
-                            disabled={isGeneratingAi || !aiImageFile}
-                            className="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white font-bold py-3.5 rounded-xl transition-all"
+                            disabled={
+                              isGeneratingAi ||
+                              (aiSourceMode === "lesson_files"
+                                ? existingMaterials.length === 0 && files.length === 0 && !imageFile && !imageUrl
+                                : !aiImageFile)
+                            }
+                            className="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-800 disabled:opacity-50 text-white font-bold py-3.5 rounded-xl transition-all shadow-md"
                           >
                             {isGeneratingAi ? (
                               <>
                                 <Loader2 className="w-5 h-5 animate-spin" />
-                                جاري التوليد...
+                                جاري تحليل محتوى الدرس وتوليد الأسئلة بواسطة OpenAI...
                               </>
                             ) : (
                               <>
-                                <BrainCircuit className="w-5 h-5" />
-                                توليد الأسئلة الآن
+                                <BrainCircuit className="w-5 h-5 text-amber-400" />
+                                {aiSourceMode === "lesson_files" && (existingMaterials.length > 0 || files.length > 0)
+                                  ? `توليد الكويز مباشرة من ملفات الدرس (${existingMaterials.length + files.length})`
+                                  : "توليد الأسئلة الآن بالذكاء الاصطناعي"}
                               </>
                             )}
                           </button>

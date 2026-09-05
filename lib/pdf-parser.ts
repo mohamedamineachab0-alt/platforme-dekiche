@@ -1,9 +1,27 @@
+import sharp from "sharp";
+
 /**
- * Robust server-side PDF processing:
- * 1. Extract digital text (via pdfjs-dist legacy / pdf-parse).
- * 2. Extract embedded scanned photos / handwritten pages (via JPEG stream scanning).
- * 3. File type sniffing by magic bytes (immune to missing/wrong browser MIME types).
+ * Validates, normalizes and converts ANY image (HEIC, PNG, WebP, TIFF, BMP, JPEG)
+ * to a 100% compliant JPEG stream tailored for OpenAI Vision API.
+ * Returns null if the buffer is corrupt or unreadable.
  */
+export async function sanitizeAndConvertToOpenAiJpeg(buffer: Buffer): Promise<Buffer | null> {
+  try {
+    if (!buffer || buffer.length < 50) return null;
+    const img = sharp(buffer, { failOn: "none" });
+    const meta = await img.metadata();
+    if (!meta.width || !meta.height) return null;
+
+    let pipeline = img.rotate(); // auto-orient by EXIF
+    if (meta.width > 2048 || meta.height > 2048) {
+      pipeline = pipeline.resize(2048, 2048, { fit: "inside", withoutEnlargement: true });
+    }
+    const cleanJpeg = await pipeline.jpeg({ quality: 85, mozjpeg: true }).toBuffer();
+    return cleanJpeg;
+  } catch {
+    return null;
+  }
+}
 
 export function detectBufferType(
   buffer: Buffer,
@@ -110,7 +128,7 @@ export function detectBufferType(
   return "unknown";
 }
 
-export function extractJpegsFromPdf(pdfBuffer: Buffer, maxImages: number = 8): Buffer[] {
+export async function extractJpegsFromPdf(pdfBuffer: Buffer, maxImages: number = 6): Promise<Buffer[]> {
   const images: Buffer[] = [];
   const startMarker = Buffer.from([0xff, 0xd8, 0xff]);
   const endMarker = Buffer.from([0xff, 0xd9]);
@@ -122,10 +140,13 @@ export function extractJpegsFromPdf(pdfBuffer: Buffer, maxImages: number = 8): B
     const endIdx = pdfBuffer.indexOf(endMarker, startIdx + 3);
     if (endIdx === -1) break;
 
-    const jpegBuf = pdfBuffer.subarray(startIdx, endIdx + 2);
+    const candidate = pdfBuffer.subarray(startIdx, endIdx + 2);
     // Filter out tiny icons / thumbnails (under 5KB)
-    if (jpegBuf.length > 5 * 1024) {
-      images.push(jpegBuf);
+    if (candidate.length > 5 * 1024) {
+      const validJpeg = await sanitizeAndConvertToOpenAiJpeg(candidate);
+      if (validJpeg) {
+        images.push(validJpeg);
+      }
     }
     pos = endIdx + 2;
   }
@@ -195,6 +216,6 @@ export async function processPdfForAi(
   fileName: string = "document.pdf"
 ): Promise<{ text: string; images: Buffer[] }> {
   const text = await extractTextFromPdf(buffer);
-  const images = extractJpegsFromPdf(buffer);
+  const images = await extractJpegsFromPdf(buffer);
   return { text, images };
 }

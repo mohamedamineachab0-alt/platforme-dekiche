@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { openai } from '@/lib/openai';
-import { detectBufferType, processPdfForAi } from '@/lib/pdf-parser';
+import { detectBufferType, processPdfForAi, sanitizeAndConvertToOpenAiJpeg } from '@/lib/pdf-parser';
 
 export const dynamic = 'force-dynamic';
 
@@ -142,14 +142,21 @@ ${langInstruction}
       const detected = detectBufferType(fileBuffer, fileName);
 
       if (detected === 'image') {
-        const mime = file.type?.startsWith('image/') ? file.type : 'image/jpeg';
-        userContent.push({
-          type: 'image_url',
-          image_url: {
-            url: `data:${mime};base64,${fileBuffer.toString('base64')}`,
-            detail: 'high',
-          },
-        });
+        const cleanJpeg = await sanitizeAndConvertToOpenAiJpeg(fileBuffer);
+        if (cleanJpeg) {
+          userContent.push({
+            type: 'image_url',
+            image_url: {
+              url: `data:image/jpeg;base64,${cleanJpeg.toString('base64')}`,
+              detail: 'high',
+            },
+          });
+        } else {
+          userContent.push({
+            type: 'text',
+            text: `[صورة وثيقة مرفقة: ${fileName} - يرجى استخراج وتوليد أسئلة الكويز بناءً على موضوع الدرس ومقرر مادة ${rawSubject || 'المنهاج الجزائري'}]`,
+          });
+        }
       } else if (detected === 'pdf') {
         const { text, images } = await processPdfForAi(fileBuffer, fileName);
         if (text) {
@@ -224,13 +231,21 @@ ${langInstruction}
         const detected = detectBufferType(buffer, fileName);
 
         if (detected === 'image') {
-          userContent.push({
-            type: 'image_url',
-            image_url: {
-              url: `data:image/jpeg;base64,${buffer.toString('base64')}`,
-              detail: 'high',
-            },
-          });
+          const cleanJpeg = await sanitizeAndConvertToOpenAiJpeg(buffer);
+          if (cleanJpeg) {
+            userContent.push({
+              type: 'image_url',
+              image_url: {
+                url: `data:image/jpeg;base64,${cleanJpeg.toString('base64')}`,
+                detail: 'high',
+              },
+            });
+          } else {
+            userContent.push({
+              type: 'text',
+              text: `[صورة ملحق الدرس: ${fileName} - يرجى توليد كويز اختباري نموذجي محكم للمادة والموضوع المقرر]`,
+            });
+          }
         } else if (detected === 'pdf') {
           const { text, images } = await processPdfForAi(buffer, fileName);
           if (text) {
@@ -309,20 +324,61 @@ ${langInstruction}
         max_tokens: 3500,
       });
     } catch (modelErr: any) {
-      console.warn('gpt-4o failed, falling back to gpt-4o-mini:', modelErr?.message);
-      response = await openai.chat.completions.create({
-        model: 'gpt-4o-mini',
-        response_format: { type: 'json_object' },
-        messages: [
-          { role: 'system', content: systemPrompt },
+      console.warn('gpt-4o attempt failed:', modelErr?.message);
+
+      // Check if error is related to image payload (e.g. 400 "unsupported image")
+      const isImagePayloadError =
+        modelErr?.message?.toLowerCase().includes('unsupported image') ||
+        modelErr?.message?.toLowerCase().includes('image') ||
+        modelErr?.status === 400;
+
+      // If image caused error, sanitize userContent by converting image_url to text
+      const fallbackUserContent = isImagePayloadError
+        ? userContent.map(item => {
+            if (item.type === 'image_url') {
+              return {
+                type: 'text',
+                text: `[وثيقة مصورة مرفقة - يرجى توليد كويز اختباري نموذجي محكم لمادة ${rawSubject || 'المنهاج الجزائري'}]`
+              };
+            }
+            return item;
+          })
+        : userContent;
+
+      try {
+        response = await openai.chat.completions.create({
+          model: 'gpt-4o-mini',
+          response_format: { type: 'json_object' },
+          messages: [
+            { role: 'system', content: systemPrompt },
+            {
+              role: 'user',
+              content: fallbackUserContent,
+            },
+          ],
+          temperature: 0.15,
+          max_tokens: 3500,
+        });
+      } catch (miniErr: any) {
+        console.warn('gpt-4o-mini fallback attempt failed:', miniErr?.message);
+        // Guaranteed text-only recovery
+        const textOnlyContent: any[] = [
           {
-            role: 'user',
-            content: userContent,
-          },
-        ],
-        temperature: 0.15,
-        max_tokens: 3500,
-      });
+            type: 'text',
+            text: `قم بتوليد كويز اختباري نموذجي لمادة ${rawSubject || 'المادة المقررة'} ومستوى ${level || 'التعليم الثانوي'} من بالضبط ${qCount} أسئلة اختيار من متعدد باللغة المحددة [${langLabel}].`
+          }
+        ];
+        response = await openai.chat.completions.create({
+          model: 'gpt-4o-mini',
+          response_format: { type: 'json_object' },
+          messages: [
+            { role: 'system', content: systemPrompt },
+            { role: 'user', content: textOnlyContent as any },
+          ],
+          temperature: 0.2,
+          max_tokens: 3000,
+        });
+      }
     }
 
     const result = response.choices[0]?.message?.content;

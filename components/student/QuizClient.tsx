@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ChevronRight, CheckCircle2, XCircle, Trophy, ArrowLeft, RotateCcw } from "lucide-react";
 import Link from "next/link";
 import { saveQuizMistakes } from "@/actions/quiz";
+import { RichMathText } from "@/components/shared/MathPreview";
 
 type Question = {
   question: string;
@@ -188,7 +189,7 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
       {/* Question Card */}
       <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 md:p-12 shadow-sm border border-slate-100 dark:border-slate-800">
         <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-8 leading-relaxed">
-          {currentQuestion.question}
+          <RichMathText text={currentQuestion.question} />
         </h2>
 
         <div className="space-y-4">
@@ -206,7 +207,7 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
                 }`}
               >
                 <span className={`font-bold text-lg ${isSelected ? 'text-green-700 dark:text-green-400' : 'text-slate-700 dark:text-slate-300'}`}>
-                  {opt}
+                  <RichMathText text={opt} />
                 </span>
                 <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
                   isSelected 

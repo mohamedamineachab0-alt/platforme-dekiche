@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Edit2, X, Upload, File, Loader2, Image as ImageIcon, BrainCircuit, Plus, Trash2, CheckCircle2 } from "lucide-react";
+import { MathPreview } from "@/components/shared/MathPreview";
 
 export function EditLessonClient({ 
   lesson,
@@ -586,27 +587,35 @@ export function EditLessonClient({
                                   className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:outline-none focus:border-sky-500 text-sm font-bold"
                                   placeholder="نص السؤال..."
                                 />
+                                {q.question.includes('$') && <MathPreview text={q.question} />}
                               </div>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 {q.options.map((opt, optIdx) => (
-                                  <label key={optIdx} className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all ${q.correctAnswerIndex === optIdx ? "border-sky-500 bg-sky-50/50" : "border-slate-200 hover:border-sky-200"}`}>
-                                    <input 
-                                      type="radio" 
-                                      name={`correct-${i}`} 
-                                      checked={q.correctAnswerIndex === optIdx}
-                                      onChange={() => handleCorrectAnswerChange(i, optIdx)}
-                                      className="hidden" 
-                                    />
-                                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${q.correctAnswerIndex === optIdx ? "border-sky-500" : "border-slate-300"}`}>
-                                      {q.correctAnswerIndex === optIdx && <div className="w-2 h-2 rounded-full bg-sky-500" />}
+                                  <label key={optIdx} className={`flex flex-col gap-1.5 p-3 rounded-xl border cursor-pointer transition-all ${q.correctAnswerIndex === optIdx ? "border-sky-500 bg-sky-50/50" : "border-slate-200 hover:border-sky-200"}`}>
+                                    <div className="flex items-center gap-3 w-full">
+                                      <input 
+                                        type="radio" 
+                                        name={`correct-${i}`} 
+                                        checked={q.correctAnswerIndex === optIdx}
+                                        onChange={() => handleCorrectAnswerChange(i, optIdx)}
+                                        className="hidden" 
+                                      />
+                                      <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 ${q.correctAnswerIndex === optIdx ? "border-sky-500" : "border-slate-300"}`}>
+                                        {q.correctAnswerIndex === optIdx && <div className="w-2 h-2 rounded-full bg-sky-500" />}
+                                      </div>
+                                      <input 
+                                        type="text" 
+                                        value={opt}
+                                        onChange={e => handleOptionChange(i, optIdx, e.target.value)}
+                                        className="flex-1 bg-transparent border-none focus:outline-none text-sm font-bold"
+                                        placeholder={`الخيار ${optIdx + 1}`}
+                                      />
                                     </div>
-                                    <input 
-                                      type="text" 
-                                      value={opt}
-                                      onChange={e => handleOptionChange(i, optIdx, e.target.value)}
-                                      className="flex-1 bg-transparent border-none focus:outline-none text-sm font-bold"
-                                      placeholder={`الخيار ${optIdx + 1}`}
-                                    />
+                                    {opt.includes('$') && (
+                                      <div className="pr-7">
+                                        <MathPreview text={opt} />
+                                      </div>
+                                    )}
                                   </label>
                                 ))}
                               </div>

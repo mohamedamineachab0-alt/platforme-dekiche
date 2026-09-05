@@ -258,15 +258,15 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
         </div>
         
         <div className="space-y-1">
-          <label className="text-sm font-bold text-slate-700 block mb-2">صورة التمرين (A4)</label>
+          <label className="text-sm font-bold text-slate-700 block mb-2">ملف أو صورة التمرين (PDF، صور، خط يد، مستندات)</label>
           <label className="block border-2 border-dashed border-slate-200 hover:border-sky-400 rounded-2xl p-6 text-center cursor-pointer transition-colors bg-slate-50 hover:bg-sky-50">
             <Upload className="w-6 h-6 mx-auto text-slate-400 mb-2" />
             <span className="font-bold text-slate-600 text-sm">
-              {file ? file.name : "اضغط لرفع صورة أو اسحبها هنا"}
+              {file ? file.name : "اضغط لرفع أي ملف أو صورة أو اسحبه هنا"}
             </span>
             <input 
               type="file" 
-              accept="image/*,.pdf"
+              accept="*"
               onChange={handleFileChange}
               className="hidden"
             />

@@ -8,8 +8,10 @@
 export function detectBufferType(
   buffer: Buffer,
   fileName: string = ""
-): "pdf" | "image" | "docx" | "unknown" {
+): "pdf" | "image" | "docx" | "text" | "unknown" {
   if (!buffer || buffer.length < 4) return "unknown";
+
+  const lower = fileName.toLowerCase();
 
   // PDF: %PDF (0x25 0x50 0x44 0x46)
   if (buffer[0] === 0x25 && buffer[1] === 0x50 && buffer[2] === 0x44 && buffer[3] === 0x46) {
@@ -46,23 +48,64 @@ export function detectBufferType(
     return "image";
   }
 
+  // BMP: 0x42 0x4d (BM)
+  if (buffer[0] === 0x42 && buffer[1] === 0x4d) {
+    return "image";
+  }
+
   // DOCX / ZIP: PK\x03\x04
   if (buffer[0] === 0x50 && buffer[1] === 0x4b && buffer[2] === 0x03 && buffer[3] === 0x04) {
-    if (fileName.toLowerCase().endsWith(".docx") || fileName.toLowerCase().endsWith(".doc")) {
+    if (lower.endsWith(".docx") || lower.endsWith(".doc")) {
       return "docx";
     }
   }
 
-  const lower = fileName.toLowerCase();
+  // File extension checks
   if (lower.endsWith(".pdf")) return "pdf";
   if (
     lower.endsWith(".jpg") ||
     lower.endsWith(".jpeg") ||
     lower.endsWith(".png") ||
-    lower.endsWith(".webp")
-  )
+    lower.endsWith(".webp") ||
+    lower.endsWith(".gif") ||
+    lower.endsWith(".bmp") ||
+    lower.endsWith(".heic") ||
+    lower.endsWith(".heif") ||
+    lower.endsWith(".tiff") ||
+    lower.endsWith(".tif")
+  ) {
     return "image";
+  }
+
   if (lower.endsWith(".docx") || lower.endsWith(".doc")) return "docx";
+
+  if (
+    lower.endsWith(".txt") ||
+    lower.endsWith(".md") ||
+    lower.endsWith(".rtf") ||
+    lower.endsWith(".csv") ||
+    lower.endsWith(".tsv") ||
+    lower.endsWith(".json") ||
+    lower.endsWith(".xml") ||
+    lower.endsWith(".html") ||
+    lower.endsWith(".htm") ||
+    lower.endsWith(".tex")
+  ) {
+    return "text";
+  }
+
+  // Heuristic text sniffing: check if the first 512 bytes contain no null bytes
+  const sample = buffer.subarray(0, Math.min(buffer.length, 512));
+  let hasNull = false;
+  for (let i = 0; i < sample.length; i++) {
+    if (sample[i] === 0x00) {
+      hasNull = true;
+      break;
+    }
+  }
+  if (!hasNull) {
+    return "text";
+  }
 
   return "unknown";
 }

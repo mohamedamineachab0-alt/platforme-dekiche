@@ -93,9 +93,9 @@ export default function AIGenerationForm({ type }: AIGenerationFormProps) {
 
         {/* Dropzone */}
         <div className="border-2 border-dashed border-neutral-800 rounded-xl p-10 text-center hover:bg-neutral-900/50 transition-colors relative group">
-          <input type="file" multiple accept="image/*,.pdf,.doc,.docx" onChange={handleFileUpload} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+          <input type="file" multiple accept="*" onChange={handleFileUpload} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
           <UploadCloud className="mx-auto h-12 w-12 text-neutral-500 mb-3 group-hover:text-purple-500 transition-colors" />
-          <p className="text-sm text-neutral-400 font-medium">Drag & drop your files here, or click to select (Images, PDF, Word)</p>
+          <p className="text-sm text-neutral-400 font-medium">اسحب وأفلت الملفات هنا، أو اضغط للاختيار (يدعم كافة الملفات: PDF، صور، Word، ملخصات، نصوص)</p>
           {selectedFiles.length > 0 && (
             <div className="mt-3 space-y-1">
               <p className="text-xs text-emerald-400 font-semibold">{selectedFiles.length} file(s) loaded:</p>

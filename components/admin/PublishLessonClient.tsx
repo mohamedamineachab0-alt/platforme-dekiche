@@ -650,11 +650,11 @@ export function PublishLessonClient({
                               <div className="bg-white p-3 rounded-xl shadow-sm mb-3 text-sky-500 group-hover:scale-110 transition-transform">
                                 <BrainCircuit className="w-6 h-6" />
                               </div>
-                              <span className="font-bold text-slate-700 text-sm mb-1">{aiImageFile ? aiImageFile.name : "اضغط لرفع ملف أو صورة الكويز"}</span>
-                              <span className="font-medium text-slate-500 text-xs text-center">يدعم ملفات PDF، الصور، ومستندات Word (الحد الأقصى 10MB)</span>
+                              <span className="font-bold text-slate-700 text-sm mb-1">{aiImageFile ? aiImageFile.name : "اضغط لرفع أي ملف أو صورة أو ملخص لتوليد الكويز"}</span>
+                              <span className="font-medium text-slate-500 text-xs text-center">يدعم كافة الملفات (PDF، صور، خط يد، ملخصات درس، Word، مستندات نصية)</span>
                               <input 
                                 type="file" 
-                                accept="image/*,.pdf,.doc,.docx"
+                                accept="*"
                                 onChange={(e) => {
                                   if (e.target.files?.[0]) setAiImageFile(e.target.files[0]);
                                 }}

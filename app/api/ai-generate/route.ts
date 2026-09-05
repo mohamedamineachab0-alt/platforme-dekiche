@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { openai } from '@/lib/openai';
-import { extractTextFromPdf } from '@/lib/pdf-parser';
+import { detectBufferType, processPdfForAi } from '@/lib/pdf-parser';
 
 export const dynamic = 'force-dynamic';
 
@@ -80,7 +80,7 @@ export async function POST(req: Request) {
     const userContent: any[] = [
       {
         type: 'text',
-        text: `بناءً على ملفات ووثائق الدرس المرفقة، قم باستخراج وتوليد ${qCount} أسئلة متعددة الخيارات (QCM) بمجموع علامات ${score}:`,
+        text: `بناءً على ملفات ووثائق الدرس المرفقة، قم بفك الخط اليدوي واستخراج وتوليد ${qCount} أسئلة متعددة الخيارات (QCM) بمجموع علامات ${score}:`,
       },
     ];
 
@@ -88,45 +88,59 @@ export async function POST(req: Request) {
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const fileBuffer = Buffer.from(await file.arrayBuffer());
-      const mimeType = file.type || 'image/jpeg';
+      const detected = detectBufferType(fileBuffer, file.name);
 
-      if (mimeType.startsWith('image/')) {
-        const base64Image = fileBuffer.toString('base64');
+      if (detected === 'image') {
+        const mime = file.type?.startsWith('image/') ? file.type : 'image/jpeg';
         userContent.push({
           type: 'image_url',
           image_url: {
-            url: `data:${mimeType};base64,${base64Image}`,
+            url: `data:${mime};base64,${fileBuffer.toString('base64')}`,
             detail: 'high',
           },
         });
-      } else if (mimeType === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')) {
-        const text = await extractTextFromPdf(fileBuffer);
+      } else if (detected === 'pdf') {
+        const { text, images } = await processPdfForAi(fileBuffer, file.name);
         if (text) {
           userContent.push({
             type: 'text',
-            text: `[نص مستخرج من ملف الدرس PDF: ${file.name}]\n\n${text}`,
+            text: `[نص من ملف الدرس PDF: ${file.name}]\n\n${text}`,
           });
         }
-      } else if (
-        mimeType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
-        mimeType === 'application/msword'
-      ) {
+        images.forEach((imgBuf) => {
+          userContent.push({
+            type: 'image_url',
+            image_url: {
+              url: `data:image/jpeg;base64,${imgBuf.toString('base64')}`,
+              detail: 'high',
+            },
+          });
+        });
+        if (!text && images.length === 0) {
+          userContent.push({
+            type: 'text',
+            text: `[ملف PDF مرفق: ${file.name}]`,
+          });
+        }
+      } else if (detected === 'docx') {
         try {
           const mammoth = require('mammoth');
           const result = await mammoth.extractRawText({ buffer: fileBuffer });
-          userContent.push({
-            type: 'text',
-            text: `[نص مستخرج من ملف الدرس Word: ${file.name}]\n\n${result.value}`,
-          });
+          if (result?.value) {
+            userContent.push({
+              type: 'text',
+              text: `[نص من ملف Word: ${file.name}]\n\n${result.value}`,
+            });
+          }
         } catch (wordErr) {
           console.warn('Word parse failed:', wordErr);
         }
       } else {
-        const base64Fallback = fileBuffer.toString('base64');
+        // Fallback: send as image
         userContent.push({
           type: 'image_url',
           image_url: {
-            url: `data:image/jpeg;base64,${base64Fallback}`,
+            url: `data:image/jpeg;base64,${fileBuffer.toString('base64')}`,
             detail: 'high',
           },
         });
@@ -141,44 +155,56 @@ export async function POST(req: Request) {
         if (!res.ok) continue;
         const arrayBuf = await res.arrayBuffer();
         const buffer = Buffer.from(arrayBuf);
-        const contentType = (res.headers.get('content-type') || item.type || '').toLowerCase();
+        const fileName = item.name || item.url.split('/').pop() || `ملحق ${i + 1}`;
+        const detected = detectBufferType(buffer, fileName);
 
-        if (contentType.startsWith('image/') || item.url.match(/\.(jpg|jpeg|png|webp|gif)$/i)) {
-          const b64 = buffer.toString('base64');
-          const mime = contentType.startsWith('image/') ? contentType : 'image/jpeg';
+        if (detected === 'image') {
           userContent.push({
             type: 'image_url',
             image_url: {
-              url: `data:${mime};base64,${b64}`,
+              url: `data:image/jpeg;base64,${buffer.toString('base64')}`,
               detail: 'high',
             },
           });
-        } else if (contentType.includes('pdf') || item.url.match(/\.pdf$/i)) {
-          const text = await extractTextFromPdf(buffer);
+        } else if (detected === 'pdf') {
+          const { text, images } = await processPdfForAi(buffer, fileName);
           if (text) {
             userContent.push({
               type: 'text',
-              text: `[نص من ملحق الدرس: ${item.name || `ملحق ${i + 1}`}]\n\n${text}`,
+              text: `[نص من ملحق الدرس PDF: ${fileName}]\n\n${text}`,
             });
           }
-        } else if (
-          contentType.includes('word') ||
-          contentType.includes('officedocument') ||
-          item.url.match(/\.(docx|doc)$/i)
-        ) {
+          images.forEach((imgBuf) => {
+            userContent.push({
+              type: 'image_url',
+              image_url: {
+                url: `data:image/jpeg;base64,${imgBuf.toString('base64')}`,
+                detail: 'high',
+              },
+            });
+          });
+          if (!text && images.length === 0) {
+            userContent.push({
+              type: 'text',
+              text: `[ملحق PDF: ${fileName}]`,
+            });
+          }
+        } else if (detected === 'docx') {
           try {
             const mammoth = require('mammoth');
             const result = await mammoth.extractRawText({ buffer });
-            userContent.push({
-              type: 'text',
-              text: `[نص من ملحق الدرس Word: ${item.name || `ملحق ${i + 1}`}]\n\n${result.value}`,
-            });
+            if (result?.value) {
+              userContent.push({
+                type: 'text',
+                text: `[نص من ملحق Word: ${fileName}]\n\n${result.value}`,
+              });
+            }
           } catch (wordErr) {
-            console.warn('Remote Word parse failed:', wordErr);
+            console.warn('Word parse failed:', wordErr);
           }
         }
       } catch (fetchErr) {
-        console.error('Failed to fetch remote material:', item.url, fetchErr);
+        console.error('Failed to process remote material:', item.url, fetchErr);
       }
     }
 
@@ -234,12 +260,38 @@ export async function POST(req: Request) {
       parsed = JSON.parse(cleaned);
     }
 
-    const rawQuestions = Array.isArray(parsed)
-      ? parsed
-      : (parsed.questions || parsed.quiz || []);
+    let rawQuestions: any[] = [];
+    if (Array.isArray(parsed)) {
+      rawQuestions = parsed;
+    } else if (parsed && typeof parsed === 'object') {
+      rawQuestions =
+        parsed.questions ||
+        parsed.Questions ||
+        parsed.quiz ||
+        parsed.Quiz ||
+        parsed.mcq ||
+        parsed.MCQ ||
+        parsed.data ||
+        parsed.items ||
+        parsed.exercises ||
+        [];
+
+      if (!Array.isArray(rawQuestions) || rawQuestions.length === 0) {
+        for (const key of Object.keys(parsed)) {
+          if (Array.isArray(parsed[key]) && parsed[key].length > 0) {
+            rawQuestions = parsed[key];
+            break;
+          }
+        }
+      }
+    }
 
     if (!Array.isArray(rawQuestions) || rawQuestions.length === 0) {
-      throw new Error('لم ينجح الذكاء الاصطناعي في استخراج الأسئلة من الوثيقة المرفقة');
+      const refusal = parsed.message || parsed.error || parsed.note || parsed.reason;
+      if (refusal) {
+        throw new Error(`ملاحظة من الذكاء الاصطناعي: ${refusal}`);
+      }
+      throw new Error('لم ينجح الذكاء الاصطناعي في استخراج الأسئلة من الوثيقة المرفقة، يرجى التأكد من وضوح الملف أو الخط');
     }
 
     const sanitizedQuestions = rawQuestions.map((q: any, idx: number) => {

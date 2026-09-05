@@ -83,15 +83,61 @@ export function PublishLessonClient({
     }
   };
 
-  const handleAiGenerate = () => {
+  const handleAiGenerate = async () => {
     if (!aiImageFile) return;
     setIsGeneratingAi(true);
-    setTimeout(() => {
+    try {
+      const formData = new FormData();
+      formData.append("files", aiImageFile);
+      formData.append(
+        "metadata",
+        JSON.stringify({
+          level: selectedLevels[0] || "",
+          stream: selectedStreams[0] || "",
+          maxScore: quizMaxScore,
+          numberOfQuestions: numberOfQuestions || 5,
+        })
+      );
+      formData.append("type", "lesson");
+
+      const response = await fetch("/api/ai-generate", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || "فشل توليد الأسئلة بواسطة OpenAI");
+      }
+
+      const data = await response.json();
+      if (data.questions && Array.isArray(data.questions) && data.questions.length > 0) {
+        const sanitized = data.questions.map((q: any) => {
+          let opts = Array.isArray(q.options) ? q.options.map(String) : [];
+          while (opts.length < 4) {
+            opts.push(`الخيار ${opts.length + 1}`);
+          }
+          return {
+            question: String(q.question || ""),
+            options: opts.slice(0, 4) as [string, string, string, string],
+            correctAnswerIndex:
+              typeof q.correctAnswerIndex === "number" &&
+              q.correctAnswerIndex >= 0 &&
+              q.correctAnswerIndex <= 3
+                ? q.correctAnswerIndex
+                : 0,
+          };
+        });
+        setManualQuestions(sanitized);
+        setQuizType("MANUAL");
+      } else {
+        alert("لم يتم التعرف على أي أسئلة صالحة في الصورة");
+      }
+    } catch (err: any) {
+      alert(err.message || "حدث خطأ أثناء توليد الكويز بواسطة الذكاء الاصطناعي");
+    } finally {
       setIsGeneratingAi(false);
-      // Dummy generated question
-      setManualQuestions([{ question: "السؤال المولد بالذكاء الاصطناعي؟", options: ["خيار 1", "خيار 2", "خيار 3", "خيار 4"], correctAnswerIndex: 0 }]);
-      setQuizType("MANUAL");
-    }, 2000);
+    }
   };
 
   const handleQuestionChange = (index: number, text: string) => {

@@ -2,14 +2,10 @@
 
 import { prisma } from "@/lib/prisma";
 import { supabase, ensureBucketExists } from "@/lib/supabase";
-import { Level, Stream } from "@/generated/prisma";
-import Groq from "groq-sdk";
 import { revalidatePath } from "next/cache";
 import { assertAuth, secureFileGuard } from "@/lib/security";
-
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
-});
+import { openai } from "@/lib/openai";
+import { Level, Stream } from "@/generated/prisma";
 
 /**
  * Helper to upload a File to Supabase Storage and return its public URL
@@ -120,52 +116,78 @@ export async function createExam(formData: FormData) {
       });
     } else if (quizType === "AI" || triggerAi) {
       try {
-        // We will pass the image URL to Groq vision model to extract questions
-        // Note: llama-3.2-11b-vision-preview supports multimodal
-        const completion = await groq.chat.completions.create({
-          model: "llama-3.2-11b-vision-preview",
-          messages: [
-            {
-              role: "user",
-              content: [
-                {
-                  type: "text",
-                  text: "You are an AI teacher. Extract the quiz questions from this exam image. Output the result ONLY as a valid JSON array of objects. Each object should have 'id' (string), 'question' (string), and 'points' (number). Output nothing else but JSON."
-                },
-                {
-                  type: "image_url",
-                  image_url: { url: a4ImageUrl }
-                }
-              ]
-            }
-          ],
-          temperature: 0.1,
-          max_tokens: 1024,
-        });
-
-        const rawJson = completion.choices[0]?.message?.content || "[]";
-        
-        // Clean up markdown block if model returned it
-        const cleanedJson = rawJson.replace(/```json/g, "").replace(/```/g, "").trim();
-        let parsedQuestions = [];
-        try {
-          parsedQuestions = JSON.parse(cleanedJson);
-        } catch (e) {
-          console.error("Failed to parse Groq vision JSON:", e, cleanedJson);
-        }
-
-        if (parsedQuestions.length > 0) {
-          await prisma.quiz.create({
-            data: {
-              examId: exam.id,
-              aiGenerated: true,
-              maxScore,
-              questions: parsedQuestions,
-            }
+        if (process.env.OPENAI_API_KEY && a4ImageUrl) {
+          const completion = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            response_format: { type: "json_object" },
+            messages: [
+              {
+                role: "system",
+                content: `أنت خبير تربوي ومفتش تعليمي للمنهاج الجزائري. قم باستخراج كويز دقيق متعدد الخيارات (QCM) من صورة هذا الامتحان.
+أخرج كائن JSON حصراً يحتوي على مصفوفة 'questions':
+{
+  "questions": [
+    {
+      "question": "نص السؤال",
+      "options": ["خيار 1", "خيار 2", "خيار 3", "خيار 4"],
+      "correctAnswerIndex": 0
+    }
+  ]
+}`
+              },
+              {
+                role: "user",
+                content: [
+                  { type: "text", text: "استخرج 5 أسئلة متعددة الخيارات (QCM) دقيقة من صورة هذا الامتحان:" },
+                  {
+                    type: "image_url",
+                    image_url: { url: a4ImageUrl, detail: "high" }
+                  }
+                ]
+              }
+            ],
+            temperature: 0.2,
+            max_tokens: 2500,
           });
+
+          const rawJson = completion.choices[0]?.message?.content || "{}";
+          let parsed: any = {};
+          try {
+            parsed = JSON.parse(rawJson);
+          } catch {
+            const cleaned = rawJson.replace(/```json/g, "").replace(/```/g, "").trim();
+            parsed = JSON.parse(cleaned);
+          }
+
+          const rawList = Array.isArray(parsed) ? parsed : (parsed.questions || parsed.quiz || []);
+          if (Array.isArray(rawList) && rawList.length > 0) {
+            const pts = Number((maxScore / rawList.length).toFixed(1));
+            const parsedQuestions = rawList.map((q: any, idx: number) => {
+              let opts = Array.isArray(q.options) ? q.options.map(String) : [];
+              while (opts.length < 4) {
+                opts.push(`الخيار ${opts.length + 1}`);
+              }
+              return {
+                id: q.id || `q_${idx + 1}`,
+                question: String(q.question || `سؤال ${idx + 1}`),
+                options: opts.slice(0, 4),
+                correctAnswerIndex: typeof q.correctAnswerIndex === "number" && q.correctAnswerIndex >= 0 && q.correctAnswerIndex <= 3 ? q.correctAnswerIndex : 0,
+                points: pts,
+              };
+            });
+
+            await prisma.quiz.create({
+              data: {
+                examId: exam.id,
+                aiGenerated: true,
+                maxScore,
+                questions: parsedQuestions,
+              }
+            });
+          }
         }
       } catch (aiError) {
-        console.error("AI Vision extraction failed:", aiError);
+        console.error("OpenAI Quiz extraction failed:", aiError);
         // We do not block exam creation if AI fails
       }
     }
@@ -228,19 +250,36 @@ ${questionsStr}
 - "feedback": نص باللغة العربية يشرح ملاحظاتك على إجابته بأسلوب مشجع ومحترم
 بدون أي نص إضافي أو markdown.`;
 
-        const completion = await groq.chat.completions.create({
-          model: "llama-3.2-11b-vision-preview",
+        const completion = await openai.chat.completions.create({
+          model: "gpt-4o-mini",
+          response_format: { type: "json_object" },
           messages: [
+            {
+              role: "system",
+              content: `أنت أستاذ ومصحح ذكي تصحح ورقة حل التلميذ للاختبار.
+إليك أسئلة الاختبار:
+${questionsStr}
+
+المطلوب:
+1. انظر إلى صورة حل التلميذ بعناية.
+2. قيّم إجابته وقارنها بالحل الصحيح.
+3. أعطه علامة مستحقة من ${exam.maxScore}.
+4. قم بإرجاع رد بصيغة JSON حصراً يحتوي على:
+{
+  "score": عدد يمثل العلامة,
+  "feedback": "ملاحظاتك التوجيهية باللغة العربية بأسلوب تربوي مشجع"
+}`
+            },
             {
               role: "user",
               content: [
-                { type: "text", text: prompt },
-                { type: "image_url", image_url: { url: imageUrl } }
+                { type: "text", text: "قم بتصحيح ورقة إجابة التلميذ هذه:" },
+                { type: "image_url", image_url: { url: imageUrl, detail: "high" } }
               ]
             }
           ],
-          temperature: 0.1,
-          max_tokens: 1024,
+          temperature: 0.2,
+          max_tokens: 1500,
         });
 
         const rawJson = completion.choices[0]?.message?.content || "{}";

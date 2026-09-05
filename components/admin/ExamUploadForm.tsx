@@ -117,7 +117,8 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
         stream,
         subject: selectedSubject?.title || '',
         month: (document.querySelector('select[name="month"]') as HTMLSelectElement)?.value || '',
-        maxScore: quizMaxScore
+        maxScore: quizMaxScore,
+        numberOfQuestions: numberOfQuestions || 5
       }));
       formData.append('type', 'exam');
       
@@ -132,8 +133,19 @@ export function ExamUploadForm({ subjects }: { subjects: { id: string, title: st
       }
 
       const data = await response.json();
-      if (data.questions && Array.isArray(data.questions)) {
-        setManualQuestions(data.questions);
+      if (data.questions && Array.isArray(data.questions) && data.questions.length > 0) {
+        const sanitized = data.questions.map((q: any) => {
+          let opts = Array.isArray(q.options) ? q.options.map(String) : [];
+          while (opts.length < 4) {
+            opts.push(`الخيار ${opts.length + 1}`);
+          }
+          return {
+            question: String(q.question || ""),
+            options: opts.slice(0, 4) as [string, string, string, string],
+            correctAnswerIndex: typeof q.correctAnswerIndex === "number" && q.correctAnswerIndex >= 0 && q.correctAnswerIndex <= 3 ? q.correctAnswerIndex : 0,
+          };
+        });
+        setManualQuestions(sanitized);
         setQuizType("MANUAL");
       } else {
         setError("لم يتم التعرف على أي أسئلة صالحة في الصورة");

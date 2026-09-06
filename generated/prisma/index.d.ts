@@ -18449,7 +18449,7 @@ export namespace Prisma {
     studentId: string
     mistakeContent: string
     correctSolution: string
-    lessonId: string
+    lessonId: string | null
     quizId: string
     createdAt: Date
     _count: StudentMistakeCountAggregateOutputType | null
@@ -18480,7 +18480,7 @@ export namespace Prisma {
     quizId?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    lesson?: boolean | LessonDefaultArgs<ExtArgs>
+    lesson?: boolean | StudentMistake$lessonArgs<ExtArgs>
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["studentMistake"]>
 
@@ -18493,7 +18493,7 @@ export namespace Prisma {
     quizId?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    lesson?: boolean | LessonDefaultArgs<ExtArgs>
+    lesson?: boolean | StudentMistake$lessonArgs<ExtArgs>
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["studentMistake"]>
 
@@ -18506,7 +18506,7 @@ export namespace Prisma {
     quizId?: boolean
     createdAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
-    lesson?: boolean | LessonDefaultArgs<ExtArgs>
+    lesson?: boolean | StudentMistake$lessonArgs<ExtArgs>
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["studentMistake"]>
 
@@ -18523,17 +18523,17 @@ export namespace Prisma {
   export type StudentMistakeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "mistakeContent" | "correctSolution" | "lessonId" | "quizId" | "createdAt", ExtArgs["result"]["studentMistake"]>
   export type StudentMistakeInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    lesson?: boolean | LessonDefaultArgs<ExtArgs>
+    lesson?: boolean | StudentMistake$lessonArgs<ExtArgs>
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
   }
   export type StudentMistakeIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    lesson?: boolean | LessonDefaultArgs<ExtArgs>
+    lesson?: boolean | StudentMistake$lessonArgs<ExtArgs>
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
   }
   export type StudentMistakeIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
-    lesson?: boolean | LessonDefaultArgs<ExtArgs>
+    lesson?: boolean | StudentMistake$lessonArgs<ExtArgs>
     quiz?: boolean | QuizDefaultArgs<ExtArgs>
   }
 
@@ -18541,7 +18541,7 @@ export namespace Prisma {
     name: "StudentMistake"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
-      lesson: Prisma.$LessonPayload<ExtArgs>
+      lesson: Prisma.$LessonPayload<ExtArgs> | null
       quiz: Prisma.$QuizPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -18549,7 +18549,7 @@ export namespace Prisma {
       studentId: string
       mistakeContent: string
       correctSolution: string
-      lessonId: string
+      lessonId: string | null
       quizId: string
       createdAt: Date
     }, ExtArgs["result"]["studentMistake"]>
@@ -18947,7 +18947,7 @@ export namespace Prisma {
   export interface Prisma__StudentMistakeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    lesson<T extends LessonDefaultArgs<ExtArgs> = {}>(args?: Subset<T, LessonDefaultArgs<ExtArgs>>): Prisma__LessonClient<$Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    lesson<T extends StudentMistake$lessonArgs<ExtArgs> = {}>(args?: Subset<T, StudentMistake$lessonArgs<ExtArgs>>): Prisma__LessonClient<$Result.GetResult<Prisma.$LessonPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     quiz<T extends QuizDefaultArgs<ExtArgs> = {}>(args?: Subset<T, QuizDefaultArgs<ExtArgs>>): Prisma__QuizClient<$Result.GetResult<Prisma.$QuizPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -19383,6 +19383,25 @@ export namespace Prisma {
      * Limit how many StudentMistakes to delete.
      */
     limit?: number
+  }
+
+  /**
+   * StudentMistake.lesson
+   */
+  export type StudentMistake$lessonArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Lesson
+     */
+    select?: LessonSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Lesson
+     */
+    omit?: LessonOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: LessonInclude<ExtArgs> | null
+    where?: LessonWhereInput
   }
 
   /**
@@ -37846,11 +37865,11 @@ export namespace Prisma {
     studentId?: StringFilter<"StudentMistake"> | string
     mistakeContent?: StringFilter<"StudentMistake"> | string
     correctSolution?: StringFilter<"StudentMistake"> | string
-    lessonId?: StringFilter<"StudentMistake"> | string
+    lessonId?: StringNullableFilter<"StudentMistake"> | string | null
     quizId?: StringFilter<"StudentMistake"> | string
     createdAt?: DateTimeFilter<"StudentMistake"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    lesson?: XOR<LessonScalarRelationFilter, LessonWhereInput>
+    lesson?: XOR<LessonNullableScalarRelationFilter, LessonWhereInput> | null
     quiz?: XOR<QuizScalarRelationFilter, QuizWhereInput>
   }
 
@@ -37859,7 +37878,7 @@ export namespace Prisma {
     studentId?: SortOrder
     mistakeContent?: SortOrder
     correctSolution?: SortOrder
-    lessonId?: SortOrder
+    lessonId?: SortOrderInput | SortOrder
     quizId?: SortOrder
     createdAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -37875,11 +37894,11 @@ export namespace Prisma {
     studentId?: StringFilter<"StudentMistake"> | string
     mistakeContent?: StringFilter<"StudentMistake"> | string
     correctSolution?: StringFilter<"StudentMistake"> | string
-    lessonId?: StringFilter<"StudentMistake"> | string
+    lessonId?: StringNullableFilter<"StudentMistake"> | string | null
     quizId?: StringFilter<"StudentMistake"> | string
     createdAt?: DateTimeFilter<"StudentMistake"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-    lesson?: XOR<LessonScalarRelationFilter, LessonWhereInput>
+    lesson?: XOR<LessonNullableScalarRelationFilter, LessonWhereInput> | null
     quiz?: XOR<QuizScalarRelationFilter, QuizWhereInput>
   }, "id">
 
@@ -37888,7 +37907,7 @@ export namespace Prisma {
     studentId?: SortOrder
     mistakeContent?: SortOrder
     correctSolution?: SortOrder
-    lessonId?: SortOrder
+    lessonId?: SortOrderInput | SortOrder
     quizId?: SortOrder
     createdAt?: SortOrder
     _count?: StudentMistakeCountOrderByAggregateInput
@@ -37904,7 +37923,7 @@ export namespace Prisma {
     studentId?: StringWithAggregatesFilter<"StudentMistake"> | string
     mistakeContent?: StringWithAggregatesFilter<"StudentMistake"> | string
     correctSolution?: StringWithAggregatesFilter<"StudentMistake"> | string
-    lessonId?: StringWithAggregatesFilter<"StudentMistake"> | string
+    lessonId?: StringNullableWithAggregatesFilter<"StudentMistake"> | string | null
     quizId?: StringWithAggregatesFilter<"StudentMistake"> | string
     createdAt?: DateTimeWithAggregatesFilter<"StudentMistake"> | Date | string
   }
@@ -40027,7 +40046,7 @@ export namespace Prisma {
     correctSolution: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutMistakesInput
-    lesson: LessonCreateNestedOneWithoutMistakesInput
+    lesson?: LessonCreateNestedOneWithoutMistakesInput
     quiz: QuizCreateNestedOneWithoutMistakesInput
   }
 
@@ -40036,7 +40055,7 @@ export namespace Prisma {
     studentId: string
     mistakeContent: string
     correctSolution: string
-    lessonId: string
+    lessonId?: string | null
     quizId: string
     createdAt?: Date | string
   }
@@ -40047,7 +40066,7 @@ export namespace Prisma {
     correctSolution?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutMistakesNestedInput
-    lesson?: LessonUpdateOneRequiredWithoutMistakesNestedInput
+    lesson?: LessonUpdateOneWithoutMistakesNestedInput
     quiz?: QuizUpdateOneRequiredWithoutMistakesNestedInput
   }
 
@@ -40056,7 +40075,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     mistakeContent?: StringFieldUpdateOperationsInput | string
     correctSolution?: StringFieldUpdateOperationsInput | string
-    lessonId?: StringFieldUpdateOperationsInput | string
+    lessonId?: NullableStringFieldUpdateOperationsInput | string | null
     quizId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -40066,7 +40085,7 @@ export namespace Prisma {
     studentId: string
     mistakeContent: string
     correctSolution: string
-    lessonId: string
+    lessonId?: string | null
     quizId: string
     createdAt?: Date | string
   }
@@ -40083,7 +40102,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     mistakeContent?: StringFieldUpdateOperationsInput | string
     correctSolution?: StringFieldUpdateOperationsInput | string
-    lessonId?: StringFieldUpdateOperationsInput | string
+    lessonId?: NullableStringFieldUpdateOperationsInput | string | null
     quizId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -44495,10 +44514,12 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutMistakesInput, UserUpdateWithoutMistakesInput>, UserUncheckedUpdateWithoutMistakesInput>
   }
 
-  export type LessonUpdateOneRequiredWithoutMistakesNestedInput = {
+  export type LessonUpdateOneWithoutMistakesNestedInput = {
     create?: XOR<LessonCreateWithoutMistakesInput, LessonUncheckedCreateWithoutMistakesInput>
     connectOrCreate?: LessonCreateOrConnectWithoutMistakesInput
     upsert?: LessonUpsertWithoutMistakesInput
+    disconnect?: LessonWhereInput | boolean
+    delete?: LessonWhereInput | boolean
     connect?: LessonWhereUniqueInput
     update?: XOR<XOR<LessonUpdateToOneWithWhereWithoutMistakesInput, LessonUpdateWithoutMistakesInput>, LessonUncheckedUpdateWithoutMistakesInput>
   }
@@ -45560,7 +45581,7 @@ export namespace Prisma {
     mistakeContent: string
     correctSolution: string
     createdAt?: Date | string
-    lesson: LessonCreateNestedOneWithoutMistakesInput
+    lesson?: LessonCreateNestedOneWithoutMistakesInput
     quiz: QuizCreateNestedOneWithoutMistakesInput
   }
 
@@ -45568,7 +45589,7 @@ export namespace Prisma {
     id?: string
     mistakeContent: string
     correctSolution: string
-    lessonId: string
+    lessonId?: string | null
     quizId: string
     createdAt?: Date | string
   }
@@ -45983,7 +46004,7 @@ export namespace Prisma {
     studentId?: StringFilter<"StudentMistake"> | string
     mistakeContent?: StringFilter<"StudentMistake"> | string
     correctSolution?: StringFilter<"StudentMistake"> | string
-    lessonId?: StringFilter<"StudentMistake"> | string
+    lessonId?: StringNullableFilter<"StudentMistake"> | string | null
     quizId?: StringFilter<"StudentMistake"> | string
     createdAt?: DateTimeFilter<"StudentMistake"> | Date | string
   }
@@ -47845,7 +47866,7 @@ export namespace Prisma {
     correctSolution: string
     createdAt?: Date | string
     user: UserCreateNestedOneWithoutMistakesInput
-    lesson: LessonCreateNestedOneWithoutMistakesInput
+    lesson?: LessonCreateNestedOneWithoutMistakesInput
   }
 
   export type StudentMistakeUncheckedCreateWithoutQuizInput = {
@@ -47853,7 +47874,7 @@ export namespace Prisma {
     studentId: string
     mistakeContent: string
     correctSolution: string
-    lessonId: string
+    lessonId?: string | null
     createdAt?: Date | string
   }
 
@@ -51546,7 +51567,7 @@ export namespace Prisma {
     id?: string
     mistakeContent: string
     correctSolution: string
-    lessonId: string
+    lessonId?: string | null
     quizId: string
     createdAt?: Date | string
   }
@@ -51698,7 +51719,7 @@ export namespace Prisma {
     mistakeContent?: StringFieldUpdateOperationsInput | string
     correctSolution?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    lesson?: LessonUpdateOneRequiredWithoutMistakesNestedInput
+    lesson?: LessonUpdateOneWithoutMistakesNestedInput
     quiz?: QuizUpdateOneRequiredWithoutMistakesNestedInput
   }
 
@@ -51706,7 +51727,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     mistakeContent?: StringFieldUpdateOperationsInput | string
     correctSolution?: StringFieldUpdateOperationsInput | string
-    lessonId?: StringFieldUpdateOperationsInput | string
+    lessonId?: NullableStringFieldUpdateOperationsInput | string | null
     quizId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -51715,7 +51736,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     mistakeContent?: StringFieldUpdateOperationsInput | string
     correctSolution?: StringFieldUpdateOperationsInput | string
-    lessonId?: StringFieldUpdateOperationsInput | string
+    lessonId?: NullableStringFieldUpdateOperationsInput | string | null
     quizId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -52572,7 +52593,7 @@ export namespace Prisma {
     studentId: string
     mistakeContent: string
     correctSolution: string
-    lessonId: string
+    lessonId?: string | null
     createdAt?: Date | string
   }
 
@@ -52582,7 +52603,7 @@ export namespace Prisma {
     correctSolution?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutMistakesNestedInput
-    lesson?: LessonUpdateOneRequiredWithoutMistakesNestedInput
+    lesson?: LessonUpdateOneWithoutMistakesNestedInput
   }
 
   export type StudentMistakeUncheckedUpdateWithoutQuizInput = {
@@ -52590,7 +52611,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     mistakeContent?: StringFieldUpdateOperationsInput | string
     correctSolution?: StringFieldUpdateOperationsInput | string
-    lessonId?: StringFieldUpdateOperationsInput | string
+    lessonId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -52599,7 +52620,7 @@ export namespace Prisma {
     studentId?: StringFieldUpdateOperationsInput | string
     mistakeContent?: StringFieldUpdateOperationsInput | string
     correctSolution?: StringFieldUpdateOperationsInput | string
-    lessonId?: StringFieldUpdateOperationsInput | string
+    lessonId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 

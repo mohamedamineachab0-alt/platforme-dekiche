@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronRight, CheckCircle2, XCircle, Trophy, ArrowLeft, RotateCcw } from "lucide-react";
+import { CheckCircle2, XCircle, Trophy, ArrowLeft, RotateCcw, AlertTriangle, BookOpen } from "lucide-react";
 import Link from "next/link";
 import { saveQuizMistakes } from "@/actions/quiz";
 import { RichMathText } from "@/components/shared/MathPreview";
@@ -20,43 +20,76 @@ type Props = {
   contextType?: "lesson" | "exam" | "exercise";
 };
 
+type MistakeItem = {
+  question: string;
+  studentAnswer: string;
+  correctAnswer: string;
+  questionIndex: number;
+};
+
 export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextType = "lesson" }: Props) {
-  const maxScore = 20; // Enforce max score to 20
+  const maxScore = 20;
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({});
   const [isFinished, setIsFinished] = useState(false);
+  const [mistakes, setMistakes] = useState<MistakeItem[]>([]);
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleSelectOption = (optionIndex: number) => {
     if (isFinished) return;
-    setSelectedAnswers(prev => ({
+    setSelectedAnswers((prev) => ({
       ...prev,
-      [currentQuestionIndex]: optionIndex
+      [currentQuestionIndex]: optionIndex,
     }));
+  };
+
+  const handleRetake = () => {
+    setSelectedAnswers({});
+    setCurrentQuestionIndex(0);
+    setIsFinished(false);
+    setMistakes([]);
   };
 
   const handleNext = async () => {
     if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(prev => prev + 1);
+      setCurrentQuestionIndex((prev) => prev + 1);
     } else {
       setIsFinished(true);
-      
-      // Calculate and save mistakes
-      const mistakesToSave: { mistakeContent: string; correctSolution: string; }[] = [];
+
+      // Identify mistakes
+      const mistakesList: MistakeItem[] = [];
+      const mistakesToSave: { mistakeContent: string; correctSolution: string }[] = [];
+
       questions.forEach((q, i) => {
         const studentChoice = selectedAnswers[i];
         if (studentChoice !== q.correctAnswerIndex) {
+          const studentAnsText = q.options[studentChoice] ?? "لم يتم اختيار إجابة";
+          const correctAnsText = q.options[q.correctAnswerIndex] ?? "";
+
+          mistakesList.push({
+            question: q.question,
+            studentAnswer: studentAnsText,
+            correctAnswer: correctAnsText,
+            questionIndex: i + 1,
+          });
+
           mistakesToSave.push({
-            mistakeContent: `السؤال: ${q.question}\nإجابتك: ${q.options[studentChoice] || "لم يتم اختيار إجابة"}`,
-            correctSolution: `الإجابة الصحيحة هي: ${q.options[q.correctAnswerIndex]}`
+            mistakeContent: `السؤال ${i + 1}: ${q.question}\nإجابتك: ${studentAnsText}`,
+            correctSolution: `الإجابة الصحيحة: ${correctAnsText}`,
           });
         }
       });
-      
-      if (mistakesToSave.length > 0 && contextType === "lesson" && lessonId) {
+
+      setMistakes(mistakesList);
+
+      if (mistakesToSave.length > 0) {
+        setIsSaving(true);
         try {
-          await saveQuizMistakes(lessonId, quizId, mistakesToSave);
+          await saveQuizMistakes(lessonId || null, quizId, mistakesToSave);
         } catch (error) {
-          console.error("Failed to save mistakes:", error);
+          console.error("Failed to save mistakes to database:", error);
+        } finally {
+          setIsSaving(false);
         }
       }
     }
@@ -64,7 +97,7 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
 
   const handlePrevious = () => {
     if (currentQuestionIndex > 0) {
-      setCurrentQuestionIndex(prev => prev - 1);
+      setCurrentQuestionIndex((prev) => prev - 1);
     }
   };
 
@@ -72,7 +105,7 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
     return (
       <div className="text-center py-20 bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800">
         <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">لا توجد أسئلة</h2>
-        <p className="text-slate-500 mb-6">هذا الكويز لا يحتوي على أي أسئلة حاليا</p>
+        <p className="text-slate-500 mb-6">هذا الاختبار لا يحتوي على أي أسئلة حالياً</p>
         {contextType === "lesson" && lessonId ? (
           <Link href={`/dashboard/student/lessons/${lessonId}`} className="bg-sky-600 text-white px-6 py-3 rounded-xl font-bold">العودة للدرس</Link>
         ) : (
@@ -100,66 +133,166 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
     if (percentage < 50) {
       uiColor = "red";
       IconComponent = RotateCcw;
-      feedbackMessage = "عليك التركيز أكثر، راجع الدرس وحاول مجدداً!";
+      feedbackMessage = "عليك التركيز أكثر، راجع أخطاءك وحاول مجدداً!";
     } else if (percentage >= 50 && percentage < 75) {
       uiColor = "orange";
-      IconComponent = Trophy; 
-      feedbackMessage = "جيد، استمر في المراجعة لتحقيق الأفضل";
+      IconComponent = Trophy;
+      feedbackMessage = "نتيجة جيدة، راجع الأخطاء بالأسفل لتصل إلى الدرجة الكاملة";
     } else {
       uiColor = "emerald";
       IconComponent = Trophy;
-      feedbackMessage = "ممتاز يا بطل نحن نفتخر بك";
+      feedbackMessage = "ممتاز يا بطل! أداء استثنائي نفخر به";
     }
 
-    // Map UI color to tailwind classes
     const colorClasses = {
       red: {
         text: "text-amber-600",
-        bg: "bg-amber-100 dark:bg-red-900/30",
+        bg: "bg-amber-100 dark:bg-amber-900/30",
         gradient: "bg-gradient-to-br from-amber-500 to-amber-600 shadow-amber-500/30",
-        scoreText: "text-amber-600"
+        scoreText: "text-amber-600",
       },
       orange: {
         text: "text-orange-600",
         bg: "bg-orange-100 dark:bg-orange-900/30",
         gradient: "bg-gradient-to-br from-orange-400 to-orange-500 shadow-orange-500/30",
-        scoreText: "text-orange-500"
+        scoreText: "text-orange-500",
       },
       emerald: {
-        text: "text-sky-700",
-        bg: "bg-sky-100 dark:bg-sky-900/30",
-        gradient: "bg-gradient-to-br from-sky-400 to-sky-600 shadow-sky-500/30",
-        scoreText: "text-sky-600"
-      }
+        text: "text-emerald-700",
+        bg: "bg-emerald-100 dark:bg-emerald-900/30",
+        gradient: "bg-gradient-to-br from-emerald-400 to-emerald-600 shadow-emerald-500/30",
+        scoreText: "text-emerald-600",
+      },
     };
 
     const currentColors = colorClasses[uiColor as keyof typeof colorClasses];
 
+    const returnUrl =
+      contextType === "lesson" && lessonId
+        ? `/dashboard/student/lessons/${lessonId}`
+        : `/dashboard/student/${contextType === "exam" ? "exams" : "exercises"}`;
+
     return (
-      <div className="bg-white dark:bg-slate-900 rounded-3xl p-10 md:p-16 text-center border border-slate-100 dark:border-slate-800 shadow-sm max-w-2xl mx-auto">
-        <div className={`w-24 h-24 mx-auto rounded-full flex items-center justify-center mb-6 shadow-lg text-white ${currentColors.gradient}`}>
-          <IconComponent className="w-12 h-12" />
-        </div>
-        
-        <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-2">النتيجة النهائية</h2>
-        <p className="text-slate-500 font-medium mb-8">لقد أكملت اختبار درس {lessonTitle}</p>
-        
-        <div className={`text-6xl font-black mb-6 flex justify-center items-baseline gap-2 ${currentColors.scoreText}`}>
-          <span>{finalScore}</span>
-          <span className="text-2xl text-slate-400">/ {maxScore}</span>
+      <div className="space-y-8 max-w-3xl mx-auto pb-12">
+        {/* Score Card */}
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 md:p-12 text-center border border-slate-100 dark:border-slate-800 shadow-sm">
+          <div className={`w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-5 shadow-lg text-white ${currentColors.gradient}`}>
+            <IconComponent className="w-10 h-10" />
+          </div>
+
+          <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-2">النتيجة النهائية</h2>
+          <p className="text-slate-500 font-medium mb-6">لقد أكملت اختبار: {lessonTitle}</p>
+
+          <div className={`text-6xl font-black mb-6 flex justify-center items-baseline gap-2 ${currentColors.scoreText}`}>
+            <span>{finalScore}</span>
+            <span className="text-2xl text-slate-400">/ {maxScore}</span>
+          </div>
+
+          <div className={`text-base font-bold mb-6 px-6 py-3 rounded-xl inline-block ${currentColors.text} ${currentColors.bg}`}>
+            {feedbackMessage}
+          </div>
+
+          {/* Quick Actions */}
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <button
+              onClick={handleRetake}
+              className="inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-black text-white px-6 py-3 rounded-xl font-bold transition-colors shadow-sm"
+            >
+              <RotateCcw className="w-4 h-4" />
+              إعادة المحاولة
+            </button>
+
+            <Link
+              href="/dashboard/student/mistakes"
+              className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-xl font-bold transition-colors shadow-sm"
+            >
+              <AlertTriangle className="w-4 h-4" />
+              سجل أخطائي الكامل
+            </Link>
+
+            <Link
+              href={returnUrl}
+              className="inline-flex items-center justify-center gap-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 px-6 py-3 rounded-xl font-bold transition-colors"
+            >
+              <BookOpen className="w-4 h-4" />
+              العودة للمحتوى
+            </Link>
+          </div>
         </div>
 
-        <div className={`text-lg font-bold mb-8 px-6 py-4 rounded-xl inline-block ${currentColors.text} ${currentColors.bg}`}>
-          {feedbackMessage}
-        </div>
+        {/* Mistakes Review Section */}
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 border border-slate-100 dark:border-slate-800 shadow-sm">
+          <div className="flex items-center justify-between mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-amber-50 dark:bg-amber-950/30 flex items-center justify-center text-amber-600">
+                <AlertTriangle className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-xl font-black text-slate-900 dark:text-white">مراجعة الأسئلة والأخطاء</h3>
+                <p className="text-xs text-slate-400 mt-0.5">
+                  {mistakes.length === 0
+                    ? "إجاباتك صحيحة 100% بدون أي خطأ"
+                    : `تم تسجيل ${mistakes.length} خطأ وتمت إضافتها إلى صفحة "أخطائي"`}
+                </p>
+              </div>
+            </div>
 
-        <div>
-          <Link 
-            href="/dashboard/student"
-            className="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-colors shadow-sm"
-          >
-            العودة إلى الرئيسية
-          </Link>
+            {mistakes.length > 0 && (
+              <span className="px-3 py-1 bg-red-100 text-red-700 dark:bg-red-950/40 dark:text-red-400 rounded-lg text-xs font-black">
+                {mistakes.length} خطأ
+              </span>
+            )}
+          </div>
+
+          {mistakes.length === 0 ? (
+            <div className="py-8 text-center bg-emerald-50/50 dark:bg-emerald-950/20 rounded-2xl border border-emerald-100 dark:border-emerald-900/30">
+              <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto mb-2" />
+              <p className="font-black text-emerald-800 dark:text-emerald-400 text-lg">كل إجاباتك صحيحة!</p>
+              <p className="text-xs text-emerald-600 dark:text-emerald-500 mt-1">لم ترتكب أي أخطاء في هذا الاختبار</p>
+            </div>
+          ) : (
+            <div className="space-y-5">
+              {mistakes.map((item, idx) => (
+                <div
+                  key={idx}
+                  className="p-5 rounded-2xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/40 space-y-3"
+                >
+                  <div className="flex items-start gap-2.5">
+                    <span className="w-7 h-7 rounded-lg bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-black text-xs flex items-center justify-center shrink-0 mt-0.5">
+                      {item.questionIndex}
+                    </span>
+                    <div className="font-bold text-slate-900 dark:text-white text-base leading-relaxed">
+                      <RichMathText text={item.question} />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+                    {/* Student's Wrong Answer */}
+                    <div className="p-3.5 rounded-xl bg-red-50 dark:bg-red-950/20 border border-red-200 dark:border-red-900/40 space-y-1">
+                      <div className="flex items-center gap-1.5 text-xs font-black text-red-600 dark:text-red-400">
+                        <XCircle className="w-4 h-4 shrink-0" />
+                        <span>إجابتك:</span>
+                      </div>
+                      <div className="font-semibold text-sm text-red-800 dark:text-red-300">
+                        <RichMathText text={item.studentAnswer} />
+                      </div>
+                    </div>
+
+                    {/* Correct Solution */}
+                    <div className="p-3.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-900/40 space-y-1">
+                      <div className="flex items-center gap-1.5 text-xs font-black text-emerald-600 dark:text-emerald-400">
+                        <CheckCircle2 className="w-4 h-4 shrink-0" />
+                        <span>الحل الصحيح:</span>
+                      </div>
+                      <div className="font-semibold text-sm text-emerald-800 dark:text-emerald-300">
+                        <RichMathText text={item.correctAnswer} />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     );
@@ -172,16 +305,19 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
   return (
     <div className="space-y-8 max-w-3xl mx-auto">
       {/* Header */}
-      <div className="flex items-center justify-end">
-        <span className="bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 px-4 py-1.5 rounded-lg text-sm font-bold">
+      <div className="flex items-center justify-between">
+        <span className="text-sm font-bold text-slate-500 dark:text-slate-400 truncate max-w-[200px] md:max-w-md">
+          {lessonTitle}
+        </span>
+        <span className="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 px-4 py-1.5 rounded-lg text-sm font-bold">
           السؤال {currentQuestionIndex + 1} من {questions.length}
         </span>
       </div>
 
       {/* Progress Bar */}
       <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
-        <div 
-          className="h-full bg-green-500 transition-all duration-300" 
+        <div
+          className="h-full bg-emerald-500 transition-all duration-300"
           style={{ width: `${progress}%` }}
         ></div>
       </div>
@@ -195,25 +331,28 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
         <div className="space-y-4">
           {currentQuestion.options.map((opt, idx) => {
             const isSelected = selectedAnswers[currentQuestionIndex] === idx;
-            
+
             return (
               <button
                 key={idx}
+                type="button"
                 onClick={() => handleSelectOption(idx)}
                 className={`w-full text-right p-5 rounded-2xl border-2 transition-all flex items-center justify-between group ${
-                  isSelected 
-                    ? 'border-green-600 bg-green-50 dark:bg-green-900/20' 
-                    : 'border-slate-100 dark:border-slate-800 hover:border-green-200 dark:hover:border-green-800 hover:bg-slate-50 dark:hover:bg-slate-900/50'
+                  isSelected
+                    ? "border-emerald-600 bg-emerald-50 dark:bg-emerald-900/20"
+                    : "border-slate-100 dark:border-slate-800 hover:border-emerald-200 dark:hover:border-emerald-800 hover:bg-slate-50 dark:hover:bg-slate-900/50"
                 }`}
               >
-                <span className={`font-bold text-lg ${isSelected ? 'text-green-700 dark:text-green-400' : 'text-slate-700 dark:text-slate-300'}`}>
+                <span className={`font-bold text-lg ${isSelected ? "text-emerald-700 dark:text-emerald-400" : "text-slate-700 dark:text-slate-300"}`}>
                   <RichMathText text={opt} />
                 </span>
-                <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
-                  isSelected 
-                    ? 'border-green-600 bg-green-600 text-white' 
-                    : 'border-slate-300 dark:border-slate-600 group-hover:border-green-300'
-                }`}>
+                <div
+                  className={`w-6 h-6 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
+                    isSelected
+                      ? "border-emerald-600 bg-emerald-600 text-white"
+                      : "border-slate-300 dark:border-slate-600 group-hover:border-emerald-300"
+                  }`}
+                >
                   {isSelected && <CheckCircle2 className="w-4 h-4" />}
                 </div>
               </button>
@@ -231,17 +370,16 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
         >
           السابق
         </button>
-        
+
         <button
           onClick={handleNext}
           disabled={!hasSelectedCurrent}
-          className="flex items-center gap-2 bg-green-600 hover:bg-green-700 disabled:bg-slate-200 disabled:text-slate-400 dark:disabled:bg-slate-800 dark:disabled:text-slate-600 text-white px-8 py-3.5 rounded-xl font-bold transition-all shadow-sm"
+          className="flex items-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-200 disabled:text-slate-400 dark:disabled:bg-slate-800 dark:disabled:text-slate-600 text-white px-8 py-3.5 rounded-xl font-bold transition-all shadow-sm"
         >
-          {currentQuestionIndex === questions.length - 1 ? 'إنهاء الاختبار' : 'التالي'}
+          {currentQuestionIndex === questions.length - 1 ? "إنهاء الاختبار وعرض النتائج" : "التالي"}
           <ArrowLeft className="w-5 h-5" />
         </button>
       </div>
-
     </div>
   );
 }

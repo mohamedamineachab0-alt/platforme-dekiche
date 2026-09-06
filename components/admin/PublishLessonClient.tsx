@@ -57,7 +57,8 @@ export function PublishLessonClient({
       files.forEach((file) => formData.append("materials", file));
     }
     
-    if (hasQuiz === "yes") {
+    const hasValidQuiz = hasQuiz === "yes" || manualQuestions.some((q) => q.question.trim().length > 0);
+    if (hasValidQuiz) {
       formData.set("quiz", JSON.stringify({
         maxScore: quizMaxScore,
         aiGenerated: quizType === "AI",
@@ -156,6 +157,7 @@ export function PublishLessonClient({
         });
         setManualQuestions(sanitized);
         setQuizType("MANUAL");
+        setHasQuiz("yes");
       } else {
         alert("لم يتم التعرف على أي أسئلة صالحة في الملفات المقدمة");
       }

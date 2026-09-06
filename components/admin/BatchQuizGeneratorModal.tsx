@@ -20,7 +20,7 @@ export function BatchQuizGeneratorModal({ currentSubjectId, currentSubjectTitle 
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isLoadingList, setIsLoadingList] = useState(false);
-  const [scope, setScope] = useState<"current" | "all">(currentSubjectId ? "current" : "all");
+  const [scope, setScope] = useState<"all" | "current">("all");
   const [pendingLessons, setPendingLessons] = useState<PendingQuizLesson[]>([]);
 
   // Execution State
@@ -32,8 +32,8 @@ export function BatchQuizGeneratorModal({ currentSubjectId, currentSubjectTitle 
   const [logs, setLogs] = useState<ProcessLog[]>([]);
   const [isFinished, setIsFinished] = useState(false);
 
-  // Load pending lessons whenever modal opens or scope changes
-  const loadPendingLessons = async (targetScope: "current" | "all") => {
+  // Load pending lessons
+  const loadPendingLessons = async (targetScope: "all" | "current") => {
     setIsLoadingList(true);
     try {
       const subjectParam = targetScope === "current" && currentSubjectId ? currentSubjectId : "ALL";
@@ -51,6 +51,10 @@ export function BatchQuizGeneratorModal({ currentSubjectId, currentSubjectTitle 
     }
   };
 
+  useEffect(() => {
+    loadPendingLessons("all");
+  }, [currentSubjectId]);
+
   const handleOpen = () => {
     setIsOpen(true);
     setIsFinished(false);
@@ -66,11 +70,11 @@ export function BatchQuizGeneratorModal({ currentSubjectId, currentSubjectTitle 
     if (isProcessing) return; // Prevent closing mid-batch
     setIsOpen(false);
     if (isFinished) {
-      router.refresh();
+      window.location.reload();
     }
   };
 
-  const handleScopeChange = (newScope: "current" | "all") => {
+  const handleScopeChange = (newScope: "all" | "current") => {
     setScope(newScope);
     loadPendingLessons(newScope);
   };
@@ -95,7 +99,7 @@ export function BatchQuizGeneratorModal({ currentSubjectId, currentSubjectTitle 
       setCurrentLessonName(lesson.title);
 
       try {
-        // Step 1: Call API to generate quiz questions
+        // Step 1: Call API to generate & auto-persist quiz
         const response = await fetch("/api/generate-quiz", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -122,10 +126,12 @@ export function BatchQuizGeneratorModal({ currentSubjectId, currentSubjectTitle 
           throw new Error("لم يرجع الذكاء الاصطناعي أي أسئلة صالحة");
         }
 
-        // Step 2: Save generated quiz to DB using Prisma Server Action
-        const saveResult = await saveLessonQuiz(lesson.id, data.questions, 20);
-        if (!saveResult.success) {
-          throw new Error(saveResult.error || "فشل حفظ الكويز في قاعدة البيانات");
+        // Step 2: Ensure saved in DB (either via API or fallback server action)
+        if (!data.saved) {
+          const saveResult = await saveLessonQuiz(lesson.id, data.questions, 20);
+          if (!saveResult.success) {
+            throw new Error(saveResult.error || "فشل حفظ الكويز في قاعدة البيانات");
+          }
         }
 
         localSuccess++;
@@ -160,6 +166,11 @@ export function BatchQuizGeneratorModal({ currentSubjectId, currentSubjectTitle 
       >
         <Sparkles className="w-4 h-4 text-amber-300 animate-pulse" />
         <span>توليد الكويزات الناقصة (AI)</span>
+        {pendingLessons.length > 0 && (
+          <span className="bg-white/25 text-white text-xs px-2 py-0.5 rounded-full font-mono font-bold">
+            {pendingLessons.length}
+          </span>
+        )}
       </button>
 
       {/* Modal Overlay */}
@@ -196,19 +207,9 @@ export function BatchQuizGeneratorModal({ currentSubjectId, currentSubjectTitle 
             </div>
 
             {/* Scope Filter Tabs */}
-            {!isProcessing && !isFinished && currentSubjectId && (
+            {!isProcessing && !isFinished && (
               <div className="px-6 pt-4 flex items-center gap-2 text-xs">
                 <span className="text-slate-500 font-bold">نطاق التوليد:</span>
-                <button
-                  onClick={() => handleScopeChange("current")}
-                  className={`px-3 py-1.5 rounded-xl font-bold transition-all ${
-                    scope === "current"
-                      ? "bg-purple-600 text-white shadow-sm"
-                      : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200"
-                  }`}
-                >
-                  المادة المحددة ({currentSubjectTitle || "الحالية"})
-                </button>
                 <button
                   onClick={() => handleScopeChange("all")}
                   className={`px-3 py-1.5 rounded-xl font-bold transition-all ${
@@ -217,8 +218,20 @@ export function BatchQuizGeneratorModal({ currentSubjectId, currentSubjectTitle 
                       : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200"
                   }`}
                 >
-                  جميع المواد
+                  جميع المواد ({pendingLessons.length})
                 </button>
+                {currentSubjectId && (
+                  <button
+                    onClick={() => handleScopeChange("current")}
+                    className={`px-3 py-1.5 rounded-xl font-bold transition-all ${
+                      scope === "current"
+                        ? "bg-purple-600 text-white shadow-sm"
+                        : "bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200"
+                    }`}
+                  >
+                    المادة المحددة ({currentSubjectTitle || "الحالية"})
+                  </button>
+                )}
               </div>
             )}
 
@@ -273,7 +286,7 @@ export function BatchQuizGeneratorModal({ currentSubjectId, currentSubjectTitle 
                             تم إنهاء التوليد التلقائي بنجاح!
                           </p>
                           <p className="text-xs text-emerald-700 dark:text-emerald-400 mt-0.5">
-                            تم إنشاء {successCount} من أصل {total} كويز بنجاح
+                            تم إنشاء وحفظ {successCount} من أصل {total} كويز بنجاح
                             {failedCount > 0 ? ` (${failedCount} تعذر توليدها)` : ""}
                           </p>
                         </div>
@@ -319,7 +332,7 @@ export function BatchQuizGeneratorModal({ currentSubjectId, currentSubjectTitle 
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <p className="text-sm font-bold text-slate-700 dark:text-slate-300">
-                      الدروس الجاهزة للتوليد (تملك فيديو Vimeo أو مرفقات PDF بدون كويز):
+                      الدروس الجاهزة للتوليد (تملك فيديو Vimeo أو مرفقات بدون كويز):
                     </p>
                     <span className="px-2.5 py-1 rounded-lg bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 font-black text-xs">
                       {pendingLessons.length} درس
@@ -376,7 +389,7 @@ export function BatchQuizGeneratorModal({ currentSubjectId, currentSubjectTitle 
                 disabled={isProcessing}
                 className="px-5 py-2.5 rounded-xl font-bold text-xs text-slate-500 hover:bg-slate-200 dark:hover:bg-slate-800 disabled:opacity-30 transition-colors"
               >
-                {isFinished ? "إغلاق" : "إلغاء"}
+                {isFinished ? "إغلاق وتحديث" : "إلغاء"}
               </button>
 
               {!isFinished && (

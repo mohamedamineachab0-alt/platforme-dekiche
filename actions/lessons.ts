@@ -170,8 +170,12 @@ export async function createLesson(formData: FormData): Promise<ActionState> {
       },
     });
 
-    revalidatePath(`/dashboard/admin/lessons`);
-    revalidatePath(`/dashboard/student/subjects/${validation.data.subjectId}`);
+    try {
+      revalidatePath(`/dashboard/admin/lessons`);
+      revalidatePath(`/dashboard/student/subjects/${validation.data.subjectId}`);
+    } catch (e) {
+      console.warn("revalidatePath warning in createLesson:", e);
+    }
     return { success: true };
   } catch (error) {
     console.error("خطا اثناء حفظ الدرس", error);
@@ -351,7 +355,11 @@ export async function updateLesson(id: string, formData: FormData): Promise<Acti
       });
     }
 
-    revalidatePath(`/dashboard/admin/lessons`);
+    try {
+      revalidatePath(`/dashboard/admin/lessons`);
+    } catch (e) {
+      console.warn("revalidatePath warning in updateLesson:", e);
+    }
     return { success: true };
   } catch (error) {
     console.error("خطا اثناء تعديل الدرس", error);

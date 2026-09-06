@@ -40,9 +40,17 @@ export function EditLessonClient({
 
   // Quiz State
   const [hasQuiz, setHasQuiz] = useState<"yes" | "no">(lesson.quiz ? "yes" : "no");
-  const [quizType, setQuizType] = useState<"MANUAL" | "AI">("MANUAL");
-  const [quizMaxScore, setQuizMaxScore] = useState(20);
-  const [manualQuestions, setManualQuestions] = useState([{ question: "", options: ["", "", "", ""], correctAnswerIndex: 0 }]);
+  const [quizType, setQuizType] = useState<"MANUAL" | "AI">(lesson.quiz?.aiGenerated ? "AI" : "MANUAL");
+  const [quizMaxScore, setQuizMaxScore] = useState(lesson.quiz?.maxScore || 20);
+  const [manualQuestions, setManualQuestions] = useState(() => {
+    if (lesson.quiz?.questions) {
+      try {
+        const q = typeof lesson.quiz.questions === "string" ? JSON.parse(lesson.quiz.questions) : lesson.quiz.questions;
+        if (Array.isArray(q) && q.length > 0) return q;
+      } catch {}
+    }
+    return [{ question: "", options: ["", "", "", ""], correctAnswerIndex: 0 }];
+  });
   const [aiSourceMode, setAiSourceMode] = useState<"lesson_files" | "custom_upload">("lesson_files");
   const [aiImageFile, setAiImageFile] = useState<File | null>(null);
   const [numberOfQuestions, setNumberOfQuestions] = useState(5);
@@ -79,7 +87,8 @@ export function EditLessonClient({
       files.forEach((file) => formData.append("materials", file));
     }
     
-    if (hasQuiz === "yes") {
+    const hasValidQuiz = hasQuiz === "yes" || manualQuestions.some((q) => q.question.trim().length > 0);
+    if (hasValidQuiz) {
       formData.set("quiz", JSON.stringify({
         maxScore: quizMaxScore,
         aiGenerated: quizType === "AI",
@@ -187,6 +196,7 @@ export function EditLessonClient({
         });
         setManualQuestions(sanitized);
         setQuizType("MANUAL");
+        setHasQuiz("yes");
       } else {
         alert("لم يتم التعرف على أي أسئلة صالحة في الوثائق المقدمة");
       }
@@ -596,7 +606,7 @@ export function EditLessonClient({
                                 {(q.question.includes('$') || q.question.includes('\\') || /[=+\-*/^_{}]/.test(q.question)) && <MathPreview text={q.question} />}
                               </div>
                               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                {q.options.map((opt, optIdx) => (
+                                {q.options.map((opt: string, optIdx: number) => (
                                   <label key={optIdx} className={`flex flex-col gap-1.5 p-3 rounded-xl border cursor-pointer transition-all ${q.correctAnswerIndex === optIdx ? "border-sky-500 bg-sky-50/50" : "border-slate-200 hover:border-sky-200"}`}>
                                     <div className="flex items-center gap-3 w-full">
                                       <input 

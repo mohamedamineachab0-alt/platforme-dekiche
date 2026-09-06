@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { openai } from '@/lib/openai';
+import { prisma } from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -21,6 +22,7 @@ export async function POST(req: Request) {
 
     const body = await req.json();
     const {
+      lessonId,
       imageBase64,
       pdfUrl,
       vimeoUrl,
@@ -151,7 +153,34 @@ ${pdfUrl ? `- رابط ملف ومرفقات الدرس (PDF/Document): ${pdfUrl
       };
     });
 
-    return NextResponse.json({ success: true, questions: sanitizedQuestions });
+    let savedQuiz = null;
+    if (lessonId) {
+      try {
+        savedQuiz = await prisma.quiz.upsert({
+          where: { lessonId },
+          update: {
+            questions: sanitizedQuestions,
+            maxScore: score,
+            aiGenerated: true,
+          },
+          create: {
+            lessonId,
+            questions: sanitizedQuestions,
+            maxScore: score,
+            aiGenerated: true,
+          },
+        });
+      } catch (dbErr) {
+        console.error("Auto-save quiz in generate-quiz error:", dbErr);
+      }
+    }
+
+    return NextResponse.json({
+      success: true,
+      questions: sanitizedQuestions,
+      saved: !!savedQuiz,
+      quizId: savedQuiz?.id
+    });
   } catch (error: any) {
     console.error('Error generating AI quiz:', error);
     return NextResponse.json(

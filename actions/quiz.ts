@@ -185,7 +185,11 @@ export async function saveLessonQuiz(
       },
     });
 
-    revalidatePath("/dashboard/admin/lessons");
+    try {
+      revalidatePath("/dashboard/admin/lessons");
+    } catch (revErr) {
+      console.warn("revalidatePath notice in saveLessonQuiz:", revErr);
+    }
     return { success: true };
   } catch (error: any) {
     console.error("Error in saveLessonQuiz:", error);

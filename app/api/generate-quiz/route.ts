@@ -2,6 +2,13 @@ import { NextResponse } from 'next/server';
 import { openai } from '@/lib/openai';
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
+function isStemSubject(subject?: string | null): boolean {
+  if (!subject) return false;
+  const s = subject.trim().toLowerCase();
+  return /رياضيات|math|فيزياء|كيمياء|physique|chimie|علوم الطبيعة|طبيعة و حياة|علوم طبيعية|snv|biologie|science|sciences/i.test(s);
+}
 
 export async function POST(req: Request) {
   try {
@@ -12,20 +19,44 @@ export async function POST(req: Request) {
       );
     }
 
-    const { imageBase64, numberOfQuestions, totalPoints } = await req.json();
+    const body = await req.json();
+    const {
+      imageBase64,
+      pdfUrl,
+      vimeoUrl,
+      lessonTitle,
+      subjectTitle,
+      level,
+      stream,
+      numberOfQuestions = 5,
+      totalPoints = 20,
+    } = body;
 
-    if (!imageBase64 || !numberOfQuestions || !totalPoints) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
-    }
+    const qCount = Number(numberOfQuestions) > 0 ? Number(numberOfQuestions) : 5;
+    const score = Number(totalPoints) > 0 ? Number(totalPoints) : 20;
+    const isStem = isStemSubject(subjectTitle);
 
-    const systemPrompt = `أنت خبير تربوي ومفتش تعليمي للمنهاج الجزائري. قم باستخراج كويز دقيق من المادة المرفقة.
-الشروط الصارمة:
-1. عدد الأسئلة بدقة: ${numberOfQuestions} أسئلة.
-2. لكل سؤال 4 خيارات حصرية.
-3. حدد 'correctAnswerIndex' من 0 إلى 3.
-4. مطابقة لغة الوثيقة بالكامل.
-5. للمعادلات الرياضية استخدم صيغة LaTeX محاطة بـ $ (مثل $E = mc^2$).
-6. الإخراج يكون كائن JSON حصراً بمفتاح 'questions':
+    const mathInstruction = isStem
+      ? "المادة علمية/رياضية: يجب إلزامياً كتابة كافة المعادلات والصيغ والرموز بصيغة LaTeX محاطة بـ $ (مثال: $f(x)=2x+1$ أو $E=mc^2$ أو $\\vec{F}$ أو $\\tau=RC$)."
+      : "المادة أدبية/لغوية/إنسانية (ليست رياضيات ولا فيزياء ولا علوم): يمنع منعاً باتاً ومطلقاً استخدام لغة LaTeX أو وضع أي علامات $ في الأسئلة أو الخيارات! تصاغ كل الأسئلة والخيارات بنصوص عادية واضحة بدون رموز رياضية.";
+
+    const systemPrompt = `أنت كبير مفتشي الامتحانات ومصممي بنوك الأسئلة في منصة "ديكيش أكاديمي" للمنهاج الجزائري الرسمي (بكالوريا، ثانوي، ومتوسط).
+مهمتك: توليد كويز اختباري نموذجي يتكون من بالضبط ${qCount} أسئلة اختيار من متعدد (QCM) بمجموع علامات ${score}.
+
+المعلومات المحددة:
+- عنوان الدرس: ${lessonTitle || 'درس تعليمي'}
+- المادة المقررة: ${subjectTitle || 'المادة المحددة'}
+- المستوى والشعبة: ${level || 'التعليم الثانوي'} - ${stream || 'عام'}
+${vimeoUrl ? `- رابط فيديو الحصة (Vimeo): ${vimeoUrl}` : ''}
+${pdfUrl ? `- رابط ملف ومرفقات الدرس (PDF/Document): ${pdfUrl}` : ''}
+
+القواعد الصارمة:
+1. عدد الأسئلة الإلزامي: بالضبط ${qCount} أسئلة.
+2. التخصص الحصري (حظر خلط المواد): كافة الأسئلة والخيارات يجب أن تدور حتماً 100% حول موضوع درس [${lessonTitle || 'الدرس'}] ومادة [${subjectTitle || 'المادة'}] فقط.
+3. قاعدة الصياغة الرياضية: ${mathInstruction}
+4. لكل سؤال 4 خيارات حصرية ومستقلة: خيار واحد صحيح تماماً، و 3 خيارات خاطئة تمثل مموهات ذكية مستوحاة من أخطاء التلاميذ الشائعة.
+5. حدد 'correctAnswerIndex' برقم صحيح (0 إلى 3).
+6. الإخراج حصراً كائن JSON بالشكل التالي:
 {
   "questions": [
     {
@@ -36,29 +67,33 @@ export async function POST(req: Request) {
   ]
 }`;
 
-    const imageUrl = imageBase64.startsWith('data:')
-      ? imageBase64
-      : `data:image/jpeg;base64,${imageBase64}`;
+    const messages: any[] = [
+      { role: 'system', content: systemPrompt }
+    ];
+
+    if (imageBase64) {
+      const imageUrl = imageBase64.startsWith('data:')
+        ? imageBase64
+        : `data:image/jpeg;base64,${imageBase64}`;
+
+      messages.push({
+        role: 'user',
+        content: [
+          { type: 'text', text: `قم باستخراج وتوليد أسئلة الكويز الـ ${qCount} من هذه الوثيقة بدقة علمية كاملة:` },
+          { type: 'image_url', image_url: { url: imageUrl, detail: 'high' } }
+        ]
+      });
+    } else {
+      messages.push({
+        role: 'user',
+        content: `قم فوراً بتوليد الكويز النموذجي لدرس "${lessonTitle || 'الدرس'}" في مادة "${subjectTitle || 'المادة'}" وفق المنهاج الجزائري الرسمي:`
+      });
+    }
 
     const response = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       response_format: { type: 'json_object' },
-      messages: [
-        { role: 'system', content: systemPrompt },
-        {
-          role: 'user',
-          content: [
-            { type: 'text', text: 'قم باستخراج وتوليد أسئلة الكويز من هذه الوثيقة بدقة:' },
-            {
-              type: 'image_url',
-              image_url: {
-                url: imageUrl,
-                detail: 'high',
-              },
-            },
-          ],
-        },
-      ],
+      messages,
       max_tokens: 3000,
       temperature: 0.2,
     });
@@ -78,9 +113,9 @@ export async function POST(req: Request) {
 
     const rawQuestions = Array.isArray(parsed)
       ? parsed
-      : (parsed.questions || parsed.quiz || []);
+      : (parsed.questions || parsed.Questions || parsed.quiz || []);
 
-    const pointsPerQuestion = Number((totalPoints / Math.max(rawQuestions.length, 1)).toFixed(1));
+    const pointsPerQuestion = Number((score / Math.max(rawQuestions.length, 1)).toFixed(1));
 
     const sanitizedQuestions = rawQuestions.map((q: any, idx: number) => {
       let opts = Array.isArray(q.options) ? q.options.map(String) : [];
@@ -116,7 +151,7 @@ export async function POST(req: Request) {
       };
     });
 
-    return NextResponse.json({ questions: sanitizedQuestions });
+    return NextResponse.json({ success: true, questions: sanitizedQuestions });
   } catch (error: any) {
     console.error('Error generating AI quiz:', error);
     return NextResponse.json(

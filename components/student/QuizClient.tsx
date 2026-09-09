@@ -305,10 +305,23 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
   return (
     <div className="space-y-8 max-w-3xl mx-auto">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <span className="text-sm font-bold text-slate-500 dark:text-slate-400 truncate max-w-[200px] md:max-w-md">
-          {lessonTitle}
-        </span>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <Link
+            href={
+              contextType === "lesson" && lessonId
+                ? `/dashboard/student/lessons/${lessonId}`
+                : `/dashboard/student/${contextType === "exam" ? "exams" : "exercises"}`
+            }
+            className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors"
+            title="خروج من الاختبار"
+          >
+            <XCircle className="w-5 h-5" />
+          </Link>
+          <span className="text-sm font-bold text-slate-500 dark:text-slate-400 truncate max-w-[150px] md:max-w-md">
+            {lessonTitle}
+          </span>
+        </div>
         <span className="bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 px-4 py-1.5 rounded-lg text-sm font-bold">
           السؤال {currentQuestionIndex + 1} من {questions.length}
         </span>

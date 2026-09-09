@@ -115,10 +115,10 @@ export default async function ExerciseStudyViewPage({
               <div className="mt-auto space-y-3">
                 {exercise.materials.length > 0 ? (
                   <div className="grid grid-cols-1 gap-3 w-full">
-                    {exercise.materials.map(mat => (
+                    {exercise.materials.map((mat, index) => (
                       <UniversalFileViewer
                         key={mat.id}
-                        title={mat.title}
+                        title={exercise.materials.length > 1 ? `${exercise.title} - ملحق ${index + 1}` : exercise.title}
                         fileUrl={mat.fileUrl}
                         fileType={(mat as any).fileType}
                       />

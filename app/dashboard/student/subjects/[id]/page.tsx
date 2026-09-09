@@ -146,31 +146,94 @@ export default async function SubjectDetailsPage({
             {accessibleLessons.length > 0 ? (
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                  {accessibleLessons.map(lesson => (
-                    <Link key={lesson.id} href={`/dashboard/student/lessons/${lesson.id}`} className="flex gap-4 p-3 rounded-2xl hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors border border-transparent hover:border-slate-100 dark:hover:border-slate-700 group items-start">
-                      <div className="w-32 sm:w-36 aspect-video bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden shrink-0 relative shadow-sm group-hover:shadow transition-all border border-slate-100 dark:border-slate-800">
-                        {lesson.image ? (
-                          <img src={lesson.image} alt={lesson.title} className="w-full h-full object-contain bg-slate-900 group-hover:scale-105 transition-transform duration-500" />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center text-slate-400">
-                            <Play className="w-6 h-6 opacity-50" />
+                  {accessibleLessons.map((lesson) => {
+                    const hasFiles =
+                      lesson.materials && lesson.materials.some((m) => !!m.fileUrl);
+                    const hasQuiz =
+                      !!lesson.quiz &&
+                      Array.isArray(lesson.quiz.questions) &&
+                      (lesson.quiz.questions as any[]).length > 0 &&
+                      (lesson.quiz.questions as any[]).some(
+                        (q: any) => q && q.question && q.question.trim().length > 0
+                      );
+                    const qCount = hasQuiz ? (lesson.quiz!.questions as any[]).length : 0;
+
+                    return (
+                      <div
+                        key={lesson.id}
+                        className="flex flex-col p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-sky-200 dark:hover:border-sky-800 hover:shadow-md transition-all group"
+                      >
+                        <div className="flex gap-3.5 items-start">
+                          <Link
+                            href={`/dashboard/student/lessons/${lesson.id}`}
+                            className="w-32 sm:w-36 aspect-video bg-slate-100 dark:bg-slate-800 rounded-xl overflow-hidden shrink-0 relative shadow-sm group-hover:shadow transition-all border border-slate-100 dark:border-slate-800 block"
+                          >
+                            {lesson.image ? (
+                              <img
+                                src={lesson.image}
+                                alt={lesson.title}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                              />
+                            ) : (
+                              <div className="w-full h-full flex items-center justify-center text-slate-400">
+                                <Play className="w-6 h-6 opacity-50" />
+                              </div>
+                            )}
+                            <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors"></div>
+                            <div className="absolute bottom-1.5 right-1.5 bg-black/75 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-md text-[10px] font-bold flex items-center gap-1">
+                              <Play className="w-2.5 h-2.5 fill-white" /> درس
+                            </div>
+                          </Link>
+
+                          <div className="flex-1 min-w-0">
+                            <Link
+                              href={`/dashboard/student/lessons/${lesson.id}`}
+                              className="font-bold text-slate-800 dark:text-slate-100 hover:text-sky-600 dark:hover:text-sky-400 line-clamp-2 text-sm leading-snug block"
+                            >
+                              {lesson.title}
+                            </Link>
+
+                            <div className="flex flex-wrap items-center gap-1.5 mt-2">
+                              {hasFiles && (
+                                <span className="inline-flex items-center gap-1 text-[10px] font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-md border border-sky-100">
+                                  <FileText className="w-3 h-3" />
+                                  وثيقة مرفقة
+                                </span>
+                              )}
+                              <span className="text-[10px] text-slate-400 font-bold">
+                                الشهر {lesson.month}
+                              </span>
+                            </div>
                           </div>
-                        )}
-                        <div className="absolute inset-0 bg-black/5 group-hover:bg-transparent transition-colors"></div>
-                        <div className="absolute bottom-1.5 right-1.5 bg-black/70 backdrop-blur-sm text-white px-1.5 py-0.5 rounded-md text-[10px] font-bold flex items-center gap-1">
-                          <Play className="w-2.5 h-2.5 fill-white" /> درس
+                        </div>
+
+                        {/* Bottom Actions: Video & Quiz */}
+                        <div className="mt-3 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between gap-2">
+                          <Link
+                            href={`/dashboard/student/lessons/${lesson.id}`}
+                            className="inline-flex items-center gap-1 text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-sky-600 transition-colors"
+                          >
+                            <Play className="w-3.5 h-3.5 fill-current" />
+                            <span>مشاهدة الفيديو</span>
+                          </Link>
+
+                          {hasQuiz ? (
+                            <Link
+                              href={`/dashboard/student/lessons/${lesson.id}/quiz`}
+                              className="inline-flex items-center gap-1.5 text-xs font-black text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 px-3 py-1.5 rounded-xl transition-all hover:scale-105 shadow-xs"
+                            >
+                              <Award className="w-3.5 h-3.5 text-emerald-600" />
+                              <span>حل الكويز ({qCount})</span>
+                            </Link>
+                          ) : (
+                            <span className="text-[11px] font-medium text-slate-400">
+                              {hasFiles ? "الكويز قيد الإعداد" : "درس نظري"}
+                            </span>
+                          )}
                         </div>
                       </div>
-                      <div className="flex-1 py-1">
-                        <span className="font-bold text-slate-800 dark:text-slate-100 group-hover:text-sky-700 dark:group-hover:text-sky-400 line-clamp-2 text-sm leading-snug">
-                          {lesson.title}
-                        </span>
-                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-2 font-medium flex items-center gap-1">
-                          <Play className="w-3 h-3" /> ابدأ المشاهدة
-                        </p>
-                      </div>
-                    </Link>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
             ) : (

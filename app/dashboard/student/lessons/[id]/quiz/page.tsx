@@ -25,10 +25,23 @@ export default async function LessonQuizPage({
 
   if (!lesson || !lesson.quiz) redirect(`/dashboard/student/lessons/${id}`);
 
-  // Need to parse questions from JSON
-  const questions = typeof lesson.quiz.questions === 'string' 
-    ? JSON.parse(lesson.quiz.questions) 
-    : (lesson.quiz.questions as any[]);
+  // Parse questions from JSON and ensure only non-empty questions are kept
+  let rawQuestions: any[] = [];
+  try {
+    rawQuestions = typeof lesson.quiz.questions === 'string' 
+      ? JSON.parse(lesson.quiz.questions) 
+      : (lesson.quiz.questions as any[]);
+  } catch (err) {
+    rawQuestions = [];
+  }
+
+  const validQuestions = Array.isArray(rawQuestions)
+    ? rawQuestions.filter((q: any) => q && q.question && String(q.question).trim().length > 0)
+    : [];
+
+  if (validQuestions.length === 0) {
+    redirect(`/dashboard/student/lessons/${id}`);
+  }
 
   return (
     <div className="max-w-4xl mx-auto py-8 font-arabic" dir="rtl">
@@ -36,7 +49,7 @@ export default async function LessonQuizPage({
         lessonId={lesson.id} 
         lessonTitle={lesson.title} 
         quizId={lesson.quiz.id}
-        questions={questions}
+        questions={validQuestions}
       />
     </div>
   );

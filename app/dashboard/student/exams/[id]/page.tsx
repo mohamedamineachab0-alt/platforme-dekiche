@@ -128,10 +128,10 @@ export default async function ExamStudyViewPage({
               <div className="mt-auto space-y-3">
                 {exam.materials.length > 0 ? (
                   <div className="grid grid-cols-1 gap-3 w-full">
-                    {exam.materials.map(mat => (
+                    {exam.materials.map((mat, index) => (
                       <UniversalFileViewer
                         key={mat.id}
-                        title={mat.title}
+                        title={exam.materials.length > 1 ? `${exam.title} - ملحق ${index + 1}` : exam.title}
                         fileUrl={mat.fileUrl}
                         fileType={(mat as any).fileType}
                       />

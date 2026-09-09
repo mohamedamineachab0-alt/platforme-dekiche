@@ -23,16 +23,39 @@ export async function universalLoginAction(
   let user = null;
 
   try {
-    // 2. Exact match validation against the database
+    // Construct the alternative phone number format (+213) if it starts with 0
+    const altPhoneNumber = phoneNumber.startsWith("0") 
+      ? "+213" + phoneNumber.substring(1) 
+      : phoneNumber.startsWith("+213") 
+        ? "0" + phoneNumber.substring(4)
+        : phoneNumber;
+
+    // 2. Fetch by phone number (handling both formats)
     user = await prisma.user.findFirst({
       where: {
-        fullName: fullName,
-        phoneNumber: phoneNumber,
+        OR: [
+          { phoneNumber: phoneNumber },
+          { phoneNumber: altPhoneNumber },
+        ]
       },
     });
 
-    // 3. Reject if the user does not exist
-    if (!user) {
+    // Normalize Arabic names to ignore common typos (spaces, أ/إ/آ vs ا, ة vs ه, ى vs ي)
+    const normalizeArabicName = (name: string) => {
+      if (!name) return "";
+      return name
+        .toLowerCase()
+        .replace(/\s+/g, "")
+        .replace(/[أإآ]/g, "ا")
+        .replace(/ة/g, "ه")
+        .replace(/ى/g, "ي");
+    };
+
+    // 3. Reject if the user does not exist or the name doesn't match after normalization
+    if (
+      !user ||
+      normalizeArabicName(user.fullName) !== normalizeArabicName(fullName)
+    ) {
       return { error: "بيانات الدخول غير صحيحة، أو الحساب غير موجود" };
     }
 

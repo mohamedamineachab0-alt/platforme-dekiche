@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { assertAuth } from "@/lib/security";
 import { redirect } from "next/navigation";
-import { ChevronLeft, Download, FileText, CheckCircle2, Lock, PlayCircle, ListVideo } from "lucide-react";
+import { ChevronLeft, Download, FileText, CheckCircle2, Lock, PlayCircle, ListVideo, AlertTriangle } from "lucide-react";
 import { UniversalFileViewer } from "@/components/shared/UniversalFileViewer";
 import Link from "next/link";
 
@@ -80,6 +80,14 @@ export default async function LessonStudyViewPage({
     nextLessons = nextLessonsRaw.slice(0, 4);
     prevLessons = prevLessonsRaw.slice(0, 4);
   }
+
+  const lessonMistakes = await prisma.studentMistake.findMany({
+    where: {
+      studentId: sessionUser.id,
+      lessonId: lesson.id,
+    },
+    orderBy: { createdAt: "desc" }
+  });
   
   if (!isUnlocked) {
     return (
@@ -155,18 +163,43 @@ export default async function LessonStudyViewPage({
               <p className="text-slate-500 dark:text-slate-400 text-sm font-medium mb-6">قم بإجراء الاختبار لتقييم استيعابك لهذا الدرس ومدى فهمك للمحتوى</p>
               
               <div className="mt-auto">
-                {lesson.quiz ? (
-                  <Link 
-                    href={`/dashboard/student/lessons/${lesson.id}/quiz`}
-                    className="inline-flex w-full items-center justify-center bg-amber-400 hover:bg-amber-500 text-slate-950 font-black py-3.5 rounded-xl font-bold shadow-[0_0_10px_rgba(14,165,233,0.3)] hover:shadow-[0_0_20px_rgba(14,165,233,0.6)] transition-all duration-300"
-                  >
-                    بدء الاختبار الآن
-                  </Link>
-                ) : (
-                  <div className="w-full text-center bg-slate-50 text-slate-400 dark:bg-slate-800 dark:text-slate-500 py-3.5 rounded-xl font-bold border border-slate-100 dark:border-slate-700">
-                    لا يوجد كويز متاح
-                  </div>
-                )}
+                {(() => {
+                  const hasValidQuiz =
+                    !!lesson.quiz &&
+                    Array.isArray(lesson.quiz.questions) &&
+                    (lesson.quiz.questions as any[]).length > 0 &&
+                    (lesson.quiz.questions as any[]).some(
+                      (q: any) => q && q.question && q.question.trim().length > 0
+                    );
+                  const qCount = hasValidQuiz ? (lesson.quiz!.questions as any[]).length : 0;
+                  const hasFiles = lesson.materials && lesson.materials.length > 0;
+
+                  if (hasValidQuiz) {
+                    return (
+                      <Link
+                        href={`/dashboard/student/lessons/${lesson.id}/quiz`}
+                        className="inline-flex w-full items-center justify-center gap-2 bg-amber-400 hover:bg-amber-500 text-slate-950 font-black py-3.5 rounded-xl font-bold shadow-[0_0_10px_rgba(14,165,233,0.3)] hover:shadow-[0_0_20px_rgba(14,165,233,0.6)] transition-all duration-300"
+                      >
+                        <CheckCircle2 className="w-5 h-5" />
+                        <span>بدء الاختبار الآن ({qCount} أسئلة)</span>
+                      </Link>
+                    );
+                  }
+
+                  if (hasFiles) {
+                    return (
+                      <div className="w-full text-center bg-amber-50/70 text-amber-800 dark:bg-amber-950/20 dark:text-amber-400 py-3.5 rounded-xl font-bold border border-amber-200 dark:border-amber-900/30 text-xs">
+                        الكويز قيد الإعداد والإضافة قريباً
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div className="w-full text-center bg-slate-50 text-slate-400 dark:bg-slate-800/40 dark:text-slate-500 py-3.5 rounded-xl font-bold border border-slate-100 dark:border-slate-800 text-xs">
+                      هذا الدرس لا يتطلب كويز لعدم وجود ملف مرفق
+                    </div>
+                  );
+                })()}
               </div>
             </div>
           </div>
@@ -194,10 +227,10 @@ export default async function LessonStudyViewPage({
               <div className="mt-auto space-y-3">
                 {lesson.materials.length > 0 ? (
                   <div className="grid grid-cols-1 gap-3 w-full">
-                    {lesson.materials.map(mat => (
+                    {lesson.materials.map((mat, index) => (
                       <UniversalFileViewer
                         key={mat.id}
-                        title={mat.title}
+                        title={lesson.materials.length > 1 ? `${lesson.title} - ملحق ${index + 1}` : lesson.title}
                         fileUrl={mat.fileUrl}
                         fileType={(mat as any).fileType}
                         variant="compact"
@@ -214,6 +247,39 @@ export default async function LessonStudyViewPage({
           </div>
           
         </div>
+
+        {/* 3.5 Mistakes Section (If any) */}
+        {lessonMistakes.length > 0 && (
+          <div className="pt-8 mt-8 border-t border-slate-200 dark:border-slate-800">
+            <div className="flex items-center gap-2 mb-6 px-4">
+              <div className="w-10 h-10 bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 rounded-xl flex items-center justify-center shrink-0">
+                <AlertTriangle className="w-5 h-5" />
+              </div>
+              <div>
+                <h2 className="text-2xl font-black text-slate-900 dark:text-blue-950">أخطائي في هذا الدرس</h2>
+                <p className="text-sm text-slate-500 font-medium">راجع الأخطاء التي قمت بها في كويز هذا الدرس لتفاديها</p>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 px-4">
+              {lessonMistakes.map((mistake) => (
+                <div key={mistake.id} className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-5 shadow-sm">
+                  <div className="mb-4">
+                    <span className="text-[10px] font-black text-amber-500 uppercase tracking-wider mb-1 block">خطأك كان:</span>
+                    <p className="text-sm font-bold text-slate-700 dark:text-slate-300 bg-amber-50 dark:bg-amber-950/20 p-3 rounded-xl border border-amber-100 dark:border-amber-900/30">
+                      {mistake.mistakeContent}
+                    </p>
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-black text-emerald-500 uppercase tracking-wider mb-1 block">الصواب هو:</span>
+                    <p className="text-sm font-medium text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/20 p-3 rounded-xl border border-emerald-100 dark:border-emerald-900/30">
+                      {mistake.correctSolution}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
         
         {/* 4. Up Next Section */}
         {nextLessons.length > 0 && (

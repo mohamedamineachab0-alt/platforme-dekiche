@@ -11,6 +11,17 @@ function isStemSubject(subject?: string | null): boolean {
   return /رياضيات|math|فيزياء|كيمياء|physique|chimie|علوم الطبيعة|طبيعة و حياة|علوم طبيعية|snv|biologie|science|sciences/i.test(s);
 }
 
+function getSubjectLanguage(subject?: string | null): string {
+  if (!subject) return 'العربية';
+  const s = subject.trim().toLowerCase();
+  if (/فرنسية|français|french|francais/i.test(s)) return 'الفرنسية (French)';
+  if (/إنجليزية|english|anglais|انجليزية/i.test(s)) return 'الإنجليزية (English)';
+  if (/إسبانية|اسبانية|español|spanish/i.test(s)) return 'الإسبانية (Spanish)';
+  if (/ألمانية|المانية|allemand|deutsch|german/i.test(s)) return 'الألمانية (German)';
+  if (/إيطالية|ايطالية|italien|italian/i.test(s)) return 'الإيطالية (Italian)';
+  return 'العربية (Arabic)';
+}
+
 export async function POST(req: Request) {
   try {
     if (!process.env.OPENAI_API_KEY) {
@@ -25,6 +36,7 @@ export async function POST(req: Request) {
       lessonId,
       imageBase64,
       pdfUrl,
+      pdfUrls = [],
       vimeoUrl,
       lessonTitle,
       subjectTitle,
@@ -32,11 +44,26 @@ export async function POST(req: Request) {
       stream,
       numberOfQuestions = 5,
       totalPoints = 20,
+      forcedLanguage,
     } = body;
+
+    // Strict requirement: A lesson MUST have an attached file/document to generate a quiz
+    const hasAnyPdf = !!pdfUrl || (Array.isArray(pdfUrls) && pdfUrls.length > 0);
+    if (!hasAnyPdf && !imageBase64) {
+      return NextResponse.json(
+        { error: 'غير مسموح بتوليد كويز لدرس لا يحتوي على ملف مرفق (PDF أو وثيقة).' },
+        { status: 400 }
+      );
+    }
 
     const qCount = Number(numberOfQuestions) > 0 ? Number(numberOfQuestions) : 5;
     const score = Number(totalPoints) > 0 ? Number(totalPoints) : 20;
     const isStem = isStemSubject(subjectTitle);
+    
+    // Use forcedLanguage if provided, otherwise detect from subject
+    const targetLanguage = forcedLanguage && forcedLanguage !== "auto" 
+      ? forcedLanguage 
+      : getSubjectLanguage(subjectTitle);
 
     const mathInstruction = isStem
       ? "المادة علمية/رياضية: يجب إلزامياً كتابة كافة المعادلات والصيغ والرموز بصيغة LaTeX محاطة بـ $ (مثال: $f(x)=2x+1$ أو $E=mc^2$ أو $\\vec{F}$ أو $\\tau=RC$)."
@@ -48,17 +75,21 @@ export async function POST(req: Request) {
 المعلومات المحددة:
 - عنوان الدرس: ${lessonTitle || 'درس تعليمي'}
 - المادة المقررة: ${subjectTitle || 'المادة المحددة'}
+- لغة صياغة الأسئلة والخيارات: ${targetLanguage} حصراً.
 - المستوى والشعبة: ${level || 'التعليم الثانوي'} - ${stream || 'عام'}
 ${vimeoUrl ? `- رابط فيديو الحصة (Vimeo): ${vimeoUrl}` : ''}
-${pdfUrl ? `- رابط ملف ومرفقات الدرس (PDF/Document): ${pdfUrl}` : ''}
+${hasAnyPdf ? `- روابط ملفات ومرفقات الدرس:` : ''}
+${pdfUrl ? `  - ${pdfUrl}` : ''}
+${Array.isArray(pdfUrls) ? pdfUrls.map((url: string) => `  - ${url}`).join('\n') : ''}
 
 القواعد الصارمة:
-1. عدد الأسئلة الإلزامي: بالضبط ${qCount} أسئلة.
-2. التخصص الحصري (حظر خلط المواد): كافة الأسئلة والخيارات يجب أن تدور حتماً 100% حول موضوع درس [${lessonTitle || 'الدرس'}] ومادة [${subjectTitle || 'المادة'}] فقط.
-3. قاعدة الصياغة الرياضية: ${mathInstruction}
-4. لكل سؤال 4 خيارات حصرية ومستقلة: خيار واحد صحيح تماماً، و 3 خيارات خاطئة تمثل مموهات ذكية مستوحاة من أخطاء التلاميذ الشائعة.
-5. حدد 'correctAnswerIndex' برقم صحيح (0 إلى 3).
-6. الإخراج حصراً كائن JSON بالشكل التالي:
+1. لغة الأسئلة: تصاغ الأسئلة والخيارات بلغة [${targetLanguage}]. إذا كانت المادة فرنسية تُكتب الأسئلة والخيارات بالفرنسية فقط، وإذا كانت إسبانية فبالإسبانية فقط، وإذا كانت إنجليزية فبالإنجليزية فقط.
+2. عدد الأسئلة الإلزامي: بالضبط ${qCount} أسئلة.
+3. التخصص الحصري (حظر خلط المواد): كافة الأسئلة والخيارات يجب أن تدور حتماً 100% حول موضوع درس [${lessonTitle || 'الدرس'}] ومادة [${subjectTitle || 'المادة'}] فقط.
+4. قاعدة الصياغة الرياضية: ${mathInstruction}
+5. لكل سؤال 4 خيارات حصرية ومستقلة: خيار واحد صحيح تماماً، و 3 خيارات خاطئة تمثل مموهات ذكية مستوحاة من أخطاء التلاميذ الشائعة.
+6. حدد 'correctAnswerIndex' برقم صحيح (0 إلى 3).
+7. الإخراج حصراً كائن JSON بالشكل التالي:
 {
   "questions": [
     {

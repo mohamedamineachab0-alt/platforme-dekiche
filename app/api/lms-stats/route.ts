@@ -247,17 +247,6 @@ export async function GET(req: Request) {
       .sort((a, b) => new Date(b.at).getTime() - new Date(a.at).getTime())
       .slice(0, 5);
 
-    const parentSummary = {
-      watchHours: watchTime.hours,
-      watchMinutes: watchTime.minutes,
-      completedLessons: completedLessonsTotal,
-      averageQuizScore,
-      efficiencyNote:
-        watchTime.totalSeconds > 0 && averageQuizScore != null
-          ? "مقارنة بين وقت المشاهدة ونتائج الاختبارات الرسمية"
-          : "بانتظار مزيد من النشاط الدراسي الرسمي",
-    };
-
     const hasAnyData =
       watchTime.totalSeconds > 0 ||
       completedLessonsTotal > 0 ||
@@ -272,7 +261,6 @@ export async function GET(req: Request) {
       subjectProgress,
       averageQuizScore,
       timeline,
-      parentSummary,
       hasAnyData,
     });
   } catch (error) {

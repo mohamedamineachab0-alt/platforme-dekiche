@@ -7,8 +7,6 @@ import {
   BarChart,
   CartesianGrid,
   Cell,
-  Pie,
-  PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -19,7 +17,6 @@ import {
   BookOpenCheck,
   Clock3,
   LineChart,
-  ShieldCheck,
 } from "lucide-react";
 
 type SubjectProgress = {
@@ -44,13 +41,6 @@ type LmsStats = {
   subjectProgress: SubjectProgress[];
   averageQuizScore: number | null;
   timeline: TimelineItem[];
-  parentSummary: {
-    watchHours: number;
-    watchMinutes: number;
-    completedLessons: number;
-    averageQuizScore: number | null;
-    efficiencyNote: string;
-  };
   hasAnyData: boolean;
 };
 
@@ -58,8 +48,6 @@ const TITLE = "لوحة الحصيلة الدراسية";
 const WATCH_LABEL = "ساعات المشاهدة الفعلية";
 const LESSONS_LABEL = "الدروس المنجزة بالكامل";
 const CHART_TITLE = "نسبة التقدم لكل مادة";
-const PARENT_TITLE = "متابعة الولي";
-const PARENT_DESC = "تقرير دقيق لنشاط التلميذ ونتائج الاختبارات الرسمية";
 const TIMELINE_TITLE = "النشاطات الأخيرة";
 const EMPTY = "شاهد الدروس لتبدأ إحصائياتك بالظهور";
 
@@ -138,41 +126,6 @@ function ChartIllustration() {
   );
 }
 
-function EfficiencyRing({ score }: { score: number | null }) {
-  const value = score == null ? 0 : Math.max(0, Math.min(100, Math.round((score / 20) * 100)));
-  const data = [
-    { name: "score", value: Math.max(value, 0.01) },
-    { name: "rest", value: Math.max(100 - value, 0.01) },
-  ];
-
-  return (
-    <div className="relative mx-auto h-28 w-28">
-      <ResponsiveContainer width="100%" height="100%">
-        <PieChart>
-          <Pie
-            data={data}
-            dataKey="value"
-            innerRadius={34}
-            outerRadius={46}
-            startAngle={90}
-            endAngle={-270}
-            stroke="none"
-          >
-            <Cell fill="#A78BFA" />
-            <Cell fill="#1E1B4B" />
-          </Pie>
-        </PieChart>
-      </ResponsiveContainer>
-      <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
-        <p className="text-lg font-black text-white">
-          {score == null ? "0" : score}
-        </p>
-        <p className="text-[10px] font-bold text-slate-400">من 20</p>
-      </div>
-    </div>
-  );
-}
-
 export function MainStudyDashboard({ studentId }: { studentId?: string }) {
   const reduce = useReducedMotion();
   const [loading, setLoading] = useState(true);
@@ -213,12 +166,6 @@ export function MainStudyDashboard({ studentId }: { studentId?: string }) {
     })) ?? [];
 
   const totalLessonsAcross = chartData.reduce((sum, row) => sum + row.total, 0);
-  const overallPercent =
-    totalLessonsAcross > 0
-      ? Math.round(
-          (chartData.reduce((sum, row) => sum + row.completed, 0) / totalLessonsAcross) * 100
-        )
-      : 0;
 
   return (
     <div className="space-y-5 font-sans text-[#1E1B4B]" dir="rtl">
@@ -227,32 +174,30 @@ export function MainStudyDashboard({ studentId }: { studentId?: string }) {
         animate={{ opacity: 1, y: 0 }}
         className="overflow-hidden rounded-[28px] border border-[#EDE9FE] bg-gradient-to-l from-[#F7F5FF] via-white to-[#EDE9FE]/80 p-5 sm:p-6"
       >
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <div className="mb-2 inline-flex items-center gap-2 rounded-xl bg-[#6D28D9] px-3 py-1.5 text-[11px] font-black text-white">
-              <LineChart className="h-3.5 w-3.5" />
-              تقرير الأداء الدراسي
-            </div>
+        <div className="flex flex-col gap-4">
+          <div className="inline-flex w-fit items-center gap-2 rounded-xl bg-[#6D28D9] px-3 py-1.5 text-[11px] font-black text-white">
+            <LineChart className="h-3.5 w-3.5" />
+            تقرير الأداء الدراسي
+          </div>
+
+          <div className="rounded-2xl border-2 border-[#6D28D9] px-5 py-4 sm:px-6 sm:py-5">
             <h1 className="text-2xl font-black tracking-tight text-[#1E1B4B] sm:text-3xl">
               {TITLE}
             </h1>
-            <p className="mt-2 max-w-xl text-sm font-medium leading-6 text-[#6B6480]">
-              قياس دقيق لوقت المشاهدة وإنجاز الدروس ونتائج الاختبارات الرسمية
-            </p>
           </div>
-          <div className="rounded-2xl border border-[#EDE9FE] bg-white px-4 py-3 text-center shadow-sm">
-            <p className="text-[10px] font-black text-[#6B6480]">نسبة الإنجاز العامة</p>
-            <p className="mt-1 text-2xl font-black text-[#5B21B6]">{overallPercent} من 100</p>
-          </div>
+
+          <p className="max-w-xl text-sm font-medium leading-6 text-[#6B6480]">
+            قياس دقيق لوقت المشاهدة وإنجاز الدروس ونتائج الاختبارات الرسمية
+          </p>
         </div>
       </motion.header>
 
       {loading ? (
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-          {[0, 1, 2, 3, 4, 5].map((i) => (
+          {[0, 1, 2, 3, 4].map((i) => (
             <div
               key={i}
-              className={`h-40 animate-pulse rounded-[24px] bg-[#F3EFFF] ${i > 2 ? "md:col-span-2" : ""}`}
+              className={`h-40 animate-pulse rounded-[24px] bg-[#F3EFFF] ${i > 2 ? "md:col-span-2 xl:col-span-4" : ""}`}
             />
           ))}
         </div>
@@ -352,7 +297,7 @@ export function MainStudyDashboard({ studentId }: { studentId?: string }) {
             variants={fadeUp}
             initial={reduce ? false : "hidden"}
             animate="show"
-            className="rounded-[24px] border border-[#EDE9FE] bg-white p-5 shadow-[0_10px_30px_rgba(109,40,217,0.05)] md:col-span-2 xl:col-span-3"
+            className="rounded-[24px] border border-[#EDE9FE] bg-white p-5 shadow-[0_10px_30px_rgba(109,40,217,0.05)] md:col-span-2 xl:col-span-4"
           >
             <div className="mb-3 flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
@@ -416,42 +361,6 @@ export function MainStudyDashboard({ studentId }: { studentId?: string }) {
 
           <motion.div
             custom={4}
-            variants={fadeUp}
-            initial={reduce ? false : "hidden"}
-            animate="show"
-            className="rounded-[24px] border border-[#1E1B4B] bg-[#1E1B4B] p-5 text-white md:col-span-2 xl:col-span-1"
-          >
-            <div className="mb-3 flex items-center gap-2">
-              <ShieldCheck className="h-5 w-5 text-[#C4B5FD]" />
-              <h2 className="text-base font-black">{PARENT_TITLE}</h2>
-            </div>
-            <p className="text-xs font-medium leading-6 text-[#C4B5FD]/90">{PARENT_DESC}</p>
-            <div className="mt-4">
-              <EfficiencyRing score={stats.parentSummary.averageQuizScore} />
-            </div>
-            <div className="mt-3 space-y-2 rounded-2xl border border-white/10 bg-white/5 p-3 text-sm font-bold">
-              <p>
-                المشاهدة{" "}
-                {formatClock(
-                  stats.parentSummary.watchHours,
-                  stats.parentSummary.watchMinutes
-                )}
-              </p>
-              <p>الدروس المنجزة {stats.parentSummary.completedLessons}</p>
-              <p>
-                متوسط الاختبارات{" "}
-                {stats.parentSummary.averageQuizScore == null
-                  ? "غير متوفر"
-                  : `${stats.parentSummary.averageQuizScore} من 20`}
-              </p>
-            </div>
-            <p className="mt-3 text-[11px] font-medium leading-5 text-[#DDD6FE]/90">
-              {stats.parentSummary.efficiencyNote}
-            </p>
-          </motion.div>
-
-          <motion.div
-            custom={5}
             variants={fadeUp}
             initial={reduce ? false : "hidden"}
             animate="show"

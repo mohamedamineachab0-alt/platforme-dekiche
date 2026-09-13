@@ -1,6 +1,7 @@
 import { Role } from '../generated/prisma';
 import bcrypt from 'bcryptjs';
 import { prisma } from '../lib/prisma';
+import { seedLiveSessions } from './seed-live-sessions';
 
 async function main() {
   const passwordHash = await bcrypt.hash('123456', 12);
@@ -72,6 +73,8 @@ async function main() {
   console.log('تم إنشاء حساب الأدمين بنجاح');
   console.log('تم إنشاء حساب الأستاذ بنجاح');
   console.log('تم إنشاء حساب الولي بنجاح');
+
+  await seedLiveSessions();
 }
 
 main()

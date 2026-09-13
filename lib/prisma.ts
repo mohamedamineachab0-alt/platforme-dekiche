@@ -12,7 +12,7 @@ const globalForPrisma = globalThis as unknown as {
 };
 
 /** Bump this whenever Prisma schema models/fields change so HMR drops the stale client. */
-const PRISMA_SCHEMA_EPOCH = "lms-analytics-watch-progress-v1";
+const PRISMA_SCHEMA_EPOCH = "live-session-weekly-zoom-v1";
 
 if (globalForPrisma.prismaSchemaEpoch !== PRISMA_SCHEMA_EPOCH) {
   globalForPrisma.prismaClient = undefined;

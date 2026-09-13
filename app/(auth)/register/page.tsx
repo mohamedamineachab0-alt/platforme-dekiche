@@ -5,9 +5,8 @@ import { useRouter } from "next/navigation";
 import { registerUser } from "@/actions/auth";
 import {
   WILAYAS,
-  STUDY_CYCLES,
   SECONDARY_CYCLE,
-  getCycleByValue,
+  SECONDARY_STREAMS,
 } from "@/lib/constants";
 import {
   User,
@@ -168,16 +167,17 @@ export default function RegisterPage() {
   );
 }
 
-function RegisterForm() {
-  const branding = null;
-  const offering = null;
-  const lockedCycle = SECONDARY_CYCLE;
+const ACADEMY_LEVELS = [
+  { value: "AS2", label: "السنة الثانية ثانوي" },
+  { value: "AS3", label: "السنة الثالثة ثانوي شهادة الباكالوريا" },
+];
 
+const ACADEMY_STREAMS = SECONDARY_STREAMS.filter((s) => s.value !== "COMMON_TRUNK");
+
+function RegisterForm() {
   const [role, setRole] = useState<"STUDENT" | "PARENT">("STUDENT");
   const [error, setError] = useState<string | undefined>();
   const [isPending, startTransition] = useTransition();
-
-  const isSimplifiedIslamic = false;
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -189,26 +189,12 @@ function RegisterForm() {
     understandingLevel: "",
   });
 
-  const selectedCycle = getCycleByValue(formData.cycle) ?? lockedCycle;
-  const cycleLevels = [...selectedCycle.levels];
-  const cycleStreams = [...selectedCycle.streams];
+  const cycleLevels = ACADEMY_LEVELS;
+  const cycleStreams = ACADEMY_STREAMS;
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setError(undefined);
     const { name, value } = e.target;
-
-    if (name === "cycle") {
-      const cycle = getCycleByValue(value);
-      const autoStream = cycle?.streams.length === 1 ? cycle.streams[0].value : "";
-      setFormData((prev) => ({
-        ...prev,
-        cycle: value,
-        level: "",
-        stream: autoStream,
-      }));
-      return;
-    }
-
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -264,11 +250,9 @@ function RegisterForm() {
   return (
     <AuthShell wide>
             <div className="mb-8">
-              <h2 className="text-3xl font-black text-[#1E1B4B] sm:text-4xl">
-                {offering?.title ?? branding?.title ?? "إنشاء حساب جديد"}
-              </h2>
+              <h2 className="text-3xl font-black text-[#1E1B4B] sm:text-4xl">إنشاء حساب جديد</h2>
               <p className="mt-2 text-base font-medium text-[#6B6480]">
-                {offering?.hint ?? branding?.hint ?? "أكمل البيانات التالية لتسجيل حساب الدراسة"}
+                أكمل البيانات التالية لتسجيل حساب الدراسة
               </p>
             </div>
 
@@ -312,7 +296,6 @@ function RegisterForm() {
                 handleSubmit(e);
               }} className="relative space-y-6">
               <input type="hidden" name="role" value={role} />
-              {platform ? <input type="hidden" name="platform" value={platform} /> : null}
 
               <div className="pointer-events-none absolute -z-50 opacity-0" aria-hidden="true">
                 <label htmlFor="website_url">Website URL (Do not fill this)</label>
@@ -361,51 +344,33 @@ function RegisterForm() {
                       value={formData.wilaya}
                       onChange={handleInputChange}
                     />
-                    {offering ? (
-                      <input type="hidden" name="cycle" value={formData.cycle} />
-                    ) : (
+                    <input type="hidden" name="cycle" value="SECONDARY" />
+                    <div className="rounded-2xl border border-[#EDE9FE] bg-[#F7F5FF] px-4 py-3 md:col-span-2">
+                      <p className="text-xs font-black text-[#6D28D9]">الطور الدراسي</p>
+                      <p className="mt-1 text-base font-black text-[#1E1B4B]">{SECONDARY_CYCLE.label}</p>
+                    </div>
+                    <SelectField
+                      id="reg-level"
+                      label="السنة الدراسية"
+                      name="level"
+                      icon={GraduationCap}
+                      placeholder="اختر السنة"
+                      options={cycleLevels}
+                      value={formData.level}
+                      onChange={handleInputChange}
+                    />
+                    <div className="md:col-span-2">
                       <SelectField
-                        id="reg-cycle"
-                        label="الطور الدراسي"
-                        name="cycle"
-                        icon={GraduationCap}
-                        placeholder="اختر الطور"
-                        options={STUDY_CYCLES.map((cycle) => ({ value: cycle.value, label: cycle.label }))}
-                        value={formData.cycle}
+                        id="reg-stream"
+                        label="الشعبة"
+                        name="stream"
+                        icon={BookOpen}
+                        placeholder="اختر الشعبة"
+                        options={cycleStreams}
+                        value={formData.stream}
                         onChange={handleInputChange}
                       />
-                    )}
-                    {isSimplifiedIslamic ? (
-                      <>
-                        <input type="hidden" name="level" value={formData.level} />
-                        <input type="hidden" name="stream" value={formData.stream} />
-                      </>
-                    ) : (
-                      <>
-                        <SelectField
-                          id="reg-level"
-                          label={offering ? "المستوى" : "المستوى الدراسي التفصيلي"}
-                          name="level"
-                          icon={GraduationCap}
-                          placeholder="اختر المستوى"
-                          options={cycleLevels}
-                          value={formData.level}
-                          onChange={handleInputChange}
-                        />
-                        <div className="md:col-span-2">
-                          <SelectField
-                            id="reg-stream"
-                            label={offering?.streamLabel ?? "الشعبة"}
-                            name="stream"
-                            icon={BookOpen}
-                            placeholder={offering ? `اختر ${offering.streamLabel}` : "اختر الشعبة"}
-                            options={cycleStreams}
-                            value={formData.stream}
-                            onChange={handleInputChange}
-                          />
-                        </div>
-                      </>
-                    )}
+                    </div>
                     <div className="md:col-span-2 space-y-3">
                       <p className="block text-base font-bold text-[#1E1B4B]">
                         مستوى فهمك

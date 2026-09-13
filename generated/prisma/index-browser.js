@@ -528,6 +528,18 @@ exports.Prisma.QuizAttemptScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.LiveSessionScalarFieldEnum = {
+  id: 'id',
+  subject: 'subject',
+  level: 'level',
+  dayOfWeek: 'dayOfWeek',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  zoomLink: 'zoomLink',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -758,7 +770,8 @@ exports.Prisma.ModelName = {
   QuestExercise: 'QuestExercise',
   WatchHistory: 'WatchHistory',
   CourseProgress: 'CourseProgress',
-  QuizAttempt: 'QuizAttempt'
+  QuizAttempt: 'QuizAttempt',
+  LiveSession: 'LiveSession'
 };
 
 /**

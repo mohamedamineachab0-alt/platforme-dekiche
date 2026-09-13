@@ -198,6 +198,11 @@ export type CourseProgress = $Result.DefaultSelection<Prisma.$CourseProgressPayl
  * Official exam / quiz attempts for LMS analytics (separate from AI companion PracticeAttempt)
  */
 export type QuizAttempt = $Result.DefaultSelection<Prisma.$QuizAttemptPayload>
+/**
+ * Model LiveSession
+ * Weekly recurring Zoom live schedule (template rows, not dated instances)
+ */
+export type LiveSession = $Result.DefaultSelection<Prisma.$LiveSessionPayload>
 
 /**
  * Enums
@@ -919,6 +924,16 @@ export class PrismaClient<
     * ```
     */
   get quizAttempt(): Prisma.QuizAttemptDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.liveSession`: Exposes CRUD operations for the **LiveSession** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more LiveSessions
+    * const liveSessions = await prisma.liveSession.findMany()
+    * ```
+    */
+  get liveSession(): Prisma.LiveSessionDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -1402,7 +1417,8 @@ export namespace Prisma {
     QuestExercise: 'QuestExercise',
     WatchHistory: 'WatchHistory',
     CourseProgress: 'CourseProgress',
-    QuizAttempt: 'QuizAttempt'
+    QuizAttempt: 'QuizAttempt',
+    LiveSession: 'LiveSession'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -1418,7 +1434,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "studentProfile" | "parentProfile" | "teacher" | "subject" | "lesson" | "lessonMaterial" | "lessonOpinion" | "quiz" | "accessCode" | "parentStudentLink" | "studentFriendLink" | "banner" | "studentMistake" | "enrollment" | "liveClass" | "chatSession" | "chatMessage" | "dailyExercise" | "exerciseMaterial" | "exam" | "examMaterial" | "studentSubmission" | "notification" | "reviewCard" | "classForum" | "forumMessage" | "parentTicket" | "practiceAttempt" | "subscriptionRequest" | "daliliProfile" | "studySchedule" | "flashcard" | "questExercise" | "watchHistory" | "courseProgress" | "quizAttempt"
+      modelProps: "user" | "studentProfile" | "parentProfile" | "teacher" | "subject" | "lesson" | "lessonMaterial" | "lessonOpinion" | "quiz" | "accessCode" | "parentStudentLink" | "studentFriendLink" | "banner" | "studentMistake" | "enrollment" | "liveClass" | "chatSession" | "chatMessage" | "dailyExercise" | "exerciseMaterial" | "exam" | "examMaterial" | "studentSubmission" | "notification" | "reviewCard" | "classForum" | "forumMessage" | "parentTicket" | "practiceAttempt" | "subscriptionRequest" | "daliliProfile" | "studySchedule" | "flashcard" | "questExercise" | "watchHistory" | "courseProgress" | "quizAttempt" | "liveSession"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -4160,6 +4176,80 @@ export namespace Prisma {
           }
         }
       }
+      LiveSession: {
+        payload: Prisma.$LiveSessionPayload<ExtArgs>
+        fields: Prisma.LiveSessionFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.LiveSessionFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveSessionPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.LiveSessionFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveSessionPayload>
+          }
+          findFirst: {
+            args: Prisma.LiveSessionFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveSessionPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.LiveSessionFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveSessionPayload>
+          }
+          findMany: {
+            args: Prisma.LiveSessionFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveSessionPayload>[]
+          }
+          create: {
+            args: Prisma.LiveSessionCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveSessionPayload>
+          }
+          createMany: {
+            args: Prisma.LiveSessionCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.LiveSessionCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveSessionPayload>[]
+          }
+          delete: {
+            args: Prisma.LiveSessionDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveSessionPayload>
+          }
+          update: {
+            args: Prisma.LiveSessionUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveSessionPayload>
+          }
+          deleteMany: {
+            args: Prisma.LiveSessionDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.LiveSessionUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.LiveSessionUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveSessionPayload>[]
+          }
+          upsert: {
+            args: Prisma.LiveSessionUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$LiveSessionPayload>
+          }
+          aggregate: {
+            args: Prisma.LiveSessionAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateLiveSession>
+          }
+          groupBy: {
+            args: Prisma.LiveSessionGroupByArgs<ExtArgs>
+            result: $Utils.Optional<LiveSessionGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.LiveSessionCountArgs<ExtArgs>
+            result: $Utils.Optional<LiveSessionCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -4320,6 +4410,7 @@ export namespace Prisma {
     watchHistory?: WatchHistoryOmit
     courseProgress?: CourseProgressOmit
     quizAttempt?: QuizAttemptOmit
+    liveSession?: LiveSessionOmit
   }
 
   /* Types for Logging */
@@ -47924,6 +48015,1058 @@ export namespace Prisma {
 
 
   /**
+   * Model LiveSession
+   */
+
+  export type AggregateLiveSession = {
+    _count: LiveSessionCountAggregateOutputType | null
+    _min: LiveSessionMinAggregateOutputType | null
+    _max: LiveSessionMaxAggregateOutputType | null
+  }
+
+  export type LiveSessionMinAggregateOutputType = {
+    id: string | null
+    subject: string | null
+    level: string | null
+    dayOfWeek: string | null
+    startTime: string | null
+    endTime: string | null
+    zoomLink: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LiveSessionMaxAggregateOutputType = {
+    id: string | null
+    subject: string | null
+    level: string | null
+    dayOfWeek: string | null
+    startTime: string | null
+    endTime: string | null
+    zoomLink: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type LiveSessionCountAggregateOutputType = {
+    id: number
+    subject: number
+    level: number
+    dayOfWeek: number
+    startTime: number
+    endTime: number
+    zoomLink: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type LiveSessionMinAggregateInputType = {
+    id?: true
+    subject?: true
+    level?: true
+    dayOfWeek?: true
+    startTime?: true
+    endTime?: true
+    zoomLink?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LiveSessionMaxAggregateInputType = {
+    id?: true
+    subject?: true
+    level?: true
+    dayOfWeek?: true
+    startTime?: true
+    endTime?: true
+    zoomLink?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type LiveSessionCountAggregateInputType = {
+    id?: true
+    subject?: true
+    level?: true
+    dayOfWeek?: true
+    startTime?: true
+    endTime?: true
+    zoomLink?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type LiveSessionAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LiveSession to aggregate.
+     */
+    where?: LiveSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LiveSessions to fetch.
+     */
+    orderBy?: LiveSessionOrderByWithRelationInput | LiveSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: LiveSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LiveSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LiveSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned LiveSessions
+    **/
+    _count?: true | LiveSessionCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: LiveSessionMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: LiveSessionMaxAggregateInputType
+  }
+
+  export type GetLiveSessionAggregateType<T extends LiveSessionAggregateArgs> = {
+        [P in keyof T & keyof AggregateLiveSession]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateLiveSession[P]>
+      : GetScalarType<T[P], AggregateLiveSession[P]>
+  }
+
+
+
+
+  export type LiveSessionGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: LiveSessionWhereInput
+    orderBy?: LiveSessionOrderByWithAggregationInput | LiveSessionOrderByWithAggregationInput[]
+    by: LiveSessionScalarFieldEnum[] | LiveSessionScalarFieldEnum
+    having?: LiveSessionScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: LiveSessionCountAggregateInputType | true
+    _min?: LiveSessionMinAggregateInputType
+    _max?: LiveSessionMaxAggregateInputType
+  }
+
+  export type LiveSessionGroupByOutputType = {
+    id: string
+    subject: string
+    level: string
+    dayOfWeek: string
+    startTime: string
+    endTime: string
+    zoomLink: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: LiveSessionCountAggregateOutputType | null
+    _min: LiveSessionMinAggregateOutputType | null
+    _max: LiveSessionMaxAggregateOutputType | null
+  }
+
+  type GetLiveSessionGroupByPayload<T extends LiveSessionGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<LiveSessionGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof LiveSessionGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], LiveSessionGroupByOutputType[P]>
+            : GetScalarType<T[P], LiveSessionGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type LiveSessionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    subject?: boolean
+    level?: boolean
+    dayOfWeek?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    zoomLink?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["liveSession"]>
+
+  export type LiveSessionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    subject?: boolean
+    level?: boolean
+    dayOfWeek?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    zoomLink?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["liveSession"]>
+
+  export type LiveSessionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    subject?: boolean
+    level?: boolean
+    dayOfWeek?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    zoomLink?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["liveSession"]>
+
+  export type LiveSessionSelectScalar = {
+    id?: boolean
+    subject?: boolean
+    level?: boolean
+    dayOfWeek?: boolean
+    startTime?: boolean
+    endTime?: boolean
+    zoomLink?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type LiveSessionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "subject" | "level" | "dayOfWeek" | "startTime" | "endTime" | "zoomLink" | "createdAt" | "updatedAt", ExtArgs["result"]["liveSession"]>
+
+  export type $LiveSessionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "LiveSession"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      subject: string
+      level: string
+      dayOfWeek: string
+      startTime: string
+      endTime: string
+      zoomLink: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["liveSession"]>
+    composites: {}
+  }
+
+  type LiveSessionGetPayload<S extends boolean | null | undefined | LiveSessionDefaultArgs> = $Result.GetResult<Prisma.$LiveSessionPayload, S>
+
+  type LiveSessionCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<LiveSessionFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: LiveSessionCountAggregateInputType | true
+    }
+
+  export interface LiveSessionDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['LiveSession'], meta: { name: 'LiveSession' } }
+    /**
+     * Find zero or one LiveSession that matches the filter.
+     * @param {LiveSessionFindUniqueArgs} args - Arguments to find a LiveSession
+     * @example
+     * // Get one LiveSession
+     * const liveSession = await prisma.liveSession.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends LiveSessionFindUniqueArgs>(args: SelectSubset<T, LiveSessionFindUniqueArgs<ExtArgs>>): Prisma__LiveSessionClient<$Result.GetResult<Prisma.$LiveSessionPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one LiveSession that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {LiveSessionFindUniqueOrThrowArgs} args - Arguments to find a LiveSession
+     * @example
+     * // Get one LiveSession
+     * const liveSession = await prisma.liveSession.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends LiveSessionFindUniqueOrThrowArgs>(args: SelectSubset<T, LiveSessionFindUniqueOrThrowArgs<ExtArgs>>): Prisma__LiveSessionClient<$Result.GetResult<Prisma.$LiveSessionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LiveSession that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LiveSessionFindFirstArgs} args - Arguments to find a LiveSession
+     * @example
+     * // Get one LiveSession
+     * const liveSession = await prisma.liveSession.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends LiveSessionFindFirstArgs>(args?: SelectSubset<T, LiveSessionFindFirstArgs<ExtArgs>>): Prisma__LiveSessionClient<$Result.GetResult<Prisma.$LiveSessionPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first LiveSession that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LiveSessionFindFirstOrThrowArgs} args - Arguments to find a LiveSession
+     * @example
+     * // Get one LiveSession
+     * const liveSession = await prisma.liveSession.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends LiveSessionFindFirstOrThrowArgs>(args?: SelectSubset<T, LiveSessionFindFirstOrThrowArgs<ExtArgs>>): Prisma__LiveSessionClient<$Result.GetResult<Prisma.$LiveSessionPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more LiveSessions that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LiveSessionFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all LiveSessions
+     * const liveSessions = await prisma.liveSession.findMany()
+     * 
+     * // Get first 10 LiveSessions
+     * const liveSessions = await prisma.liveSession.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const liveSessionWithIdOnly = await prisma.liveSession.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends LiveSessionFindManyArgs>(args?: SelectSubset<T, LiveSessionFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LiveSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a LiveSession.
+     * @param {LiveSessionCreateArgs} args - Arguments to create a LiveSession.
+     * @example
+     * // Create one LiveSession
+     * const LiveSession = await prisma.liveSession.create({
+     *   data: {
+     *     // ... data to create a LiveSession
+     *   }
+     * })
+     * 
+     */
+    create<T extends LiveSessionCreateArgs>(args: SelectSubset<T, LiveSessionCreateArgs<ExtArgs>>): Prisma__LiveSessionClient<$Result.GetResult<Prisma.$LiveSessionPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many LiveSessions.
+     * @param {LiveSessionCreateManyArgs} args - Arguments to create many LiveSessions.
+     * @example
+     * // Create many LiveSessions
+     * const liveSession = await prisma.liveSession.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends LiveSessionCreateManyArgs>(args?: SelectSubset<T, LiveSessionCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many LiveSessions and returns the data saved in the database.
+     * @param {LiveSessionCreateManyAndReturnArgs} args - Arguments to create many LiveSessions.
+     * @example
+     * // Create many LiveSessions
+     * const liveSession = await prisma.liveSession.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many LiveSessions and only return the `id`
+     * const liveSessionWithIdOnly = await prisma.liveSession.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends LiveSessionCreateManyAndReturnArgs>(args?: SelectSubset<T, LiveSessionCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LiveSessionPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a LiveSession.
+     * @param {LiveSessionDeleteArgs} args - Arguments to delete one LiveSession.
+     * @example
+     * // Delete one LiveSession
+     * const LiveSession = await prisma.liveSession.delete({
+     *   where: {
+     *     // ... filter to delete one LiveSession
+     *   }
+     * })
+     * 
+     */
+    delete<T extends LiveSessionDeleteArgs>(args: SelectSubset<T, LiveSessionDeleteArgs<ExtArgs>>): Prisma__LiveSessionClient<$Result.GetResult<Prisma.$LiveSessionPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one LiveSession.
+     * @param {LiveSessionUpdateArgs} args - Arguments to update one LiveSession.
+     * @example
+     * // Update one LiveSession
+     * const liveSession = await prisma.liveSession.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends LiveSessionUpdateArgs>(args: SelectSubset<T, LiveSessionUpdateArgs<ExtArgs>>): Prisma__LiveSessionClient<$Result.GetResult<Prisma.$LiveSessionPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more LiveSessions.
+     * @param {LiveSessionDeleteManyArgs} args - Arguments to filter LiveSessions to delete.
+     * @example
+     * // Delete a few LiveSessions
+     * const { count } = await prisma.liveSession.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends LiveSessionDeleteManyArgs>(args?: SelectSubset<T, LiveSessionDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LiveSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LiveSessionUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many LiveSessions
+     * const liveSession = await prisma.liveSession.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends LiveSessionUpdateManyArgs>(args: SelectSubset<T, LiveSessionUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more LiveSessions and returns the data updated in the database.
+     * @param {LiveSessionUpdateManyAndReturnArgs} args - Arguments to update many LiveSessions.
+     * @example
+     * // Update many LiveSessions
+     * const liveSession = await prisma.liveSession.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more LiveSessions and only return the `id`
+     * const liveSessionWithIdOnly = await prisma.liveSession.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends LiveSessionUpdateManyAndReturnArgs>(args: SelectSubset<T, LiveSessionUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$LiveSessionPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one LiveSession.
+     * @param {LiveSessionUpsertArgs} args - Arguments to update or create a LiveSession.
+     * @example
+     * // Update or create a LiveSession
+     * const liveSession = await prisma.liveSession.upsert({
+     *   create: {
+     *     // ... data to create a LiveSession
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the LiveSession we want to update
+     *   }
+     * })
+     */
+    upsert<T extends LiveSessionUpsertArgs>(args: SelectSubset<T, LiveSessionUpsertArgs<ExtArgs>>): Prisma__LiveSessionClient<$Result.GetResult<Prisma.$LiveSessionPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of LiveSessions.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LiveSessionCountArgs} args - Arguments to filter LiveSessions to count.
+     * @example
+     * // Count the number of LiveSessions
+     * const count = await prisma.liveSession.count({
+     *   where: {
+     *     // ... the filter for the LiveSessions we want to count
+     *   }
+     * })
+    **/
+    count<T extends LiveSessionCountArgs>(
+      args?: Subset<T, LiveSessionCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], LiveSessionCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a LiveSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LiveSessionAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends LiveSessionAggregateArgs>(args: Subset<T, LiveSessionAggregateArgs>): Prisma.PrismaPromise<GetLiveSessionAggregateType<T>>
+
+    /**
+     * Group by LiveSession.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {LiveSessionGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends LiveSessionGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: LiveSessionGroupByArgs['orderBy'] }
+        : { orderBy?: LiveSessionGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, LiveSessionGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetLiveSessionGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the LiveSession model
+   */
+  readonly fields: LiveSessionFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for LiveSession.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__LiveSessionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the LiveSession model
+   */
+  interface LiveSessionFieldRefs {
+    readonly id: FieldRef<"LiveSession", 'String'>
+    readonly subject: FieldRef<"LiveSession", 'String'>
+    readonly level: FieldRef<"LiveSession", 'String'>
+    readonly dayOfWeek: FieldRef<"LiveSession", 'String'>
+    readonly startTime: FieldRef<"LiveSession", 'String'>
+    readonly endTime: FieldRef<"LiveSession", 'String'>
+    readonly zoomLink: FieldRef<"LiveSession", 'String'>
+    readonly createdAt: FieldRef<"LiveSession", 'DateTime'>
+    readonly updatedAt: FieldRef<"LiveSession", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * LiveSession findUnique
+   */
+  export type LiveSessionFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveSession
+     */
+    select?: LiveSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveSession
+     */
+    omit?: LiveSessionOmit<ExtArgs> | null
+    /**
+     * Filter, which LiveSession to fetch.
+     */
+    where: LiveSessionWhereUniqueInput
+  }
+
+  /**
+   * LiveSession findUniqueOrThrow
+   */
+  export type LiveSessionFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveSession
+     */
+    select?: LiveSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveSession
+     */
+    omit?: LiveSessionOmit<ExtArgs> | null
+    /**
+     * Filter, which LiveSession to fetch.
+     */
+    where: LiveSessionWhereUniqueInput
+  }
+
+  /**
+   * LiveSession findFirst
+   */
+  export type LiveSessionFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveSession
+     */
+    select?: LiveSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveSession
+     */
+    omit?: LiveSessionOmit<ExtArgs> | null
+    /**
+     * Filter, which LiveSession to fetch.
+     */
+    where?: LiveSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LiveSessions to fetch.
+     */
+    orderBy?: LiveSessionOrderByWithRelationInput | LiveSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LiveSessions.
+     */
+    cursor?: LiveSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LiveSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LiveSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LiveSessions.
+     */
+    distinct?: LiveSessionScalarFieldEnum | LiveSessionScalarFieldEnum[]
+  }
+
+  /**
+   * LiveSession findFirstOrThrow
+   */
+  export type LiveSessionFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveSession
+     */
+    select?: LiveSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveSession
+     */
+    omit?: LiveSessionOmit<ExtArgs> | null
+    /**
+     * Filter, which LiveSession to fetch.
+     */
+    where?: LiveSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LiveSessions to fetch.
+     */
+    orderBy?: LiveSessionOrderByWithRelationInput | LiveSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for LiveSessions.
+     */
+    cursor?: LiveSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LiveSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LiveSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LiveSessions.
+     */
+    distinct?: LiveSessionScalarFieldEnum | LiveSessionScalarFieldEnum[]
+  }
+
+  /**
+   * LiveSession findMany
+   */
+  export type LiveSessionFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveSession
+     */
+    select?: LiveSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveSession
+     */
+    omit?: LiveSessionOmit<ExtArgs> | null
+    /**
+     * Filter, which LiveSessions to fetch.
+     */
+    where?: LiveSessionWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of LiveSessions to fetch.
+     */
+    orderBy?: LiveSessionOrderByWithRelationInput | LiveSessionOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing LiveSessions.
+     */
+    cursor?: LiveSessionWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` LiveSessions from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` LiveSessions.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of LiveSessions.
+     */
+    distinct?: LiveSessionScalarFieldEnum | LiveSessionScalarFieldEnum[]
+  }
+
+  /**
+   * LiveSession create
+   */
+  export type LiveSessionCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveSession
+     */
+    select?: LiveSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveSession
+     */
+    omit?: LiveSessionOmit<ExtArgs> | null
+    /**
+     * The data needed to create a LiveSession.
+     */
+    data: XOR<LiveSessionCreateInput, LiveSessionUncheckedCreateInput>
+  }
+
+  /**
+   * LiveSession createMany
+   */
+  export type LiveSessionCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many LiveSessions.
+     */
+    data: LiveSessionCreateManyInput | LiveSessionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LiveSession createManyAndReturn
+   */
+  export type LiveSessionCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveSession
+     */
+    select?: LiveSessionSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveSession
+     */
+    omit?: LiveSessionOmit<ExtArgs> | null
+    /**
+     * The data used to create many LiveSessions.
+     */
+    data: LiveSessionCreateManyInput | LiveSessionCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * LiveSession update
+   */
+  export type LiveSessionUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveSession
+     */
+    select?: LiveSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveSession
+     */
+    omit?: LiveSessionOmit<ExtArgs> | null
+    /**
+     * The data needed to update a LiveSession.
+     */
+    data: XOR<LiveSessionUpdateInput, LiveSessionUncheckedUpdateInput>
+    /**
+     * Choose, which LiveSession to update.
+     */
+    where: LiveSessionWhereUniqueInput
+  }
+
+  /**
+   * LiveSession updateMany
+   */
+  export type LiveSessionUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update LiveSessions.
+     */
+    data: XOR<LiveSessionUpdateManyMutationInput, LiveSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which LiveSessions to update
+     */
+    where?: LiveSessionWhereInput
+    /**
+     * Limit how many LiveSessions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LiveSession updateManyAndReturn
+   */
+  export type LiveSessionUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveSession
+     */
+    select?: LiveSessionSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveSession
+     */
+    omit?: LiveSessionOmit<ExtArgs> | null
+    /**
+     * The data used to update LiveSessions.
+     */
+    data: XOR<LiveSessionUpdateManyMutationInput, LiveSessionUncheckedUpdateManyInput>
+    /**
+     * Filter which LiveSessions to update
+     */
+    where?: LiveSessionWhereInput
+    /**
+     * Limit how many LiveSessions to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * LiveSession upsert
+   */
+  export type LiveSessionUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveSession
+     */
+    select?: LiveSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveSession
+     */
+    omit?: LiveSessionOmit<ExtArgs> | null
+    /**
+     * The filter to search for the LiveSession to update in case it exists.
+     */
+    where: LiveSessionWhereUniqueInput
+    /**
+     * In case the LiveSession found by the `where` argument doesn't exist, create a new LiveSession with this data.
+     */
+    create: XOR<LiveSessionCreateInput, LiveSessionUncheckedCreateInput>
+    /**
+     * In case the LiveSession was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<LiveSessionUpdateInput, LiveSessionUncheckedUpdateInput>
+  }
+
+  /**
+   * LiveSession delete
+   */
+  export type LiveSessionDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveSession
+     */
+    select?: LiveSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveSession
+     */
+    omit?: LiveSessionOmit<ExtArgs> | null
+    /**
+     * Filter which LiveSession to delete.
+     */
+    where: LiveSessionWhereUniqueInput
+  }
+
+  /**
+   * LiveSession deleteMany
+   */
+  export type LiveSessionDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which LiveSessions to delete
+     */
+    where?: LiveSessionWhereInput
+    /**
+     * Limit how many LiveSessions to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * LiveSession without action
+   */
+  export type LiveSessionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the LiveSession
+     */
+    select?: LiveSessionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the LiveSession
+     */
+    omit?: LiveSessionOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -48454,6 +49597,21 @@ export namespace Prisma {
   };
 
   export type QuizAttemptScalarFieldEnum = (typeof QuizAttemptScalarFieldEnum)[keyof typeof QuizAttemptScalarFieldEnum]
+
+
+  export const LiveSessionScalarFieldEnum: {
+    id: 'id',
+    subject: 'subject',
+    level: 'level',
+    dayOfWeek: 'dayOfWeek',
+    startTime: 'startTime',
+    endTime: 'endTime',
+    zoomLink: 'zoomLink',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type LiveSessionScalarFieldEnum = (typeof LiveSessionScalarFieldEnum)[keyof typeof LiveSessionScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -51532,6 +52690,78 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"QuizAttempt"> | Date | string
   }
 
+  export type LiveSessionWhereInput = {
+    AND?: LiveSessionWhereInput | LiveSessionWhereInput[]
+    OR?: LiveSessionWhereInput[]
+    NOT?: LiveSessionWhereInput | LiveSessionWhereInput[]
+    id?: StringFilter<"LiveSession"> | string
+    subject?: StringFilter<"LiveSession"> | string
+    level?: StringFilter<"LiveSession"> | string
+    dayOfWeek?: StringFilter<"LiveSession"> | string
+    startTime?: StringFilter<"LiveSession"> | string
+    endTime?: StringFilter<"LiveSession"> | string
+    zoomLink?: StringNullableFilter<"LiveSession"> | string | null
+    createdAt?: DateTimeFilter<"LiveSession"> | Date | string
+    updatedAt?: DateTimeFilter<"LiveSession"> | Date | string
+  }
+
+  export type LiveSessionOrderByWithRelationInput = {
+    id?: SortOrder
+    subject?: SortOrder
+    level?: SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    zoomLink?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LiveSessionWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: LiveSessionWhereInput | LiveSessionWhereInput[]
+    OR?: LiveSessionWhereInput[]
+    NOT?: LiveSessionWhereInput | LiveSessionWhereInput[]
+    subject?: StringFilter<"LiveSession"> | string
+    level?: StringFilter<"LiveSession"> | string
+    dayOfWeek?: StringFilter<"LiveSession"> | string
+    startTime?: StringFilter<"LiveSession"> | string
+    endTime?: StringFilter<"LiveSession"> | string
+    zoomLink?: StringNullableFilter<"LiveSession"> | string | null
+    createdAt?: DateTimeFilter<"LiveSession"> | Date | string
+    updatedAt?: DateTimeFilter<"LiveSession"> | Date | string
+  }, "id">
+
+  export type LiveSessionOrderByWithAggregationInput = {
+    id?: SortOrder
+    subject?: SortOrder
+    level?: SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    zoomLink?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: LiveSessionCountOrderByAggregateInput
+    _max?: LiveSessionMaxOrderByAggregateInput
+    _min?: LiveSessionMinOrderByAggregateInput
+  }
+
+  export type LiveSessionScalarWhereWithAggregatesInput = {
+    AND?: LiveSessionScalarWhereWithAggregatesInput | LiveSessionScalarWhereWithAggregatesInput[]
+    OR?: LiveSessionScalarWhereWithAggregatesInput[]
+    NOT?: LiveSessionScalarWhereWithAggregatesInput | LiveSessionScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"LiveSession"> | string
+    subject?: StringWithAggregatesFilter<"LiveSession"> | string
+    level?: StringWithAggregatesFilter<"LiveSession"> | string
+    dayOfWeek?: StringWithAggregatesFilter<"LiveSession"> | string
+    startTime?: StringWithAggregatesFilter<"LiveSession"> | string
+    endTime?: StringWithAggregatesFilter<"LiveSession"> | string
+    zoomLink?: StringNullableWithAggregatesFilter<"LiveSession"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"LiveSession"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"LiveSession"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     fullName: string
@@ -54544,6 +55774,90 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type LiveSessionCreateInput = {
+    id?: string
+    subject: string
+    level: string
+    dayOfWeek: string
+    startTime: string
+    endTime: string
+    zoomLink?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LiveSessionUncheckedCreateInput = {
+    id?: string
+    subject: string
+    level: string
+    dayOfWeek: string
+    startTime: string
+    endTime: string
+    zoomLink?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LiveSessionUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    zoomLink?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LiveSessionUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    zoomLink?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LiveSessionCreateManyInput = {
+    id?: string
+    subject: string
+    level: string
+    dayOfWeek: string
+    startTime: string
+    endTime: string
+    zoomLink?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type LiveSessionUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    zoomLink?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type LiveSessionUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    level?: StringFieldUpdateOperationsInput | string
+    dayOfWeek?: StringFieldUpdateOperationsInput | string
+    startTime?: StringFieldUpdateOperationsInput | string
+    endTime?: StringFieldUpdateOperationsInput | string
+    zoomLink?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -56719,6 +58033,42 @@ export namespace Prisma {
   export type QuizAttemptSumOrderByAggregateInput = {
     score?: SortOrder
     maxScore?: SortOrder
+  }
+
+  export type LiveSessionCountOrderByAggregateInput = {
+    id?: SortOrder
+    subject?: SortOrder
+    level?: SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    zoomLink?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LiveSessionMaxOrderByAggregateInput = {
+    id?: SortOrder
+    subject?: SortOrder
+    level?: SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    zoomLink?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type LiveSessionMinOrderByAggregateInput = {
+    id?: SortOrder
+    subject?: SortOrder
+    level?: SortOrder
+    dayOfWeek?: SortOrder
+    startTime?: SortOrder
+    endTime?: SortOrder
+    zoomLink?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type UserCreatedeviceFingerprintsInput = {

@@ -254,39 +254,40 @@ export function isStreamAllowedForLevel(level?: string | null, stream?: string |
   return !!cycle?.streams.some((item) => item.value === stream);
 }
 
-export function cycleLevelValues(level?: string | null) {
-  return getCycleByLevel(level)?.levels.map((item) => item.value) ?? [];
+import type { Level, Prisma, Stream } from "@/generated/prisma";
+
+export function cycleLevelValues(level?: string | null): Level[] {
+  return (getCycleByLevel(level)?.levels.map((item) => item.value) ?? []) as Level[];
 }
 
-export function subjectAudienceWhere(level: string, stream: string) {
+export function subjectAudienceWhere(level: string, stream: string): Prisma.SubjectWhereInput {
+  const levelEnum = level as Level;
+  const streamEnum = stream as Stream;
   const cycle = getCycleByLevel(level);
   const cycleLevels = cycleLevelValues(level);
   const allowSharedStreams = cycle?.value === "SECONDARY" || cycle?.value === "MIDDLE";
 
   return {
     AND: [
-      { OR: [{ level }, { levels: { has: level } }] },
+      { OR: [{ level: levelEnum }, { levels: { has: levelEnum } }] },
       {
         OR: [
-          { stream },
-          { streams: { has: stream } },
+          { stream: streamEnum },
+          { streams: { has: streamEnum } },
           ...(allowSharedStreams && cycleLevels.length
             ? [
                 {
                   AND: [
                     {
                       OR: [
-                        { stream: "ALL" },
-                        { stream: "COMMON_TRUNK" },
-                        { streams: { has: "ALL" } },
-                        { streams: { has: "COMMON_TRUNK" } },
+                        { stream: "ALL" as Stream },
+                        { stream: "COMMON_TRUNK" as Stream },
+                        { streams: { has: "ALL" as Stream } },
+                        { streams: { has: "COMMON_TRUNK" as Stream } },
                       ],
                     },
                     {
-                      OR: [
-                        { level: { in: cycleLevels } },
-                        { levels: { hasSome: cycleLevels } },
-                      ],
+                      OR: [{ level: { in: cycleLevels } }, { levels: { hasSome: cycleLevels } }],
                     },
                   ],
                 },

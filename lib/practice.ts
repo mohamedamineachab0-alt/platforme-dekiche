@@ -46,31 +46,31 @@ export function parseQuizQuestions(raw: unknown): PracticeQuestion[] {
     return [];
   }
 
-  return list
-    .map((item) => {
-      const q = item as Record<string, unknown>;
-      const question = String(q?.question || "").trim();
-      const options = Array.isArray(q?.options) ? q.options.map((o) => String(o)) : [];
-      const correctAnswerIndex =
-        typeof q?.correctAnswerIndex === "number" && q.correctAnswerIndex >= 0 && q.correctAnswerIndex < options.length
-          ? q.correctAnswerIndex
-          : 0;
-      if (!question || options.length < 2) return null;
-      return {
-        question,
-        options,
-        correctAnswerIndex,
-        hint1: typeof q.hint1 === "string" ? q.hint1 : undefined,
-        hint2: typeof q.hint2 === "string" ? q.hint2 : undefined,
-        explanation: typeof q.explanation === "string" ? q.explanation : undefined,
-        lessonId: typeof q.lessonId === "string" ? q.lessonId : null,
-        lessonTitle: typeof q.lessonTitle === "string" ? q.lessonTitle : undefined,
-        subjectId: typeof q.subjectId === "string" ? q.subjectId : null,
-        subjectTitle: typeof q.subjectTitle === "string" ? q.subjectTitle : undefined,
-        quizId: typeof q.quizId === "string" ? q.quizId : null,
-      } satisfies PracticeQuestion;
-    })
-    .filter((q): q is PracticeQuestion => q !== null);
+  const questions: PracticeQuestion[] = [];
+  for (const item of list) {
+    const q = item as Record<string, unknown>;
+    const question = String(q?.question || "").trim();
+    const options = Array.isArray(q?.options) ? q.options.map((o) => String(o)) : [];
+    const correctAnswerIndex =
+      typeof q?.correctAnswerIndex === "number" && q.correctAnswerIndex >= 0 && q.correctAnswerIndex < options.length
+        ? q.correctAnswerIndex
+        : 0;
+    if (!question || options.length < 2) continue;
+    questions.push({
+      question,
+      options,
+      correctAnswerIndex,
+      hint1: typeof q.hint1 === "string" ? q.hint1 : undefined,
+      hint2: typeof q.hint2 === "string" ? q.hint2 : undefined,
+      explanation: typeof q.explanation === "string" ? q.explanation : undefined,
+      lessonId: typeof q.lessonId === "string" ? q.lessonId : null,
+      lessonTitle: typeof q.lessonTitle === "string" ? q.lessonTitle : undefined,
+      subjectId: typeof q.subjectId === "string" ? q.subjectId : null,
+      subjectTitle: typeof q.subjectTitle === "string" ? q.subjectTitle : undefined,
+      quizId: typeof q.quizId === "string" ? q.quizId : null,
+    });
+  }
+  return questions;
 }
 
 export function scoreOn20(correctCount: number, total: number): number {
@@ -134,21 +134,21 @@ export function reviewCardsToQuestions(
   const pool = shuffle(cards).slice(0, Math.min(limit, cards.length));
   const allAnswers = [...new Set(cards.map((c) => c.answer.trim()).filter(Boolean))];
 
-  return pool
-    .map((card) => {
-      const correct = card.answer.trim();
-      if (!correct || !card.question.trim()) return null;
-      const distractors = shuffle(allAnswers.filter((a) => a !== correct)).slice(0, 3);
-      let options = shuffle([correct, ...distractors]);
-      while (options.length < 2) options.push(`خيار ${options.length + 1}`);
-      return {
-        question: card.question.trim(),
-        options,
-        correctAnswerIndex: Math.max(0, options.indexOf(correct)),
-        subjectId: card.subjectId ?? null,
-      } satisfies PracticeQuestion;
-    })
-    .filter((q): q is PracticeQuestion => q !== null);
+  const questions: PracticeQuestion[] = [];
+  for (const card of pool) {
+    const correct = card.answer.trim();
+    if (!correct || !card.question.trim()) continue;
+    const distractors = shuffle(allAnswers.filter((a) => a !== correct)).slice(0, 3);
+    let options = shuffle([correct, ...distractors]);
+    while (options.length < 2) options.push(`خيار ${options.length + 1}`);
+    questions.push({
+      question: card.question.trim(),
+      options,
+      correctAnswerIndex: Math.max(0, options.indexOf(correct)),
+      subjectId: card.subjectId ?? null,
+    });
+  }
+  return questions;
 }
 
 export function levelStatus(score: number | null): "good" | "warn" | "low" | "empty" {

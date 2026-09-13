@@ -747,3 +747,19 @@ model QuizAttempt {
   @@index([examId])
   @@index([subjectId])
 }
+
+/// Weekly recurring Zoom live schedule (template rows, not dated instances)
+model LiveSession {
+  id        String   @id @default(cuid())
+  subject   String
+  level     String
+  dayOfWeek String
+  startTime String
+  endTime   String
+  zoomLink  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([level, dayOfWeek])
+  @@index([dayOfWeek, startTime])
+}

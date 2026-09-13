@@ -72,7 +72,7 @@ export async function POST(req: Request) {
     };
 
     const completion = await groq.chat.completions.create({
-      messages: [systemPrompt, ...chatHistory],
+      messages: [systemPrompt, ...chatHistory] as any,
       model: "allam-2-7b",
       temperature: 0.7,
       max_tokens: 1024,

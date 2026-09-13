@@ -346,7 +346,7 @@ export default function SubscriptionRequestPage() {
                 >
                   <option value="">اختر البلدية</option>
                   {formData.wilaya &&
-                    getCommunesByWilayaId(parseInt(formData.wilaya.replace("W", ""), 10)).map((c: { id: string; name_ar: string }) => (
+                    getCommunesByWilayaId(parseInt(formData.wilaya.replace("W", ""), 10)).map((c) => (
                       <option key={c.id} value={c.name_ar}>
                         {c.name_ar}
                       </option>

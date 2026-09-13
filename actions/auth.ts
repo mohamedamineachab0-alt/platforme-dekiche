@@ -186,19 +186,22 @@ export async function loginUser(
         phoneNumber,
         passwordHash: "",
         role: isSuperAdmin ? "ADMIN" : "STUDENT",
-        ...(isSuperAdmin ? {} : {
-          studentProfile: {
-            create: {
-              parentName: "غير محدد",
-              parentPhone: "غير محدد",
-              level: "AS3",
-              stream: "SCIENCES",
-              wilaya: "W16",
-              branch: "STUDY",
-            }
-          }
-        })
-      }
+        ...(isSuperAdmin
+          ? {}
+          : {
+              studentProfile: {
+                create: {
+                  parentName: "غير محدد",
+                  parentPhone: "غير محدد",
+                  level: "AS3",
+                  stream: "SCIENCES",
+                  wilaya: "W16",
+                  branch: "STUDY",
+                },
+              },
+            }),
+      },
+      include: { studentProfile: { select: { branch: true } } },
     });
   } else if (user.fullName !== fullName) {
     // Optionally update the name if it differs, or just proceed

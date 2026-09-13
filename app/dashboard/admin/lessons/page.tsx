@@ -109,7 +109,7 @@ export default async function AdminLessonsPage(props: {
                 <div className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                   إجمالي الدروس: <span className="font-black font-mono">{totalLessons}</span>
                 </div>
-                <div className="px-3 py-1.5 rounded-xl bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 border border-sky-100 dark:border-sky-900/30">
+                <div className="px-3 py-1.5 rounded-xl bg-[#F3EFFF] dark:bg-sky-950/40 text-[#5B21B6] dark:text-sky-300 border border-[#EDE9FE] dark:border-sky-900/30">
                   تملك ملفات (PDF): <span className="font-black font-mono">{lessonsWithFiles}</span>
                 </div>
                 <div className="px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/30">
@@ -233,7 +233,7 @@ export default async function AdminLessonsPage(props: {
                                       href={mat.fileUrl}
                                       target="_blank"
                                       rel="noreferrer"
-                                      className="text-sky-600 hover:text-sky-800 bg-sky-50 p-1.5 rounded-md"
+                                      className="text-[#6D28D9] hover:text-sky-800 bg-[#F3EFFF] p-1.5 rounded-md"
                                     >
                                       <Download className="w-3.5 h-3.5" />
                                     </a>

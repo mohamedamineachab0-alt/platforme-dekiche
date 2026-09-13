@@ -66,7 +66,7 @@ export function FriendChallengeClient({
         {/* Share My Code */}
         <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-100 dark:border-slate-800 shadow-sm">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-sky-100 dark:bg-slate-950/30 text-sky-600 dark:text-sky-400 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-[#EDE9FE] dark:bg-slate-950/30 text-[#6D28D9] dark:text-[#A78BFA] flex items-center justify-center">
               <Swords className="w-5 h-5" />
             </div>
             <div>
@@ -77,11 +77,11 @@ export function FriendChallengeClient({
           
           <button 
             onClick={handleCopy}
-            className="w-full flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-sky-300 dark:hover:border-sky-500 transition-colors group overflow-hidden max-w-full"
+            className="w-full flex items-center justify-between p-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-[#C4B5FD] dark:hover:border-sky-500 transition-colors group overflow-hidden max-w-full"
           >
             <span className="font-mono font-black text-slate-800 dark:text-white text-xl tracking-widest truncate min-w-0 flex-1 text-right ml-2">{myCode}</span>
-            <div className="w-8 h-8 shrink-0 rounded-lg bg-white dark:bg-slate-700 flex items-center justify-center shadow-sm text-slate-400 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors">
-              {copied ? <Check className="w-4 h-4 text-sky-500" /> : <Copy className="w-4 h-4" />}
+            <div className="w-8 h-8 shrink-0 rounded-lg bg-white dark:bg-slate-700 flex items-center justify-center shadow-sm text-slate-400 group-hover:text-[#6D28D9] dark:group-hover:text-[#A78BFA] transition-colors">
+              {copied ? <Check className="w-4 h-4 text-[#6D28D9]" /> : <Copy className="w-4 h-4" />}
             </div>
           </button>
         </div>
@@ -111,7 +111,7 @@ export function FriendChallengeClient({
               <button 
                 type="submit"
                 disabled={!friendCode.trim() || isLinking}
-                className="px-6 bg-amber-600 hover:bg-amber-700 text-white rounded-xl font-bold transition-colors flex items-center justify-center disabled:opacity-50"
+                className="px-6 bg-[#6D28D9] hover:bg-[#5B21B6] text-white rounded-xl font-bold transition-colors flex items-center justify-center disabled:opacity-50"
               >
                 {isLinking ? <Loader2 className="w-5 h-5 animate-spin" /> : "إضافة"}
               </button>
@@ -157,7 +157,7 @@ export function FriendChallengeClient({
                   {m.avatarUrl ? (
                     <img src={m.avatarUrl} alt="" className="w-12 h-12 rounded-full object-cover border-2 border-slate-100 dark:border-slate-700" />
                   ) : (
-                    <div className="w-12 h-12 rounded-full bg-sky-100 dark:bg-slate-950/30 text-sky-600 dark:text-sky-400 flex items-center justify-center font-black border-2 border-sky-200 dark:border-sky-800">
+                    <div className="w-12 h-12 rounded-full bg-[#EDE9FE] dark:bg-slate-950/30 text-[#6D28D9] dark:text-[#A78BFA] flex items-center justify-center font-black border-2 border-[#EDE9FE] dark:border-sky-800">
                       {m.fullName.charAt(0)}
                     </div>
                   )}
@@ -177,8 +177,8 @@ export function FriendChallengeClient({
                     <p className="text-[10px] font-black text-blue-600 dark:text-blue-400 mb-1">الدروس والمواد الأكثر مشاهدة</p>
                     <p className="font-mono font-bold text-slate-900 dark:text-white">{m.enrollmentsCount}</p>
                   </div>
-                  <div className="text-center p-2 rounded-xl bg-sky-50 dark:bg-sky-900/20">
-                    <p className="text-[10px] font-black text-sky-600 dark:text-sky-400 mb-1">التمارين اليومية</p>
+                  <div className="text-center p-2 rounded-xl bg-[#F3EFFF] dark:bg-sky-900/20">
+                    <p className="text-[10px] font-black text-[#6D28D9] dark:text-[#A78BFA] mb-1">التمارين اليومية</p>
                     <p className="font-mono font-bold text-slate-900 dark:text-white">{m.totalPoints}</p>
                   </div>
                 </div>

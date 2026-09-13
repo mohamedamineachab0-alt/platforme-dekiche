@@ -619,7 +619,7 @@ export function DailyExerciseForm({ subjects }: { subjects: Subject[] }) {
         <button  
           type="submit" 
           disabled={uploading}
-          className="w-full bg-amber-400 hover:bg-amber-500 text-slate-950 font-black font-bold py-3 rounded-xl transition-all shadow-sm shadow-amber-500/20 mt-4 disabled:opacity-50"
+          className="w-full bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-black font-bold py-3 rounded-xl transition-all shadow-sm shadow-amber-500/20 mt-4 disabled:opacity-50"
         >
           {uploading ? "جاري النشر..." : "نشر التمرين"}
         </button>

@@ -566,7 +566,7 @@ export function PublishLessonClient({
                               <span className="bg-white px-2.5 py-1 rounded-lg border border-sky-200 text-sky-900 shadow-sm">{subjectTitle}</span>
                             </div>
                           )}
-                          <div className="grid grid-cols-2 gap-4">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div className="space-y-2">
                               <label className="text-sm font-bold text-slate-700">عدد الأسئلة</label>
                               <input 

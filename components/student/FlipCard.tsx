@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { BookOpen } from "lucide-react";
 import { ReviewCard, Subject } from "@/generated/prisma";
 
 type FlipCardProps = {
@@ -12,54 +11,53 @@ export function FlipCard({ card }: FlipCardProps) {
   const [isFlipped, setIsFlipped] = useState(false);
 
   return (
-    <div 
-      className="relative w-full aspect-[4/3] perspective-1000 cursor-pointer group"
+    <div
+      className="relative w-full aspect-[3/4] sm:aspect-[4/3] perspective-1000 cursor-pointer"
       onClick={() => setIsFlipped(!isFlipped)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          setIsFlipped((v) => !v);
+        }
+      }}
+      aria-label={isFlipped ? "عرض السؤال" : "عرض الجواب"}
     >
-      <div 
-        className={`w-full h-full transition-transform duration-700 preserve-3d relative ${isFlipped ? 'rotate-y-180' : ''}`}
+      <div
+        className={`relative h-full w-full transition-transform duration-500 preserve-3d ${
+          isFlipped ? "rotate-y-180" : ""
+        }`}
       >
-        {/* Front side (Question) */}
-        <div className="absolute w-full h-full backface-hidden bg-white rounded-3xl p-6 border border-sky-100 shadow-sm flex flex-col items-center justify-center text-center">
-          <div className="absolute top-4 right-4 left-4 flex justify-between items-start">
-            <span className="bg-sky-50 text-sky-700 text-[10px] font-black px-3 py-1.5 rounded-lg border border-sky-100 flex items-center gap-1.5">
-              <BookOpen className="w-3 h-3" />
-              {card.subject.title}
-            </span>
-            {card.exerciseRef && (
-              <span className="bg-slate-50 text-slate-500 text-[10px] font-bold px-3 py-1.5 rounded-lg border border-slate-100">
-                {card.exerciseRef}
-              </span>
-            )}
+        {/* Front */}
+        <div className="absolute inset-0 flex flex-col overflow-hidden rounded-[22px] border border-[#EDE9FE] bg-white backface-hidden shadow-[0_12px_32px_rgba(30,27,75,0.06)]">
+          <div className="flex items-center justify-between border-b border-[#EDE9FE] bg-[#F7F5FF] px-4 py-2.5">
+            <span className="text-[10px] font-black tracking-wide text-[#6D28D9]">سؤال</span>
+            <span className="h-1.5 w-1.5 rounded-sm bg-[#6D28D9]" />
           </div>
-          
-          <div className="mt-8 flex-1 flex flex-col items-center justify-center w-full">
-            <h3 className="font-black text-slate-800 text-lg mb-2">{card.title}</h3>
-            <p className="text-slate-600 font-bold text-sm leading-relaxed">{card.question}</p>
+          <div className="flex flex-1 flex-col items-center justify-center px-5 py-6 text-center">
+            <p className="text-base font-black leading-7 text-[#1E1B4B] sm:text-lg">
+              {card.question}
+            </p>
           </div>
-          
-          <div className="absolute bottom-4 text-xs font-bold text-sky-400 bg-sky-50 px-3 py-1 rounded-full group-hover:bg-sky-100 transition-colors">
-            اضغط للقلب
+          <div className="border-t border-[#EDE9FE] px-4 py-2.5 text-center text-[11px] font-bold text-[#6B6480]">
+            اقلب البطاقة
           </div>
         </div>
 
-        {/* Back side (Answer) */}
-        <div className="absolute w-full h-full backface-hidden bg-sky-600 rounded-3xl p-6 border border-sky-700 shadow-lg flex flex-col items-center justify-center text-center rotate-y-180">
-          <div className="absolute top-4 right-4 left-4 flex justify-between items-start">
-            <span className="bg-white/20 text-white text-[10px] font-black px-3 py-1.5 rounded-lg">
-              الجواب
-            </span>
+        {/* Back */}
+        <div className="absolute inset-0 flex flex-col overflow-hidden rounded-[22px] border border-[#5B21B6] bg-[#6D28D9] backface-hidden rotate-y-180 shadow-[0_16px_36px_rgba(109,40,217,0.28)]">
+          <div className="flex items-center justify-between border-b border-white/15 bg-[#5B21B6]/40 px-4 py-2.5">
+            <span className="text-[10px] font-black tracking-wide text-[#DDD6FE]">جواب</span>
+            <span className="h-1.5 w-1.5 rounded-sm bg-[#C4B5FD]" />
           </div>
-          
-          <div className="mt-8 flex-1 flex flex-col items-center justify-center w-full">
-            <p className="text-white font-black text-lg leading-relaxed">{card.answer}</p>
+          <div className="flex flex-1 flex-col items-center justify-center px-5 py-6 text-center">
+            <p className="text-base font-black leading-7 text-white sm:text-lg">{card.answer}</p>
           </div>
-          
-          <div className="absolute bottom-4 text-xs font-bold text-sky-200 bg-black/10 px-3 py-1 rounded-full group-hover:bg-black/20 transition-colors">
+          <div className="border-t border-white/15 px-4 py-2.5 text-center text-[11px] font-bold text-[#DDD6FE]">
             اضغط للعودة
           </div>
         </div>
-
       </div>
     </div>
   );

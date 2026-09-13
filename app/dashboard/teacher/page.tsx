@@ -63,7 +63,6 @@ export default async function TeacherDashboardPage() {
         title={`مرحباً يا أستاذ ${teacher.name}!`}
         description="هذه لوحة التحكم الخاصة بك يمكنك متابعة تلاميذك و وتحليل مستوياتهم و والاطلاع على الأخطاء الشائعة في موادك"
         icon={Presentation}
-        gradientClass="bg-gradient-to-r from-blue-600 to-slate-950"
       />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -77,7 +76,7 @@ export default async function TeacherDashboardPage() {
           </div>
         </div>
         <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm flex items-center gap-4">
-          <div className="w-12 h-12 bg-sky-100 text-sky-600 rounded-2xl flex items-center justify-center shrink-0">
+          <div className="w-12 h-12 bg-[#EDE9FE] text-[#6D28D9] rounded-2xl flex items-center justify-center shrink-0">
             <Users className="w-6 h-6" />
           </div>
           <div>
@@ -100,7 +99,7 @@ export default async function TeacherDashboardPage() {
 
       <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
         <div className="p-6 border-b border-slate-100 bg-slate-50 flex items-center gap-2">
-          <Users className="w-5 h-5 text-sky-600" />
+          <Users className="w-5 h-5 text-[#6D28D9]" />
           <h2 className="font-black text-lg text-slate-900">قائمة التلاميذ المسجلين في موادك</h2>
         </div>
         <div className="overflow-x-auto">
@@ -138,7 +137,7 @@ export default async function TeacherDashboardPage() {
                       <td className="px-6 py-4">
                         <div className="flex flex-wrap gap-1.5">
                           {student.user.enrollments.map(e => (
-                            <span key={e.id} className="bg-sky-50 text-sky-700 border border-sky-100 text-xs font-bold px-2 py-1 rounded-md">
+                            <span key={e.id} className="bg-[#F3EFFF] text-[#5B21B6] border border-[#EDE9FE] text-xs font-bold px-2 py-1 rounded-md">
                               {e.subject.title}
                             </span>
                           ))}

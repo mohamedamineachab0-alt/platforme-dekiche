@@ -31,7 +31,6 @@ export default async function AdminStudentMonitoringPage(props: {
         title="مراقبة نشاط التلاميذ"
         description="نظام المراقبة الشامل: تتبع الحضور و الأمن الأداء في المنصة و وحالة الربط مع الأولياء"
         icon={Activity}
-        gradientClass="bg-gradient-to-r from-blue-700 to-slate-950"
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -137,7 +136,7 @@ export default async function AdminStudentMonitoringPage(props: {
                       {/* T2: Activity */}
                       <td className="px-6 py-4">
                         <div className="space-y-1">
-                          <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-black ${isAbsent ? 'bg-amber-100 text-amber-800' : 'bg-sky-100 text-sky-800'}`}>
+                          <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-[10px] font-black ${isAbsent ? 'bg-amber-100 text-amber-800' : 'bg-[#EDE9FE] text-sky-800'}`}>
                             {isAbsent ? 'غائب / غير نشط' : 'نشط مؤخراً'} ({lastLoginStr})
                           </span>
                           <p className="text-xs font-bold text-slate-400">
@@ -148,8 +147,8 @@ export default async function AdminStudentMonitoringPage(props: {
 
                       {/* T3: Points */}
                       <td className="px-6 py-4 text-center">
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-sky-50 border border-sky-100 rounded-lg text-sky-700 font-black text-sm">
-                          <Trophy className="w-4 h-4 text-sky-500" />
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#F3EFFF] border border-[#EDE9FE] rounded-lg text-[#5B21B6] font-black text-sm">
+                          <Trophy className="w-4 h-4 text-[#6D28D9]" />
                           {m.totalPoints}
                         </div>
                       </td>
@@ -180,7 +179,7 @@ export default async function AdminStudentMonitoringPage(props: {
                       {/* T6: Parent */}
                       <td className="px-6 py-4 text-center">
                         {m.isParentLinked ? (
-                          <span className="inline-flex items-center gap-1 text-sky-600 bg-sky-50 px-2.5 py-1 rounded-full text-xs font-bold border border-sky-100">
+                          <span className="inline-flex items-center gap-1 text-[#6D28D9] bg-[#F3EFFF] px-2.5 py-1 rounded-full text-xs font-bold border border-[#EDE9FE]">
                             <UserCheck className="w-3.5 h-3.5" />
                             مربوط بالولي
                           </span>

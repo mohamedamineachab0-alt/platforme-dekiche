@@ -143,6 +143,8 @@ exports.Prisma.StudentProfileScalarFieldEnum = {
   level: 'level',
   stream: 'stream',
   wilaya: 'wilaya',
+  branch: 'branch',
+  understandingLevel: 'understandingLevel',
   totalPoints: 'totalPoints',
   parentCode: 'parentCode',
   friendCode: 'friendCode'
@@ -202,6 +204,16 @@ exports.Prisma.LessonMaterialScalarFieldEnum = {
   fileType: 'fileType',
   lessonId: 'lessonId',
   createdAt: 'createdAt'
+};
+
+exports.Prisma.LessonOpinionScalarFieldEnum = {
+  id: 'id',
+  lessonId: 'lessonId',
+  studentId: 'studentId',
+  rating: 'rating',
+  comment: 'comment',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.QuizScalarFieldEnum = {
@@ -409,6 +421,23 @@ exports.Prisma.ParentTicketScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.PracticeAttemptScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  kind: 'kind',
+  subjectId: 'subjectId',
+  month: 'month',
+  difficulty: 'difficulty',
+  score: 'score',
+  maxScore: 'maxScore',
+  correctCount: 'correctCount',
+  totalQuestions: 'totalQuestions',
+  durationSec: 'durationSec',
+  challengeDay: 'challengeDay',
+  reviewLessonIds: 'reviewLessonIds',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SubscriptionRequestScalarFieldEnum = {
   id: 'id',
   studentId: 'studentId',
@@ -420,6 +449,82 @@ exports.Prisma.SubscriptionRequestScalarFieldEnum = {
   address: 'address',
   phoneNumber: 'phoneNumber',
   status: 'status',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.DaliliProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  educationPhase: 'educationPhase',
+  gradeLevel: 'gradeLevel',
+  branch: 'branch',
+  understandingLevel: 'understandingLevel',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.StudyScheduleScalarFieldEnum = {
+  id: 'id',
+  daliliProfileId: 'daliliProfileId',
+  plan: 'plan',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FlashcardScalarFieldEnum = {
+  id: 'id',
+  subjectId: 'subjectId',
+  lessonId: 'lessonId',
+  gradeLevel: 'gradeLevel',
+  stream: 'stream',
+  lessonTitle: 'lessonTitle',
+  frontText: 'frontText',
+  backText: 'backText',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.QuestExerciseScalarFieldEnum = {
+  id: 'id',
+  subjectId: 'subjectId',
+  lessonId: 'lessonId',
+  gradeLevel: 'gradeLevel',
+  stream: 'stream',
+  lessonTitle: 'lessonTitle',
+  question: 'question',
+  options: 'options',
+  correctAnswer: 'correctAnswer',
+  explanation: 'explanation',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.WatchHistoryScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  lessonId: 'lessonId',
+  subjectId: 'subjectId',
+  watchedSeconds: 'watchedSeconds',
+  lastWatchedAt: 'lastWatchedAt',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CourseProgressScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  lessonId: 'lessonId',
+  subjectId: 'subjectId',
+  completed: 'completed',
+  completedAt: 'completedAt',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.QuizAttemptScalarFieldEnum = {
+  id: 'id',
+  studentId: 'studentId',
+  examId: 'examId',
+  subjectId: 'subjectId',
+  score: 'score',
+  maxScore: 'maxScore',
   createdAt: 'createdAt'
 };
 
@@ -455,8 +560,42 @@ exports.Role = exports.$Enums.Role = {
 };
 
 exports.Level = exports.$Enums.Level = {
+  AS1: 'AS1',
   AS2: 'AS2',
-  AS3: 'AS3'
+  AS3: 'AS3',
+  AP1: 'AP1',
+  AP2: 'AP2',
+  AP3: 'AP3',
+  AP4: 'AP4',
+  AP5: 'AP5',
+  AM1: 'AM1',
+  AM2: 'AM2',
+  AM3: 'AM3',
+  AM4: 'AM4',
+  ENG_BEGINNER: 'ENG_BEGINNER',
+  ENG_INTERMEDIATE: 'ENG_INTERMEDIATE',
+  ENG_ADVANCED: 'ENG_ADVANCED',
+  FR_BEGINNER: 'FR_BEGINNER',
+  FR_INTERMEDIATE: 'FR_INTERMEDIATE',
+  FR_ADVANCED: 'FR_ADVANCED',
+  ES_BEGINNER: 'ES_BEGINNER',
+  ES_INTERMEDIATE: 'ES_INTERMEDIATE',
+  ES_ADVANCED: 'ES_ADVANCED',
+  LANG_BEGINNER: 'LANG_BEGINNER',
+  LANG_INTERMEDIATE: 'LANG_INTERMEDIATE',
+  LANG_ADVANCED: 'LANG_ADVANCED',
+  SOR_BEGINNER: 'SOR_BEGINNER',
+  SOR_INTERMEDIATE: 'SOR_INTERMEDIATE',
+  SOR_ADVANCED: 'SOR_ADVANCED',
+  QUR_BEGINNER: 'QUR_BEGINNER',
+  QUR_INTERMEDIATE: 'QUR_INTERMEDIATE',
+  QUR_ADVANCED: 'QUR_ADVANCED',
+  ISL_BEGINNER: 'ISL_BEGINNER',
+  ISL_INTERMEDIATE: 'ISL_INTERMEDIATE',
+  ISL_ADVANCED: 'ISL_ADVANCED',
+  TR_BEGINNER: 'TR_BEGINNER',
+  TR_INTERMEDIATE: 'TR_INTERMEDIATE',
+  TR_ADVANCED: 'TR_ADVANCED'
 };
 
 exports.Stream = exports.$Enums.Stream = {
@@ -467,7 +606,28 @@ exports.Stream = exports.$Enums.Stream = {
   LETTRES: 'LETTRES',
   LANGUAGES: 'LANGUAGES',
   COMMON_TRUNK: 'COMMON_TRUNK',
-  ALL: 'ALL'
+  ALL: 'ALL',
+  ENGLISH: 'ENGLISH',
+  FRENCH: 'FRENCH',
+  SPANISH: 'SPANISH',
+  MIDDLE_SCIENCE: 'MIDDLE_SCIENCE',
+  MIDDLE_LETTERS: 'MIDDLE_LETTERS',
+  SOROBAN: 'SOROBAN',
+  QURAN: 'QURAN',
+  ISLAMIC: 'ISLAMIC',
+  PRIMARY: 'PRIMARY',
+  COMPUTER: 'COMPUTER',
+  ACCOUNTING: 'ACCOUNTING',
+  OFFICE: 'OFFICE',
+  PROGRAMMING: 'PROGRAMMING',
+  ROBOTICS: 'ROBOTICS',
+  ART: 'ART',
+  DESIGN: 'DESIGN',
+  VIDEO: 'VIDEO',
+  CHESS: 'CHESS',
+  MUSIC: 'MUSIC',
+  CALLIGRAPHY: 'CALLIGRAPHY',
+  THEATER: 'THEATER'
 };
 
 exports.Wilaya = exports.$Enums.Wilaya = {
@@ -531,6 +691,36 @@ exports.Wilaya = exports.$Enums.Wilaya = {
   W58: 'W58'
 };
 
+exports.PlatformBranch = exports.$Enums.PlatformBranch = {
+  STUDY: 'STUDY',
+  SMART_TEACHER: 'SMART_TEACHER',
+  LANGUAGES: 'LANGUAGES',
+  SOROBAN: 'SOROBAN',
+  QURAN: 'QURAN',
+  ISLAMIC: 'ISLAMIC',
+  TRAINING: 'TRAINING'
+};
+
+exports.UnderstandingLevel = exports.$Enums.UnderstandingLevel = {
+  FAST: 'FAST',
+  AVERAGE: 'AVERAGE',
+  WEAK: 'WEAK'
+};
+
+exports.PracticeKind = exports.$Enums.PracticeKind = {
+  SELF_TEST: 'SELF_TEST',
+  MOCK_EXAM: 'MOCK_EXAM',
+  DAILY_CHALLENGE: 'DAILY_CHALLENGE',
+  BANK: 'BANK'
+};
+
+exports.PracticeDifficulty = exports.$Enums.PracticeDifficulty = {
+  EASY: 'EASY',
+  MEDIUM: 'MEDIUM',
+  HARD: 'HARD',
+  CHALLENGE: 'CHALLENGE'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   StudentProfile: 'StudentProfile',
@@ -539,6 +729,7 @@ exports.Prisma.ModelName = {
   Subject: 'Subject',
   Lesson: 'Lesson',
   LessonMaterial: 'LessonMaterial',
+  LessonOpinion: 'LessonOpinion',
   Quiz: 'Quiz',
   AccessCode: 'AccessCode',
   ParentStudentLink: 'ParentStudentLink',
@@ -559,7 +750,15 @@ exports.Prisma.ModelName = {
   ClassForum: 'ClassForum',
   ForumMessage: 'ForumMessage',
   ParentTicket: 'ParentTicket',
-  SubscriptionRequest: 'SubscriptionRequest'
+  PracticeAttempt: 'PracticeAttempt',
+  SubscriptionRequest: 'SubscriptionRequest',
+  DaliliProfile: 'DaliliProfile',
+  StudySchedule: 'StudySchedule',
+  Flashcard: 'Flashcard',
+  QuestExercise: 'QuestExercise',
+  WatchHistory: 'WatchHistory',
+  CourseProgress: 'CourseProgress',
+  QuizAttempt: 'QuizAttempt'
 };
 
 /**

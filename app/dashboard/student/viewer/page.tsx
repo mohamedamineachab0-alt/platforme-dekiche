@@ -22,7 +22,7 @@ export default function FileViewerPage() {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
         <h2 className="text-xl font-bold text-slate-800 mb-2">الملف غير موجود</h2>
-        <button onClick={() => router.back()} className="text-sky-600 hover:underline">
+        <button onClick={() => router.back()} className="text-[#6D28D9] hover:underline">
           العودة
         </button>
       </div>

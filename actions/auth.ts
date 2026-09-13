@@ -4,9 +4,10 @@ import { prisma } from "@/lib/prisma";
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import bcrypt from "bcryptjs";
-import { Level, Stream, Wilaya } from "@/generated/prisma";
-// Replaced direct Redis import with shared security utilities
+import { Level, Stream, Wilaya, UnderstandingLevel, PlatformBranch } from "@/generated/prisma";
+import { isStreamAllowedForLevel } from "@/lib/constants";
 import { flagBotSignature, securityRedis, silentDrop, encryptSession } from "@/lib/security";
+import { platformToBranch, studentHomePath } from "@/lib/platform-branch";
 
 
 
@@ -16,6 +17,15 @@ export type RegisterState = {
   error?: string;
   success?: boolean;
 };
+
+function normalizeAlgerianPhone(value: string) {
+  const latinDigits = value.replace(/[٠-٩]/g, (digit) => String("٠١٢٣٤٥٦٧٨٩".indexOf(digit)));
+  const compact = latinDigits.replace(/[^\d+]/g, "");
+
+  if (compact.startsWith("+213")) return `0${compact.slice(4)}`;
+  if (compact.startsWith("213")) return `0${compact.slice(3)}`;
+  return compact;
+}
 
 // Advanced Security Mitigation Config
 const ALLOWED_ORIGIN = process.env.NODE_ENV === "production" ? "https://dekiche-academy.com" : "http://localhost:3000";
@@ -43,14 +53,14 @@ export async function registerUser(
 
     const role        = (formData.get("role")        as string)?.trim() || "STUDENT";
     const fullName    = (formData.get("fullName")    as string)?.trim();
-    const phoneNumber = (formData.get("phoneNumber") as string)?.trim();
+    const phoneNumber = normalizeAlgerianPhone((formData.get("phoneNumber") as string)?.trim() || "");
 
     if (!fullName || !phoneNumber) {
       return { error: "جميع الحقول مطلوبة" };
     }
 
     if (!/^0[567][0-9]{8}$/.test(phoneNumber)) {
-      return { error: "يجب أن يتكون رقم الهاتف من 10 أرقام ويبدأ بـ 05، 06، أو 07" };
+      return { error: "صيغة رقم الهاتف غير صحيحة" };
     }
 
     const isSuperAdmin = phoneNumber === "0562388085";
@@ -60,6 +70,7 @@ export async function registerUser(
 
     const passwordHash = "";
     let userId: string | null = null;
+    let studentBranch: PlatformBranch = "STUDY";
 
     if (role === "PARENT") {
       const user = await prisma.user.create({
@@ -76,19 +87,26 @@ export async function registerUser(
       userId = user.id;
     } else {
       // STUDENT ROLE
-      const wilaya      = formData.get("wilaya")      as string;
-      const level       = formData.get("level")       as string;
-      const stream      = formData.get("stream")      as string;
-      const parentName  = "غير محدد";
+      const wilaya = formData.get("wilaya") as string;
+      const level = formData.get("level") as string;
+      const stream = formData.get("stream") as string;
+      const understandingLevel = formData.get("understandingLevel") as string;
+      const branch = platformToBranch(formData.get("platform") as string);
+      studentBranch = branch;
+      const parentName = "غير محدد";
       const parentPhone = "غير محدد";
 
-      if (!wilaya || !level || !stream) {
+      if (!wilaya || !level || !stream || !understandingLevel) {
         return { error: "جميع الحقول مطلوبة" };
       }
 
       if (!Object.values(Wilaya).includes(wilaya as Wilaya)) return { error: "الولاية غير صالحة" };
-      if (!Object.values(Level).includes(level as Level))   return { error: "المستوى غير صالح" };
-      if (!Object.values(Stream).includes(stream as Stream)) return { error: "الشعبة غير صالحة" };
+      if (!Object.values(Level).includes(level as Level)) return { error: "المستوى غير صالح" };
+      if (!Object.values(Stream).includes(stream as Stream)) return { error: "الفرع غير صالح" };
+      if (!isStreamAllowedForLevel(level, stream)) return { error: "هذا الفرع لا ينتمي للدورة المختارة" };
+      if (!Object.values(UnderstandingLevel).includes(understandingLevel as UnderstandingLevel)) {
+        return { error: "مستوى الفهم غير صالح" };
+      }
 
       const user = await prisma.user.create({
         data: {
@@ -103,6 +121,8 @@ export async function registerUser(
               level: level as Level,
               stream: stream as Stream,
               wilaya: wilaya as Wilaya,
+              branch,
+              understandingLevel: understandingLevel as UnderstandingLevel,
             },
           },
         },
@@ -124,7 +144,7 @@ export async function registerUser(
     if (isSuperAdmin) {
       return { success: true, redirectUrl: "/dashboard/admin" };
     } else {
-      return { success: true, redirectUrl: role === "PARENT" ? "/dashboard/parent" : "/dashboard/student" };
+      return { success: true, redirectUrl: role === "PARENT" ? "/dashboard/parent" : studentHomePath(studentBranch) };
     }
   } catch (error: any) {
     console.error("Auth Error (Register):", error);
@@ -152,7 +172,8 @@ export async function loginUser(
   let user = await prisma.user.findFirst({
     where: {
       phoneNumber: phoneNumber
-    }
+    },
+    include: { studentProfile: { select: { branch: true } } },
   });
 
   const isSuperAdmin = phoneNumber === "0562388085";
@@ -173,6 +194,7 @@ export async function loginUser(
               level: "AS3",
               stream: "SCIENCES",
               wilaya: "W16",
+              branch: "STUDY",
             }
           }
         })
@@ -217,11 +239,17 @@ export async function loginUser(
   if (finalRole === "ADMIN")   redirect("/dashboard/admin");
   if (finalRole === "TEACHER") redirect("/dashboard/teacher");
   if (finalRole === "PARENT")  redirect("/dashboard/parent");
-  redirect("/dashboard/student");
+  redirect(studentHomePath(user.studentProfile?.branch));
 }
 
 // ─── LOGOUT ────────────────────────────────────────────────────────────────
 export async function logoutUser() {
+  const cookieStore = await cookies();
+  cookieStore.delete("session");
+  redirect("/login");
+}
+
+export async function logoutSmartTeacher() {
   const cookieStore = await cookies();
   cookieStore.delete("session");
   redirect("/login");

@@ -76,8 +76,42 @@ enum Wilaya {
 }
 
 enum Level {
+  AS1
   AS2
   AS3
+  AP1
+  AP2
+  AP3
+  AP4
+  AP5
+  AM1
+  AM2
+  AM3
+  AM4
+  ENG_BEGINNER
+  ENG_INTERMEDIATE
+  ENG_ADVANCED
+  FR_BEGINNER
+  FR_INTERMEDIATE
+  FR_ADVANCED
+  ES_BEGINNER
+  ES_INTERMEDIATE
+  ES_ADVANCED
+  LANG_BEGINNER
+  LANG_INTERMEDIATE
+  LANG_ADVANCED
+  SOR_BEGINNER
+  SOR_INTERMEDIATE
+  SOR_ADVANCED
+  QUR_BEGINNER
+  QUR_INTERMEDIATE
+  QUR_ADVANCED
+  ISL_BEGINNER
+  ISL_INTERMEDIATE
+  ISL_ADVANCED
+  TR_BEGINNER
+  TR_INTERMEDIATE
+  TR_ADVANCED
 }
 
 enum Stream {
@@ -89,6 +123,57 @@ enum Stream {
   LANGUAGES
   COMMON_TRUNK
   ALL
+  ENGLISH
+  FRENCH
+  SPANISH
+  MIDDLE_SCIENCE
+  MIDDLE_LETTERS
+  SOROBAN
+  QURAN
+  ISLAMIC
+  PRIMARY
+  COMPUTER
+  ACCOUNTING
+  OFFICE
+  PROGRAMMING
+  ROBOTICS
+  ART
+  DESIGN
+  VIDEO
+  CHESS
+  MUSIC
+  CALLIGRAPHY
+  THEATER
+}
+
+enum UnderstandingLevel {
+  FAST
+  AVERAGE
+  WEAK
+}
+
+enum PlatformBranch {
+  STUDY
+  SMART_TEACHER
+  LANGUAGES
+  SOROBAN
+  QURAN
+  ISLAMIC
+  TRAINING
+}
+
+enum PracticeKind {
+  SELF_TEST
+  MOCK_EXAM
+  DAILY_CHALLENGE
+  BANK
+}
+
+enum PracticeDifficulty {
+  EASY
+  MEDIUM
+  HARD
+  CHALLENGE
 }
 
 model User {
@@ -119,20 +204,28 @@ model User {
   friendLinksSource    StudentFriendLink[]   @relation("StudentLinkSource")
   friendLinksTarget    StudentFriendLink[]   @relation("StudentLinkTarget")
   subscriptionRequests SubscriptionRequest[]
+  lessonOpinions       LessonOpinion[]
+  practiceAttempts     PracticeAttempt[]
+  daliliProfile        DaliliProfile?
+  watchHistories       WatchHistory[]
+  courseProgress       CourseProgress[]
+  quizAttempts         QuizAttempt[]
 }
 
 model StudentProfile {
-  id          String  @id @default(cuid())
-  userId      String  @unique
-  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  parentName  String
-  parentPhone String
-  level       Level
-  stream      Stream
-  wilaya      Wilaya
-  totalPoints Int     @default(0)
-  parentCode  String? @unique @default(cuid())
-  friendCode  String? @unique @default(cuid())
+  id                 String              @id @default(cuid())
+  userId             String              @unique
+  user               User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  parentName         String
+  parentPhone        String
+  level              Level
+  stream             Stream
+  wilaya             Wilaya
+  branch             PlatformBranch      @default(STUDY)
+  understandingLevel UnderstandingLevel?
+  totalPoints        Int                 @default(0)
+  parentCode         String?             @unique @default(cuid())
+  friendCode         String?             @unique @default(cuid())
 }
 
 model ParentProfile {
@@ -178,6 +271,10 @@ model Subject {
   secondaryExams          Exam[]          @relation("ExamSecondarySubject")
   reviewCards             ReviewCard[]
   classForums             ClassForum[]
+  practiceAttempts        PracticeAttempt[]
+  watchHistories          WatchHistory[]
+  courseProgress          CourseProgress[]
+  quizAttempts            QuizAttempt[]
   createdAt               DateTime        @default(now())
 }
 
@@ -197,6 +294,9 @@ model Lesson {
   quiz         Quiz? // One-to-one relation with AI Quiz
   mistakes     StudentMistake[]
   materials    LessonMaterial[]
+  opinions     LessonOpinion[]
+  watchHistories WatchHistory[]
+  courseProgress CourseProgress[]
   createdAt    DateTime         @default(now())
 }
 
@@ -208,6 +308,25 @@ model LessonMaterial {
   lessonId  String
   lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
+
+  @@index([lessonId])
+}
+
+model LessonOpinion {
+  id        String   @id @default(cuid())
+  lessonId  String
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  studentId String
+  student   User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  rating    Int
+  comment   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([studentId, lessonId])
+  @@index([lessonId])
+  @@index([createdAt])
+  @@index([studentId])
 }
 
 model Quiz {
@@ -374,6 +493,7 @@ model Exam {
   quiz               Quiz?
   materials          ExamMaterial[]
   submissions        StudentSubmission[]
+  quizAttempts       QuizAttempt[]
   createdAt          DateTime            @default(now())
 }
 
@@ -464,6 +584,30 @@ model ParentTicket {
   createdAt  DateTime @default(now())
 }
 
+model PracticeAttempt {
+  id              String              @id @default(cuid())
+  studentId       String
+  student         User                @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  kind            PracticeKind
+  subjectId       String?
+  subject         Subject?            @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+  month           Int?
+  difficulty      PracticeDifficulty?
+  score           Int
+  maxScore        Int                 @default(20)
+  correctCount    Int
+  totalQuestions  Int
+  durationSec     Int?
+  challengeDay    String?
+  reviewLessonIds String[]            @default([])
+  createdAt       DateTime            @default(now())
+
+  @@index([studentId, createdAt(sort: Desc)])
+  @@index([studentId, subjectId, createdAt(sort: Desc)])
+  @@index([studentId, kind, challengeDay])
+  @@index([subjectId])
+}
+
 model SubscriptionRequest {
   id          String   @id @default(cuid())
   studentId   String
@@ -477,4 +621,130 @@ model SubscriptionRequest {
   phoneNumber String
   status      String   @default("PENDING")
   createdAt   DateTime @default(now())
+}
+
+/// Profile namespace for Dalili SMART_TEACHER students
+model DaliliProfile {
+  id                 String         @id @default(cuid())
+  userId             String         @unique
+  user               User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  /// e.g. ابتدائي | متوسط | ثانوي
+  educationPhase     String?
+  /// e.g. أولى | ثانية | ثالثة | رابعة | خامسة | بكالوريا
+  gradeLevel         String?
+  /// High-school شعبة only e.g. علوم تجريبية | رياضيات
+  branch             String?
+  /// e.g. مبتدئ | متوسط | متقدم
+  understandingLevel String?
+  studySchedule      StudySchedule?
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  @@index([educationPhase, gradeLevel])
+}
+
+/// Saved weekly AI study plan for a Dalili student
+model StudySchedule {
+  id              String        @id @default(cuid())
+  daliliProfileId String        @unique
+  daliliProfile   DaliliProfile @relation(fields: [daliliProfileId], references: [id], onDelete: Cascade)
+  /// Structured weekly plan: { days: [{ day, tasks: [{ id, subject, time, duration, completed }] }] }
+  plan            Json
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([daliliProfileId])
+}
+
+/// Pre-seeded / lazy-generated academy flashcard bank
+model Flashcard {
+  id          String   @id @default(cuid())
+  subjectId   String
+  lessonId    String?
+  gradeLevel  String
+  stream      String
+  lessonTitle String
+  frontText   String
+  backText    String
+  createdAt   DateTime @default(now())
+
+  @@index([lessonId, gradeLevel, stream])
+  @@index([gradeLevel, stream, lessonTitle])
+  @@index([subjectId, gradeLevel, stream])
+}
+
+/// Pre-seeded / lazy-generated academy MCQ bank (distinct from image DailyExercise)
+model QuestExercise {
+  id            String   @id @default(cuid())
+  subjectId     String
+  lessonId      String?
+  gradeLevel    String
+  stream        String
+  lessonTitle   String
+  question      String
+  options       String[]
+  correctAnswer String
+  explanation   String
+  createdAt     DateTime @default(now())
+
+  @@index([lessonId, gradeLevel, stream])
+  @@index([gradeLevel, stream, lessonTitle])
+  @@index([subjectId, gradeLevel, stream])
+
+  @@map("DaliliDailyExercise")
+}
+
+/// Exact video watch duration per student/lesson (seconds, cumulative)
+model WatchHistory {
+  id             String   @id @default(cuid())
+  studentId      String
+  student        User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  lessonId       String
+  lesson         Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  subjectId      String
+  subject        Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  watchedSeconds Int      @default(0)
+  lastWatchedAt  DateTime @default(now())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([studentId, lessonId])
+  @@index([studentId, lastWatchedAt(sort: Desc)])
+  @@index([subjectId])
+}
+
+/// Lesson completion progress within enrolled courses
+model CourseProgress {
+  id          String   @id @default(cuid())
+  studentId   String
+  student     User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  lessonId    String
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  subjectId   String
+  subject     Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  completed   Boolean  @default(true)
+  completedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  @@unique([studentId, lessonId])
+  @@index([studentId, subjectId])
+  @@index([studentId, completedAt(sort: Desc)])
+}
+
+/// Official exam / quiz attempts for LMS analytics (separate from AI companion PracticeAttempt)
+model QuizAttempt {
+  id        String   @id @default(cuid())
+  studentId String
+  student   User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  examId    String?
+  exam      Exam?    @relation(fields: [examId], references: [id], onDelete: SetNull)
+  subjectId String?
+  subject   Subject? @relation(fields: [subjectId], references: [id], onDelete: SetNull)
+  score     Int
+  maxScore  Int      @default(20)
+  createdAt DateTime @default(now())
+
+  @@index([studentId, createdAt(sort: Desc)])
+  @@index([examId])
+  @@index([subjectId])
 }

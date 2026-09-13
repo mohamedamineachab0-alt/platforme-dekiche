@@ -1,21 +1,16 @@
 import { prisma } from "@/lib/prisma";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { assertAuth } from "@/lib/security";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { GraduationCap, ExternalLink, BrainCircuit } from "lucide-react";
 import Link from "next/link";
 import { ExamSubmissionForm } from "@/components/student/ExamSubmissionForm";
 
 export default async function StudentExamsPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
-
-  if (!sessionId) {
-    redirect("/login");
-  }
+  const sessionUser = await assertAuth({ requireRole: "STUDENT" });
 
   const user = await prisma.user.findUnique({
-    where: { id: sessionId },
+    where: { id: sessionUser.id },
     include: {
       enrollments: true
     }
@@ -48,14 +43,13 @@ export default async function StudentExamsPage() {
         title="الاختبارات والفروض"
         description="استعرض اختباراتك وحمل الحل بخط يدك ليقوم الذكاء الاصطناعي بتصحيحه فوراً وتوجيهك"
         icon={GraduationCap}
-        gradientClass="bg-gradient-to-r from-sky-600 to-sky-700"
       />
 
       {exams.length === 0 ? (
-        <div className="p-6 md:p-12 text-center bg-white rounded-3xl border border-slate-100 shadow-sm">
-          <GraduationCap className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-          <h3 className="font-black text-xl text-slate-800">لا توجد اختبارات متاحة حالياً</h3>
-          <p className="text-slate-500 font-medium mt-2">ستظهر هنا الاختبارات الخاصة بالمواد التي سجلت فيها</p>
+        <div className="p-6 md:p-12 text-center bg-white rounded-[28px] border border-[#EDE9FE] shadow-sm">
+          <GraduationCap className="w-16 h-16 text-[#A8B4D6] mx-auto mb-4" />
+          <h3 className="font-black text-xl text-[#1E1B4B]">لا توجد اختبارات متاحة حالياً</h3>
+          <p className="text-[#6B6480] font-medium mt-2">ستظهر هنا الاختبارات الخاصة بالمواد التي سجلت فيها</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-8">
@@ -64,18 +58,18 @@ export default async function StudentExamsPage() {
             const hasSubmitted = !!submission;
 
             return (
-              <div key={exam.id} className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden flex flex-col">
+              <div key={exam.id} className="bg-white rounded-[28px] shadow-sm border border-[#EDE9FE] overflow-hidden flex flex-col">
                 
                 <div className="p-6 border-b border-slate-100 bg-slate-50 flex justify-between items-start">
                   <div>
-                    <h3 className="font-black text-xl text-slate-900">{exam.title}</h3>
-                    <span className="inline-block mt-2 bg-sky-100 text-sky-800 text-xs font-bold px-3 py-1 rounded-full">
+                    <h3 className="font-black text-xl text-[#1E1B4B]">{exam.title}</h3>
+                    <span className="inline-block mt-2 bg-[#EEF1FF] text-[#6D28D9] text-xs font-bold px-3 py-1 rounded-full">
                       {exam.subject.title}
                     </span>
                   </div>
                   <div className="text-center bg-white border border-slate-200 rounded-xl px-4 py-2 shadow-sm">
                     <p className="text-[10px] font-bold text-slate-400">العلامة الكلية</p>
-                    <p className="font-black text-slate-800">{exam.maxScore}</p>
+                    <p className="font-black text-[#1E1B4B]">{exam.maxScore}</p>
                   </div>
                 </div>
 
@@ -86,8 +80,8 @@ export default async function StudentExamsPage() {
                     className="flex items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-2xl hover:bg-slate-100 transition-colors"
                   >
                     <div>
-                      <h4 className="font-bold text-slate-800">فتح الاختبار والمرفقات</h4>
-                      <p className="text-xs text-slate-500 font-medium mt-1">عرض الأسئلة والمرفقات الإضافية</p>
+                      <h4 className="font-bold text-[#1E1B4B]">فتح الاختبار والمرفقات</h4>
+                      <p className="text-xs text-[#6B6480] font-medium mt-1">عرض الأسئلة والمرفقات الإضافية</p>
                     </div>
                     <ExternalLink className="w-5 h-5 text-slate-400" />
                   </Link>

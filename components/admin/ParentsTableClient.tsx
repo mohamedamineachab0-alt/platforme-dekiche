@@ -203,7 +203,7 @@ export function ParentsTableClient({ students }: ParentsTableClientProps) {
                     <button 
                       type="submit"
                       disabled={isSubmitting}
-                      className="flex items-center justify-center gap-2 px-6 py-2.5 bg-amber-400 hover:bg-amber-500 text-slate-950 font-black font-black rounded-xl transition-all shadow-sm hover:shadow-md disabled:opacity-50"
+                      className="flex items-center justify-center gap-2 px-6 py-2.5 bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-black font-black rounded-xl transition-all shadow-sm hover:shadow-md disabled:opacity-50"
                     >
                       {isSubmitting ? "جاري الإرسال..." : (
                         <>

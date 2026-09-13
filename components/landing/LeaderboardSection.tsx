@@ -1,105 +1,50 @@
-import { Trophy, Medal, Users, Sparkles, ShieldCheck } from "lucide-react";
+"use client";
 
-type TopStudent = {
-  id: string;
-  name: string;
-  points: number;
-};
+import { Reveal } from "@/components/landing/Reveal";
 
-export function LeaderboardSection({ 
-  totalStudents, 
-  totalParents,
-  topStudents 
-}: { 
-  totalStudents: number, 
-  totalParents: number,
-  topStudents: TopStudent[] 
-}) {
+const STEPS = [
+  {
+    n: "01",
+    title: "افتح حسابك وفعّل موادك",
+    desc: "سجّل كتلميذ، اختر مستواك وشعبتك، ثم فعّل كل مادة برمز الاشتراك.",
+  },
+  {
+    n: "02",
+    title: "تابع الدرس والخريطة والملخص",
+    desc: "تفرّج الشرح المصوّر، افتح الخريطة الذهنية، وحمّل ملخص الدرس قبل التمرين.",
+  },
+  {
+    n: "03",
+    title: "حل التمارين وراجع أخطاءك",
+    desc: "كل خطأ يُحفظ مع حلّه الصحيح. اختبر مستواك قبل الفرض، وتابع تقدمك.",
+  },
+];
+
+export function LeaderboardSection() {
   return (
-    <section className="py-24 border-b border-slate-200/50 dark:border-slate-800/50 relative overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-96 bg-sky-500/10 blur-[100px] rounded-full pointer-events-none"></div>
+    <section id="steps" className="scroll-mt-28 px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        <Reveal>
+          <p className="mb-3 text-sm font-black text-[#6D28D9]">خطوة بخطوة</p>
+          <h2 className="text-3xl font-black text-[#1E1B4B] sm:text-5xl">كيف تستخدم المنصة</h2>
+          <p className="mt-4 max-w-2xl text-base font-medium leading-relaxed text-[#6B6480] sm:text-lg">
+            مسار بسيط: حساب، دراسة، مراجعة. كل خطوة تُبنى على التي قبلها.
+          </p>
+        </Reveal>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl relative z-10">
-        
-        {/* Dynamic Student and Parent Counts */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16">
-          <div className="flex items-center gap-4 bg-slate-50 dark:bg-slate-950 px-8 py-4 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm w-full sm:w-auto">
-            <div className="w-14 h-14 rounded-2xl bg-sky-100 dark:bg-slate-950/30 flex items-center justify-center shrink-0">
-              <Users className="w-7 h-7 text-sky-600 dark:text-sky-400" />
-            </div>
-            <div>
-              <p className="text-sm font-black text-slate-500 dark:text-slate-400 mb-1">الطلاب المسجلين بالمنصة</p>
-              <p className="text-3xl font-black text-slate-900 dark:text-white flex items-center gap-2">
-                <span dir="ltr">{totalStudents.toLocaleString("en-US")}</span>
-                <span className="text-lg text-sky-600 dark:text-sky-400">طالب وطالبة</span>
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4 bg-slate-50 dark:bg-slate-950 px-8 py-4 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm w-full sm:w-auto">
-            <div className="w-14 h-14 rounded-2xl bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center shrink-0">
-              <ShieldCheck className="w-7 h-7 text-sky-600 dark:text-sky-400" />
-            </div>
-            <div>
-              <p className="text-sm font-black text-slate-500 dark:text-slate-400 mb-1">أولياء الأمور المتابعين</p>
-              <p className="text-3xl font-black text-slate-900 dark:text-white flex items-center gap-2">
-                <span dir="ltr">{totalParents.toLocaleString("en-US")}</span>
-                <span className="text-lg text-sky-600 dark:text-sky-400">ولي أمر</span>
-              </p>
-            </div>
-          </div>
+        <div className="mt-10 grid gap-4 md:grid-cols-3">
+          {STEPS.map((step, index) => (
+            <Reveal key={step.n} delay={index * 90}>
+              <article className="h-full rounded-[32px] bg-white p-6 shadow-[0_12px_36px_rgba(30,27,75,0.06)]">
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#F3EFFF] text-sm font-black text-[#6D28D9]">
+                  {step.n}
+                </span>
+                <h3 className="mt-5 text-xl font-black text-[#1E1B4B]">{step.title}</h3>
+                <p className="mt-2 text-sm font-medium leading-relaxed text-[#6B6480]">{step.desc}</p>
+              </article>
+            </Reveal>
+          ))}
         </div>
-
-        <div className="max-w-4xl mx-auto bg-white rounded-3xl p-8 md:p-12 border-t-4 border-t-amber-500 border-x border-b border-slate-100 shadow-xl relative overflow-hidden group hover:shadow-amber-500/10 transition-shadow duration-500" dir="rtl">
-          {/* Background Accent Gradient */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-amber-50 rounded-full blur-3xl opacity-50 -z-10 pointer-events-none transform translate-x-1/2 -translate-y-1/2"></div>
-
-          {/* Header */}
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-4 mb-8">
-            <div className="w-16 h-16 rounded-2xl bg-slate-100 text-slate-800 flex items-center justify-center shrink-0 border border-slate-200 shadow-inner">
-              <ShieldCheck className="w-8 h-8" />
-            </div>
-            <div>
-              <h2 className="text-2xl md:text-3xl font-black text-slate-900 tracking-tight flex items-center gap-2">
-                رسالة مفتوحة: عهدٌ من صُنّاع النجاح
-              </h2>
-            </div>
-          </div>
-
-          {/* Letter Body */}
-          <div className="space-y-6 text-slate-700 font-medium text-[15px] md:text-base leading-loose md:leading-relaxed text-right">
-            <p>
-              إلى من اختار طريق التميز ولم يرضَ بغير القمة بديلاً.. مرحباً بك في معقلك الأكاديمي، منصة دقيش التعليمية. نحن لم نصمم هذه المنصة لتكون مجرد موقع إلكتروني، بل خضنا حرباً حقيقية لنبني لك ترسانة رقمية وسلاحاً لا يُقهر في رحلتك نحو التفوق.
-            </p>
-
-            <p>
-              <span className="font-black text-amber-500 text-lg">في الكواليس المظلمة:</span> سهر مهندسونا وفريقنا التقني ليالٍ طوال، كتبنا آلاف الأسطر البرمجية، وطوّعنا أحدث تقنيات الذكاء الاصطناعي لنخلق لك بيئة صلبة، سريعة كالصاعقة، وخالية تماماً من المشتتات. منصتنا لا تنام، لا تتعب، ومسخرة لخدمتك في كل ثانية.
-            </p>
-
-            <p>
-              <span className="font-black text-amber-500 text-lg">وفي ساحة العلم:</span> سكب نُخبة أساتذتنا عصارة سنين من الخبرة والحكمة لتعبيد طريقك. لم نضع لك دروساً جامدة فحسب؛ بل فككنا شفرات المنهج، توقّعنا عثراتك قبل أن تقع فيها، وصممنا لك مساراً ذكياً يتحدى عقلك ويرتقي به من الصفر إلى الاحتراف.
-            </p>
-
-            <p className="text-xl md:text-2xl font-black text-slate-900 text-center py-4 bg-amber-50 rounded-xl border border-amber-200">
-              لقد اجتمع التقني والأستاذ على هدف واحد فقط: <span className="text-amber-600">أنت.</span>
-            </p>
-
-            <p>
-              نحن لم ننم لكي لا تتعثر أنت. لقد جهزنا لك العتاد، ذلّلنا الصعاب، ووضعنا أسباب النجاح بين يديك. الآن.. انتهى دورنا وبدأ دورك! لا مجال للأعذار، ولا وقت للتردد. اعلم أن خلف هذه الشاشة جيشاً كاملاً يؤمن بك ولن يقبل لك سوى الصدارة.
-            </p>
-
-            <p className="font-black text-xl text-slate-900 pt-4">
-              فهل أنت مستعد لكتابة التاريخ؟
-            </p>
-
-            <div className="pt-6 border-t border-slate-100 mt-8">
-              <p className="font-bold text-slate-800">مع كل الثقة والدعم،</p>
-              <p className="font-black text-amber-500 text-lg mt-1">جيش الخفاء – فريق منصة دقيش التعليمية</p>
-            </div>
-          </div>
-        </div>
-
       </div>
     </section>
   );

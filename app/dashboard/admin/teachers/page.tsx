@@ -31,24 +31,24 @@ export default async function AdminTeachersPage() {
         <div className="lg:col-span-1">
           <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 sticky top-6">
             <h2 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
-              <Plus className="w-5 h-5 text-sky-600" />
+              <Plus className="w-5 h-5 text-[#6D28D9]" />
               إضافة أستاذ جديد
             </h2>
             
             <form action={async (formData) => { "use server"; await createTeacher(formData); }} className="space-y-4">
               <div className="space-y-1">
                 <label className="text-sm font-bold text-slate-700">الاسم الكامل</label>
-                <input type="text" name="fullName" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="مثال: الأستاذ كمال" />
+                <input type="text" name="fullName" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-[#6D28D9]" placeholder="مثال: الأستاذ كمال" />
               </div>
               
               <div className="space-y-1">
                 <label className="text-sm font-bold text-slate-700">رقم الهاتف (للدخول)</label>
-                <input type="tel" name="phoneNumber" required dir="ltr" className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="05XXXXXXXX" />
+                <input type="tel" name="phoneNumber" required dir="ltr" className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-[#6D28D9]" placeholder="05XXXXXXXX" />
               </div>
 
               <div className="space-y-1">
                 <label className="text-sm font-bold text-slate-700">كلمة المرور</label>
-                <input type="password" name="password" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="6 أحرف على الأقل" />
+                <input type="password" name="password" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-[#6D28D9]" placeholder="6 أحرف على الأقل" />
               </div>
 
               <div className="space-y-2">
@@ -88,7 +88,7 @@ export default async function AdminTeachersPage() {
                 </div>
               </div>
 
-              <button type="submit" className="w-full flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-500 text-slate-950 font-black font-bold py-3 rounded-xl transition-colors mt-2">
+              <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-black font-bold py-3 rounded-xl transition-colors mt-2">
                 <Users className="w-4 h-4" />
                 إنشاء حساب الأستاذ
               </button>
@@ -102,7 +102,7 @@ export default async function AdminTeachersPage() {
             {teachers.map(teacher => (
               <div key={teacher.id} className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 flex flex-col">
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-sky-100 flex items-center justify-center text-sky-700 font-black text-xl shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-[#EDE9FE] flex items-center justify-center text-[#5B21B6] font-black text-xl shrink-0">
                     {teacher.name.charAt(0)}
                   </div>
                   <div>
@@ -140,7 +140,7 @@ export default async function AdminTeachersPage() {
                 </div>
                 
                 <div className="mt-6 pt-4 border-t border-slate-100 flex items-center gap-2 text-sm font-bold text-slate-700">
-                  <BookOpen className="w-4 h-4 text-sky-600" />
+                  <BookOpen className="w-4 h-4 text-[#6D28D9]" />
                   {teacher.subjects.length} مواد مسندة
                 </div>
               </div>

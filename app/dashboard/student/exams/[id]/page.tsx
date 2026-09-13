@@ -1,6 +1,6 @@
-import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import { assertAuth } from "@/lib/security";
 import { ChevronLeft, Download, FileText, GraduationCap } from "lucide-react";
 import { UniversalFileViewer } from "@/components/shared/UniversalFileViewer";
 import Link from "next/link";
@@ -12,11 +12,8 @@ export default async function ExamStudyViewPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
-
-  if (!sessionId) redirect("/login");
+  const sessionUser = await assertAuth({ requireRole: "STUDENT" });
+  const sessionId = sessionUser.id;
 
   const exam = await prisma.exam.findUnique({
     where: { id },
@@ -44,12 +41,12 @@ export default async function ExamStudyViewPage({
       <div className="flex items-center justify-between">
         <Link 
           href="/dashboard/student/exams" 
-          className="inline-flex items-center gap-2 text-slate-500 hover:text-sky-700 font-bold transition-colors"
+          className="inline-flex items-center gap-2 text-slate-500 hover:text-[#5B21B6] font-bold transition-colors"
         >
           <ChevronLeft className="w-5 h-5" />
           العودة إلى الاختبارات
         </Link>
-        <span className="bg-sky-100 text-sky-800 dark:bg-sky-900/30 dark:text-sky-400 px-4 py-1.5 rounded-lg text-sm font-bold">
+        <span className="bg-[#EDE9FE] text-sky-800 dark:bg-sky-900/30 dark:text-[#A78BFA] px-4 py-1.5 rounded-lg text-sm font-bold">
           {exam.maxScore} نقطة
         </span>
       </div>
@@ -73,7 +70,7 @@ export default async function ExamStudyViewPage({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
           
           {/* Right Card (Quiz / Submit) */}
-          <div className="bg-white rounded-3xl p-8 border border-sky-200 shadow-sm hover:shadow-md hover:shadow-sky-500/10 transition-all flex flex-col items-start relative overflow-hidden group">
+          <div className="bg-white rounded-3xl p-8 border border-[#EDE9FE] shadow-sm hover:shadow-md hover:shadow-sky-500/10 transition-all flex flex-col items-start relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-green-500/10 transition-all"></div>
             
             <div className="w-14 h-14 bg-green-50 text-green-600 rounded-2xl flex items-center justify-center mb-6 shrink-0 relative z-10">
@@ -106,8 +103,8 @@ export default async function ExamStudyViewPage({
           </div>
 
           {/* Left Card (Attachments) */}
-          <div className="bg-white rounded-3xl p-8 border border-sky-200 shadow-sm hover:shadow-md transition-all flex flex-col items-start relative overflow-hidden group">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-sky-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 transition-all"></div>
+          <div className="bg-white rounded-3xl p-8 border border-[#EDE9FE] shadow-sm hover:shadow-md transition-all flex flex-col items-start relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-[#F3EFFF]0/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 transition-all"></div>
 
             <div className="w-14 h-14 bg-slate-50 text-slate-600 rounded-2xl flex items-center justify-center mb-6 shrink-0 relative z-10">
               <FileText className="w-7 h-7" />

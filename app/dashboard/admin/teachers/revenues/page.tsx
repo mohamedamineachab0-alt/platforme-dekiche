@@ -15,7 +15,6 @@ export default async function AdminRevenuesPage() {
         title="إدارة المداخيل ومستحقات الأساتذة"
         description="تتبع شامل لمداخيل الأكاديمية والمستحقات الخاصة بكل أستاذ بناءً على الاشتراكات المفعلة والمواد المسندة"
         icon={Wallet}
-        gradientClass="bg-gradient-to-r from-amber-400 to-amber-500"
         action={<ExportTableButton targetId="revenue-table-container" />}
       />
 

@@ -1,20 +1,15 @@
 import { prisma } from "@/lib/prisma";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { assertAuth } from "@/lib/security";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { Trophy, Medal, Award, Star } from "lucide-react";
 import { LEVELS, STREAMS } from "@/lib/constants";
 
 export default async function StudentLeaderboardPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
-
-  if (!sessionId) {
-    redirect("/login");
-  }
+  const sessionUser = await assertAuth({ requireRole: "STUDENT" });
 
   const currentUser = await prisma.user.findUnique({
-    where: { id: sessionId },
+    where: { id: sessionUser.id },
     include: { studentProfile: true }
   });
 
@@ -45,19 +40,18 @@ export default async function StudentLeaderboardPage() {
         title="الترتيب والنقاط"
         description="تنافس مع زملائك و حسن ترتيبك من خلال حل التمارين والاختبارات و وكن في صدارة الأكاديمية!"
         icon={Trophy}
-        gradientClass="bg-gradient-to-r from-amber-500 to-orange-600"
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
         {/* Personal Stats Card */}
         <div className="lg:col-span-1 space-y-6">
-          <div className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm text-center">
+          <div className="bg-white p-5 sm:p-8 rounded-[28px] border border-[#EDE9FE] shadow-sm text-center">
             <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <Star className="w-10 h-10 text-amber-500" />
             </div>
-            <h3 className="text-slate-500 font-bold text-sm">مجموع نقاطك</h3>
-            <p className="text-5xl font-black text-slate-900 mt-2">{currentUser.studentProfile.totalPoints}</p>
+            <h3 className="text-[#6B6480] font-bold text-sm">مجموع نقاطك</h3>
+            <p className="text-3xl sm:text-5xl font-black text-[#1E1B4B] mt-2 break-all">{currentUser.studentProfile.totalPoints}</p>
             <div className="mt-8 pt-6 border-t border-slate-100 flex justify-between items-center px-4">
               <span className="font-bold text-slate-600">ترتيبك:</span>
               <span className="font-black text-2xl text-amber-600">{myRank}</span>
@@ -67,15 +61,15 @@ export default async function StudentLeaderboardPage() {
 
         {/* Podium / Top 3 Leaderboard */}
         <div className="lg:col-span-2">
-          <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">
+          <div className="bg-white rounded-[28px] border border-[#EDE9FE] shadow-sm overflow-hidden">
             <div className="p-6 border-b border-slate-100 bg-slate-50 flex items-center gap-3">
               <Award className="w-6 h-6 text-amber-500" />
-              <h3 className="font-black text-xl text-slate-900">لوحة الشرف - الأوائل</h3>
+              <h3 className="font-black text-xl text-[#1E1B4B]">لوحة الشرف - الأوائل</h3>
             </div>
             
             <div className="p-6 space-y-4">
               {topStudents.length === 0 ? (
-                <p className="text-center text-slate-500 font-bold py-8">لا يوجد تصنيف بعد</p>
+                <p className="text-center text-[#6B6480] font-bold py-8">لا يوجد تصنيف بعد</p>
               ) : (
                 topStudents.map((student, index) => {
                   const isCurrentUser = student.id === currentUser.id;
@@ -101,19 +95,19 @@ export default async function StudentLeaderboardPage() {
                       
                       <div className="flex-1">
                         <div className="flex items-center gap-2">
-                          <h4 className="font-black text-lg text-slate-900">{student.fullName}</h4>
+                          <h4 className="font-black text-lg text-[#1E1B4B]">{student.fullName}</h4>
                           {isCurrentUser && (
                             <span className="text-[10px] font-bold bg-amber-200 text-amber-800 px-2 py-0.5 rounded-full">
                               أنت
                             </span>
                           )}
                         </div>
-                        <p className="text-sm text-slate-500 font-medium">{levelStr} • {streamStr}</p>
+                        <p className="text-sm text-[#6B6480] font-medium">{levelStr} • {streamStr}</p>
                       </div>
 
                       <div className="text-center bg-slate-50 px-4 py-2 rounded-xl border border-slate-100">
                         <p className="text-xs font-bold text-slate-400">المركز {rankLabel}</p>
-                        <p className="font-black text-xl text-slate-800">{student.studentProfile?.totalPoints} <span className="text-xs font-bold">نقطة</span></p>
+                        <p className="font-black text-xl text-[#1E1B4B]">{student.studentProfile?.totalPoints} <span className="text-xs font-bold">نقطة</span></p>
                       </div>
                     </div>
                   );

@@ -32,14 +32,14 @@ export default async function AdminCodesPage() {
 
         {/* List */}
         <div className="lg:col-span-2">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-4">
             <h2 className="text-xl font-black text-slate-800 flex items-center gap-2">
-              <Hash className="w-5 h-5 text-sky-500" />
+              <Hash className="w-5 h-5 text-[#6D28D9]" />
               قائمة الرموز المولدة
             </h2>
             <ExportCodesClient codes={codes} />
           </div>
-          <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+          <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-x-auto">
             <table className="w-full text-sm text-right">
               <thead className="bg-slate-50 border-b border-slate-100 text-slate-500">
                 <tr>
@@ -64,7 +64,7 @@ export default async function AdminCodesPage() {
                       {code.accessType === "MONTHLY" ? (
                         <div className="flex flex-wrap gap-1">
                           {code.validMonths.map(m => (
-                            <span key={m} className="bg-sky-50 text-sky-600 text-xs font-bold px-2 py-0.5 rounded">ش {m}</span>
+                            <span key={m} className="bg-[#F3EFFF] text-[#6D28D9] text-xs font-bold px-2 py-0.5 rounded">ش {m}</span>
                           ))}
                         </div>
                       ) : code.accessType === "TIME_BASED" ? (

@@ -18,7 +18,6 @@ export default async function AdminLeaderboardPage() {
         title="ترتيب الأوائل"
         description="استعرض قائمة التلاميذ المتفوقين والأكثر نشاطاً في الأكاديمية بناءً على مجموع النقاط"
         icon={Trophy}
-        gradientClass="bg-gradient-to-r from-amber-500 to-orange-600"
       />
 
       <div className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden">

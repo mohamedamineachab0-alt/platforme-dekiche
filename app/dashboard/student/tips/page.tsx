@@ -1,52 +1,34 @@
 import { HUNDRED_TIPS } from "@/lib/hundredTips";
-import { Lightbulb, Sparkles } from "lucide-react";
-
-
+import { Lightbulb } from "lucide-react";
+import { HeroBanner } from "@/components/shared/HeroBanner";
 
 export default function TipsPage() {
   return (
-    <div className="space-y-8 font-arabic pb-12" dir="rtl">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-amber-400 to-amber-500 rounded-3xl p-8 md:p-10 text-white relative overflow-hidden shadow-sm">
-        <div className="absolute inset-0 bg-notebook-grid opacity-20 pointer-events-none"></div>
-        <div className="relative z-10 flex flex-col items-start gap-4">
-          <div className="bg-white/20 p-3 rounded-2xl backdrop-blur-sm border border-white/30 shadow-inner">
-            <Lightbulb className="w-10 h-10 text-white" />
-          </div>
-          <div>
-            <h1 className="text-3xl font-black mb-3 text-white flex items-center gap-3">
-              100 نصيحة ذهبية للتفوق الدراسي والامتحانات
-              <Sparkles className="hidden w-6 h-6 text-white animate-pulse" />
-            </h1>
-            <p className="text-lg font-bold text-white opacity-95 max-w-2xl leading-relaxed">
-              مجموعة مختارة بعناية من أفضل النصائح والتوجيهات لبناء شخصية دراسية قوية، إدارة وقتك بفعالية، وتحقيق التفوق بكل ثقة.
-            </p>
-          </div>
-        </div>
-      </div>
+    <div className="space-y-8 pb-12 font-sans text-[#1E1B4B]" dir="rtl">
+      <HeroBanner
+        title="100 نصيحة ذهبية للتفوق الدراسي والامتحانات"
+        description="مجموعة مختارة بعناية من أفضل النصائح لبناء شخصية دراسية قوية وإدارة وقتك بفعالية"
+        icon={Lightbulb}
+      />
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pt-4">
+      <div className="grid grid-cols-1 gap-5 pt-2 md:grid-cols-2 lg:grid-cols-3">
         {HUNDRED_TIPS.map((tip, index) => (
-          <div 
+          <div
             key={index}
-            className="group bg-white rounded-2xl p-6 border border-amber-100 shadow-md hover:shadow-lg hover:shadow-amber-500/10 hover:-translate-y-1 transition-all duration-300 flex flex-col"
+            className="group flex flex-col rounded-[28px] border border-[#EDE9FE] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-[#6D28D9]/40 hover:shadow-[0_12px_40px_rgba(109,40,217,0.12)]"
           >
-            {/* Number Badge (In-flow to prevent clipping) */}
-            <div className="flex justify-between items-center mb-4">
-              <span className="bg-amber-100 text-amber-800 px-4 py-1.5 rounded-full font-black text-sm shadow-sm">
+            <div className="mb-4 flex items-center justify-between">
+              <span className="rounded-full bg-[#6D28D9]/10 px-4 py-1.5 text-sm font-black text-[#1E1B4B]">
                 نصيحة {index + 1}
               </span>
-              <div className="w-8 h-8 rounded-full bg-amber-50 flex items-center justify-center text-amber-500 group-hover:bg-amber-100 transition-colors">
-                <Lightbulb className="w-4 h-4" />
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#EEF1FF] text-[#6D28D9] transition group-hover:bg-[#6D28D9] group-hover:text-white">
+                <Lightbulb className="h-4 w-4" />
               </div>
             </div>
-            
-            <div className="flex-1">
-              <p className="text-slate-900 font-bold leading-loose text-base group-hover:text-blue-950 transition-colors break-words">
-                {tip}
-              </p>
-            </div>
+
+            <p className="flex-1 text-base font-bold leading-loose break-words text-[#1E1B4B]">
+              {tip}
+            </p>
           </div>
         ))}
       </div>

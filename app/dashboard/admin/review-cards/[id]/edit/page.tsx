@@ -23,7 +23,6 @@ export default async function EditReviewCardPage({ params }: { params: Promise<{
         title="تعديل بطاقة المراجعة"
         description="قم بتحديث معلومات بطاقة المراجعة"
         icon={Library}
-        gradientClass="bg-gradient-to-r from-slate-900 to-emerald-600"
       />
 
       <div className="max-w-2xl mx-auto bg-white rounded-3xl shadow-sm border border-slate-100 p-6">

@@ -2,38 +2,70 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
-import { 
-  LayoutDashboard, BookOpen, CheckCircle, FileText, Video, AlertTriangle, 
-  Trophy, Users, Key, LogOut, Settings, Bot, Wallet, Bell, Activity, Map, 
-  Library, MessageSquare, ChevronRight, ChevronLeft, Menu, X, Swords, BellRing,
-  Star, UserMinus, Lightbulb, CreditCard, GraduationCap
+import { useState, useEffect, type ElementType } from "react";
+import {
+  LayoutDashboard,
+  BookOpen,
+  CheckCircle,
+  FileText,
+  Video,
+  AlertTriangle,
+  Trophy,
+  Users,
+  Key,
+  LogOut,
+  Settings,
+  Bot,
+  Wallet,
+  Bell,
+  Activity,
+  Map,
+  Library,
+  MessageSquare,
+  ChevronRight,
+  ChevronLeft,
+  X,
+  Swords,
+  BellRing,
+  Star,
+  UserMinus,
+  Lightbulb,
+  CreditCard,
+  GraduationCap,
+  UserCircle,
+  Sprout,
+  Layers,
+  Target,
 } from "lucide-react";
+import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { Role } from "@/generated/prisma";
 import { getUserSessionProfile } from "@/actions/user";
 import { logoutUser } from "@/actions/auth";
-import { DailyTip } from "@/components/student/DailyTip";
 
-const STUDENT_LINKS = [
-  { name: "الرئيسية", href: "/dashboard/student", icon: LayoutDashboard, activeBg: "bg-sky-50 dark:bg-slate-950/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
-  { name: "طلب بطاقة الاشتراك", href: "/dashboard/student/subscription-request", icon: CreditCard, activeBg: "bg-orange-50 dark:bg-orange-950/30", activeText: "text-orange-700 dark:text-orange-400", iconColor: "text-orange-600 dark:text-orange-400" },
-  { name: "موادي", href: "/dashboard/student/subjects", icon: BookOpen, activeBg: "bg-blue-50 dark:bg-blue-900/30", activeText: "text-blue-700 dark:text-blue-400", iconColor: "text-blue-600 dark:text-blue-400" },
-  { name: "خريطتي الذكية", href: "/dashboard/student/roadmap", icon: Map, activeBg: "bg-blue-50 dark:bg-blue-900/30", activeText: "text-blue-700 dark:text-blue-400", iconColor: "text-blue-600 dark:text-blue-400" },
-  { name: "دردشة القسم", href: "/dashboard/student/forums", icon: MessageSquare, activeBg: "bg-sky-50 dark:bg-sky-900/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
-  { name: "بطاقات المراجعة", href: "/dashboard/student/review-cards", icon: Library, activeBg: "bg-sky-50 dark:bg-sky-900/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
-  { name: "تماريني اليومية", href: "/dashboard/student/exercises", icon: CheckCircle, activeBg: "bg-sky-50 dark:bg-sky-900/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
-  { name: "إختبارات وفروض", href: "/dashboard/student/exams", icon: FileText, activeBg: "bg-cyan-50 dark:bg-cyan-900/30", activeText: "text-cyan-700 dark:text-cyan-400", iconColor: "text-cyan-600 dark:text-cyan-400" },
-  { name: "مساعدي الذكي", href: "/dashboard/student/ai-assistant", icon: Bot, activeBg: "bg-violet-50 dark:bg-violet-900/30", activeText: "text-violet-700 dark:text-violet-400", iconColor: "text-violet-600 dark:text-violet-400" },
-  { name: "إشعاراتي", href: "/dashboard/student/notifications", icon: Bell, activeBg: "bg-amber-50 dark:bg-amber-900/30", activeText: "text-amber-700 dark:text-amber-400", iconColor: "text-amber-600 dark:text-amber-400" },
-  { name: "أخطائي", href: "/dashboard/student/mistakes", icon: AlertTriangle, activeBg: "bg-amber-50 dark:bg-amber-900/30", activeText: "text-amber-700 dark:text-amber-400", iconColor: "text-amber-600 dark:text-amber-400" },
-  { name: "حصص مباشرة", href: "/dashboard/student/live-classes", icon: Video, activeBg: "bg-sky-50 dark:bg-sky-900/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
-  { name: "الترتيب والنقاط", href: "/dashboard/student/leaderboard", icon: Trophy, activeBg: "bg-amber-50 dark:bg-amber-900/30", activeText: "text-amber-700 dark:text-amber-400", iconColor: "text-amber-600 dark:text-amber-400" },
-  { name: "منافسة صديق", href: "/dashboard/student/friend-challenge", icon: Swords, activeBg: "bg-amber-50 dark:bg-amber-900/30", activeText: "text-amber-700 dark:text-amber-400", iconColor: "text-amber-600 dark:text-amber-400" },
-  { name: "100 نصيحة للتفوق", href: "/dashboard/student/tips", icon: Lightbulb, activeBg: "bg-amber-50 dark:bg-amber-900/30", activeText: "text-amber-700 dark:text-amber-400", iconColor: "text-amber-600 dark:text-amber-400" },
-  { name: "الإعدادات", href: "/dashboard/student/settings", icon: Settings, activeBg: "bg-slate-100 dark:bg-slate-800", activeText: "text-slate-900 dark:text-white", iconColor: "text-slate-600 dark:text-slate-400" },
+const STUDENT_LINKS: { name: string; href: string; icon: ElementType }[] = [
+  { name: "الرئيسية", href: "/dashboard/student", icon: LayoutDashboard },
+  { name: "لوحة الحصيلة الدراسية", href: "/dashboard/student/analytics", icon: Activity },
+  { name: "طلب بطاقة الاشتراك", href: "/dashboard/student/subscription-request", icon: CreditCard },
+  { name: "موادي", href: "/dashboard/student/subjects", icon: BookOpen },
+  { name: "خريطتي الذكية", href: "/dashboard/student/roadmap", icon: Map },
+  { name: "دردشة القسم", href: "/dashboard/student/forums", icon: MessageSquare },
+  { name: "بطاقات المراجعة", href: "/dashboard/student/review-cards", icon: Library },
+  { name: "بطاقات الحفظ السريع", href: "/dashboard/student/flashcards", icon: Layers },
+  { name: "تحدي اليوم", href: "/dashboard/student/quest", icon: Target },
+  { name: "تماريني اليومية", href: "/dashboard/student/exercises", icon: CheckCircle },
+  { name: "إختبارات وفروض", href: "/dashboard/student/exams", icon: FileText },
+  { name: "مساعدي الذكي", href: "/dashboard/student/ai-assistant", icon: Bot },
+  { name: "إشعاراتي", href: "/dashboard/student/notifications", icon: Bell },
+  { name: "أخطائي", href: "/dashboard/student/mistakes", icon: AlertTriangle },
+  { name: "حصص مباشرة", href: "/dashboard/student/live-classes", icon: Video },
+  { name: "الترتيب والنقاط", href: "/dashboard/student/leaderboard", icon: Trophy },
+  { name: "منافسة صديق", href: "/dashboard/student/friend-challenge", icon: Swords },
+  { name: "100 نصيحة للتفوق", href: "/dashboard/student/tips", icon: Lightbulb },
+  { name: "ملفي", href: "/dashboard/student/profile", icon: UserCircle },
+  { name: "الإعدادات", href: "/dashboard/student/settings", icon: Settings },
 ];
 
-const ADMIN_LINKS = [
+const ADMIN_LINKS: { name: string; href: string; icon: ElementType }[] = [
   { name: "الرئيسية", href: "/dashboard/admin", icon: LayoutDashboard },
   { name: "الأساتذة", href: "/dashboard/admin/teachers", icon: Users },
   { name: "التلاميذ والأولياء", href: "/dashboard/admin/students", icon: GraduationCap },
@@ -41,40 +73,43 @@ const ADMIN_LINKS = [
   { name: "المواد", href: "/dashboard/admin/subjects", icon: BookOpen },
   { name: "الدروس", href: "/dashboard/admin/lessons", icon: FileText },
   { name: "رموز الدخول", href: "/dashboard/admin/codes", icon: Key },
-  { name: "طلبات الاشتراك", href: "/dashboard/admin/subscription-requests", icon: CreditCard, activeBg: "bg-emerald-50 dark:bg-emerald-900/30", activeText: "text-emerald-700 dark:text-emerald-400", iconColor: "text-emerald-600 dark:text-emerald-400" },
+  { name: "طلبات الاشتراك", href: "/dashboard/admin/subscription-requests", icon: CreditCard },
   { name: "دردشة القسم", href: "/dashboard/admin/forums", icon: MessageSquare },
   { name: "رسائل الأولياء", href: "/dashboard/admin/parent-messages", icon: MessageSquare },
+  { name: "آراء التلاميذ حول الدروس", href: "/dashboard/admin/lesson-opinions", icon: Star },
   { name: "تمارين يومية", href: "/dashboard/admin/exercises", icon: CheckCircle },
+  { name: "توليد بنك الحفظ والتمارين", href: "/dashboard/admin/seed-content", icon: Sprout },
   { name: "الإختبارات والفروض", href: "/dashboard/admin/exams", icon: FileText },
   { name: "بطاقات المراجعة", href: "/dashboard/admin/review-cards", icon: Library },
   { name: "أخطاء تلاميذي", href: "/dashboard/admin/mistakes", icon: AlertTriangle },
   { name: "مراقبة التلاميذ", href: "/dashboard/admin/students/monitoring", icon: Activity },
-  { name: "تنبيهاتي", href: "/dashboard/admin/tenebati", icon: BellRing, activeBg: "bg-amber-50 dark:bg-red-900/30", activeText: "text-amber-700 dark:text-red-400", iconColor: "text-amber-600 dark:text-red-400" },
+  { name: "تنبيهاتي", href: "/dashboard/admin/tenebati", icon: BellRing },
   { name: "إرسال إشعار", href: "/dashboard/admin/notifications", icon: Bell },
   { name: "حصص مباشرة", href: "/dashboard/admin/live-classes", icon: Video },
   { name: "الترتيب والنقاط", href: "/dashboard/admin/leaderboard", icon: Trophy },
 ];
 
-const TEACHER_LINKS = [
+const TEACHER_LINKS: { name: string; href: string; icon: ElementType }[] = [
   { name: "الرئيسية", href: "/dashboard/teacher", icon: LayoutDashboard },
   { name: "حصص مباشرة", href: "/dashboard/teacher/live-classes", icon: Video },
 ];
 
-const PARENT_LINKS = [
-  { name: "معلومات أبنائي", href: "/dashboard/parent", icon: Users, activeBg: "bg-sky-50 dark:bg-slate-950/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
-  { name: "تقدم أبنائي", href: "/dashboard/parent/progress", icon: Activity, activeBg: "bg-sky-50 dark:bg-slate-950/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
-  { name: "النقاط والتقييمات", href: "/dashboard/parent/grades", icon: Star, activeBg: "bg-sky-50 dark:bg-slate-950/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
-  { name: "غيابات أبنائي", href: "/dashboard/parent/absences", icon: UserMinus, activeBg: "bg-sky-50 dark:bg-slate-950/30", activeText: "text-sky-700 dark:text-sky-400", iconColor: "text-sky-600 dark:text-sky-400" },
+const PARENT_LINKS: { name: string; href: string; icon: ElementType }[] = [
+  { name: "معلومات أبنائي", href: "/dashboard/parent", icon: Users },
+  { name: "متابعة الولي", href: "/dashboard/parent/analytics", icon: Activity },
+  { name: "تقدم أبنائي", href: "/dashboard/parent/progress", icon: Activity },
+  { name: "النقاط والتقييمات", href: "/dashboard/parent/grades", icon: Star },
+  { name: "غيابات أبنائي", href: "/dashboard/parent/absences", icon: UserMinus },
 ];
 
-export function Sidebar({ 
-  role, 
-  isMobileOpen, 
+export function Sidebar({
+  role,
+  isMobileOpen,
   onMobileClose,
   isCollapsed,
-  onToggleCollapse
-}: { 
-  role: Role; 
+  onToggleCollapse,
+}: {
+  role: Role;
   isMobileOpen: boolean;
   onMobileClose: () => void;
   isCollapsed: boolean;
@@ -88,75 +123,81 @@ export function Sidebar({
     async function fetchProfile() {
       setIsLoadingProfile(true);
       const data = await getUserSessionProfile();
-      if (data) {
-        setUserData(data);
-      }
+      if (data) setUserData(data);
       setIsLoadingProfile(false);
     }
     fetchProfile();
   }, []);
 
-  const links = role === "ADMIN" ? ADMIN_LINKS : role === "TEACHER" ? TEACHER_LINKS : role === "PARENT" ? PARENT_LINKS : STUDENT_LINKS;
-  const roleName = role === "ADMIN" ? "المدير" : role === "TEACHER" ? "أستاذ" : role === "PARENT" ? "الولي" : "تلميذ";
+  const links =
+    role === "ADMIN"
+      ? ADMIN_LINKS
+      : role === "TEACHER"
+        ? TEACHER_LINKS
+        : role === "PARENT"
+          ? PARENT_LINKS
+          : STUDENT_LINKS;
 
   const getRoleLabel = (r?: Role) => {
     switch (r) {
-      case "ADMIN": return "المدير";
-      case "TEACHER": return "أستاذ";
-      case "PARENT": return "الولي";
-      case "STUDENT": return "تلميذ";
-      default: return "";
+      case "ADMIN":
+        return "المدير";
+      case "TEACHER":
+        return "أستاذ";
+      case "PARENT":
+        return "الولي";
+      case "STUDENT":
+        return "تلميذ";
+      default:
+        return "";
     }
   };
 
   return (
     <>
-      {/* Mobile Overlay */}
       {isMobileOpen && (
-        <div 
-          className="fixed inset-0 z-[99] bg-black/50 md:hidden transition-all duration-300"
-          onClick={onMobileClose}
-        />
+        <div className="fixed inset-0 z-[99] bg-black/50 transition-all duration-300 md:hidden" onClick={onMobileClose} />
       )}
 
-      {/* Sidebar Container */}
-      <aside 
+      <aside
         style={{ fontFamily: '"IBM Plex Sans Arabic", sans-serif' }}
-        className={`fixed inset-y-0 right-0 z-[100] flex flex-col h-screen bg-[#f8f9fa] dark:bg-slate-950 border-l border-purple-100 dark:border-slate-800 shadow-2xl transition-all duration-300 ease-in-out w-[80%] max-w-sm
-          ${isMobileOpen ? 'translate-x-0' : 'translate-x-full md:translate-x-0'} 
-          ${isCollapsed ? 'md:w-20' : 'md:w-64'}
-        `}
+        className={`fixed inset-y-0 right-0 z-[100] flex h-dvh w-[min(80%,24rem)] max-w-sm flex-col bg-[#6D28D9] pt-[env(safe-area-inset-top)] pb-[env(safe-area-inset-bottom)] shadow-2xl transition-all duration-300 ease-in-out ${
+          isMobileOpen ? "translate-x-0" : "translate-x-full md:translate-x-0"
+        } ${isCollapsed ? "md:w-20" : "md:w-64"}`}
       >
-        {/* Header & Toggle */}
-        <div className="p-4 border-b border-slate-100 flex items-center justify-between min-h-[72px]">
-          {!isCollapsed && (
-            <div className="flex-1 text-center md:text-right">
-              <h2 className="text-xl font-black text-slate-900 dark:text-white leading-tight">منصة دقيش التعليمية</h2>
-              <p className="text-[11px] font-bold text-slate-400 dark:text-slate-300 mt-0.5">منصة وطنية للتعليم الجزائري</p>
-            </div>
-          )}
-          
-          <button 
+        <div className="flex min-h-[72px] items-center justify-between border-b border-white/10 p-4">
+          <div className={`flex-1 text-center md:text-right ${isCollapsed ? "md:hidden" : ""}`}>
+            <h2 className="text-lg font-black leading-tight text-white sm:text-xl">
+              منصة دقيش التعليمية
+            </h2>
+            <p className="mt-0.5 text-[11px] font-bold text-white/60">
+              منصة وطنية للتعليم الجزائري
+            </p>
+          </div>
+
+          <button
             onClick={onToggleCollapse}
-            className={`hidden md:flex items-center justify-center w-8 h-8 rounded-lg text-slate-400 hover:bg-slate-100 hover:text-slate-700 transition-colors ${isCollapsed ? 'mx-auto' : ''}`}
+            className={`hidden h-8 w-8 items-center justify-center rounded-full text-white/70 transition hover:bg-white/10 hover:text-white md:flex ${isCollapsed ? "mx-auto" : ""}`}
             title={isCollapsed ? "توسيع القائمة" : "تصغير القائمة"}
           >
-            {isCollapsed ? <ChevronLeft className="w-5 h-5" /> : <ChevronRight className="w-5 h-5" />}
+            {isCollapsed ? <ChevronLeft className="h-5 w-5" /> : <ChevronRight className="h-5 w-5" />}
           </button>
 
-          {/* Mobile Close Button */}
-          <button 
-            onClick={onMobileClose}
-            className="md:hidden p-2 text-slate-400 hover:bg-slate-100 rounded-lg"
-          >
-            <X className="w-5 h-5" />
+          <button onClick={onMobileClose} className="rounded-full p-2 text-white/80 hover:bg-white/10 md:hidden">
+            <X className="h-5 w-5" />
           </button>
         </div>
-        
-        {/* Navigation Links */}
-        <div className="flex-1 overflow-y-auto overflow-x-hidden py-4 px-3 space-y-1">
+
+        <div className="flex-1 space-y-1 overflow-x-hidden overflow-y-auto px-3 py-4">
           {links.map((link) => {
-            const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
+            const isRootLink =
+              link.href === "/dashboard/student" ||
+              link.href === "/dashboard/admin" ||
+              link.href === "/dashboard/teacher" ||
+              link.href === "/dashboard/parent";
+            const isActive = isRootLink
+              ? pathname === link.href
+              : pathname === link.href || pathname.startsWith(`${link.href}/`);
             const Icon = link.icon;
             return (
               <Link
@@ -164,68 +205,70 @@ export function Sidebar({
                 href={link.href}
                 title={isCollapsed ? link.name : ""}
                 onClick={onMobileClose}
-                className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all font-bold text-sm overflow-hidden ${
-                  isActive 
-                    ? ((link as any).activeBg || "bg-sky-50 dark:bg-slate-950/30") + " " + ((link as any).activeText || "text-sky-700 dark:text-amber-400") + " shadow-sm shadow-sky-100/50 dark:shadow-none"
-                    : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white"
-                } ${isCollapsed ? 'justify-center' : 'justify-start'}`}
+                className={`flex items-center justify-start gap-3 overflow-hidden rounded-full px-3 py-2.5 text-sm font-bold transition-all ${
+                  isActive ? "bg-white text-[#6D28D9]" : "text-white/80 hover:bg-white/10 hover:text-white"
+                } ${isCollapsed ? "md:justify-center" : ""}`}
               >
-                <Icon className={`w-5 h-5 shrink-0 transition-colors ${(link as any).iconColor || "text-sky-600 dark:text-amber-400"}`} />
-                {!isCollapsed && <span className="whitespace-nowrap">{link.name}</span>}
+                <Icon className="h-5 w-5 shrink-0" />
+                <span className={`whitespace-nowrap ${isCollapsed ? "md:hidden" : ""}`}>{link.name}</span>
               </Link>
             );
           })}
         </div>
 
-        {/* Dynamic Profile Section */}
-        <div className="p-4 border-t border-slate-100">
-          
+        <div className="border-t border-white/10 p-4">
           {isLoadingProfile ? (
-            <div className={`flex items-center gap-3 mb-4 ${isCollapsed ? 'justify-center px-0' : 'px-2'}`}>
-              <div className="w-10 h-10 rounded-full bg-slate-100 animate-pulse shrink-0" />
-              {!isCollapsed && (
-                <div className="flex-1 space-y-2 overflow-hidden">
-                  <div className="h-4 bg-slate-100 rounded animate-pulse w-3/4" />
-                  <div className="h-3 bg-slate-100 rounded animate-pulse w-1/2" />
-                </div>
-              )}
+            <div className={`mb-4 flex items-center gap-3 px-2 ${isCollapsed ? "md:justify-center md:px-0" : ""}`}>
+              <div className="h-10 w-10 shrink-0 animate-pulse rounded-full bg-white/20" />
+              <div className={`flex-1 space-y-2 overflow-hidden ${isCollapsed ? "md:hidden" : ""}`}>
+                <div className="h-4 w-3/4 animate-pulse rounded bg-white/20" />
+                <div className="h-3 w-1/2 animate-pulse rounded bg-white/15" />
+              </div>
             </div>
           ) : userData ? (
-            <div className={`flex items-center gap-3 mb-4 ${isCollapsed ? 'justify-center px-0' : 'px-2'}`}>
+            <Link
+              href={userData.role === "STUDENT" ? "/dashboard/student/profile" : "#"}
+              className={`mb-4 flex items-center gap-3 px-2 ${isCollapsed ? "md:justify-center md:px-0" : ""}`}
+            >
               {userData.avatarUrl ? (
-                <img 
-                  src={userData.avatarUrl} 
+                <img
+                  src={userData.avatarUrl}
                   alt={userData.fullName}
-                  className="w-10 h-10 rounded-full object-cover shrink-0 border border-slate-100"
+                  className="h-10 w-10 shrink-0 rounded-full border border-white/30 object-cover"
                   title={isCollapsed ? userData.fullName : ""}
                 />
               ) : (
-                <div 
-                  className="w-10 h-10 rounded-full bg-sky-100 flex items-center justify-center text-sky-700 font-black shrink-0"
+                <div
+                  className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-white text-sm font-black text-[#6D28D9]"
                   title={isCollapsed ? userData.fullName : ""}
                 >
                   {userData.fullName.charAt(0)}
                 </div>
               )}
-              {!isCollapsed && (
-                <div className="overflow-hidden text-right flex-1">
-                  <p className="text-sm font-bold text-slate-900 truncate">{userData.fullName}</p>
-                  <p className="text-[11px] font-bold text-slate-400 truncate">{getRoleLabel(userData.role)}</p>
-                </div>
-              )}
-            </div>
+              <div className={`flex-1 overflow-hidden text-right ${isCollapsed ? "md:hidden" : ""}`}>
+                <p className="truncate text-sm font-bold text-white">{userData.fullName}</p>
+                <p className="truncate text-[11px] font-bold text-white/55">
+                  {userData.role === "STUDENT" ? "ملفي الشخصي" : getRoleLabel(userData.role)}
+                </p>
+              </div>
+            </Link>
           ) : null}
-          
+
+          <div className={`mb-2 ${isCollapsed ? "flex justify-center" : ""}`}>
+            <ThemeToggle compact />
+          </div>
+
           <form action={logoutUser}>
-            <button 
+            <button
               title={isCollapsed ? "تسجيل الخروج" : ""}
-              className={`w-full flex items-center gap-3 py-2.5 rounded-xl text-amber-600 hover:bg-amber-50 transition-all font-bold text-sm overflow-hidden ${isCollapsed ? 'justify-center px-0' : 'px-3 justify-start'}`}
+              className={`flex w-full items-center justify-start gap-3 overflow-hidden rounded-full px-3 py-2.5 text-sm font-bold text-white transition hover:bg-white/10 ${
+                isCollapsed ? "md:justify-center md:px-0" : ""
+              }`}
             >
-              <LogOut className="w-5 h-5 text-amber-500 shrink-0" />
-              {!isCollapsed && <span className="whitespace-nowrap">تسجيل الخروج</span>}
+              <LogOut className="h-5 w-5 shrink-0" />
+              <span className={`whitespace-nowrap ${isCollapsed ? "md:hidden" : ""}`}>تسجيل الخروج</span>
             </button>
           </form>
-
         </div>
       </aside>
     </>

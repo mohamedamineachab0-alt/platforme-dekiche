@@ -39,23 +39,23 @@ export function UniversalFileViewer({ title, fileUrl, fileType, variant = "defau
 
   if (variant === "compact") {
     return (
-      <div className="flex items-center justify-between p-3 bg-white/80 dark:bg-zinc-900/80 border border-slate-200 dark:border-slate-700/50 rounded-xl hover:bg-slate-50 dark:hover:bg-zinc-800 transition-all shadow-sm group">
-        <div className="flex items-center gap-3 min-w-0">
-          <div className="p-2 bg-slate-100 dark:bg-zinc-800 rounded-lg shrink-0">
+      <div className="flex items-center justify-between gap-2 p-2.5 sm:p-3 bg-[#F7F5FF] border border-[#EDE9FE] rounded-xl hover:bg-white transition-all min-w-0">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <div className="p-1.5 sm:p-2 bg-white rounded-lg shrink-0 border border-[#EDE9FE]">
             {renderIcon(true)}
           </div>
-          <div className="flex flex-col min-w-0 pr-1">
-            <h4 className="font-bold text-sm text-slate-800 dark:text-slate-200 truncate" dir="rtl">{title}</h4>
-            <p className="text-[10px] text-slate-500 uppercase mt-0.5">{isImage ? 'IMAGE' : isPdf ? 'PDF' : 'DOCUMENT'}</p>
+          <div className="flex flex-col min-w-0">
+            <h4 className="font-bold text-xs sm:text-sm text-[#1E1B4B] truncate" dir="rtl">{title}</h4>
+            <p className="text-[10px] text-[#6B6480] uppercase mt-0.5">{isImage ? 'IMAGE' : isPdf ? 'PDF' : 'DOCUMENT'}</p>
           </div>
         </div>
-        <div className="flex items-center gap-1 shrink-0 pl-1">
+        <div className="flex items-center gap-0.5 shrink-0">
            {isViewable && (
-             <Link href={`/dashboard/student/viewer?url=${encodeURIComponent(fileUrl)}&title=${encodeURIComponent(title)}`} className="p-2 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-50 dark:hover:bg-emerald-500/10 rounded-lg transition-colors">
+             <Link href={`/dashboard/student/viewer?url=${encodeURIComponent(fileUrl)}&title=${encodeURIComponent(title)}`} className="p-2 text-[#6D28D9] hover:bg-[#EEF1FF] rounded-lg transition-colors">
                <Eye className="w-4 h-4" />
              </Link>
            )}
-           <a href={fileUrl} download={title} target="_blank" rel="noopener noreferrer" className="p-2 text-sky-600 dark:text-sky-400 hover:bg-sky-50 dark:hover:bg-sky-500/10 rounded-lg transition-colors">
+           <a href={fileUrl} download={title} target="_blank" rel="noopener noreferrer" className="p-2 text-[#6D28D9] hover:bg-[#EEF1FF] rounded-lg transition-colors">
              <Download className="w-4 h-4" />
            </a>
         </div>

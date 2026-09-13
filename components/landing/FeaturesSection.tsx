@@ -1,86 +1,145 @@
-import { Video, CheckCircle, Map, AlertTriangle, BellRing, Trophy } from "lucide-react";
+"use client";
 
-export function FeaturesSection() {
-  const features = [
-    {
-      title: "دروس مرئية عميقة ومفصلة",
-      desc: "في جميع المواد العلمية والأدبية والتقنية مع إمكانية متابعة نسبة الإنجاز والدروس غير المشاهدة",
-      icon: Video,
-      color: "bg-sky-600 text-white shadow-sky-200 dark:shadow-sky-900/20 border-sky-500",
-      iconBg: "bg-white/20 text-white"
-    },
-    {
-      title: "تمارين يومية واختبارات تفاعلية",
-      desc: "وكويزات ذكية مدعومة بنظام التصحيح الفوري والتقييم الدقيق للمستوى",
-      icon: CheckCircle,
-      color: "bg-sky-600 text-white shadow-sky-200 dark:shadow-sky-900/20 border-sky-500",
-      iconBg: "bg-white/20 text-white"
-    },
-    {
-      title: "خرائط ذهنية بصرية ومنظمة",
-      desc: "لتفكيك الدروس الصعبة وقوانين الرياضيات والفيزياء والعلوم لتسهيل الحفظ السريع",
-      icon: Map,
-      color: "bg-blue-600 text-white shadow-blue-200 dark:shadow-blue-900/20 border-blue-500",
-      iconBg: "bg-white/20 text-white"
-    },
-    {
-      title: "بنك الأخطاء الشخصي",
-      desc: "يتتبع أخطاء التلميذ في التمارين والكويزات ويوجه لمراجعتها بدقة لعدم تكرارها",
-      icon: AlertTriangle,
-      color: "bg-amber-600 text-white shadow-amber-200 dark:shadow-amber-900/20 border-amber-500",
-      iconBg: "bg-white/20 text-white"
-    },
-    {
-      title: "نظام تنبيهاتي الذكي",
-      desc: "لمراقبة جاهزية الحساب والتنبيه عند وجود نقص في المتابعة أو غياب ربط الحساب بولي الأمر",
-      icon: BellRing,
-      color: "bg-sky-500 text-white shadow-sky-200 dark:shadow-sky-900/20 border-sky-400",
-      iconBg: "bg-white/20 text-white"
-    },
-    {
-      title: "لوحة شرف ومنافسة مع الأصدقاء",
-      desc: "عبر مشاركة رمز المنافسة الخاص لرفع الحماس وتحقيق أعلى النقاط",
-      icon: Trophy,
-      color: "bg-amber-500 text-white shadow-amber-200 dark:shadow-amber-900/20 border-amber-400",
-      iconBg: "bg-white/20 text-white"
-    }
-  ];
+import Link from "next/link";
+import { Reveal } from "@/components/landing/Reveal";
 
+const FEATURES = [
+  {
+    title: "ادرس في وقتك",
+    desc: "تفرّج الدروس وحل التمارين في الوقت اللي يناسبك، من البيت أو أي مكان.",
+    icon: ClockIcon,
+    filled: false,
+  },
+  {
+    title: "درس، خريطة، وملخص",
+    desc: "كل درس فيه شرح مصوّر، خريطة ذهنية، وملخص جاهز للمراجعة قبل الامتحان.",
+    icon: LayersIcon,
+    filled: true,
+  },
+  {
+    title: "تمارين واختبارات",
+    desc: "حل التمرين بعد كل درس، واختبر مستواك بالفروض قبل موعد الامتحان.",
+    icon: QuizIcon,
+    filled: false,
+  },
+  {
+    title: "مسار واضح لكل مادة",
+    desc: "لا تتوه بين المصادر. المادة مرتّبة من الدرس إلى المراجعة في مكان واحد.",
+    icon: PathIcon,
+    filled: true,
+  },
+  {
+    title: "حصص مباشرة",
+    desc: "ادخل الحصة مع الأستاذ، واطرح أسئلتك قبل الفرض أو الاختبار.",
+    icon: LiveIcon,
+    filled: false,
+  },
+  {
+    title: "متابعة وليّ الأمر",
+    desc: "لوحة للوليّ يتابع فيها تقدم الابن، النقاط، وما يحتاج مراجعة.",
+    icon: ParentIcon,
+    filled: true,
+  },
+];
+
+export function FeaturesSection({ isAuthenticated }: { isAuthenticated: boolean }) {
   return (
-    <section className="py-24 border-b border-slate-200/50 dark:border-slate-800/50 relative overflow-hidden">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4">
-            ميزات استثنائية مصممة خصيصا لتلاميذ الثانوي
-          </h2>
-          <p className="text-lg text-slate-600 dark:text-slate-400 font-bold max-w-2xl mx-auto">
-            منظومة متكاملة تضمن لك التفوق الساحق في الامتحانات الفصلية وشهادة البكالوريا
+    <section id="features" className="scroll-mt-28 px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+      <div className="mx-auto max-w-6xl">
+        <Reveal>
+          <p className="mb-3 text-sm font-black text-[#6D28D9]">لماذا منصة دقيش؟</p>
+          <h2 className="max-w-xl text-3xl font-black text-[#1E1B4B] sm:text-5xl">دراسة منظّمة من البيت</h2>
+          <p className="mt-4 max-w-2xl text-base font-medium leading-relaxed text-[#6B6480] sm:text-lg">
+            عام الدراسة يحتاج متابعة وطريق واضح. المنصة تجمع الدرس، الخريطة الذهنية، الملخص، والتمرين في مكان واحد.
           </p>
-        </div>
+        </Reveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feat, idx) => {
-            const Icon = feat.icon;
+        <div className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {FEATURES.map((feature, index) => {
+            const Icon = feature.icon;
             return (
-              <div 
-                key={idx}
-                className={`group relative rounded-3xl p-8 border shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-2 overflow-hidden ${feat.color}`}
-              >
-                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-                <div className={`relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110 ${feat.iconBg}`}>
-                  <Icon className="w-8 h-8" />
-                </div>
-                <h3 className="relative z-10 text-xl font-black text-white mb-3">
-                  {feat.title}
-                </h3>
-                <p className="relative z-10 text-white/90 font-bold leading-relaxed">
-                  {feat.desc}
-                </p>
-              </div>
+              <Reveal key={feature.title} delay={Math.min(index * 70, 280)}>
+                <Link
+                  href={isAuthenticated ? "/dashboard/student" : "/register"}
+                  className={`block h-full rounded-[32px] p-6 ${
+                    feature.filled
+                      ? "bg-[#6D28D9] text-white shadow-[0_16px_40px_rgba(109,40,217,0.22)]"
+                      : "bg-white text-[#1E1B4B] shadow-[0_12px_36px_rgba(30,27,75,0.06)]"
+                  }`}
+                >
+                  <span
+                    className={`mb-5 flex h-12 w-12 items-center justify-center rounded-full ${
+                      feature.filled ? "bg-white/15 text-white" : "bg-[#F3EFFF] text-[#6D28D9]"
+                    }`}
+                  >
+                    <Icon />
+                  </span>
+                  <h3 className="text-xl font-black">{feature.title}</h3>
+                  <p className={`mt-2 text-sm font-medium leading-relaxed ${feature.filled ? "text-white/80" : "text-[#6B6480]"}`}>
+                    {feature.desc}
+                  </p>
+                </Link>
+              </Reveal>
             );
           })}
         </div>
       </div>
     </section>
+  );
+}
+
+function ClockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden>
+      <circle cx="12" cy="12" r="8" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M12 8v5l3 2" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function LayersIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden>
+      <path d="M4 8l8-4 8 4-8 4-8-4z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+      <path d="M4 12l8 4 8-4M4 16l8 4 8-4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function QuizIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden>
+      <rect x="6" y="4" width="12" height="16" rx="2.5" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M9 9h6M9 13h4M9 17l2 1.5 3-3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function PathIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden>
+      <path d="M6 18c2-6 10-6 12-12" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+      <circle cx="18" cy="6" r="2.2" fill="currentColor" />
+      <circle cx="6" cy="18" r="2.2" fill="currentColor" />
+    </svg>
+  );
+}
+
+function LiveIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden>
+      <rect x="3" y="7" width="12" height="10" rx="2" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M15 10l6-3v10l-6-3v-4z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function ParentIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-6 w-6" fill="none" aria-hidden>
+      <circle cx="9" cy="8" r="2.6" stroke="currentColor" strokeWidth="1.8" />
+      <circle cx="16" cy="9" r="2.2" stroke="currentColor" strokeWidth="1.8" />
+      <path d="M4.5 18c.8-3 2.6-4.5 4.5-4.5s3.7 1.5 4.5 4.5M13 18c.5-2 1.7-3 3-3s2.4 1 3 3" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+    </svg>
   );
 }

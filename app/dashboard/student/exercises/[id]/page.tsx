@@ -1,6 +1,6 @@
-import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import { assertAuth } from "@/lib/security";
 import { ChevronLeft, Download, FileText, CheckCircle2, UploadCloud } from "lucide-react";
 import { UniversalFileViewer } from "@/components/shared/UniversalFileViewer";
 import Link from "next/link";
@@ -11,11 +11,7 @@ export default async function ExerciseStudyViewPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
-
-  if (!sessionId) redirect("/login");
+  await assertAuth({ requireRole: "STUDENT" });
 
   const exercise = await prisma.dailyExercise.findUnique({
     where: { id },
@@ -34,7 +30,7 @@ export default async function ExerciseStudyViewPage({
       <div className="flex items-center justify-between">
         <Link 
           href="/dashboard/student/exercises" 
-          className="inline-flex items-center gap-2 text-slate-500 hover:text-sky-700 font-bold transition-colors"
+          className="inline-flex items-center gap-2 text-slate-500 hover:text-[#5B21B6] font-bold transition-colors"
         >
           <ChevronLeft className="w-5 h-5" />
           العودة إلى التمارين اليومية
@@ -63,7 +59,7 @@ export default async function ExerciseStudyViewPage({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
           
           {/* Right Card (Quiz / Submit) */}
-          <div className="bg-white rounded-3xl p-8 border border-sky-200 shadow-sm hover:shadow-md hover:shadow-sky-500/10 transition-all flex flex-col items-start relative overflow-hidden group">
+          <div className="bg-white rounded-3xl p-8 border border-[#EDE9FE] shadow-sm hover:shadow-md hover:shadow-sky-500/10 transition-all flex flex-col items-start relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-amber-500/10 transition-all"></div>
             
             <div className="w-14 h-14 bg-amber-50 text-amber-600 rounded-2xl flex items-center justify-center mb-6 shrink-0 relative z-10">
@@ -78,12 +74,12 @@ export default async function ExerciseStudyViewPage({
                 {exercise.quiz ? (
                   <Link 
                     href={`/dashboard/student/exercises/${exercise.id}/quiz`}
-                    className="inline-flex w-full items-center justify-center bg-amber-400 hover:bg-amber-500 text-slate-950 font-black py-3.5 rounded-xl font-bold shadow-sm transition-all duration-300"
+                    className="inline-flex w-full items-center justify-center bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-black py-3.5 rounded-xl font-bold shadow-sm transition-all duration-300"
                   >
                     بدء التمرين الآن
                   </Link>
                 ) : (
-                  <button className="flex w-full items-center justify-center gap-2 bg-amber-400 hover:bg-amber-500 text-slate-950 font-black py-3.5 rounded-xl transition-colors shadow-sm">
+                  <button className="flex w-full items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-black py-3.5 rounded-xl transition-colors shadow-sm">
                     <UploadCloud className="w-5 h-5" />
                     إرسال الحل اليدوي
                   </button>
@@ -93,7 +89,7 @@ export default async function ExerciseStudyViewPage({
           </div>
 
           {/* Left Card (Attachments) */}
-          <div className="bg-white rounded-3xl p-8 border border-sky-200 shadow-sm hover:shadow-md transition-all flex flex-col items-start relative overflow-hidden group">
+          <div className="bg-white rounded-3xl p-8 border border-[#EDE9FE] shadow-sm hover:shadow-md transition-all flex flex-col items-start relative overflow-hidden group">
             <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 transition-all"></div>
 
             <div className="w-14 h-14 bg-slate-50 text-slate-600 rounded-2xl flex items-center justify-center mb-6 shrink-0 relative z-10">

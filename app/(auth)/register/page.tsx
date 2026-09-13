@@ -1,41 +1,75 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { Suspense, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { registerUser } from "@/actions/auth";
-import { WILAYAS, LEVELS, STREAMS } from "@/lib/constants";
 import {
-  User, Phone, Lock, MapPin, GraduationCap, BookOpen,
-  Users, Eye, EyeOff, UserPlus, ChevronDown, Loader2, AlertCircle
+  WILAYAS,
+  STUDY_CYCLES,
+  SECONDARY_CYCLE,
+  getCycleByValue,
+} from "@/lib/constants";
+import {
+  User,
+  Phone,
+  MapPin,
+  GraduationCap,
+  BookOpen,
+  Eye,
+  EyeOff,
+  UserPlus,
+  ChevronDown,
+  Loader2,
+  AlertCircle,
 } from "lucide-react";
 import Link from "next/link";
+import { AuthShell } from "@/components/shared/AuthShell";
+
+const fieldClass =
+  "w-full rounded-2xl border border-[#EDE9FE] bg-[#F7F5FF] py-4 pr-12 pl-4 text-lg font-medium text-[#1E1B4B] placeholder:text-[#9B95B3] outline-none transition focus:border-[#6D28D9] focus:bg-white focus:shadow-[0_0_0_4px_rgba(109,40,217,0.14)] focus:ring-0";
 
 function InputField({
-  id, label, name, type = "text", placeholder, icon: Icon, dir,
-  required = true, autoComplete, pattern, title, value, onChange
+  id,
+  label,
+  name,
+  type = "text",
+  placeholder,
+  icon: Icon,
+  dir,
+  required = true,
+  autoComplete,
+  pattern,
+  title,
+  value,
+  onChange,
 }: {
-  id: string; label: string; name: string; type?: string;
-  placeholder: string; icon: React.ElementType; dir?: string;
-  required?: boolean; autoComplete?: string;
-  pattern?: string; title?: string;
-  value: string; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  id: string;
+  label: string;
+  name: string;
+  type?: string;
+  placeholder: string;
+  icon: React.ElementType;
+  dir?: string;
+  required?: boolean;
+  autoComplete?: string;
+  pattern?: string;
+  title?: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
   const [show, setShow] = useState(false);
   const isPassword = type === "password";
 
   return (
-    <div className="flex flex-col gap-1.5 w-full">
-      <label htmlFor={id} className="block text-sm font-bold text-sky-700 dark:text-sky-300">
-        {label} {required && <span className="text-amber-500">*</span>}
+    <div className="space-y-2">
+      <label htmlFor={id} className="block text-base font-bold text-[#1E1B4B]">
+        {label}
+        {required && <span className="text-[#6D28D9]"> *</span>}
       </label>
-      
-      <div className="flex items-center w-full rounded-xl border border-sky-200 dark:border-blue-900 bg-white dark:bg-blue-950 overflow-hidden focus-within:ring-2 focus-within:ring-sky-400 focus-within:border-sky-400 transition-all shadow-sm" dir={dir || "rtl"}>
-        {/* Icon Wrapper - Flex Sibling (No overlap possible) */}
-        <div className="flex items-center justify-center w-12 self-stretch border-e border-sky-100 dark:border-blue-900 bg-slate-50 dark:bg-slate-900/50 text-slate-400">
-          <Icon className="w-5 h-5" />
-        </div>
-        
-        {/* Actual Input */}
+      <div className="relative">
+        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6D28D9]">
+          <Icon className="h-5 w-5" />
+        </span>
         <input
           id={id}
           name={name}
@@ -48,17 +82,15 @@ function InputField({
           dir={dir}
           value={value}
           onChange={onChange}
-          className="flex-1 py-3 px-4 outline-none text-slate-900 dark:text-white font-bold text-base placeholder:text-sky-400/70 bg-transparent w-full"
+          className={`${fieldClass} ${isPassword ? "pl-12" : ""}`}
         />
-
-        {/* Password Toggle */}
         {isPassword && (
           <button
             type="button"
-            onClick={() => setShow(s => !s)}
-            className="flex items-center justify-center w-12 self-stretch text-slate-400 hover:text-slate-600 transition-colors"
+            onClick={() => setShow((s) => !s)}
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9B95B3] transition hover:text-[#1E1B4B]"
           >
-            {show ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+            {show ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
           </button>
         )}
       </div>
@@ -67,42 +99,52 @@ function InputField({
 }
 
 function SelectField({
-  id, label, name, options, icon: Icon, placeholder, value, onChange
+  id,
+  label,
+  name,
+  options,
+  icon: Icon,
+  placeholder,
+  value,
+  onChange,
 }: {
-  id: string; label: string; name: string;
+  id: string;
+  label: string;
+  name: string;
   options: { value: string; label: string }[];
-  icon: React.ElementType; placeholder: string;
-  value: string; onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  icon: React.ElementType;
+  placeholder: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }) {
   return (
-    <div className="flex flex-col gap-1.5 w-full">
-      <label htmlFor={id} className="block text-sm font-bold text-sky-700 dark:text-sky-300">
-        {label} <span className="text-amber-500">*</span>
+    <div className="space-y-2">
+      <label htmlFor={id} className="block text-base font-bold text-[#1E1B4B]">
+        {label}
+        <span className="text-[#6D28D9]"> *</span>
       </label>
-
-      <div className="flex items-center w-full rounded-xl border border-sky-200 dark:border-blue-900 bg-white dark:bg-blue-950 overflow-hidden focus-within:ring-2 focus-within:ring-sky-400 focus-within:border-sky-400 transition-all shadow-sm" dir="rtl">
-        {/* Icon Wrapper */}
-        <div className="flex items-center justify-center w-12 self-stretch border-e border-sky-100 dark:border-blue-900 bg-slate-50 dark:bg-slate-900/50 text-slate-400">
-          <Icon className="w-5 h-5" />
-        </div>
-
-        {/* Select Wrapper */}
-        <div className="relative flex-1 flex items-center">
-          <select
-            id={id}
-            name={name}
-            required
-            value={value}
-            onChange={onChange}
-            className="w-full py-3 ps-4 pe-10 outline-none text-slate-900 dark:text-white font-bold text-base bg-transparent appearance-none cursor-pointer"
-          >
-            <option value="" disabled>{placeholder}</option>
-            {options.map(o => (
-              <option key={o.value} value={o.value}>{o.label}</option>
-            ))}
-          </select>
-          <ChevronDown className="absolute end-3 w-5 h-5 text-slate-400 pointer-events-none" />
-        </div>
+      <div className="relative">
+        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[#6D28D9]">
+          <Icon className="h-5 w-5" />
+        </span>
+        <select
+          id={id}
+          name={name}
+          required
+          value={value}
+          onChange={onChange}
+          className={`${fieldClass} appearance-none pl-10`}
+        >
+          <option value="" disabled>
+            {placeholder}
+          </option>
+          {options.map((o) => (
+            <option key={o.value} value={o.value}>
+              {o.label}
+            </option>
+          ))}
+        </select>
+        <ChevronDown className="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-[#9B95B3]" />
       </div>
     </div>
   );
@@ -111,31 +153,65 @@ function SelectField({
 function ErrorBanner({ message }: { message?: string }) {
   if (!message) return null;
   return (
-    <div className="flex items-start gap-2 bg-amber-50 border border-amber-200 text-amber-700 rounded-xl px-4 py-3 text-sm font-medium mb-5">
-      <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+    <div className="mb-5 flex items-start gap-2 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+      <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
       <span>{message}</span>
     </div>
   );
 }
 
 export default function RegisterPage() {
+  return (
+    <Suspense>
+      <RegisterForm />
+    </Suspense>
+  );
+}
+
+function RegisterForm() {
+  const branding = null;
+  const offering = null;
+  const lockedCycle = SECONDARY_CYCLE;
+
   const [role, setRole] = useState<"STUDENT" | "PARENT">("STUDENT");
   const [error, setError] = useState<string | undefined>();
   const [isPending, startTransition] = useTransition();
-  
+
+  const isSimplifiedIslamic = false;
+
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
     wilaya: "",
+    cycle: "SECONDARY",
     level: "",
-    stream: ""
+    stream: "",
+    understandingLevel: "",
   });
+
+  const selectedCycle = getCycleByValue(formData.cycle) ?? lockedCycle;
+  const cycleLevels = [...selectedCycle.levels];
+  const cycleStreams = [...selectedCycle.streams];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setError(undefined);
-    setFormData(prev => ({
+    const { name, value } = e.target;
+
+    if (name === "cycle") {
+      const cycle = getCycleByValue(value);
+      const autoStream = cycle?.streams.length === 1 ? cycle.streams[0].value : "";
+      setFormData((prev) => ({
+        ...prev,
+        cycle: value,
+        level: "",
+        stream: autoStream,
+      }));
+      return;
+    }
+
+    setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [name]: value,
     }));
   };
 
@@ -143,26 +219,42 @@ export default function RegisterPage() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(undefined);
-    
+
     startTransition(async () => {
       try {
         const data = new FormData(e.currentTarget);
         const res = await registerUser(data);
         if (res?.error) {
           const errorMsg = res.error.toLowerCase();
-          if (errorMsg.includes("already exists") || errorMsg.includes("unique")) {
+          if (
+            errorMsg.includes("already exists") ||
+            errorMsg.includes("unique") ||
+            errorMsg.includes("مسجل مسبقا")
+          ) {
             setError("هذا الحساب موجود بالفعل الرجاء تسجيل الدخول");
-          } else if (errorMsg.includes("phone") || errorMsg.includes("format")) {
+          } else if (
+            errorMsg.includes("صيغة رقم الهاتف") ||
+            errorMsg.includes("invalid phone") ||
+            errorMsg.includes("phone format")
+          ) {
             setError("صيغة رقم الهاتف غير صحيحة");
           } else if (errorMsg.includes("password")) {
             setError("كلمة المرور ضعيفة جدا");
           } else {
-            setError(res.error);
+            const knownMessage = [
+              "جميع الحقول مطلوبة",
+              "الولاية غير صالحة",
+              "المستوى غير صالح",
+              "الفرع غير صالح",
+              "هذا الفرع لا ينتمي للدورة المختارة",
+              "مستوى الفهم غير صالح",
+            ].some((message) => res.error.includes(message));
+            setError(knownMessage ? res.error : "تعذر إنشاء الحساب، حاول مرة أخرى");
           }
         } else if (res?.success && res.redirectUrl) {
           router.push(res.redirectUrl);
         }
-      } catch (err: any) {
+      } catch (err: unknown) {
         console.error("Registration error caught:", err);
         setError(err instanceof Error ? err.message : String(err));
       }
@@ -170,118 +262,209 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#F8F9FA] dark:bg-slate-950 font-arabic flex items-center justify-center p-4 py-12 overflow-hidden selection:bg-sky-200 dark:selection:bg-slate-950/50" dir="rtl">
-      {/* Global Background Math Grid Pattern */}
-      <div className="fixed inset-0 z-0 opacity-[0.03] dark:opacity-10 pointer-events-none" 
-           style={{ backgroundImage: "linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)", backgroundSize: "20px 20px" }}>
-      </div>
-
-      <div className="relative z-10 w-full max-w-2xl">
-
-        {/* Branding */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-black text-blue-950 dark:text-white leading-tight">منصة دقيش التعليمية</h1>
-          <p className="text-sky-600 dark:text-sky-400 font-medium text-sm mt-2">
-            اصنع مستقبلك بثبات نحو القمة
-          </p>
-        </div>
-
-        {/* Card */}
-        <div className="bg-white dark:bg-blue-950 rounded-3xl shadow-xl shadow-sky-200/60 dark:shadow-none border border-sky-100 dark:border-blue-900 overflow-hidden p-6 md:p-8">
-          <div className="mb-8">
-            <h2 className="text-xl font-black text-blue-950 dark:text-white">إنشاء حساب جديد</h2>
-            <p className="text-sky-600 dark:text-sky-400 text-sm font-medium mt-1">أكمل البيانات التالية لتسجيل حسابك</p>
-          </div>
-
-          <div className="flex bg-slate-100 dark:bg-slate-800 p-1.5 rounded-2xl mb-8">
-            <button
-              type="button"
-              onClick={() => { setRole("STUDENT"); setError(undefined); }}
-              className={`flex-1 py-2.5 text-sm font-bold rounded-xl transition-all ${role === "STUDENT" ? "bg-white dark:bg-blue-950 text-sky-700 shadow-sm" : "text-sky-500 hover:text-sky-600 dark:hover:text-sky-400"}`}
-            >
-              حساب تلميذ
-            </button>
-            <button
-              type="button"
-              onClick={() => { setRole("PARENT"); setError(undefined); }}
-              className={`flex-1 py-2.5 text-sm font-bold rounded-xl transition-all ${role === "PARENT" ? "bg-white dark:bg-blue-950 text-sky-700 shadow-sm" : "text-sky-500 hover:text-sky-600 dark:hover:text-sky-400"}`}
-            >
-              حساب ولي
-            </button>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <input type="hidden" name="role" value={role} />
-            
-            {/* HONEYPOT FIELD (ACTIVE DEFENSE) */}
-            <div className="absolute opacity-0 -z-50 pointer-events-none" aria-hidden="true">
-              <label htmlFor="website_url">Website URL (Do not fill this)</label>
-              <input type="text" id="website_url" name="website_url" tabIndex={-1} autoComplete="off" />
+    <AuthShell wide>
+            <div className="mb-8">
+              <h2 className="text-3xl font-black text-[#1E1B4B] sm:text-4xl">
+                {offering?.title ?? branding?.title ?? "إنشاء حساب جديد"}
+              </h2>
+              <p className="mt-2 text-base font-medium text-[#6B6480]">
+                {offering?.hint ?? branding?.hint ?? "أكمل البيانات التالية لتسجيل حساب الدراسة"}
+              </p>
             </div>
 
-            <ErrorBanner message={error} />
+            <div className="mb-8 flex rounded-full bg-[#F7F5FF] p-1.5">
+              <button
+                type="button"
+                onClick={() => {
+                  setRole("STUDENT");
+                  setError(undefined);
+                }}
+                className={`flex-1 rounded-full py-3 text-sm font-bold transition ${
+                  role === "STUDENT"
+                    ? "bg-[#6D28D9] text-white shadow-sm"
+                    : "text-[#6B6480] hover:text-[#1E1B4B]"
+                }`}
+              >
+                حساب تلميذ
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setRole("PARENT");
+                  setError(undefined);
+                }}
+                className={`flex-1 rounded-full py-3 text-sm font-bold transition ${
+                  role === "PARENT"
+                    ? "bg-[#6D28D9] text-white shadow-sm"
+                    : "text-[#6B6480] hover:text-[#1E1B4B]"
+                }`}
+              >
+                حساب ولي
+              </button>
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div className="md:col-span-2">
-                <InputField id="reg-name" label="الاسم الكامل" name="fullName"
-                  placeholder="أدخل الاسم الكامل" icon={User} autoComplete="name" 
-                  value={formData.fullName} onChange={handleInputChange} />
+              <form onSubmit={(e) => {
+                if (role === "STUDENT" && !formData.understandingLevel) {
+                  e.preventDefault();
+                  setError("اختر مستوى فهمك");
+                  return;
+                }
+                handleSubmit(e);
+              }} className="relative space-y-6">
+              <input type="hidden" name="role" value={role} />
+              {platform ? <input type="hidden" name="platform" value={platform} /> : null}
+
+              <div className="pointer-events-none absolute -z-50 opacity-0" aria-hidden="true">
+                <label htmlFor="website_url">Website URL (Do not fill this)</label>
+                <input type="text" id="website_url" name="website_url" tabIndex={-1} autoComplete="off" />
               </div>
-              <div className="md:col-span-2">
-                <InputField id="reg-phone" label="رقم الهاتف" name="phoneNumber" type="tel"
-                  placeholder="05XXXXXXXX" icon={Phone} dir="ltr" autoComplete="tel" 
-                  pattern="^0[567][0-9]{8}$" title="يجب أن يتكون رقم الهاتف من 10 أرقام ويبدأ بـ 05، 06، أو 07"
-                  value={formData.phoneNumber} onChange={handleInputChange} />
-              </div>
-              
-              {role === "STUDENT" && (
-                <>
-                  <SelectField
-                    id="reg-wilaya" label="الولاية" name="wilaya" icon={MapPin}
-                    placeholder="اختر الولاية"
-                    options={WILAYAS.map(w => ({ value: w.code, label: w.name }))}
-                    value={formData.wilaya} onChange={handleInputChange}
+
+              <ErrorBanner message={error} />
+
+              <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
+                <div className="md:col-span-2">
+                  <InputField
+                    id="reg-name"
+                    label="الاسم الكامل"
+                    name="fullName"
+                    placeholder="أدخل الاسم الكامل"
+                    icon={User}
+                    autoComplete="name"
+                    value={formData.fullName}
+                    onChange={handleInputChange}
                   />
-                  <SelectField
-                    id="reg-level" label="المستوى الدراسي" name="level" icon={GraduationCap}
-                    placeholder="اختر المستوى"
-                    options={LEVELS}
-                    value={formData.level} onChange={handleInputChange}
+                </div>
+                <div className="md:col-span-2">
+                  <InputField
+                    id="reg-phone"
+                    label="رقم الهاتف"
+                    name="phoneNumber"
+                    type="tel"
+                    placeholder="05XXXXXXXX"
+                    icon={Phone}
+                    dir="ltr"
+                    autoComplete="tel"
+                    value={formData.phoneNumber}
+                    onChange={handleInputChange}
                   />
-                  <div className="md:col-span-2">
+                </div>
+
+                {role === "STUDENT" && (
+                  <>
                     <SelectField
-                      id="reg-stream" label="الشعبة" name="stream" icon={BookOpen}
-                      placeholder="اختر الشعبة"
-                      options={STREAMS}
-                      value={formData.stream} onChange={handleInputChange}
+                      id="reg-wilaya"
+                      label="الولاية"
+                      name="wilaya"
+                      icon={MapPin}
+                      placeholder="اختر الولاية"
+                      options={WILAYAS.map((w) => ({ value: w.code, label: w.name }))}
+                      value={formData.wilaya}
+                      onChange={handleInputChange}
                     />
-                  </div>
-                </>
-              )}
+                    {offering ? (
+                      <input type="hidden" name="cycle" value={formData.cycle} />
+                    ) : (
+                      <SelectField
+                        id="reg-cycle"
+                        label="الطور الدراسي"
+                        name="cycle"
+                        icon={GraduationCap}
+                        placeholder="اختر الطور"
+                        options={STUDY_CYCLES.map((cycle) => ({ value: cycle.value, label: cycle.label }))}
+                        value={formData.cycle}
+                        onChange={handleInputChange}
+                      />
+                    )}
+                    {isSimplifiedIslamic ? (
+                      <>
+                        <input type="hidden" name="level" value={formData.level} />
+                        <input type="hidden" name="stream" value={formData.stream} />
+                      </>
+                    ) : (
+                      <>
+                        <SelectField
+                          id="reg-level"
+                          label={offering ? "المستوى" : "المستوى الدراسي التفصيلي"}
+                          name="level"
+                          icon={GraduationCap}
+                          placeholder="اختر المستوى"
+                          options={cycleLevels}
+                          value={formData.level}
+                          onChange={handleInputChange}
+                        />
+                        <div className="md:col-span-2">
+                          <SelectField
+                            id="reg-stream"
+                            label={offering?.streamLabel ?? "الشعبة"}
+                            name="stream"
+                            icon={BookOpen}
+                            placeholder={offering ? `اختر ${offering.streamLabel}` : "اختر الشعبة"}
+                            options={cycleStreams}
+                            value={formData.stream}
+                            onChange={handleInputChange}
+                          />
+                        </div>
+                      </>
+                    )}
+                    <div className="md:col-span-2 space-y-3">
+                      <p className="block text-base font-bold text-[#1E1B4B]">
+                        مستوى فهمك
+                        <span className="text-[#6D28D9]"> *</span>
+                      </p>
+                      <input type="hidden" name="understandingLevel" value={formData.understandingLevel} required />
+                      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                        {[
+                          { value: "FAST", label: "فهم سريع", bg: "bg-[#22C55E]", ring: "ring-[#22C55E]" },
+                          { value: "AVERAGE", label: "متوسط", bg: "bg-[#F97316]", ring: "ring-[#F97316]" },
+                          { value: "WEAK", label: "ضعيف", bg: "bg-[#EF4444]", ring: "ring-[#EF4444]" },
+                        ].map((opt) => {
+                          const active = formData.understandingLevel === opt.value;
+                          return (
+                            <button
+                              key={opt.value}
+                              type="button"
+                              onClick={() => {
+                                setError(undefined);
+                                setFormData((prev) => ({ ...prev, understandingLevel: opt.value }));
+                              }}
+                              className={`min-h-[72px] rounded-[24px] px-4 py-5 text-center text-lg font-black text-white transition ${opt.bg} ${
+                                active ? `ring-4 ${opt.ring} ring-offset-2 brightness-110` : "hover:brightness-95"
+                              }`}
+                            >
+                              {opt.label}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+
+              <button
+                type="submit"
+                disabled={isPending}
+                className="mt-8 flex w-full items-center justify-center gap-2 rounded-full bg-[#6D28D9] py-4 text-lg font-black text-white transition hover:bg-[#5B21B6] disabled:cursor-not-allowed disabled:opacity-70"
+              >
+                {isPending ? <Loader2 className="h-5 w-5 animate-spin" /> : <UserPlus className="h-5 w-5" />}
+                {isPending ? "جاري إنشاء الحساب" : "إنشاء الحساب"}
+              </button>
+            </form>
+
+            <div className="mt-8 text-center">
+              <p className="text-base font-medium text-[#6B6480]">
+                لديك حساب بالفعل{" "}
+                <Link
+                  href="/login"
+                  className="font-black text-[#6D28D9] underline decoration-[#6D28D9] underline-offset-4 hover:text-[#5B21B6]"
+                >
+                  تسجيل الدخول
+                </Link>
+              </p>
+              <Link href="/" className="mt-5 inline-block text-base font-bold text-[#A78BFA] hover:text-[#6D28D9]">
+                العودة للرئيسية
+              </Link>
             </div>
-
-            <button
-              type="submit"
-              disabled={isPending}
-              className="w-full flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-500 text-slate-950 font-black py-4 rounded-xl transition-all shadow-md shadow-amber-400/20 hover:shadow-lg hover:shadow-amber-400/30 hover:-translate-y-0.5 active:translate-y-0 mt-8 disabled:opacity-50"
-            >
-              {isPending ? <Loader2 className="w-6 h-6 animate-spin" /> : <UserPlus className="w-6 h-6" />}
-              {isPending ? "جاري إنشاء الحساب..." : "إنشاء الحساب"}
-            </button>
-          </form>
-
-          <div className="mt-8 text-center text-sm font-medium text-slate-500 dark:text-slate-400">
-            لديك حساب بالفعل{" "}
-            <Link href="/login" className="text-sky-600 hover:text-sky-500 font-bold underline underline-offset-4">
-              تسجيل الدخول
-            </Link>
-          </div>
-        </div>
-
-        <p className="text-center text-xs text-slate-400 font-medium mt-8">
-          منصة دقيش التعليمية جميع الحقوق محفوظة
-        </p>
-      </div>
-    </div>
+    </AuthShell>
   );
 }

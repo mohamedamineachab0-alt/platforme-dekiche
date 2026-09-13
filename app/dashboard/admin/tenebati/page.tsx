@@ -21,7 +21,6 @@ export default async function TenebatiPage() {
         title="تنبيهاتي"
         description="نظام المراقبة الذكي للرصد الأكاديمي والأمني لحسابات التلاميذ"
         icon={BellRing}
-        gradientClass="bg-gradient-to-r from-amber-600 to-amber-500"
       />
 
       <div className="bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm overflow-hidden">
@@ -35,7 +34,7 @@ export default async function TenebatiPage() {
         <div className="divide-y divide-slate-100 dark:divide-slate-800">
           {!alerts || alerts.length === 0 ? (
             <div className="p-12 text-center">
-              <div className="w-16 h-16 rounded-full bg-sky-100 dark:bg-sky-900/30 text-sky-500 mx-auto flex items-center justify-center mb-4">
+              <div className="w-16 h-16 rounded-full bg-[#EDE9FE] dark:bg-sky-900/30 text-[#6D28D9] mx-auto flex items-center justify-center mb-4">
                 <BellRing className="w-8 h-8" />
               </div>
               <h3 className="text-lg font-black text-slate-900 dark:text-white mb-1">لا توجد تنبيهات حاليا</h3>
@@ -48,7 +47,7 @@ export default async function TenebatiPage() {
                 {/* Student Info */}
                 <div className="flex-1 space-y-4">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-sky-100 dark:bg-slate-950/30 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
+                    <div className="w-12 h-12 rounded-xl bg-[#EDE9FE] dark:bg-slate-950/30 text-[#6D28D9] dark:text-[#A78BFA] flex items-center justify-center shrink-0">
                       <span className="font-black text-lg">{alert.studentName.charAt(0)}</span>
                     </div>
                     <div>

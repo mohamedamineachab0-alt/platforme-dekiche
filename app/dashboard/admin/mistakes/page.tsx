@@ -100,7 +100,7 @@ export default async function AdminMistakesPage({
             <select
               name="subject"
               defaultValue={subject || ""}
-              className="pr-8 pl-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              className="pr-8 pl-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base font-bold text-slate-700 focus:outline-none focus:ring-2 focus:ring-[#6D28D9]"
             >
               <option value="">كل المواد</option>
               {subjects.map((s) => (
@@ -156,7 +156,7 @@ export default async function AdminMistakesPage({
                   return (
                     <tr key={mistake.id} className="hover:bg-slate-50/50 transition-colors">
                       <td className="px-6 py-4 align-top">
-                        <div className="font-bold text-sky-700">{mistake.user.fullName}</div>
+                        <div className="font-bold text-[#5B21B6]">{mistake.user.fullName}</div>
                         <div className="text-xs text-slate-400 mt-1" dir="ltr" style={{ textAlign: "right" }}>
                           {mistake.user.phoneNumber}
                         </div>

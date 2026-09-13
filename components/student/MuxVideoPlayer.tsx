@@ -61,7 +61,7 @@ export function MuxVideoPlayer({ playbackId, title, className }: Props) {
   }, []);
 
   return (
-    <div data-vjs-player className={className}>
+    <div data-vjs-player className={`w-full max-w-full overflow-hidden ${className ?? ""}`}>
       <video
         ref={videoRef}
         className="video-js vjs-default-skin vjs-big-play-centered"

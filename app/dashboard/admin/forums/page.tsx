@@ -27,7 +27,6 @@ export default async function AdminForumsPage() {
         title="دردشة القسم (Class Forums)"
         description="إدارة منتديات الأقسام و إنشاء غرف نقاش جديدة و والتحكم في فتح أو إغلاق الدردشة"
         icon={MessageSquare}
-        gradientClass="bg-gradient-to-r from-amber-400 to-amber-500"
       />
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
@@ -36,20 +35,20 @@ export default async function AdminForumsPage() {
         <div className="xl:col-span-1">
           <div className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 sticky top-6">
             <h2 className="text-lg font-black text-slate-900 mb-4 flex items-center gap-2">
-              <Plus className="w-5 h-5 text-sky-600" />
+              <Plus className="w-5 h-5 text-[#6D28D9]" />
               إنشاء منتدى جديد
             </h2>
             
             <form action={async (formData) => { "use server"; await createForum(formData); }} className="space-y-4">
               <div className="space-y-1">
                 <label className="text-sm font-bold text-slate-700">إسم المنتدى</label>
-                <input type="text" name="title" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-sky-500" placeholder="مثال: نقاشات الوحدة الأولى" />
+                <input type="text" name="title" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-[#6D28D9]" placeholder="مثال: نقاشات الوحدة الأولى" />
               </div>
 
               <div className="space-y-3 pt-2 border-t border-slate-100">
                 <div className="space-y-1">
                   <label className="text-sm font-bold text-slate-700">المادة الدراسية</label>
-                  <select name="subjectId" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-sky-500">
+                  <select name="subjectId" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-[#6D28D9]">
                     <option value="">اختر المادة</option>
                     {subjects.map(s => {
                       const levelStr = LEVELS.find(l => l.value === s.level)?.label || s.level;
@@ -63,10 +62,10 @@ export default async function AdminForumsPage() {
                   </select>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div className="space-y-1">
                     <label className="text-sm font-bold text-slate-700">المستوى</label>
-                    <select name="level" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    <select name="level" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-[#6D28D9]">
                       <option value="">اختر المستوى</option>
                       {LEVELS.map(l => (
                         <option key={l.value} value={l.value}>{l.label}</option>
@@ -75,7 +74,7 @@ export default async function AdminForumsPage() {
                   </div>
                   <div className="space-y-1">
                     <label className="text-sm font-bold text-slate-700">الشعبة</label>
-                    <select name="stream" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-sky-500">
+                    <select name="stream" required className="w-full p-2.5 rounded-xl border border-slate-200 bg-slate-50 text-base focus:outline-none focus:ring-2 focus:ring-[#6D28D9]">
                       <option value="">اختر الشعبة</option>
                       {STREAMS.map(s => (
                         <option key={s.value} value={s.value}>{s.label}</option>
@@ -90,7 +89,7 @@ export default async function AdminForumsPage() {
                 </div>
               </div>
 
-              <button type="submit" className="w-full flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-500 text-slate-950 font-black font-bold py-3 rounded-xl transition-colors mt-2">
+              <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-black font-bold py-3 rounded-xl transition-colors mt-2">
                 <Plus className="w-4 h-4" />
                 إنشاء المنتدى
               </button>
@@ -130,7 +129,7 @@ export default async function AdminForumsPage() {
                             <p className="text-xs font-bold text-slate-400 mt-1">الشهر {forum.month}</p>
                           </td>
                           <td className="px-6 py-4">
-                            <p className="font-bold text-sky-700 text-sm">{forum.subject.title}</p>
+                            <p className="font-bold text-[#5B21B6] text-sm">{forum.subject.title}</p>
                             <p className="text-xs font-bold text-slate-500 mt-1">{levelStr} • {streamStr}</p>
                           </td>
                           <td className="px-6 py-4 text-center">
@@ -148,7 +147,7 @@ export default async function AdminForumsPage() {
                                   type="submit" 
                                   className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-colors ${
                                     forum.isOpen 
-                                    ? 'bg-sky-50 text-sky-700 hover:bg-sky-100 border border-sky-200' 
+                                    ? 'bg-[#F3EFFF] text-[#5B21B6] hover:bg-[#EDE9FE] border border-[#EDE9FE]' 
                                     : 'bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200'
                                   }`}
                                 >

@@ -1,8 +1,7 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 import { Map, CheckCircle2, Circle, AlertTriangle, BookOpen, FileText, CheckCircle, Video, ArrowLeft } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { getStudentRoadmap, SubjectRoadmap, RoadmapNode } from "@/actions/roadmap";
+import { assertAuth } from "@/lib/security";
 import Link from "next/link";
 
 function getNodeIcon(type: RoadmapNode["type"]) {
@@ -16,27 +15,24 @@ function getNodeIcon(type: RoadmapNode["type"]) {
 
 function getNodeColor(status: RoadmapNode["status"]) {
   switch (status) {
-    case "COMPLETED": return "bg-sky-100 text-sky-700 border-sky-200";
+    case "COMPLETED": return "bg-[#EDE9FE] text-[#6D28D9] border-[#EDE9FE]";
     case "NEEDS_REVIEW": return "bg-amber-100 text-amber-700 border-amber-200";
-    case "PENDING": return "bg-slate-100 text-slate-500 border-slate-200";
+    case "PENDING": return "bg-slate-100 text-[#6B6480] border-slate-200";
   }
 }
 
 function getNodeStatusIcon(status: RoadmapNode["status"]) {
   switch (status) {
-    case "COMPLETED": return <CheckCircle2 className="w-5 h-5 text-sky-500" />;
+    case "COMPLETED": return <CheckCircle2 className="w-5 h-5 text-[#6D28D9]" />;
     case "NEEDS_REVIEW": return <AlertTriangle className="w-5 h-5 text-amber-500" />;
-    case "PENDING": return <Circle className="w-5 h-5 text-slate-300" />;
+    case "PENDING": return <Circle className="w-5 h-5 text-[#A8B4D6]" />;
   }
 }
 
 export default async function StudentRoadmapPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  const sessionUser = await assertAuth({ requireRole: "STUDENT" });
 
-  if (!sessionId) redirect("/login");
-
-  const roadmaps = await getStudentRoadmap(sessionId);
+  const roadmaps = await getStudentRoadmap(sessionUser.id);
 
   return (
     <div className="space-y-8 pb-12">
@@ -44,14 +40,13 @@ export default async function StudentRoadmapPage() {
         title="خريطتي الذكية"
         description="تتبع مسارك الدراسي و دروسك إختباراتك و ومستواك في كل مادة بخط زمني تفاعلي"
         icon={Map}
-        gradientClass="bg-gradient-to-r from-sky-600 to-sky-600"
       />
 
       {roadmaps.length === 0 ? (
-        <div className="p-6 md:p-12 text-center bg-white rounded-3xl border border-slate-100 shadow-sm">
-          <Map className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-          <h3 className="font-black text-xl text-slate-800">لا توجد مواد مسجلة</h3>
-          <p className="text-slate-500 font-medium mt-2">اشترك في مواد دراسية لتبدأ بتتبع مسارك الدراسي هنا</p>
+        <div className="p-6 md:p-12 text-center bg-white rounded-[28px] border border-[#EDE9FE] shadow-sm">
+          <Map className="w-16 h-16 text-[#A8B4D6] mx-auto mb-4" />
+          <h3 className="font-black text-xl text-[#1E1B4B]">لا توجد مواد مسجلة</h3>
+          <p className="text-[#6B6480] font-medium mt-2">اشترك في مواد دراسية لتبدأ بتتبع مسارك الدراسي هنا</p>
         </div>
       ) : (
         <div className="space-y-12">
@@ -60,11 +55,11 @@ export default async function StudentRoadmapPage() {
               
               {/* Subject Header */}
               <div className="flex items-center gap-3 mb-10 pb-6 border-b border-slate-100">
-                <div className="w-12 h-12 rounded-2xl bg-sky-50 flex items-center justify-center text-sky-600">
+                <div className="w-12 h-12 rounded-2xl bg-[#F3EFFF] flex items-center justify-center text-[#6D28D9]">
                   <Map className="w-6 h-6" />
                 </div>
                 <div>
-                  <h2 className="text-2xl font-black text-slate-900">{roadmap.subjectTitle}</h2>
+                  <h2 className="text-2xl font-black text-[#1E1B4B]">{roadmap.subjectTitle}</h2>
                   <p className="text-sm font-bold text-slate-400 mt-1">خارطة الطريق التعليمية</p>
                 </div>
               </div>
@@ -80,10 +75,10 @@ export default async function StudentRoadmapPage() {
                     <div key={monthData.month} className="relative">
                       {/* Month Indicator */}
                       <div className="absolute -right-[43px] top-0 w-8 h-8 rounded-full bg-slate-100 border-4 border-white flex items-center justify-center shadow-sm">
-                        <span className="font-black text-xs text-slate-500">{monthData.month}</span>
+                        <span className="font-black text-xs text-[#6B6480]">{monthData.month}</span>
                       </div>
                       
-                      <h3 className="text-lg font-black text-slate-800 mb-6 bg-slate-50 inline-block px-4 py-1.5 rounded-lg">
+                      <h3 className="text-lg font-black text-[#1E1B4B] mb-6 bg-slate-50 inline-block px-4 py-1.5 rounded-lg">
                         الشهر {monthData.month}
                       </h3>
                       

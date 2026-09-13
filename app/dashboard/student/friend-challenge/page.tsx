@@ -1,21 +1,16 @@
-import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
+import { assertAuth } from "@/lib/security";
 import { Swords } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { FriendChallengeClient } from "./FriendChallengeClient";
 import { getFriendChallengeData } from "@/actions/friends";
 
 export default async function FriendChallengePage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
-
-  if (!sessionId) {
-    redirect("/login");
-  }
+  const sessionUser = await assertAuth({ requireRole: "STUDENT" });
 
   const user = await prisma.user.findUnique({
-    where: { id: sessionId },
+    where: { id: sessionUser.id },
     include: { studentProfile: true }
   });
 
@@ -37,7 +32,7 @@ export default async function FriendChallengePage() {
     });
   }
 
-  const { metrics } = await getFriendChallengeData(sessionId);
+  const { metrics } = await getFriendChallengeData(sessionUser.id);
 
   return (
     <div className="space-y-8 pb-12">
@@ -45,7 +40,6 @@ export default async function FriendChallengePage() {
         title="منافسة صديق"
         description="شارك رمزك مع أصدقائك وتنافسوا على حل التمارين وجمع النقاط وتتبع من الأفضل"
         icon={Swords}
-        gradientClass="bg-gradient-to-r from-amber-600 to-orange-500"
       />
       
       <FriendChallengeClient 

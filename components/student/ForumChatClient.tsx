@@ -158,18 +158,18 @@ export function ForumChatClient({ initialMessages, forum, sessionId, studentProf
   }
 
   return (
-    <div className="h-[calc(100vh-8rem)] flex flex-col bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden font-arabic" dir="rtl">
+    <div className="h-[calc(100dvh-11rem)] md:h-[calc(100dvh-8rem)] min-h-[20rem] flex flex-col bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden font-arabic" dir="rtl">
       
       {/* Chat Header */}
       <div className="p-4 bg-slate-50 border-b border-slate-100 flex items-center gap-4 shrink-0">
-        <Link href="/dashboard/student/forums" className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-sky-600 transition-colors">
+        <Link href="/dashboard/student/forums" className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-500 hover:text-[#6D28D9] transition-colors">
           <ArrowRight className="w-5 h-5 rtl:rotate-180" />
         </Link>
-        <div className="flex-1">
-          <h2 className="text-lg font-black text-slate-900">{forum.title}</h2>
+        <div className="flex-1 min-w-0">
+          <h2 className="text-base sm:text-lg font-black text-slate-900 truncate">{forum.title}</h2>
           <p className="text-xs font-bold text-slate-500">{forum.subject.title} • الشهر {forum.month}</p>
         </div>
-        <div className="w-12 h-12 rounded-full bg-sky-100 flex items-center justify-center text-sky-600">
+        <div className="w-12 h-12 rounded-full bg-[#EDE9FE] flex items-center justify-center text-[#6D28D9]">
           <MessageSquare className="w-6 h-6" />
         </div>
       </div>
@@ -199,20 +199,20 @@ export function ForumChatClient({ initialMessages, forum, sessionId, studentProf
                             <img src={msg.user.avatarUrl} alt={msg.user.fullName} className="w-6 h-6 rounded-full object-cover shadow-sm" />
                           ) : (
                             <div className="w-6 h-6 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 shadow-sm">
-                              {isAdmin ? <UserIcon className="w-3 h-3 text-sky-500" /> : <UserIcon className="w-3 h-3 text-slate-400" />}
+                              {isAdmin ? <UserIcon className="w-3 h-3 text-[#6D28D9]" /> : <UserIcon className="w-3 h-3 text-slate-400" />}
                             </div>
                           )}
                           <span className="text-[10px] font-black text-slate-400 flex items-center gap-1">
-                            {msg.user.fullName} {isAdmin && <span className="text-sky-500">(الإدارة)</span>}
+                            {msg.user.fullName} {isAdmin && <span className="text-[#6D28D9]">(الإدارة)</span>}
                           </span>
                         </div>
                       )}
                       
                       <div className={`p-4 rounded-2xl shadow-sm ${
                         isMe 
-                        ? 'bg-sky-600 text-white rounded-tl-none' 
+                        ? 'bg-[#6D28D9] text-white rounded-tl-none' 
                         : isAdmin 
-                          ? 'bg-sky-50 border border-sky-100 text-sky-900 rounded-tr-none'
+                          ? 'bg-[#F3EFFF] border border-[#EDE9FE] text-[#1E1B4B] rounded-tr-none'
                           : 'bg-white border border-slate-100 text-slate-800 rounded-tr-none'
                       }`}>
                         <p className="text-sm font-medium leading-relaxed whitespace-pre-wrap">{msg.content}</p>
@@ -237,7 +237,7 @@ export function ForumChatClient({ initialMessages, forum, sessionId, studentProf
                 rows={1}
                 placeholder="اكتب رسالتك هنا.."
                 required
-                className="w-full min-h-[56px] max-h-[120px] p-4 rounded-2xl border border-slate-200 bg-white text-base font-medium focus:outline-none focus:ring-2 focus:ring-sky-500 resize-y shadow-sm"
+                className="w-full min-h-[56px] max-h-[120px] p-4 rounded-2xl border border-slate-200 bg-white text-base font-medium focus:outline-none focus:ring-2 focus:ring-[#6D28D9] resize-y shadow-sm"
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && !e.shiftKey) {
                     e.preventDefault();
@@ -248,7 +248,7 @@ export function ForumChatClient({ initialMessages, forum, sessionId, studentProf
               <button
                 type="submit"
                 disabled={isPending}
-                className="h-[56px] px-6 bg-amber-400 hover:bg-amber-500 text-slate-950 font-black rounded-2xl flex items-center justify-center transition-colors shadow-sm disabled:opacity-50"
+                className="h-[56px] px-4 sm:px-6 shrink-0 bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-black rounded-2xl flex items-center justify-center transition-colors shadow-sm disabled:opacity-50"
               >
                 <Send className="w-5 h-5 rtl:rotate-180" />
               </button>

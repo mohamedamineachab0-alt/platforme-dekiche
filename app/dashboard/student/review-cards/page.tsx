@@ -35,14 +35,13 @@ export default function StudentReviewCardsPage() {
     return (
       <div className="space-y-8 pb-12">
         <HeroBanner 
-          title="بطاقات المراجعة (Flashcards)"
+          title="بطاقات المراجعة"
           description="راجع دروسك بسرعة وفعالية باستخدام بطاقات الذاكرة التفاعلية المصممة لمستواك وشعبتك"
           icon={Library}
-          gradientClass="bg-gradient-to-r from-amber-400 to-amber-500"
         />
         <div className="flex items-center justify-center min-h-[400px]">
-          <div className="text-sky-600 flex flex-col items-center gap-3">
-            <div className="w-10 h-10 border-4 border-sky-200 border-t-sky-600 rounded-full animate-spin"></div>
+          <div className="text-[#6D28D9] flex flex-col items-center gap-3">
+            <div className="w-10 h-10 border-4 border-[#EDE9FE] border-t-sky-600 rounded-full animate-spin"></div>
             <p className="font-bold text-slate-600">جاري تحميل البطاقات...</p>
           </div>
         </div>
@@ -54,12 +53,11 @@ export default function StudentReviewCardsPage() {
     return (
       <div className="space-y-8 pb-12">
         <HeroBanner 
-          title="بطاقات المراجعة (Flashcards)"
+          title="بطاقات المراجعة"
           description="راجع دروسك بسرعة وفعالية باستخدام بطاقات الذاكرة التفاعلية المصممة لمستواك وشعبتك"
           icon={Library}
-          gradientClass="bg-gradient-to-r from-amber-400 to-amber-500"
         />
-        <div className="p-8 text-center bg-amber-50 rounded-2xl border border-amber-100 max-w-2xl mx-auto mt-8 font-arabic" dir="rtl">
+        <div className="p-8 text-center bg-amber-50 rounded-2xl border border-[#6D28D9]/20 max-w-2xl mx-auto mt-8 font-arabic" dir="rtl">
           <h3 className="font-bold text-amber-600 text-lg">{error}</h3>
         </div>
       </div>
@@ -69,21 +67,21 @@ export default function StudentReviewCardsPage() {
   return (
     <div className="space-y-8 pb-12">
       <HeroBanner 
-        title="بطاقات المراجعة (Flashcards)"
+        title="بطاقات المراجعة"
         description="راجع دروسك بسرعة وفعالية باستخدام بطاقات الذاكرة التفاعلية المصممة لمستواك وشعبتك"
         icon={Library}
-        gradientClass="bg-gradient-to-r from-amber-400 to-amber-500"
       />
 
       {cards.length === 0 ? (
-        <div className="p-6 md:p-12 text-center bg-white rounded-3xl border border-slate-100 shadow-sm font-arabic" dir="rtl">
-          <Library className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-          <h3 className="font-black text-xl text-slate-800">لا توجد بطاقات متاحة حالياً</h3>
-          <p className="text-slate-500 font-medium mt-2">ستظهر بطاقات المراجعة الخاصة بمستواك وشعبتك هنا قريباً</p>
+        <div className="rounded-[22px] border border-dashed border-[#EDE9FE] bg-white p-8 text-center font-arabic" dir="rtl">
+          <h3 className="text-lg font-black text-[#1E1B4B]">لا توجد بطاقات متاحة حاليا</h3>
+          <p className="mt-2 text-sm font-medium text-[#6B6480]">
+            ستظهر بطاقات المراجعة الخاصة بمستواك وشعبتك هنا قريبا
+          </p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {cards.map(card => (
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {cards.map((card) => (
             <FlipCard key={card.id} card={card} />
           ))}
         </div>

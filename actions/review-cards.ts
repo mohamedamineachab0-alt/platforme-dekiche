@@ -113,23 +113,32 @@ export async function getStudentCards(level: Level, stream: Stream, subjectId?: 
 
 export async function fetchMyReviewCards() {
   const { cookies } = await import("next/headers");
+  const { decryptSession } = await import("@/lib/security");
   const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
-  if (!sessionId) throw new Error("غير مسجل الدخول");
+  const sessionToken = cookieStore.get("session")?.value;
+  if (!sessionToken) throw new Error("غير مسجل الدخول");
+
+  const payload = await decryptSession(sessionToken);
+  const userId = (payload?.userId as string) || null;
+  if (!userId) throw new Error("غير مسجل الدخول");
 
   const studentProfile = await prisma.studentProfile.findUnique({
-    where: { userId: sessionId },
+    where: { userId },
   });
 
   if (!studentProfile) throw new Error("الملف الشخصي غير موجود");
 
   const enrollments = await prisma.enrollment.findMany({
-    where: { studentId: sessionId },
+    where: { studentId: userId },
     select: { subjectId: true, enrolledMonths: true }
   });
 
   const enrolledSubjectIds = enrollments.map(e => e.subjectId);
   const enrolledMonths = Array.from(new Set(enrollments.flatMap(e => e.enrolledMonths)));
+
+  if (enrolledSubjectIds.length === 0 || enrolledMonths.length === 0) {
+    return [];
+  }
 
   const cards = await prisma.reviewCard.findMany({
     where: {

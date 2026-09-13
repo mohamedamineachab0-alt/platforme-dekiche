@@ -43,21 +43,21 @@ export function ExamSubmissionForm({ examId, studentId, hasSubmitted, previousSc
 
   if (success) {
     return (
-      <div className="p-6 bg-sky-50 border border-sky-100 rounded-2xl space-y-4">
-        <div className="flex items-center gap-3 text-sky-700 font-black">
+      <div className="p-6 bg-[#F3EFFF] border border-[#EDE9FE] rounded-2xl space-y-4">
+        <div className="flex items-center gap-3 text-[#5B21B6] font-black">
           <CheckCircle className="w-6 h-6" />
           <h3>تم استلام حلك وتصحيحه بنجاح!</h3>
         </div>
         
         {score !== undefined && score !== null && (
-          <div className="mt-4 flex items-center justify-between bg-white p-4 rounded-xl border border-sky-100">
+          <div className="mt-4 flex items-center justify-between bg-white p-4 rounded-xl border border-[#EDE9FE]">
             <span className="font-bold text-slate-700">العلامة الممنوحة من الذكاء الاصطناعي:</span>
-            <span className="text-2xl font-black text-sky-600">{score}/20</span>
+            <span className="text-2xl font-black text-[#6D28D9]">{score}/20</span>
           </div>
         )}
 
         {feedback && (
-          <div className="bg-white p-4 rounded-xl border border-sky-100 text-sm font-medium text-slate-700 leading-relaxed">
+          <div className="bg-white p-4 rounded-xl border border-[#EDE9FE] text-sm font-medium text-slate-700 leading-relaxed">
             {feedback}
           </div>
         )}
@@ -83,14 +83,14 @@ export function ExamSubmissionForm({ examId, studentId, hasSubmitted, previousSc
           name="file"
           accept="image/*"
           required
-          className="w-full text-base text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-base file:font-bold file:bg-sky-100 file:text-sky-700 hover:file:bg-sky-200 cursor-pointer"
+          className="w-full text-base text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-base file:font-bold file:bg-[#EDE9FE] file:text-[#5B21B6] hover:file:bg-[#DDD6FE] cursor-pointer"
         />
       </div>
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full py-4 bg-sky-600 hover:bg-sky-700 text-white rounded-xl font-bold text-lg shadow-md transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
+        className="w-full py-4 bg-[#6D28D9] hover:bg-[#5B21B6] text-white rounded-xl font-bold text-lg shadow-md transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
       >
         {isSubmitting ? (
           <>

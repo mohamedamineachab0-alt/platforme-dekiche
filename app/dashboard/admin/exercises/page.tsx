@@ -41,7 +41,7 @@ export default async function AdminExercisesPage() {
               <div key={ex.id} className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden flex flex-col">
                 <div className="h-40 w-full relative bg-slate-100 overflow-hidden">
                   <img src={ex.a4ImageUrl} alt={ex.title} className="w-full h-full object-cover object-top" />
-                  <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-bold text-sky-700">
+                  <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-bold text-[#5B21B6]">
                     {ex.maxScore} نقطة
                   </div>
                 </div>

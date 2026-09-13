@@ -5,37 +5,35 @@ export function HeroBanner({
   description,
   action,
   icon: Icon,
-  gradientClass = "bg-gradient-to-r from-amber-400 to-amber-500",
+  iconSlot,
+  gradientClass = "academy-hero-grid",
   showGridPattern = true,
 }: {
   title: string;
   description: string;
   action?: React.ReactNode;
   icon?: React.ElementType;
+  iconSlot?: React.ReactNode;
   gradientClass?: string;
   showGridPattern?: boolean;
 }) {
   return (
-    <div className={`${gradientClass} rounded-3xl p-4 md:p-8 shadow-xl text-white relative overflow-hidden`}>
-      {showGridPattern && (
-        <div className="absolute inset-0 opacity-20 bg-[linear-gradient(to_right,#ffffff_1px,transparent_1px),linear-gradient(to_bottom,#ffffff_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+    <div className={`${gradientClass} relative overflow-hidden rounded-[32px] p-5 text-white sm:p-6 md:p-8`}>
+      {showGridPattern && !gradientClass.includes("academy-hero-grid") && (
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[size:40px_40px]" />
       )}
-      <div className="flex flex-col md:flex-row items-center gap-4 md:gap-8 text-white w-full">
-      {Icon && (
-        <div className="hidden md:flex w-16 h-16 rounded-2xl bg-white/10 items-center justify-center shrink-0 shadow-inner border border-white/20">
-          <Icon className="w-8 h-8 text-white" />
+      <div className="relative z-10 flex w-full flex-col items-center gap-4 text-white sm:flex-row sm:gap-5">
+        {(iconSlot || Icon) && (
+          <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white sm:h-16 sm:w-16">
+            {iconSlot ?? (Icon ? <Icon className="h-7 w-7 text-[#6D28D9] sm:h-8 sm:w-8" /> : null)}
+          </div>
+        )}
+        <div className="min-w-0 flex-1 space-y-1 text-center sm:text-right">
+          <h2 className="text-lg font-black leading-tight sm:text-xl md:text-2xl">{title}</h2>
+          <p className="text-sm font-medium text-white/80 md:text-base">{description}</p>
         </div>
-      )}
-      <div className="flex-1 space-y-1 text-center md:text-right">
-        <h2 className="text-xl md:text-2xl font-black">{title}</h2>
-        <p className="text-white/80 font-medium text-sm md:text-base">{description}</p>
-      </div>
-      
-      {action && (
-        <div className="w-full md:w-auto flex shrink-0 justify-center">
-          {action}
-        </div>
-      )}
+
+        {action && <div className="flex w-full shrink-0 justify-center sm:w-auto">{action}</div>}
       </div>
     </div>
   );

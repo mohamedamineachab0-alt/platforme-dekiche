@@ -59,7 +59,6 @@ export default async function AdminParentMessagesPage() {
         title="رسائل الأولياء"
         description="استعرض استفسارات ورسائل أولياء الأمور الواردة للإدارة وقم بمتابعتها وإغلاقها بعد المعالجة"
         icon={MessageSquare}
-        gradientClass="bg-gradient-to-r from-sky-600 to-indigo-600"
       />
 
       <ParentMessagesClient initialTickets={tickets} />

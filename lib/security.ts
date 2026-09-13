@@ -29,6 +29,22 @@ export async function decryptSession(token: string | undefined = "") {
   }
 }
 
+export async function getSessionUserId(): Promise<string | null> {
+  const cookieStore = await cookies();
+  const sessionToken = cookieStore.get("session")?.value;
+  if (!sessionToken) return null;
+
+  const payload = await decryptSession(sessionToken);
+  if (payload?.userId && typeof payload.userId === "string") {
+    return payload.userId;
+  }
+
+  // Older cookies stored the raw user id
+  if (!sessionToken.includes(".")) return sessionToken;
+
+  return null;
+}
+
 type Role = "ADMIN" | "TEACHER" | "STUDENT" | "PARENT";
 
 const ROLE_PERMISSIONS: Record<Role, string[]> = {
@@ -50,19 +66,11 @@ export async function withAuthGuard<T>(
   options: { requireRole?: Role; requirePermission?: string } = {}
 ) {
   return async (data: any): Promise<{ error?: string; data?: T }> => {
-    const cookieStore = await cookies();
-    const sessionToken = cookieStore.get("session")?.value;
+    const userId = await getSessionUserId();
 
-    if (!sessionToken) {
+    if (!userId) {
       return { error: "Unauthorized access (IDOR blocked)" };
     }
-
-    const payload = await decryptSession(sessionToken);
-    if (!payload || !payload.userId) {
-      return { error: "Session invalid or expired" };
-    }
-
-    const userId = payload.userId as string;
 
     const user = await prisma.user.findUnique({
       where: { id: userId },
@@ -85,20 +93,13 @@ export async function withAuthGuard<T>(
   };
 }
 
-export async function assertAuth(options: { requireRole?: Role; requirePermission?: string } = {}) {
-  const cookieStore = await cookies();
-  const sessionToken = cookieStore.get("session")?.value;
+export async function assertAuth(options: { requireRole?: Role; requirePermission?: string; loginPath?: string } = {}) {
+  const loginPath = options.loginPath || "/login";
+  const userId = await getSessionUserId();
 
-  if (!sessionToken) {
-    redirect("/login");
+  if (!userId) {
+    redirect(loginPath);
   }
-
-  const payload = await decryptSession(sessionToken);
-  if (!payload || !payload.userId) {
-    redirect("/login");
-  }
-
-  const userId = payload.userId as string;
 
   const user = await prisma.user.findUnique({
     where: { id: userId },
@@ -106,15 +107,15 @@ export async function assertAuth(options: { requireRole?: Role; requirePermissio
   });
 
   if (!user) {
-    redirect("/login");
+    redirect(loginPath);
   }
 
   if (options.requireRole && user.role !== options.requireRole && user.role !== "ADMIN") {
-    redirect("/login");
+    redirect(loginPath);
   }
 
   if (options.requirePermission && !hasPermission(user.role as Role, options.requirePermission)) {
-    redirect("/login");
+    redirect(loginPath);
   }
 
   return user;

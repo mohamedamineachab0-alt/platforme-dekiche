@@ -74,7 +74,7 @@ export function SendNotificationClient({
       <div className="lg:col-span-1">
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sticky top-6 flex flex-col gap-5">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-full bg-sky-50 text-sky-600 flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-[#F3EFFF] text-[#6D28D9] flex items-center justify-center">
               <Send className="w-5 h-5" />
             </div>
             <h2 className="text-xl font-black text-slate-800">إرسال إشعار جديد</h2>
@@ -93,7 +93,7 @@ export function SendNotificationClient({
                 type="text" 
                 name="title" 
                 required 
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all text-slate-700" 
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#6D28D9] transition-all text-slate-700" 
                 placeholder="مثال: إضافة ملخص جديد" 
               />
             </div>
@@ -104,7 +104,7 @@ export function SendNotificationClient({
                 name="content" 
                 rows={4} 
                 required 
-                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all resize-none text-slate-700" 
+                className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-sm font-bold focus:outline-none focus:ring-2 focus:ring-[#6D28D9] transition-all resize-none text-slate-700" 
                 placeholder="اكتب رسالتك هنا.." 
               />
             </div>
@@ -152,7 +152,7 @@ export function SendNotificationClient({
             <button 
               type="submit" 
               disabled={pending}
-              className="w-full flex items-center justify-center gap-2 bg-sky-500 hover:bg-sky-600 disabled:opacity-60 text-white font-bold text-sm py-3.5 rounded-xl transition-colors mt-2"
+              className="w-full flex items-center justify-center gap-2 bg-[#F3EFFF]0 hover:bg-[#6D28D9] disabled:opacity-60 text-white font-bold text-sm py-3.5 rounded-xl transition-colors mt-2"
             >
               {pending ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
               {pending ? "جاري الإرسال..." : "إرسال الإشعار"}
@@ -200,7 +200,7 @@ export function SendNotificationClient({
                     </span>
                   )}
                   {notification.levels.map(l => (
-                    <span key={l} className="bg-sky-50 text-sky-600 text-xs font-bold px-3 py-1.5 rounded-xl border border-sky-100">
+                    <span key={l} className="bg-[#F3EFFF] text-[#6D28D9] text-xs font-bold px-3 py-1.5 rounded-xl border border-[#EDE9FE]">
                       مستوى: {LEVELS.find(lvl => lvl.value === l)?.label || l}
                     </span>
                   ))}

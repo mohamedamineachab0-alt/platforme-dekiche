@@ -20,12 +20,12 @@ export function CopyParentCodeBtn({ parentCode }: { parentCode: string | null })
   return (
     <button 
       onClick={handleCopy}
-      className="w-full text-right bg-sky-50 p-4 rounded-xl border border-sky-100 flex items-center justify-between hover:bg-sky-100 transition-all duration-200 group relative"
+      className="w-full text-right bg-[#F3EFFF] p-4 rounded-xl border border-[#EDE9FE] flex items-center justify-between hover:bg-[#EDE9FE] transition-all duration-200 group relative"
       title="نسخ الرمز"
     >
       <div className="flex flex-col w-full max-w-full overflow-hidden min-w-0 flex-1 ml-2">
-        <span className="text-xs font-bold text-sky-400 mb-1 transition-colors group-hover:text-sky-500">الرمز السري الخاص بك</span>
-        <span className="text-xl font-black text-sky-700 font-mono tracking-widest select-all truncate">
+        <span className="text-xs font-bold text-[#A78BFA] mb-1 transition-colors group-hover:text-[#6D28D9]">الرمز السري الخاص بك</span>
+        <span className="text-xl font-black text-[#5B21B6] font-mono tracking-widest select-all truncate">
           {parentCode || "لا يوجد رمز"}
         </span>
       </div>
@@ -35,7 +35,7 @@ export function CopyParentCodeBtn({ parentCode }: { parentCode: string | null })
             <Check className="w-5 h-5" />
           </div>
         ) : (
-          <div className="w-10 h-10 rounded-full bg-sky-100/50 flex items-center justify-center text-sky-400 group-hover:bg-sky-200 group-hover:text-sky-600 transition-colors">
+          <div className="w-10 h-10 rounded-full bg-[#EDE9FE]/50 flex items-center justify-center text-[#A78BFA] group-hover:bg-[#DDD6FE] group-hover:text-[#6D28D9] transition-colors">
             <Copy className="w-5 h-5" />
           </div>
         )}

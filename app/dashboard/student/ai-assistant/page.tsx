@@ -1,21 +1,16 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { Bot } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { AiChatClient } from "@/components/student/AiChatClient";
 import { prisma } from "@/lib/prisma";
+import { assertAuth } from "@/lib/security";
 import { LEVELS, STREAMS } from "@/lib/constants";
 
 export default async function AiAssistantPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
-
-  if (!sessionId) {
-    redirect("/login");
-  }
+  const sessionUser = await assertAuth({ requireRole: "STUDENT" });
 
   const user = await prisma.user.findUnique({
-    where: { id: sessionId },
+    where: { id: sessionUser.id },
     include: {
       studentProfile: true,
       mistakes: {
@@ -46,11 +41,10 @@ export default async function AiAssistantPage() {
         title="dekiche academy"
         description="متصل بمعرفتك ومستواك وأخطائك"
         icon={Bot}
-        gradientClass="bg-gradient-to-r from-purple-600 to-purple-800"
       />
-      <div className="flex-1 min-h-0 bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden flex flex-col">
+      <div className="flex-1 min-h-0 bg-white rounded-[28px] shadow-sm border border-[#EDE9FE] overflow-hidden flex flex-col">
         <AiChatClient
-          studentId={sessionId}
+          studentId={sessionUser.id}
           greetingText={`أنت طالب في ${levelStr} في ${streamStr}`}
           userAvatarUrl={user.avatarUrl}
           studentName={studentName}

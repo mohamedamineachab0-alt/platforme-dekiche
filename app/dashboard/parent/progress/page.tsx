@@ -10,11 +10,10 @@ export default function ParentProgressPage() {
         title="تقدم أبنائي"
         description="هنا يمكنك متابعة تقدم أبنائك عبر الرسوم البيانية ومؤشرات الأداء"
         icon={Activity}
-        gradientClass="bg-gradient-to-r from-amber-400 to-amber-500"
       />
       <div className="p-8 bg-white rounded-2xl shadow-sm border border-slate-100">
         <div className="flex flex-col items-center justify-center py-16 text-center">
-          <Activity className="w-16 h-16 text-sky-500 mb-4 mx-auto" />
+          <Activity className="w-16 h-16 text-[#6D28D9] mb-4 mx-auto" />
           <h3 className="text-xl font-black text-slate-800 mb-2">مخططات التقدم متاحة الآن</h3>
           <p className="text-slate-500 font-medium max-w-md mx-auto">ستعرض هذه المساحة تحليلاً بيانياً شاملاً يتيح لك متابعة وتقييم الأداء الأكاديمي لأبنائك بدقة متناهية.</p>
         </div>

@@ -9,79 +9,85 @@ export default function AdminDashboardPage() {
       description: "إضافة وتعديل المواد التعليمية والأساتذة",
       href: "/dashboard/admin/subjects",
       icon: BookOpen,
-      color: "from-sky-500 to-blue-600",
-      borderColor: "border-sky-500"
+      filled: false,
     },
     {
       title: "إدارة الدروس",
       description: "رفع وتصنيف دروس Vimeo وملحقاتها",
       href: "/dashboard/admin/lessons",
       icon: Video,
-      color: "from-indigo-500 to-violet-600",
-      borderColor: "border-indigo-500"
+      filled: true,
     },
     {
       title: "أكواد التفعيل",
       description: "توليد وتصدير أكواد التفعيل للطلاب",
       href: "/dashboard/admin/codes",
       icon: Key,
-      color: "from-emerald-500 to-teal-600",
-      borderColor: "border-emerald-500"
+      filled: false,
     },
     {
       title: "إدارة الطلاب",
       description: "متابعة تقدم الطلاب واشتراكاتهم",
       href: "/dashboard/admin/students",
       icon: Users,
-      color: "from-pink-500 to-rose-600",
-      borderColor: "border-pink-500"
+      filled: true,
     },
     {
       title: "الحصص المباشرة",
       description: "جدولة وبث الحصص للطلاب",
       href: "/dashboard/admin/live-classes",
       icon: Calendar,
-      color: "from-orange-500 to-red-600",
-      borderColor: "border-orange-500"
+      filled: false,
     },
     {
       title: "نظام المراقبة",
       description: "تنبيهات وإشعارات النظام",
       href: "/dashboard/admin/tenebati",
       icon: BellRing,
-      color: "from-amber-500 to-yellow-600",
-      borderColor: "border-amber-500"
+      filled: true,
     },
   ];
 
   return (
-    <div className="space-y-8 font-arabic" dir="rtl">
-      
-      <HeroBanner 
+    <div className="space-y-8 font-sans text-[#1E1B4B]" dir="rtl">
+      <HeroBanner
         title="مرحباً بك في لوحة تحكم الإدارة"
         description="نظرة عامة على نشاط المنصة وتحكم كامل في جميع الأقسام"
         icon={LayoutDashboard}
       />
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {adminLinks.map((link, idx) => (
-          <Link key={idx} href={link.href} className={`bg-gradient-to-br ${link.color} rounded-3xl p-6 border ${link.borderColor} shadow-sm flex flex-col justify-between group transition-all hover:shadow-[0_10px_40px_rgba(0,0,0,0.12)] hover:-translate-y-1`}>
-            <div className="flex items-center justify-between mb-4">
-              <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-sm border border-white/20 flex items-center justify-center shrink-0 text-white shadow-inner">
-                <link.icon className="w-7 h-7" />
-              </div>
-              <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0">
-                <ChevronLeft className="w-5 h-5" />
-              </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {adminLinks.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className={`group flex h-full flex-col justify-between rounded-[32px] p-6 ${
+              link.filled
+                ? "bg-[#6D28D9] text-white shadow-[0_16px_40px_rgba(109,40,217,0.22)]"
+                : "bg-white text-[#1E1B4B] shadow-[0_12px_36px_rgba(30,27,75,0.06)]"
+            }`}
+          >
+            <div className="mb-5 flex items-center justify-between">
+              <span
+                className={`flex h-12 w-12 items-center justify-center rounded-full ${
+                  link.filled ? "bg-white/15 text-white" : "bg-[#F3EFFF] text-[#6D28D9]"
+                }`}
+              >
+                <link.icon className="h-6 w-6" />
+              </span>
+              <ChevronLeft
+                className={`h-5 w-5 transition group-hover:-translate-x-1 ${link.filled ? "text-white/70" : "text-[#6D28D9]"}`}
+              />
             </div>
             <div>
-              <p className="text-white/90 text-sm font-bold mb-1 opacity-80">{link.description}</p>
-              <h3 className="text-2xl font-black text-white">{link.title}</h3>
+              <h3 className="text-xl font-black">{link.title}</h3>
+              <p className={`mt-2 text-sm font-medium ${link.filled ? "text-white/80" : "text-[#6B6480]"}`}>
+                {link.description}
+              </p>
             </div>
           </Link>
         ))}
       </div>
-
     </div>
   );
 }

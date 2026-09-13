@@ -1,41 +1,57 @@
-import { PrismaClient } from '../generated/prisma';
-import { Pool } from 'pg';
-import { PrismaPg } from '@prisma/adapter-pg';
+import { PrismaClient } from "../generated/prisma";
+import { Pool } from "pg";
+import { PrismaPg } from "@prisma/adapter-pg";
 
+// Session/direct URL avoids PgBouncer prepared-statement issues with Prisma.
 const connectionString = process.env.DIRECT_URL || process.env.DATABASE_URL;
 
 const globalForPrisma = globalThis as unknown as {
-  prismaClientV3: PrismaClient | undefined;
+  prismaClient: PrismaClient | undefined;
   pgPool: Pool | undefined;
+  prismaSchemaEpoch?: string;
 };
 
-// Configure pg Pool with strict connection limits and timeouts for Prisma v7
-const pool = globalForPrisma.pgPool ?? new Pool({ 
-  connectionString,
-  max: 1, // connection_limit=1
-  connectionTimeoutMillis: 15000, // connect_timeout=15
-  idleTimeoutMillis: 30000,
-});
+/** Bump this whenever Prisma schema models/fields change so HMR drops the stale client. */
+const PRISMA_SCHEMA_EPOCH = "lms-analytics-watch-progress-v1";
 
-if (process.env.NODE_ENV !== 'production') {
+if (globalForPrisma.prismaSchemaEpoch !== PRISMA_SCHEMA_EPOCH) {
+  globalForPrisma.prismaClient = undefined;
+  if (globalForPrisma.pgPool) {
+    void globalForPrisma.pgPool.end().catch(() => undefined);
+    globalForPrisma.pgPool = undefined;
+  }
+  globalForPrisma.prismaSchemaEpoch = PRISMA_SCHEMA_EPOCH;
+}
+
+const pool =
+  globalForPrisma.pgPool ??
+  new Pool({
+    connectionString,
+    max: 5,
+    connectionTimeoutMillis: 30000,
+    idleTimeoutMillis: 20000,
+    allowExitOnIdle: true,
+  });
+
+if (process.env.NODE_ENV !== "production") {
   globalForPrisma.pgPool = pool;
 }
 
 const adapter = new PrismaPg(pool);
 
-export const prisma = globalForPrisma.prismaClientV3 ?? new PrismaClient({ adapter, log: ['error', 'warn'] });
+export const prisma =
+  globalForPrisma.prismaClient ??
+  new PrismaClient({ adapter, log: ["error", "warn"] });
 
-if (process.env.NODE_ENV !== 'production') {
-  globalForPrisma.prismaClientV3 = prisma;
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prismaClient = prisma;
 }
 
-// RLS Helper for Server Actions & API Routes
 export function getPrismaWithRLS(userId: string) {
   return prisma.$extends({
     query: {
       $allModels: {
         async $allOperations({ args, query }) {
-          // Wrap in a transaction to enforce RLS per query
           return prisma.$transaction(async (tx) => {
             await tx.$executeRaw`SELECT set_config('app.current_user_id', ${userId}, true)`;
             return query(args);

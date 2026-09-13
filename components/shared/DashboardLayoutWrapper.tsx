@@ -2,14 +2,13 @@
 
 import { useState } from "react";
 import { Sidebar } from "@/components/shared/Sidebar";
-import { MobileBottomNav } from "@/components/shared/MobileBottomNav";
 import { Role } from "@/generated/prisma";
 import { Menu, ArrowRight } from "lucide-react";
 import { useRouter, usePathname } from "next/navigation";
 
 export function DashboardLayoutWrapper({
   children,
-  role
+  role,
 }: {
   children: React.ReactNode;
   role: Role;
@@ -18,13 +17,10 @@ export function DashboardLayoutWrapper({
   const [isCollapsed, setIsCollapsed] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
-
-  // Don't show back button on the root dashboard page of the current role
   const isRootDashboard = pathname === `/dashboard/${role.toLowerCase()}`;
 
   return (
-    <div className="flex min-h-screen bg-[#F8F9FA] bg-notebook-grid font-arabic w-full max-w-full overflow-x-hidden overscroll-x-none touch-pan-y" dir="rtl">
-
+    <div className="academy-page-grid flex min-h-dvh w-full max-w-full overflow-x-hidden overscroll-x-none font-sans touch-pan-y text-[#1E1B4B] dark:text-[#F4F0FF]" dir="rtl">
       <Sidebar
         role={role}
         isMobileOpen={isMobileOpen}
@@ -33,52 +29,48 @@ export function DashboardLayoutWrapper({
         onToggleCollapse={() => setIsCollapsed(!isCollapsed)}
       />
 
-      <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${isCollapsed ? 'md:mr-20' : 'md:mr-64'}`}>
-
-        {/* Mobile Top Navigation Bar */}
-        <header className="md:hidden flex items-center justify-between p-4 bg-white border-b border-slate-100 shrink-0">
+      <div className={`flex min-h-dvh min-w-0 flex-1 flex-col transition-all duration-300 ${isCollapsed ? "md:mr-20" : "md:mr-64"}`}>
+        <header className="flex shrink-0 items-center justify-between bg-[#6D28D9] px-4 pb-4 pt-[max(1rem,env(safe-area-inset-top))] md:hidden">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setIsMobileOpen(true)}
-              className="p-2 -mr-2 rounded-lg text-slate-500 hover:bg-slate-50"
+              className="rounded-full p-2 text-white hover:bg-white/10"
+              aria-label="فتح القائمة"
             >
-              <Menu className="w-6 h-6" />
+              <Menu className="h-6 w-6" />
             </button>
-            <h1 className="font-black text-lg text-slate-900">أكاديمية دقيش</h1>
+            <h1 className="truncate text-base font-black text-white sm:text-lg">
+              منصة دقيش التعليمية
+            </h1>
           </div>
 
           {!isRootDashboard && (
             <button
               onClick={() => router.back()}
-              className="w-10 h-10 rounded-full flex items-center justify-center bg-sky-50 text-sky-700 hover:bg-sky-100 transition-colors duration-200"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#6D28D9]"
+              aria-label="رجوع"
             >
-              <ArrowRight className="w-5 h-5 rtl:rotate-180" />
+              <ArrowRight className="h-5 w-5 rtl:rotate-180" />
             </button>
           )}
         </header>
 
-        {/* Main Content Area */}
-        <main className="flex-1 overflow-y-auto w-full max-w-full overflow-x-hidden px-4 py-4 md:p-8">
-
-          {/* Desktop Global Back Button */}
+        <main className="w-full min-w-0 max-w-full flex-1 overflow-x-hidden overflow-y-auto px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))] md:p-8">
           {!isRootDashboard && (
-            <div className="hidden md:flex justify-end mb-6 max-w-7xl mx-auto">
+            <div className="mx-auto mb-6 hidden max-w-7xl justify-end md:flex">
               <button
                 onClick={() => router.back()}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-xl font-bold text-sm bg-sky-50 text-sky-700 hover:bg-sky-100 transition-colors duration-200"
+                className="flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-black text-[#6D28D9] hover:bg-[#F3EFFF]"
               >
                 رجوع
-                <ArrowRight className="w-4 h-4 rtl:-scale-x-100" />
+                <ArrowRight className="h-4 w-4 rtl:-scale-x-100" />
               </button>
             </div>
           )}
 
-          <div className="max-w-7xl mx-auto">
-            {children}
-          </div>
+          <div className="mx-auto w-full min-w-0 max-w-7xl">{children}</div>
         </main>
       </div>
-      {/* Mobile Bottom Navigation Removed */}
     </div>
   );
 }

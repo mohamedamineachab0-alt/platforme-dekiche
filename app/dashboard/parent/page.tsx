@@ -37,7 +37,6 @@ export default async function ParentDashboardPage() {
         title="بوابة الولي"
         description="اربط حسابات أبنائك وقم بمتابعة تقدمهم الدراسي و نقاطهم والمواد التي يدرسونها في منصة دقيش بكل سهولة"
         icon={Users}
-        gradientClass="bg-gradient-to-r from-sky-600 to-cyan-700"
       />
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -46,7 +45,7 @@ export default async function ParentDashboardPage() {
         <div className="lg:col-span-1">
           <div className="bg-white rounded-3xl p-6 border border-slate-100 shadow-sm sticky top-6">
             <h2 className="text-xl font-black text-slate-900 mb-2 flex items-center gap-2">
-              <LinkIcon className="w-5 h-5 text-sky-600" />
+              <LinkIcon className="w-5 h-5 text-[#6D28D9]" />
               ربط حسابات أبنائي
             </h2>
             <p className="text-slate-500 text-sm font-medium mb-6">
@@ -59,12 +58,12 @@ export default async function ParentDashboardPage() {
                   type="text" 
                   name="parentCode" 
                   required 
-                  className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 text-base font-mono tracking-widest focus:outline-none focus:ring-2 focus:ring-sky-500 text-center" 
+                  className="w-full p-3 rounded-xl border border-slate-200 bg-slate-50 text-base font-mono tracking-widest focus:outline-none focus:ring-2 focus:ring-[#6D28D9] text-center" 
                   placeholder="أدخل الرمز هنا" 
                 />
               </div>
 
-              <button type="submit" className="w-full flex items-center justify-center gap-2 bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 rounded-xl transition-colors">
+              <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-bold py-3 rounded-xl transition-colors">
                 <LinkIcon className="w-4 h-4" />
                 ربط الحساب
               </button>

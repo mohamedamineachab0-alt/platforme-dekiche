@@ -3,6 +3,7 @@
 import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { assertAuth } from "@/lib/security";
+import { subjectAudienceWhere } from "@/lib/constants";
 
 export async function getStudentSubscriptionContext() {
   try {
@@ -24,23 +25,7 @@ export async function getStudentSubscriptionContext() {
     const subjects = await prisma.subject.findMany({
       where: {
         isPublished: true,
-        AND: [
-          {
-            OR: [
-              { level: level },
-              { levels: { has: level } },
-            ],
-          },
-          {
-            OR: [
-              { stream: stream },
-              { stream: "ALL" },
-              { stream: "COMMON_TRUNK" },
-              { streams: { has: stream } },
-              { streams: { has: "ALL" as any } },
-            ],
-          },
-        ],
+        ...subjectAudienceWhere(level, stream),
       },
       select: {
         id: true,

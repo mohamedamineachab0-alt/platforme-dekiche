@@ -87,7 +87,7 @@ export default function StudentsTableClient({
               </div>
               <input
                 type="text"
-                className="block w-full pl-4 pr-12 py-3.5 border border-slate-200 dark:border-slate-700 rounded-2xl bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all font-medium"
+                className="block w-full pl-4 pr-12 py-3.5 border border-slate-200 dark:border-slate-700 rounded-2xl bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#6D28D9] focus:border-transparent transition-all font-medium"
                 placeholder="ابحث باسم التلميذ، الولي، أو رقم الهاتف..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -102,7 +102,7 @@ export default function StudentsTableClient({
                 <span className="text-lg font-black text-slate-900 dark:text-white">{totalParentsCount ?? 0}</span>
               </div>
               <div className="flex items-center gap-2 bg-slate-50 dark:bg-slate-800 px-4 py-2.5 rounded-xl border border-slate-100 dark:border-slate-700 whitespace-nowrap">
-                <Users className="w-5 h-5 text-sky-500" />
+                <Users className="w-5 h-5 text-[#6D28D9]" />
                 <span className="text-sm font-bold text-slate-600 dark:text-slate-300">إجمالي التلاميذ:</span>
                 <span className="text-lg font-black text-slate-900 dark:text-white">{totalStudentsCount ?? initialStudents.length}</span>
               </div>
@@ -138,7 +138,7 @@ export default function StudentsTableClient({
                 <select
                   value={filterLevel}
                   onChange={(e) => setFilterLevel(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-300 appearance-none focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer"
+                  className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-300 appearance-none focus:outline-none focus:ring-2 focus:ring-[#6D28D9] cursor-pointer"
                 >
                   <option value="ALL">جميع المستويات</option>
                   {LEVELS.map(l => (
@@ -159,7 +159,7 @@ export default function StudentsTableClient({
                 <select
                   value={filterStream}
                   onChange={(e) => setFilterStream(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-300 appearance-none focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer"
+                  className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-300 appearance-none focus:outline-none focus:ring-2 focus:ring-[#6D28D9] cursor-pointer"
                 >
                   <option value="ALL">جميع الشعب</option>
                   {STREAMS.map(s => (
@@ -180,7 +180,7 @@ export default function StudentsTableClient({
                 <select
                   value={filterLinkStatus}
                   onChange={(e) => setFilterLinkStatus(e.target.value as any)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-300 appearance-none focus:outline-none focus:ring-2 focus:ring-sky-500 cursor-pointer"
+                  className="w-full pl-10 pr-4 py-2.5 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 rounded-xl text-sm font-bold text-slate-700 dark:text-slate-300 appearance-none focus:outline-none focus:ring-2 focus:ring-[#6D28D9] cursor-pointer"
                 >
                   <option value="ALL">الكل</option>
                   <option value="LINKED">مربوطون بحساب الولي</option>
@@ -224,7 +224,7 @@ export default function StudentsTableClient({
                     {/* Student Info */}
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 rounded-2xl bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center text-sky-600 dark:text-sky-400 shrink-0">
+                        <div className="w-12 h-12 rounded-2xl bg-[#EDE9FE] dark:bg-sky-900/30 flex items-center justify-center text-[#6D28D9] dark:text-[#A78BFA] shrink-0">
                           <User className="w-6 h-6" />
                         </div>
                         <div>
@@ -278,7 +278,7 @@ export default function StudentsTableClient({
                     {/* Actions */}
                     <td className="px-6 py-4 whitespace-nowrap text-center">
                       <div className="flex items-center justify-center gap-2 opacity-50 group-hover:opacity-100 transition-opacity">
-                        <button className="p-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-sky-600 hover:border-sky-200 hover:bg-sky-50 dark:hover:border-sky-800 dark:hover:bg-sky-900/30 rounded-xl transition-all shadow-sm hover:shadow" title="تعديل حساب التلميذ">
+                        <button className="p-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-[#6D28D9] hover:border-[#EDE9FE] hover:bg-[#F3EFFF] dark:hover:border-sky-800 dark:hover:bg-sky-900/30 rounded-xl transition-all shadow-sm hover:shadow" title="تعديل حساب التلميذ">
                           <Edit2 className="w-4 h-4" />
                         </button>
                         <button className="p-2 bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-700 text-slate-500 hover:text-indigo-600 hover:border-indigo-200 hover:bg-indigo-50 dark:hover:border-indigo-800 dark:hover:bg-indigo-900/30 rounded-xl transition-all shadow-sm hover:shadow" title="ربط بحساب ولي">

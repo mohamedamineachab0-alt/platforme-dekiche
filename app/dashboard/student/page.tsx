@@ -2,25 +2,23 @@ import { prisma } from "@/lib/prisma";
 import { assertAuth } from "@/lib/security";
 import { redirect } from "next/navigation";
 import { HeroBanner } from "@/components/shared/HeroBanner";
-import { 
-  BookOpen, 
-  Map, 
-  MessageSquare, 
-  Library, 
-  CheckCircle, 
-  FileText, 
-  Bot, 
-  Bell, 
-  AlertTriangle, 
-  Video, 
-  Trophy,
-  ChevronLeft,
-  GraduationCap,
-  Users,
-  Swords
-} from "lucide-react";
+import { ChevronLeft, GraduationCap } from "lucide-react";
 import Link from "next/link";
 import { DailyTip } from "@/components/student/DailyTip";
+import {
+  IconBell,
+  IconBot,
+  IconCards,
+  IconChallenge,
+  IconChat,
+  IconExam,
+  IconLessons,
+  IconLive,
+  IconMapPin,
+  IconMistakes,
+  IconQuiz,
+  IconTrophy,
+} from "@/components/landing/PlayIcons";
 
 export default async function StudentDashboardPage() {
   const sessionUser = await assertAuth({ requireRole: "STUDENT" });
@@ -31,14 +29,13 @@ export default async function StudentDashboardPage() {
       studentProfile: true,
       enrollments: true,
       mistakes: true,
-    }
+    },
   });
 
   if (!user || !user.studentProfile) redirect("/login");
 
-  const enrolledSubjectIds = user.enrollments.map(e => e.subjectId);
+  const enrolledSubjectIds = user.enrollments.map((e) => e.subjectId);
 
-  // Future live classes for enrolled subjects
   const upcomingLiveClassesCount = await prisma.liveClass.count({
     where: {
       subjectId: { in: enrolledSubjectIds },
@@ -46,204 +43,208 @@ export default async function StudentDashboardPage() {
     },
   });
 
-  const enrolledCount = enrolledSubjectIds.length;
   const mistakesCount = user.mistakes.length;
 
-  // Available subjects for the student's level and stream
   const availableSubjectsCount = await prisma.subject.count({
     where: {
       levels: { has: user.studentProfile.level },
       streams: { has: user.studentProfile.stream },
       isPublished: true,
-    }
+    },
   });
 
   const SECTIONS = [
     {
+      id: "analytics",
+      title: "لوحة الحصيلة الدراسية",
+      description: "ساعات المشاهدة الفعلية ونسبة التقدم لكل مادة ومتابعة الولي",
+      icon: IconTrophy,
+      iconBg: "bg-gradient-to-b from-[#CCFBF1] to-[#99F6E4]",
+      actionText: "عرض الحصيلة",
+      route: "/dashboard/student/analytics",
+    },
+    {
       id: "subjects",
       title: "موادي",
       description: "تصفح الدروس والملحقات والفيديوهات الخاصة بالمواد التي تم تفعيلها وبدء الدراسة",
-      icon: BookOpen,
-      iconColor: "text-sky-600",
-      iconBg: "bg-sky-100",
-      hoverBorder: "hover:border-sky-200",
+      icon: IconLessons,
+      iconBg: "bg-gradient-to-b from-[#EDE9FE] to-[#DDD6FE]",
       badge: `${availableSubjectsCount} مادة`,
       actionText: "تصفح المواد",
-      route: "/dashboard/student/subjects"
+      route: "/dashboard/student/subjects",
     },
     {
       id: "smart-map",
       title: "خريطتي الذكية",
       description: "تتبع مسارك الدراسي ودروسك وإختباراتك ومستواك في كل مادة بخط زمني تفاعلي",
-      icon: Map,
-      iconColor: "text-blue-500",
-      iconBg: "bg-blue-50",
-      hoverBorder: "hover:border-blue-200",
+      icon: IconMapPin,
+      iconBg: "bg-gradient-to-b from-[#FFE4C4] to-[#FFD0A3]",
       actionText: "عرض الخريطة",
-      route: "/dashboard/student/roadmap"
+      route: "/dashboard/student/roadmap",
     },
     {
       id: "class-chat",
       title: "دردشة القسم",
       description: "شارك في نقاشات القسم واطرح أسئلتك وتفاعل مع زملائك في مساحة آمنة",
-      icon: MessageSquare,
-      iconColor: "text-sky-500",
-      iconBg: "bg-sky-50",
-      hoverBorder: "hover:border-sky-200",
+      icon: IconChat,
+      iconBg: "bg-gradient-to-b from-[#D6E4FF] to-[#DDD6FE]",
       actionText: "دخول الدردشة",
-      route: "/dashboard/student/forums"
+      route: "/dashboard/student/forums",
     },
     {
       id: "review-cards",
       title: "بطاقات المراجعة",
       description: "راجع دروسك بسرعة وفعالية باستخدام بطاقات الذاكرة التفاعلية المصممة لمستواك",
-      icon: Library,
-      iconColor: "text-sky-500",
-      iconBg: "bg-sky-50",
-      hoverBorder: "hover:border-sky-200",
+      icon: IconCards,
+      iconBg: "bg-gradient-to-b from-[#EDE4FF] to-[#D4C4FF]",
       actionText: "بدء المراجعة",
-      route: "/dashboard/student/review-cards"
+      route: "/dashboard/student/review-cards",
+    },
+    {
+      id: "flashcards",
+      title: "بطاقات الحفظ السريع",
+      description: "احفظ المفاهيم بقلب البطاقة من بنك الدروس الجاهز حسب موادك المفعلة",
+      icon: IconCards,
+      iconBg: "bg-gradient-to-b from-[#DDD6FE] to-[#C4B5FD]",
+      actionText: "بدء الحفظ",
+      route: "/dashboard/student/flashcards",
+    },
+    {
+      id: "daily-quest",
+      title: "تحدي اليوم",
+      description: "تمارين اختيار من متعدد مع تصحيح فوري من بنك الدروس المولد مسبقا",
+      icon: IconQuiz,
+      iconBg: "bg-gradient-to-b from-[#E0E7FF] to-[#C7D2FE]",
+      actionText: "بدء التحدي",
+      route: "/dashboard/student/quest",
     },
     {
       id: "daily-exercises",
       title: "تماريني اليومية",
       description: "حل التمارين الجديدة يومياً لرفع رصيدك من النقاط والتصدر في الترتيب عبر منصتنا",
-      icon: CheckCircle,
-      iconColor: "text-green-600",
-      iconBg: "bg-green-100",
-      hoverBorder: "hover:border-green-200",
+      icon: IconQuiz,
+      iconBg: "bg-gradient-to-b from-[#EDE4FF] to-[#C9B6FF]",
       actionText: "بدء التمارين",
-      route: "/dashboard/student/exercises"
+      route: "/dashboard/student/exercises",
     },
     {
       id: "exams",
       title: "إختبارات وفروض",
       description: "اختبر مستواك من خلال اختبارات ذكية ومقيمة تلقائياً بدقة واحترافية",
-      icon: FileText,
-      iconColor: "text-cyan-600",
-      iconBg: "bg-cyan-50",
-      hoverBorder: "hover:border-cyan-200",
+      icon: IconExam,
+      iconBg: "bg-gradient-to-b from-[#D6E4FF] to-[#DDD6FE]",
       actionText: "عرض الإختبارات",
-      route: "/dashboard/student/exams"
+      route: "/dashboard/student/exams",
     },
     {
       id: "smart-assistant",
       title: "مساعدي الذكي",
       description: "تحدث مع المساعد الذكي المدعوم بالذكاء الاصطناعي لفهم الدروس وتحليل مستواك",
-      icon: Bot,
-      iconColor: "text-violet-500",
-      iconBg: "bg-violet-50",
-      hoverBorder: "hover:border-violet-200",
+      icon: IconBot,
+      iconBg: "bg-gradient-to-b from-[#EDE4FF] to-[#C9B6FF]",
       actionText: "تحدث مع المساعد",
-      route: "/dashboard/student/ai-assistant"
+      route: "/dashboard/student/ai-assistant",
     },
     {
       id: "notifications",
       title: "الإشعارات",
       description: "تابع أحدث التنبيهات ومواعيد الامتحانات وإعلانات المنصة الهامة لحظة بلحظة",
-      icon: Bell,
-      iconColor: "text-amber-500",
-      iconBg: "bg-amber-50",
-      hoverBorder: "hover:border-amber-200",
+      icon: IconBell,
+      iconBg: "bg-gradient-to-b from-[#EDE9FE] to-[#DDD6FE]",
       actionText: "عرض الإشعارات",
-      route: "/dashboard/student/notifications"
+      route: "/dashboard/student/notifications",
     },
     {
       id: "mistakes",
       title: "أخطائي",
       description: "بنك خاص بالأخطاء التي ارتكبتها في التمارين مع حلولها الصحيحة لتفاديها لاحقاً",
-      icon: AlertTriangle,
-      iconColor: "text-orange-500",
-      iconBg: "bg-orange-100",
-      hoverBorder: "hover:border-orange-200",
+      icon: IconMistakes,
+      iconBg: "bg-gradient-to-b from-[#FFE0D4] to-[#FFB39A]",
       badge: `${mistakesCount} أخطاء`,
       actionText: "مراجعة الأخطاء",
-      route: "/dashboard/student/mistakes"
+      route: "/dashboard/student/mistakes",
     },
     {
       id: "live-classes",
       title: "حصص مباشرة",
       description: "تفاعل مع أساتذتك في حصص البث المباشر عبر تطبيق زووم ومراجعة الدروس التفاعلية",
-      icon: Video,
-      iconColor: "text-pink-600",
-      iconBg: "bg-pink-100",
-      hoverBorder: "hover:border-pink-200",
+      icon: IconLive,
+      iconBg: "bg-gradient-to-b from-[#FFD6E8] to-[#FFA8C8]",
       badge: `${upcomingLiveClassesCount} حصص مجدولة`,
       actionText: "جدول الحصص",
-      route: "/dashboard/student/live-classes"
+      route: "/dashboard/student/live-classes",
     },
     {
       id: "ranking",
       title: "الترتيب والنقاط",
       description: "شاهد ترتيبك بين زملائك واكتشف عدد النقاط التي جمعتها من حل التمارين",
-      icon: Trophy,
-      iconColor: "text-yellow-500",
-      iconBg: "bg-yellow-100",
-      hoverBorder: "hover:border-yellow-200",
+      icon: IconTrophy,
+      iconBg: "bg-gradient-to-b from-[#EDE9FE] to-[#DDD6FE]",
       actionText: "عرض الترتيب",
-      route: "/dashboard/student/leaderboard"
+      route: "/dashboard/student/leaderboard",
     },
     {
       id: "friend-challenge",
       title: "منافسة صديق",
       description: "نافس أصدقاءك في حل التمارين والمراجعة وتتبع من الأفضل",
-      icon: Swords,
-      iconColor: "text-amber-500",
-      iconBg: "bg-amber-50",
-      hoverBorder: "hover:border-amber-200",
+      icon: IconChallenge,
+      iconBg: "bg-gradient-to-b from-[#FFE4C4] to-[#FFD0A3]",
       actionText: "دخول المنافسة",
-      route: "/dashboard/student/friend-challenge"
+      route: "/dashboard/student/friend-challenge",
     },
   ];
 
   return (
-    <div className="space-y-8">
-      <HeroBanner 
-        title={`مرحباً بك مجدداً، ${user.fullName}!`}
-        description="واصل مسيرتك التعليمية بكل شغف، أنت على بعد خطوات من تحقيق أهدافك"
+    <div className="space-y-8 text-[#1E1B4B]">
+      <HeroBanner
+        title={`مرحباً بك مجدداً، ${user.fullName}`}
+        description="واصل مسيرتك التعليمية بكل شغف أنت على بعد خطوات من تحقيق أهدافك"
         icon={GraduationCap}
-        gradientClass="bg-gradient-to-r from-amber-400 to-amber-500"
-        showGridPattern={true}
       />
 
       <DailyTip variant="card" />
 
       <div>
-        <h2 className="text-2xl font-black text-slate-900 mb-6">أقسام المنصة</h2>
+        <h2 className="mb-6 text-2xl font-black text-[#1E1B4B]">أقسام المنصة</h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {SECTIONS.map((section) => {
             const Icon = section.icon;
             return (
-              <Link href={section.route} key={section.id} className={`group block bg-white rounded-2xl p-6 border border-amber-200 shadow-sm hover:border-amber-300 hover:shadow-md hover:shadow-amber-500/10 transition-all duration-300 ${section.hoverBorder}`}>
-                <div className="flex items-start justify-between mb-5">
-                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 ${section.iconBg} ${section.iconColor}`}>
-                    <Icon className="w-7 h-7" />
+              <Link
+                href={section.route}
+                key={section.id}
+                className="group block rounded-[32px] bg-white p-6 shadow-[0_12px_36px_rgba(30,27,75,0.06)]"
+              >
+                <div className="mb-5 flex items-start justify-between">
+                  <div
+                    className={`flex h-14 w-14 items-center justify-center rounded-full transition duration-300 group-hover:scale-105 ${section.iconBg}`}
+                  >
+                    <Icon size="sm" />
                   </div>
                   {section.badge && (
-                    <span className="bg-slate-50 text-slate-500 text-[11px] font-bold px-2.5 py-1 rounded-md border border-slate-100">
+                    <span className="rounded-full bg-[#6D28D9]/10 px-3 py-1 text-[11px] font-bold text-[#1E1B4B]">
                       {section.badge}
                     </span>
                   )}
                 </div>
-                
+
                 <div className="mb-6">
-                  <h3 className="text-lg font-black text-slate-900 mb-2">{section.title}</h3>
-                  <p className="text-sm font-medium text-slate-500 line-clamp-2 leading-relaxed">
+                  <h3 className="mb-2 text-lg font-black text-[#1E1B4B]">{section.title}</h3>
+                  <p className="line-clamp-2 text-sm font-medium leading-relaxed text-[#6B6480]">
                     {section.description}
                   </p>
                 </div>
 
-                <div className={`flex items-center gap-1.5 font-bold text-sm ${section.iconColor}`}>
+                <div className="flex items-center gap-1.5 text-sm font-bold text-[#6D28D9]">
                   <span>{section.actionText}</span>
-                  <ChevronLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
+                  <ChevronLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
                 </div>
               </Link>
-            )
+            );
           })}
         </div>
       </div>
-
     </div>
   );
 }

@@ -49,7 +49,7 @@ export default async function AdminSubjectsPage() {
                     </div>
                   )}
                   <div className="absolute top-3 right-3 flex items-center gap-2">
-                    <div className="bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-lg text-xs font-black text-sky-600 shadow-sm border border-white/20">
+                    <div className="bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-lg text-xs font-black text-[#6D28D9] shadow-sm border border-white/20">
                       {subject.price === 0 ? "مجاناً" : `${subject.price} دج`}
                     </div>
                   </div>
@@ -72,7 +72,7 @@ export default async function AdminSubjectsPage() {
                     <span className="text-xs font-bold text-slate-600 bg-slate-100/80 px-3 py-1.5 rounded-lg">
                       {subject.teacherName}
                     </span>
-                    <span className="text-xs font-bold text-sky-700 bg-sky-50 px-3 py-1.5 rounded-lg">
+                    <span className="text-xs font-bold text-[#5B21B6] bg-[#F3EFFF] px-3 py-1.5 rounded-lg">
                       {subject.accessType === "YEARLY" ? "سنوي" : "شهري"}
                     </span>
                   </div>

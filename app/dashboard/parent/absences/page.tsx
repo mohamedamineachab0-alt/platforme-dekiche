@@ -21,7 +21,7 @@ export default async function AbsencesPage() {
         <p className="text-slate-600 mb-4">لم يتم ربط أي تلاميذ بحسابك.</p>
         <Link
           href="/dashboard/parent"
-          className="px-6 py-2 bg-sky-600 text-white rounded-xl hover:bg-sky-700 transition"
+          className="px-6 py-2 bg-[#6D28D9] text-white rounded-xl hover:bg-[#5B21B6] transition"
         >
           ربط حسابات أبنائي
         </Link>
@@ -44,7 +44,7 @@ export default async function AbsencesPage() {
 
   return (
     <div className="space-y-8 font-arabic" dir="rtl">
-      <div className="bg-gradient-to-r from-amber-400 to-amber-500 p-6 rounded-2xl text-white flex items-center gap-4">
+      <div className="academy-hero-grid p-6 rounded-2xl text-white flex items-center gap-4">
         <UserMinus className="w-6 h-6" />
         <h2 className="text-xl font-black">غيابات أبنائي</h2>
       </div>

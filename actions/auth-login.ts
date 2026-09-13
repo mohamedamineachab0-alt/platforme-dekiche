@@ -3,6 +3,8 @@
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { encryptSession } from "@/lib/security";
+import { studentHomePath } from "@/lib/platform-branch";
+import type { PlatformBranch } from "@/generated/prisma";
 
 export type LoginState = {
   error?: string;
@@ -10,80 +12,93 @@ export type LoginState = {
   redirectUrl?: string;
 };
 
-export async function universalLoginAction(
-  formData: FormData
-): Promise<LoginState> {
+function normalizeAlgerianPhone(value: string) {
+  const latinDigits = value.replace(/[٠-٩]/g, (digit) => String("٠١٢٣٤٥٦٧٨٩".indexOf(digit)));
+  const compact = latinDigits.replace(/[^\d+]/g, "");
+
+  if (compact.startsWith("+213")) return `0${compact.slice(4)}`;
+  if (compact.startsWith("213")) return `0${compact.slice(3)}`;
+  return compact;
+}
+
+function normalizeArabicName(name: string) {
+  if (!name) return "";
+  return name
+    .toLowerCase()
+    .replace(/\s+/g, "")
+    .replace(/[أإآ]/g, "ا")
+    .replace(/ة/g, "ه")
+    .replace(/ى/g, "ي");
+}
+
+export async function universalLoginAction(formData: FormData): Promise<LoginState> {
   const fullName = (formData.get("fullName") as string)?.trim();
-  const phoneNumber = (formData.get("phoneNumber") as string)?.trim();
+  const rawPhone = (formData.get("phoneNumber") as string)?.trim() || "";
+  const phoneNumber = normalizeAlgerianPhone(rawPhone);
 
   if (!fullName || !phoneNumber) {
     return { error: "يرجى إدخال الاسم الكامل ورقم الهاتف" };
   }
 
-  let user = null;
+  let user: {
+    id: string;
+    role: string;
+    fullName: string;
+    studentProfile: { branch: PlatformBranch } | null;
+  } | null = null;
 
   try {
-    // Construct the alternative phone number format (+213) if it starts with 0
-    const altPhoneNumber = phoneNumber.startsWith("0") 
-      ? "+213" + phoneNumber.substring(1) 
-      : phoneNumber.startsWith("+213") 
-        ? "0" + phoneNumber.substring(4)
+    const altPhoneNumber = phoneNumber.startsWith("0")
+      ? `+213${phoneNumber.substring(1)}`
+      : phoneNumber.startsWith("+213")
+        ? `0${phoneNumber.substring(4)}`
         : phoneNumber;
 
-    // 2. Fetch by phone number (handling both formats)
     user = await prisma.user.findFirst({
       where: {
-        OR: [
-          { phoneNumber: phoneNumber },
-          { phoneNumber: altPhoneNumber },
-        ]
+        OR: [{ phoneNumber }, { phoneNumber: altPhoneNumber }, { phoneNumber: rawPhone }],
       },
+      include: { studentProfile: { select: { branch: true } } },
     });
 
-    // Normalize Arabic names to ignore common typos (spaces, أ/إ/آ vs ا, ة vs ه, ى vs ي)
-    const normalizeArabicName = (name: string) => {
-      if (!name) return "";
-      return name
-        .toLowerCase()
-        .replace(/\s+/g, "")
-        .replace(/[أإآ]/g, "ا")
-        .replace(/ة/g, "ه")
-        .replace(/ى/g, "ي");
-    };
+    if (!user || normalizeArabicName(user.fullName) !== normalizeArabicName(fullName)) {
+      return { error: "بيانات الدخول غير صحيحة أو الحساب غير موجود" };
+    }
 
-    // 3. Reject if the user does not exist or the name doesn't match after normalization
-    if (
-      !user ||
-      normalizeArabicName(user.fullName) !== normalizeArabicName(fullName)
-    ) {
-      return { error: "بيانات الدخول غير صحيحة، أو الحساب غير موجود" };
+    if (user.role === "STUDENT" && user.studentProfile?.branch === "SMART_TEACHER") {
+      await prisma.studentProfile.update({
+        where: { userId: user.id },
+        data: { branch: "STUDY" },
+      });
+      user.studentProfile.branch = "STUDY";
     }
 
     const sessionToken = await encryptSession({ userId: user.id });
-
     const cookieStore = await cookies();
     cookieStore.set("session", sessionToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
       path: "/",
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      maxAge: 60 * 60 * 24 * 7,
     });
 
-    // 5. Update last login safely
     await prisma.user.update({
       where: { id: user.id },
       data: { lastLoginAt: new Date() },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Auth Error (Login):", error);
-    return { 
-      error: error instanceof Error ? error.message : String(error)
+    return {
+      error: error instanceof Error ? error.message : String(error),
     };
   }
 
-  // 6. Return success and URL instead of throwing a Server-Side redirect
-  let redirectUrl = "/dashboard/student"; // Fallback
+  if (!user) {
+    return { error: "بيانات الدخول غير صحيحة أو الحساب غير موجود" };
+  }
+
+  let redirectUrl = "/dashboard/student";
   switch (user.role) {
     case "ADMIN":
       redirectUrl = "/dashboard/admin";
@@ -92,12 +107,12 @@ export async function universalLoginAction(
       redirectUrl = "/dashboard/teacher";
       break;
     case "STUDENT":
-      redirectUrl = "/dashboard/student";
+      redirectUrl = studentHomePath(user.studentProfile?.branch);
       break;
     case "PARENT":
       redirectUrl = "/dashboard/parent";
       break;
   }
-  
+
   return { success: true, redirectUrl };
 }

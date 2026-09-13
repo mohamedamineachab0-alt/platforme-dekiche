@@ -1,17 +1,15 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { getForumDetails, getForumMessages } from "@/actions/forums";
 import { prisma } from "@/lib/prisma";
+import { assertAuth } from "@/lib/security";
 import { ForumChatClient } from "@/components/student/ForumChatClient";
 import { Lock, Unlock, Key } from "lucide-react";
 import Link from "next/link";
 
 export default async function StudentChatRoomPage(props: { params: Promise<{ forumId: string }> }) {
   const params = await props.params;
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
-
-  if (!sessionId) redirect("/login");
+  const sessionUser = await assertAuth({ requireRole: "STUDENT" });
+  const sessionId = sessionUser.id;
 
   const studentProfile = await prisma.studentProfile.findUnique({
     where: { userId: sessionId },

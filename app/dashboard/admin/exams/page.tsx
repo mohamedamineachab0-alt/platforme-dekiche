@@ -50,7 +50,7 @@ export default async function AdminExamsPage() {
                 <div key={exam.id} className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex flex-col gap-3">
                   <div className="flex justify-between items-start">
                     <h4 className="font-bold text-slate-900">{exam.title}</h4>
-                    <span className="bg-sky-100 text-sky-700 text-xs font-bold px-3 py-1 rounded-full">
+                    <span className="bg-[#EDE9FE] text-[#5B21B6] text-xs font-bold px-3 py-1 rounded-full">
                       {exam.subject.title}
                     </span>
                   </div>
@@ -59,7 +59,7 @@ export default async function AdminExamsPage() {
                     <span className="text-slate-500 font-medium">
                       {exam.quiz ? "تم استخراج الذكاء الاصطناعي بنجاح" : "بدون كويز آلي"}
                     </span>
-                    <span className="font-bold text-sky-600">
+                    <span className="font-bold text-[#6D28D9]">
                       {exam._count.submissions} إجابة
                     </span>
                   </div>

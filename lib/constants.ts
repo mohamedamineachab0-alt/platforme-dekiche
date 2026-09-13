@@ -66,16 +66,234 @@ export const getWilayaName = (code?: string | null) => {
   return wilaya ? wilaya.name : code;
 };
 
-export const LEVELS = [
-  { value: "AS2", label: "السنة الثانية ثانوي" },
-  { value: "AS3", label: "السنة الثالثة ثانوي (شهادة الباكالوريا)" },
+export const SECONDARY_STREAMS = [
+  { value: "COMMON_TRUNK", label: "جذع مشترك (أولى ثانوي)" },
+  { value: "SCIENCES", label: "شعبة علوم تجريبية" },
+  { value: "MATH", label: "شعبة رياضيات" },
+  { value: "TECH_MATH", label: "شعبة تقني رياضي" },
+  { value: "GESTION", label: "شعبة تسيير واقتصاد" },
+  { value: "LETTRES", label: "شعبة آداب وفلسفة" },
+  { value: "LANGUAGES", label: "شعبة لغات أجنبية" },
 ];
 
-export const STREAMS = [
-  { value: "SCIENCES",    label: "شعبة علوم تجريبية" },
-  { value: "MATH",        label: "شعبة رياضيات" },
-  { value: "TECH_MATH",   label: "شعبة تقني رياضي" },
-  { value: "GESTION",     label: "شعبة تسيير واقتصاد" },
-  { value: "LETTRES",     label: "شعبة آداب وفلسفة" },
-  { value: "LANGUAGES",   label: "شعبة لغات أجنبية" },
+export const PRIMARY_STREAMS = [{ value: "PRIMARY", label: "عام" }];
+
+export const MIDDLE_STREAMS = [
+  { value: "COMMON_TRUNK", label: "جذع مشترك" },
+  { value: "MIDDLE_SCIENCE", label: "علمي" },
+  { value: "MIDDLE_LETTERS", label: "أدبي" },
 ];
+
+export const TRAINING_STREAMS = [
+  { value: "PROGRAMMING", label: "البرمجة" },
+  { value: "ROBOTICS", label: "الروبوتات" },
+  { value: "ART", label: "الرسم" },
+  { value: "DESIGN", label: "التصميم" },
+  { value: "VIDEO", label: "المونتاج وصناعة المحتوى" },
+  { value: "CHESS", label: "الشطرنج" },
+  { value: "MUSIC", label: "الموسيقى" },
+  { value: "CALLIGRAPHY", label: "الخط العربي" },
+  { value: "THEATER", label: "المسرح والإلقاء" },
+  { value: "COMPUTER", label: "الإعلام الآلي" },
+  { value: "ACCOUNTING", label: "المحاسبة" },
+  { value: "OFFICE", label: "السكرتارية" },
+];
+
+export const CYCLES = [
+  {
+    value: "PRIMARY",
+    label: "الطور الابتدائي",
+    levels: [
+      { value: "AP1", label: "السنة الأولى ابتدائي" },
+      { value: "AP2", label: "السنة الثانية ابتدائي" },
+      { value: "AP3", label: "السنة الثالثة ابتدائي" },
+      { value: "AP4", label: "السنة الرابعة ابتدائي" },
+      { value: "AP5", label: "السنة الخامسة ابتدائي" },
+    ],
+    streams: PRIMARY_STREAMS,
+  },
+  {
+    value: "MIDDLE",
+    label: "الطور المتوسط",
+    levels: [
+      { value: "AM1", label: "السنة الأولى متوسط" },
+      { value: "AM2", label: "السنة الثانية متوسط" },
+      { value: "AM3", label: "السنة الثالثة متوسط" },
+      { value: "AM4", label: "السنة الرابعة متوسط" },
+    ],
+    streams: MIDDLE_STREAMS,
+  },
+  {
+    value: "SECONDARY",
+    label: "الطور الثانوي",
+    levels: [
+      { value: "AS1", label: "السنة الأولى ثانوي" },
+      { value: "AS2", label: "السنة الثانية ثانوي" },
+      { value: "AS3", label: "السنة الثالثة ثانوي (شهادة الباكالوريا)" },
+    ],
+    streams: SECONDARY_STREAMS,
+  },
+  {
+    value: "LANGUAGES",
+    label: "تعليم اللغات",
+    levels: [
+      { value: "LANG_BEGINNER", label: "مبتدئ" },
+      { value: "LANG_INTERMEDIATE", label: "متوسط" },
+      { value: "LANG_ADVANCED", label: "متقدم" },
+    ],
+    streams: [
+      { value: "ENGLISH", label: "الإنجليزية" },
+      { value: "FRENCH", label: "الفرنسية" },
+      { value: "SPANISH", label: "الإسبانية" },
+    ],
+  },
+  {
+    value: "SOROBAN",
+    label: "السوروبان",
+    levels: [
+      { value: "SOR_BEGINNER", label: "مبتدئ" },
+      { value: "SOR_INTERMEDIATE", label: "متوسط" },
+      { value: "SOR_ADVANCED", label: "متقدم" },
+    ],
+    streams: [{ value: "SOROBAN", label: "السوروبان" }],
+  },
+  {
+    value: "QURAN",
+    label: "القرآن الكريم",
+    levels: [
+      { value: "QUR_BEGINNER", label: "مبتدئ" },
+      { value: "QUR_INTERMEDIATE", label: "متوسط" },
+      { value: "QUR_ADVANCED", label: "متقدم" },
+    ],
+    streams: [{ value: "QURAN", label: "القرآن الكريم" }],
+  },
+  {
+    value: "ISLAMIC",
+    label: "إسلاميات",
+    levels: [
+      { value: "ISL_BEGINNER", label: "مبتدئ" },
+      { value: "ISL_INTERMEDIATE", label: "متوسط" },
+      { value: "ISL_ADVANCED", label: "متقدم" },
+    ],
+    streams: [{ value: "ISLAMIC", label: "إسلاميات" }],
+  },
+  {
+    value: "TRAINING",
+    label: "دورات أخرى",
+    levels: [
+      { value: "TR_BEGINNER", label: "مبتدئ" },
+      { value: "TR_INTERMEDIATE", label: "متوسط" },
+      { value: "TR_ADVANCED", label: "متقدم" },
+    ],
+    streams: TRAINING_STREAMS,
+  },
+] as const;
+
+export type CycleValue = (typeof CYCLES)[number]["value"];
+
+export const LANGUAGE_CYCLE = CYCLES.find((cycle) => cycle.value === "LANGUAGES")!;
+export const SOROBAN_CYCLE = CYCLES.find((cycle) => cycle.value === "SOROBAN")!;
+export const QURAN_CYCLE = CYCLES.find((cycle) => cycle.value === "QURAN")!;
+export const ISLAMIC_CYCLE = CYCLES.find((cycle) => cycle.value === "ISLAMIC")!;
+export const TRAINING_CYCLE = CYCLES.find((cycle) => cycle.value === "TRAINING")!;
+export const SECONDARY_CYCLE = CYCLES.find((cycle) => cycle.value === "SECONDARY")!;
+export const MIDDLE_CYCLE = CYCLES.find((cycle) => cycle.value === "MIDDLE")!;
+export const PRIMARY_CYCLE = CYCLES.find((cycle) => cycle.value === "PRIMARY")!;
+export const STUDY_CYCLES = [PRIMARY_CYCLE, MIDDLE_CYCLE, SECONDARY_CYCLE];
+
+export const LEVELS = CYCLES.flatMap((cycle) => [...cycle.levels]);
+
+export const STREAMS = [
+  ...PRIMARY_STREAMS,
+  ...SECONDARY_STREAMS,
+  ...MIDDLE_STREAMS,
+  { value: "ENGLISH", label: "الإنجليزية" },
+  { value: "FRENCH", label: "الفرنسية" },
+  { value: "SPANISH", label: "الإسبانية" },
+  { value: "SOROBAN", label: "السوروبان" },
+  { value: "QURAN", label: "القرآن الكريم" },
+  { value: "ISLAMIC", label: "إسلاميات" },
+  ...TRAINING_STREAMS,
+];
+
+export function getCycleByValue(cycle?: string | null) {
+  return CYCLES.find((item) => item.value === cycle);
+}
+
+export function getCycleByLevel(level?: string | null) {
+  const matched = CYCLES.find((cycle) => cycle.levels.some((item) => item.value === level));
+  if (matched) return matched;
+  if (level?.startsWith("ENG_") || level?.startsWith("FR_") || level?.startsWith("ES_") || level?.startsWith("LANG_")) {
+    return CYCLES.find((cycle) => cycle.value === "LANGUAGES");
+  }
+  if (level?.startsWith("SOR_")) {
+    return CYCLES.find((cycle) => cycle.value === "SOROBAN");
+  }
+  if (level?.startsWith("QUR_")) {
+    return CYCLES.find((cycle) => cycle.value === "QURAN");
+  }
+  if (level?.startsWith("ISL_")) {
+    return CYCLES.find((cycle) => cycle.value === "ISLAMIC");
+  }
+  if (level?.startsWith("AP")) {
+    return CYCLES.find((cycle) => cycle.value === "PRIMARY");
+  }
+  if (level?.startsWith("TR_")) {
+    return CYCLES.find((cycle) => cycle.value === "TRAINING");
+  }
+  return undefined;
+}
+
+export function getCycleLabelForLevel(level?: string | null) {
+  return getCycleByLevel(level)?.label || "";
+}
+
+export function isStreamAllowedForLevel(level?: string | null, stream?: string | null) {
+  if (!level || !stream) return false;
+  const cycle = getCycleByLevel(level);
+  return !!cycle?.streams.some((item) => item.value === stream);
+}
+
+export function cycleLevelValues(level?: string | null) {
+  return getCycleByLevel(level)?.levels.map((item) => item.value) ?? [];
+}
+
+export function subjectAudienceWhere(level: string, stream: string) {
+  const cycle = getCycleByLevel(level);
+  const cycleLevels = cycleLevelValues(level);
+  const allowSharedStreams = cycle?.value === "SECONDARY" || cycle?.value === "MIDDLE";
+
+  return {
+    AND: [
+      { OR: [{ level }, { levels: { has: level } }] },
+      {
+        OR: [
+          { stream },
+          { streams: { has: stream } },
+          ...(allowSharedStreams && cycleLevels.length
+            ? [
+                {
+                  AND: [
+                    {
+                      OR: [
+                        { stream: "ALL" },
+                        { stream: "COMMON_TRUNK" },
+                        { streams: { has: "ALL" } },
+                        { streams: { has: "COMMON_TRUNK" } },
+                      ],
+                    },
+                    {
+                      OR: [
+                        { level: { in: cycleLevels } },
+                        { levels: { hasSome: cycleLevels } },
+                      ],
+                    },
+                  ],
+                },
+              ]
+            : []),
+        ],
+      },
+    ],
+  };
+}

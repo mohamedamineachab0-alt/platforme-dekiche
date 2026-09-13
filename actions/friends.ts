@@ -1,13 +1,12 @@
 "use server";
 
-import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { getSessionUserId } from "@/lib/security";
 
 export async function linkFriend(friendCode: string) {
   try {
-    const cookieStore = await cookies();
-    const sessionId = cookieStore.get("session")?.value;
+    const sessionId = await getSessionUserId();
 
     if (!sessionId) {
       return { error: "غير مصرح" };

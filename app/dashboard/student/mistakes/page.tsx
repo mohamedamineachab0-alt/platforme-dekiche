@@ -72,7 +72,6 @@ export default async function StudentMistakesPage() {
         title="أخطائي (بنك الأخطاء)"
         description="تتبع ومراجعة كل الأخطاء التي قمت بها أثناء حل الاختبارات والتمارين مع الحلول النموذجية لتطوير مستواك"
         icon={AlertTriangle}
-        gradientClass="bg-gradient-to-r from-amber-600 to-amber-700"
       />
 
       <StudentMistakesClient initialMistakes={mistakes} />

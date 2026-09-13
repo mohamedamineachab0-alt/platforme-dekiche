@@ -2,7 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
+import { getSessionUserId } from "@/lib/security";
 import { Level, Stream } from "@/generated/prisma";
 import { z } from "zod";
 
@@ -82,8 +82,7 @@ export async function deleteNotification(id: string) {
 
 export async function getMyNotifications() {
   try {
-    const cookieStore = await cookies();
-    const sessionId = cookieStore.get("session")?.value;
+    const sessionId = await getSessionUserId();
     
     if (!sessionId) return [];
 

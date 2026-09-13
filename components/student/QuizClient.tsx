@@ -5,6 +5,7 @@ import { CheckCircle2, XCircle, Trophy, ArrowLeft, RotateCcw, AlertTriangle, Boo
 import Link from "next/link";
 import { saveQuizMistakes } from "@/actions/quiz";
 import { RichMathText } from "@/components/shared/MathPreview";
+import { QuestionHints } from "@/components/student/QuestionHints";
 
 type Question = {
   question: string;
@@ -107,9 +108,9 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
         <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">لا توجد أسئلة</h2>
         <p className="text-slate-500 mb-6">هذا الاختبار لا يحتوي على أي أسئلة حالياً</p>
         {contextType === "lesson" && lessonId ? (
-          <Link href={`/dashboard/student/lessons/${lessonId}`} className="bg-sky-600 text-white px-6 py-3 rounded-xl font-bold">العودة للدرس</Link>
+          <Link href={`/dashboard/student/lessons/${lessonId}`} className="bg-[#6D28D9] text-white px-6 py-3 rounded-xl font-bold">العودة للدرس</Link>
         ) : (
-          <Link href={`/dashboard/student/${contextType === "exam" ? "exams" : "exercises"}`} className="bg-sky-600 text-white px-6 py-3 rounded-xl font-bold">العودة</Link>
+          <Link href={`/dashboard/student/${contextType === "exam" ? "exams" : "exercises"}`} className="bg-[#6D28D9] text-white px-6 py-3 rounded-xl font-bold">العودة</Link>
         )}
       </div>
     );
@@ -175,15 +176,15 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
     return (
       <div className="space-y-8 max-w-3xl mx-auto pb-12">
         {/* Score Card */}
-        <div className="bg-white dark:bg-slate-900 rounded-3xl p-8 md:p-12 text-center border border-slate-100 dark:border-slate-800 shadow-sm">
+        <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 sm:p-8 md:p-12 text-center border border-slate-100 dark:border-slate-800 shadow-sm">
           <div className={`w-20 h-20 mx-auto rounded-full flex items-center justify-center mb-5 shadow-lg text-white ${currentColors.gradient}`}>
             <IconComponent className="w-10 h-10" />
           </div>
 
-          <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-2">النتيجة النهائية</h2>
+          <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mb-2">النتيجة النهائية</h2>
           <p className="text-slate-500 font-medium mb-6">لقد أكملت اختبار: {lessonTitle}</p>
 
-          <div className={`text-6xl font-black mb-6 flex justify-center items-baseline gap-2 ${currentColors.scoreText}`}>
+          <div className={`text-4xl sm:text-6xl font-black mb-6 flex justify-center items-baseline gap-2 ${currentColors.scoreText}`}>
             <span>{finalScore}</span>
             <span className="text-2xl text-slate-400">/ {maxScore}</span>
           </div>
@@ -204,7 +205,7 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
 
             <Link
               href="/dashboard/student/mistakes"
-              className="inline-flex items-center justify-center gap-2 bg-amber-500 hover:bg-amber-600 text-white px-6 py-3 rounded-xl font-bold transition-colors shadow-sm"
+              className="inline-flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] text-white px-6 py-3 rounded-xl font-bold transition-colors shadow-sm"
             >
               <AlertTriangle className="w-4 h-4" />
               سجل أخطائي الكامل
@@ -372,6 +373,13 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
             );
           })}
         </div>
+
+        <QuestionHints
+          key={currentQuestionIndex}
+          question={currentQuestion.question}
+          options={currentQuestion.options}
+          correctAnswerIndex={currentQuestion.correctAnswerIndex}
+        />
       </div>
 
       {/* Navigation */}

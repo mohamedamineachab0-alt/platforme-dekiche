@@ -16,8 +16,11 @@ import {
   GraduationCap,
   Truck,
   Check,
-  ArrowRight
 } from "lucide-react";
+import { HeroBanner } from "@/components/shared/HeroBanner";
+
+const fieldClass =
+  "w-full rounded-2xl border border-[#EDE9FE] bg-[#F7F5FF] px-4 py-3.5 text-sm font-bold text-[#1E1B4B] outline-none transition focus:border-[#6D28D9] focus:bg-white focus:shadow-[0_0_0_4px_rgba(109,40,217,0.14)] disabled:cursor-not-allowed disabled:opacity-40";
 
 export default function SubscriptionRequestPage() {
   const router = useRouter();
@@ -47,7 +50,7 @@ export default function SubscriptionRequestPage() {
         } else if (res.success && res.student) {
           setStudentInfo(res.student);
           setSubjects(res.subjects || []);
-          setFormData(prev => ({
+          setFormData((prev) => ({
             ...prev,
             level: res.student.level || "",
             stream: res.student.stream || "",
@@ -67,7 +70,7 @@ export default function SubscriptionRequestPage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => {
+    setFormData((prev) => {
       if (name === "wilaya") {
         return { ...prev, wilaya: value, baladiya: "" };
       }
@@ -76,22 +79,20 @@ export default function SubscriptionRequestPage() {
   };
 
   const handleSubjectToggle = (id: string) => {
-    setFormData(prev => {
+    setFormData((prev) => {
       const exists = prev.subjectIds.includes(id);
       return {
         ...prev,
-        subjectIds: exists
-          ? prev.subjectIds.filter(s => s !== id)
-          : [...prev.subjectIds, id],
+        subjectIds: exists ? prev.subjectIds.filter((s) => s !== id) : [...prev.subjectIds, id],
       };
     });
   };
 
   const handleSelectAll = () => {
     if (formData.subjectIds.length === subjects.length) {
-      setFormData(prev => ({ ...prev, subjectIds: [] }));
+      setFormData((prev) => ({ ...prev, subjectIds: [] }));
     } else {
-      setFormData(prev => ({ ...prev, subjectIds: subjects.map(s => s.id) }));
+      setFormData((prev) => ({ ...prev, subjectIds: subjects.map((s) => s.id) }));
     }
   };
 
@@ -140,49 +141,47 @@ export default function SubscriptionRequestPage() {
     }
   };
 
-  const levelLabel = LEVELS.find(l => l.value === studentInfo?.level)?.label || studentInfo?.level || "";
-  const streamLabel = STREAMS.find(s => s.value === studentInfo?.stream)?.label || studentInfo?.stream || "";
+  const levelLabel = LEVELS.find((l) => l.value === studentInfo?.level)?.label || studentInfo?.level || "";
+  const streamLabel = STREAMS.find((s) => s.value === studentInfo?.stream)?.label || studentInfo?.stream || "";
 
   if (success) {
     return (
-      <div className="min-h-[85vh] w-full flex items-center justify-center p-4 lg:p-8" dir="rtl">
-        <div className="w-full max-w-xl bg-white dark:bg-slate-900 rounded-3xl border border-orange-200 dark:border-slate-800 p-8 md:p-10 shadow-xl text-center space-y-6 relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-orange-500 to-amber-500" />
-          
-          <div className="w-20 h-20 bg-orange-50 text-orange-600 dark:bg-orange-950/40 dark:text-orange-400 rounded-full flex items-center justify-center mx-auto border border-orange-200 dark:border-orange-800/50 shadow-sm">
-            <CheckCircle2 className="w-10 h-10" />
+      <div className="mx-auto max-w-xl space-y-8 font-sans text-[#1E1B4B]" dir="rtl">
+        <div className="rounded-[32px] border border-[#EDE9FE] bg-white p-8 text-center shadow-[0_16px_40px_rgba(30,27,75,0.06)] sm:p-10">
+          <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+            <CheckCircle2 className="h-10 w-10" />
           </div>
+          <h2 className="text-2xl font-black text-[#1E1B4B] sm:text-3xl">تم إرسال طلبك بنجاح</h2>
+          <p className="mx-auto mt-3 max-w-md text-sm font-medium leading-relaxed text-[#6B6480]">
+            سيتواصل معك الفريق لتأكيد العنوان وإرسال بطاقة الاشتراك إلى باب المنزل.
+          </p>
 
-          <div className="space-y-2">
-            <h2 className="text-2xl md:text-3xl font-black text-slate-900 dark:text-white">تم إرسال طلبك بنجاح!</h2>
-            <p className="text-slate-600 dark:text-slate-400 font-medium leading-relaxed max-w-md mx-auto">
-              تم تسجيل طلب بطاقة الاشتراك الخاص بك بنجاح. سيقوم فريقنا بالاتصال بك هاتفياً لتأكيد العنوان وشحن البطاقة إلى باب منزلك.
-            </p>
-          </div>
-
-          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800 text-right space-y-2 text-sm">
-            <div className="flex justify-between items-center text-slate-600 dark:text-slate-400">
-              <span>المواد المختارة:</span>
-              <span className="font-bold text-slate-900 dark:text-white">{formData.subjectIds.length} مواد</span>
+          <div className="mt-6 space-y-2.5 rounded-[24px] border border-[#EDE9FE] bg-[#F7F5FF] p-4 text-right text-sm">
+            <div className="flex items-center justify-between text-[#6B6480]">
+              <span>المواد المختارة</span>
+              <span className="font-black text-[#1E1B4B]">{formData.subjectIds.length} مواد</span>
             </div>
-            <div className="flex justify-between items-center text-slate-600 dark:text-slate-400">
-              <span>الولاية والبلدية:</span>
-              <span className="font-bold text-slate-900 dark:text-white">
-                {getWilayaName(formData.wilaya)}{formData.baladiya ? ` - ${formData.baladiya}` : ""}
+            <div className="flex items-center justify-between text-[#6B6480]">
+              <span>الولاية والبلدية</span>
+              <span className="font-black text-[#1E1B4B]">
+                {getWilayaName(formData.wilaya)}
+                {formData.baladiya ? ` - ${formData.baladiya}` : ""}
               </span>
             </div>
-            <div className="flex justify-between items-center text-slate-600 dark:text-slate-400">
-              <span>رقم الهاتف للتوصيل:</span>
-              <span className="font-bold text-slate-900 dark:text-white" dir="ltr">{formData.phoneNumber}</span>
+            <div className="flex items-center justify-between text-[#6B6480]">
+              <span>رقم الهاتف</span>
+              <span className="font-black text-[#1E1B4B]" dir="ltr">
+                {formData.phoneNumber}
+              </span>
             </div>
           </div>
 
           <button
+            type="button"
             onClick={() => router.push("/dashboard/student")}
-            className="w-full py-4 rounded-2xl text-white font-bold text-base bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 transition-all shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2 cursor-pointer"
+            className="mt-8 w-full rounded-full bg-[#6D28D9] py-4 text-base font-black text-white transition hover:bg-[#5B21B6]"
           >
-            <span>العودة إلى لوحة التحكم</span>
-            <ArrowRight className="w-5 h-5 rotate-180" />
+            العودة إلى لوحة التحكم
           </button>
         </div>
       </div>
@@ -190,78 +189,62 @@ export default function SubscriptionRequestPage() {
   }
 
   return (
-    <div className="min-h-screen w-full py-6 px-4 md:px-8 space-y-8 max-w-5xl mx-auto" dir="rtl">
-      
-      {/* Header Banner - Clean Light Theme */}
-      <div className="relative overflow-hidden bg-white dark:bg-slate-900 border border-orange-100 dark:border-slate-800 rounded-3xl p-6 md:p-8 shadow-sm">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-orange-500/5 rounded-full blur-3xl pointer-events-none -translate-y-1/2 translate-x-1/2" />
-        <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="flex items-start gap-4">
-            <div className="w-14 h-14 rounded-2xl bg-orange-500 text-white flex items-center justify-center shrink-0 shadow-lg shadow-orange-500/25">
-              <CreditCard className="w-7 h-7" />
-            </div>
-            <div className="space-y-1.5">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 dark:bg-orange-950/30 border border-orange-200 dark:border-orange-800/50 text-orange-600 dark:text-orange-400 text-xs font-bold">
-                <span>خدمة التوصيل السريع لـ 58 ولاية</span>
-              </div>
-              <h1 className="text-2xl md:text-3xl font-black tracking-tight text-slate-900 dark:text-white">طلب بطاقة الاشتراك</h1>
-              <p className="text-slate-500 dark:text-slate-400 text-sm font-medium max-w-xl">
-                اختر المواد الخاصة بشعبتك وسيتم إرسال بطاقة الاشتراك مع كود التفعيل إلى عنوانك والدفع عند الاستلام.
+    <div className="mx-auto max-w-5xl space-y-8 font-sans text-[#1E1B4B]" dir="rtl">
+      <HeroBanner
+        title="طلب بطاقة الاشتراك"
+        description="اختر مواد شعبتك، ثم أرسل عنوان التوصيل. البطاقة تصل إلى باب المنزل والدفع عند الاستلام."
+        icon={CreditCard}
+        action={
+          studentInfo ? (
+            <div className="rounded-[24px] bg-white px-5 py-3 text-center sm:text-right">
+              <p className="flex items-center justify-center gap-1.5 text-[11px] font-bold text-[#6B6480] sm:justify-start">
+                <GraduationCap className="h-3.5 w-3.5 text-[#6D28D9]" />
+                حسابك الدراسي
               </p>
+              <p className="mt-1 text-sm font-black text-[#1E1B4B]">{levelLabel}</p>
+              <p className="text-xs font-bold text-[#6D28D9]">{streamLabel}</p>
             </div>
-          </div>
-
-          {/* Academic Info Pill */}
-          {studentInfo && (
-            <div className="bg-orange-50/60 dark:bg-slate-800/80 border border-orange-100 dark:border-slate-700 rounded-2xl p-4 shrink-0 flex flex-col gap-1.5 min-w-[220px]">
-              <div className="flex items-center gap-2 text-xs font-bold text-slate-500 dark:text-slate-400">
-                <GraduationCap className="w-4 h-4 text-orange-500" />
-                <span>حسابك الأكاديمي</span>
-              </div>
-              <p className="text-sm font-black text-slate-900 dark:text-white">{levelLabel}</p>
-              <p className="text-xs font-bold text-orange-600 dark:text-orange-400">{streamLabel}</p>
-            </div>
-          )}
-        </div>
-      </div>
+          ) : undefined
+        }
+      />
 
       {error && (
-        <div className="p-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 flex items-center gap-3 animate-in fade-in">
-          <AlertCircle className="w-5 h-5 shrink-0" />
-          <p className="font-bold text-sm">{error}</p>
+        <div className="flex items-center gap-3 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+          <AlertCircle className="h-5 w-5 shrink-0" />
+          <p>{error}</p>
         </div>
       )}
 
       {isLoading ? (
-        <div className="py-20 text-center space-y-4">
-          <Loader2 className="w-10 h-10 animate-spin text-orange-500 mx-auto" />
-          <p className="text-slate-500 dark:text-slate-400 font-bold text-sm">جاري تحميل المواد المتاحة لشعبتك ومستواك...</p>
+        <div className="space-y-4 py-20 text-center">
+          <Loader2 className="mx-auto h-10 w-10 animate-spin text-[#6D28D9]" />
+          <p className="text-sm font-bold text-[#6B6480]">جاري تحميل المواد المتاحة لشعبتك ومستواك</p>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className="space-y-8">
-
-          {/* Step 1: Subjects Selection */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 md:p-8 shadow-sm space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-6 rounded-[32px] border border-[#EDE9FE] bg-white p-6 shadow-[0_12px_36px_rgba(30,27,75,0.06)] sm:p-8">
+            <div className="flex flex-col justify-between gap-4 border-b border-[#EDE9FE] pb-4 sm:flex-row sm:items-center">
               <div className="space-y-1">
-                <h2 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-orange-500" />
-                  <span>المواد المتاحة لمستواك الدراسي</span>
+                <h2 className="flex items-center gap-2 text-lg font-black text-[#1E1B4B]">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#EEF1FF] text-[#6D28D9]">
+                    <BookOpen className="h-5 w-5" />
+                  </span>
+                  المواد المتاحة لمستواك
                 </h2>
-                <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                  تم تحديد المواد المتوافقة تماماً مع شعبتك ({streamLabel}). يمكنك اختيار مادة واحدة أو أكثر.
+                <p className="text-xs font-medium text-[#6B6480]">
+                  المواد المتوافقة مع شعبتك ({streamLabel}). يمكنك اختيار مادة واحدة أو أكثر.
                 </p>
               </div>
 
               {subjects.length > 0 && (
                 <div className="flex items-center gap-3">
-                  <span className="text-xs font-bold px-3 py-1.5 rounded-xl bg-orange-50 dark:bg-orange-950/30 text-orange-600 dark:text-orange-400 border border-orange-200 dark:border-orange-800/50">
-                    {formData.subjectIds.length} من {subjects.length} محددة
+                  <span className="rounded-full bg-[#6D28D9]/10 px-3 py-1.5 text-xs font-bold text-[#6D28D9]">
+                    {formData.subjectIds.length} من {subjects.length}
                   </span>
                   <button
                     type="button"
                     onClick={handleSelectAll}
-                    className="text-xs font-bold text-slate-600 dark:text-slate-300 hover:text-orange-600 dark:hover:text-orange-400 underline underline-offset-4 cursor-pointer transition-colors"
+                    className="text-xs font-bold text-[#6D28D9] underline underline-offset-4"
                   >
                     {formData.subjectIds.length === subjects.length ? "إلغاء تحديد الكل" : "تحديد الكل"}
                   </button>
@@ -270,119 +253,111 @@ export default function SubscriptionRequestPage() {
             </div>
 
             {subjects.length === 0 ? (
-              <div className="p-8 text-center bg-slate-50 dark:bg-slate-800/30 rounded-2xl border border-slate-200 dark:border-slate-800">
-                <BookOpen className="w-10 h-10 text-slate-400 mx-auto mb-2 opacity-50" />
-                <p className="text-sm font-bold text-slate-600 dark:text-slate-400">لا توجد مواد منشورة حالياً لشعبتك</p>
+              <div className="rounded-[24px] border border-[#EDE9FE] bg-[#F7F5FF] p-8 text-center">
+                <BookOpen className="mx-auto mb-2 h-10 w-10 text-[#A8B4D6]" />
+                <p className="text-sm font-bold text-[#6B6480]">لا توجد مواد منشورة حالياً لشعبتك</p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {subjects.map(sub => {
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {subjects.map((sub) => {
                   const isSelected = formData.subjectIds.includes(sub.id);
                   return (
-                    <div
+                    <button
                       key={sub.id}
+                      type="button"
                       onClick={() => handleSubjectToggle(sub.id)}
-                      className={`group relative p-4 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
+                      className={`flex flex-col rounded-[24px] border p-4 text-right transition ${
                         isSelected
-                          ? "bg-orange-50/80 dark:bg-orange-950/20 border-orange-500 ring-2 ring-orange-500/20"
-                          : "bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-orange-300 dark:hover:border-orange-600 hover:shadow-sm"
+                          ? "border-[#6D28D9] bg-[#F7F5FF] shadow-[0_0_0_4px_rgba(109,40,217,0.12)]"
+                          : "border-[#EDE9FE] bg-white hover:border-[#6D28D9]/40"
                       }`}
                     >
                       <div className="flex items-start justify-between gap-3">
-                        <div className="space-y-1 flex-1">
-                          <h3 className="font-black text-base text-slate-900 dark:text-white group-hover:text-orange-600 dark:group-hover:text-orange-400 transition-colors">
-                            {sub.title}
-                          </h3>
+                        <div className="min-w-0 flex-1 space-y-1">
+                          <h3 className="text-base font-black text-[#1E1B4B]">{sub.title}</h3>
                           {sub.teacherName && (
-                            <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                              الأستاذ: <span className="text-slate-700 dark:text-slate-300 font-bold">{sub.teacherName}</span>
-                            </p>
+                            <p className="text-xs font-bold text-[#6D28D9]">{sub.teacherName}</p>
                           )}
                         </div>
-
-                        <div
-                          className={`w-6 h-6 rounded-xl flex items-center justify-center shrink-0 border transition-all ${
+                        <span
+                          className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border ${
                             isSelected
-                              ? "bg-orange-500 border-orange-500 text-white shadow-sm"
-                              : "border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800"
+                              ? "border-[#6D28D9] bg-[#6D28D9] text-white"
+                              : "border-[#EDE9FE] bg-[#F7F5FF] text-transparent"
                           }`}
                         >
-                          {isSelected && <Check className="w-4 h-4 stroke-[3]" />}
-                        </div>
+                          <Check className="h-4 w-4 stroke-[3]" />
+                        </span>
                       </div>
-
-                      {sub.price && (
-                        <div className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs">
-                          <span className="text-slate-400 font-bold">سعر الاشتراك</span>
-                          <span className="font-black text-orange-600 dark:text-orange-400">{sub.price} دج</span>
+                      {sub.price ? (
+                        <div className="mt-4 flex items-center justify-between border-t border-[#EDE9FE] pt-3 text-xs">
+                          <span className="font-bold text-[#6B6480]">سعر الاشتراك</span>
+                          <span className="font-black text-[#6D28D9]">{sub.price} دج</span>
                         </div>
-                      )}
-                    </div>
+                      ) : null}
+                    </button>
                   );
                 })}
               </div>
             )}
           </div>
 
-          {/* Step 2: Delivery Details */}
-          <div className="bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 rounded-3xl p-6 md:p-8 shadow-sm space-y-6">
-            <div className="space-y-1 pb-4 border-b border-slate-100 dark:border-slate-800">
-              <h2 className="text-lg font-black text-slate-900 dark:text-white flex items-center gap-2">
-                <Truck className="w-5 h-5 text-orange-500" />
-                <span>معلومات التوصيل والاستلام</span>
+          <div className="space-y-6 rounded-[32px] border border-[#EDE9FE] bg-white p-6 shadow-[0_12px_36px_rgba(30,27,75,0.06)] sm:p-8">
+            <div className="space-y-1 border-b border-[#EDE9FE] pb-4">
+              <h2 className="flex items-center gap-2 text-lg font-black text-[#1E1B4B]">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#EEF1FF] text-[#6D28D9]">
+                  <Truck className="h-5 w-5" />
+                </span>
+                معلومات التوصيل
               </h2>
-              <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                يرجى التأكد من كتابة العنوان ورقم الهاتف بدقة حتى يتمكن موزع خدمة التوصيل من الوصول إليك.
+              <p className="text-xs font-medium text-[#6B6480]">
+                اكتب العنوان ورقم الهاتف بدقة حتى يصل الموزع إليك.
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              
-              {/* Wilaya */}
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
               <div className="space-y-2">
-                <label className="text-xs font-black text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-orange-500" />
-                  <span>الولاية</span>
+                <label className="flex items-center gap-2 text-xs font-black text-[#1E1B4B]">
+                  <MapPin className="h-4 w-4 text-[#6D28D9]" />
+                  الولاية
                   <span className="text-red-500">*</span>
                 </label>
-                <select
-                  name="wilaya"
-                  value={formData.wilaya}
-                  onChange={handleChange}
-                  className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-2xl px-4 py-3.5 text-sm font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all cursor-pointer"
-                >
-                  <option value="">--- اختر الولاية ---</option>
-                  {WILAYAS.map(w => (
-                    <option key={w.code} value={w.code}>{w.name}</option>
+                <select name="wilaya" value={formData.wilaya} onChange={handleChange} className={fieldClass}>
+                  <option value="">اختر الولاية</option>
+                  {WILAYAS.map((w) => (
+                    <option key={w.code} value={w.code}>
+                      {w.name}
+                    </option>
                   ))}
                 </select>
               </div>
 
-              {/* Baladiya */}
               <div className="space-y-2">
-                <label className="text-xs font-black text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-orange-500" />
-                  <span>البلدية</span>
+                <label className="flex items-center gap-2 text-xs font-black text-[#1E1B4B]">
+                  <MapPin className="h-4 w-4 text-[#6D28D9]" />
+                  البلدية
                 </label>
                 <select
                   name="baladiya"
                   value={formData.baladiya}
                   onChange={handleChange}
                   disabled={!formData.wilaya}
-                  className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-2xl px-4 py-3.5 text-sm font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                  className={fieldClass}
                 >
-                  <option value="">--- اختر البلدية ---</option>
-                  {formData.wilaya && getCommunesByWilayaId(parseInt(formData.wilaya.replace("W", ""))).map((c: any) => (
-                    <option key={c.id} value={c.name_ar}>{c.name_ar}</option>
-                  ))}
+                  <option value="">اختر البلدية</option>
+                  {formData.wilaya &&
+                    getCommunesByWilayaId(parseInt(formData.wilaya.replace("W", ""), 10)).map((c: { id: string; name_ar: string }) => (
+                      <option key={c.id} value={c.name_ar}>
+                        {c.name_ar}
+                      </option>
+                    ))}
                 </select>
               </div>
 
-              {/* Phone Number */}
               <div className="space-y-2">
-                <label className="text-xs font-black text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                  <Phone className="w-4 h-4 text-orange-500" />
-                  <span>رقم الهاتف للتأكيد والتوصيل</span>
+                <label className="flex items-center gap-2 text-xs font-black text-[#1E1B4B]">
+                  <Phone className="h-4 w-4 text-[#6D28D9]" />
+                  رقم الهاتف للتأكيد والتوصيل
                   <span className="text-red-500">*</span>
                 </label>
                 <input
@@ -392,15 +367,14 @@ export default function SubscriptionRequestPage() {
                   onChange={handleChange}
                   dir="ltr"
                   pattern="^0[567][0-9]{8}$"
-                  title="يجب أن يتكون رقم الهاتف من 10 أرقام ويبدأ بـ 05، 06، أو 07"
-                  className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-2xl px-4 py-3.5 text-sm font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all font-mono"
+                  title="يجب أن يتكون رقم الهاتف من 10 أرقام ويبدأ بـ 05 أو 06 أو 07"
+                  className={`${fieldClass} font-mono`}
                 />
               </div>
 
-              {/* Address (Clean without placeholder) */}
               <div className="space-y-2 md:col-span-2">
-                <label className="text-xs font-black text-slate-700 dark:text-slate-300 flex items-center gap-2">
-                  <span>العنوان الكامل</span>
+                <label className="flex items-center gap-2 text-xs font-black text-[#1E1B4B]">
+                  العنوان الكامل
                   <span className="text-red-500">*</span>
                 </label>
                 <textarea
@@ -408,47 +382,42 @@ export default function SubscriptionRequestPage() {
                   value={formData.address}
                   onChange={handleChange}
                   rows={3}
-                  placeholder=""
-                  className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 rounded-2xl px-4 py-3.5 text-sm font-bold text-slate-900 dark:text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all resize-none"
+                  className={`${fieldClass} resize-none`}
                 />
               </div>
-
             </div>
           </div>
 
-          {/* Submit Action Bar */}
-          <div className="bg-gradient-to-r from-orange-50/80 via-amber-50/30 to-white dark:from-slate-900 dark:to-slate-900 border border-orange-200/70 dark:border-slate-800 rounded-3xl p-6 md:p-8 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-sm">
-            <div className="space-y-1 text-right w-full sm:w-auto">
-              <h3 className="font-black text-base text-slate-900 dark:text-white">جاهز لإرسال الطلب؟</h3>
-              <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
+          <div className="flex flex-col items-center justify-between gap-5 rounded-[32px] border border-[#EDE9FE] bg-white p-6 shadow-[0_12px_36px_rgba(30,27,75,0.06)] sm:flex-row sm:p-8">
+            <div className="w-full space-y-1 text-right sm:w-auto">
+              <h3 className="text-base font-black text-[#1E1B4B]">جاهز لإرسال الطلب؟</h3>
+              <p className="text-xs font-medium text-[#6B6480]">
                 {formData.subjectIds.length > 0
-                  ? `قمت بتحديد ${formData.subjectIds.length} مواد. الدفع يتم نقداً عند استلام البطاقة.`
-                  : "يرجى تحديد مادة واحدة على الأقل قبل المتابعة."}
+                  ? `حددت ${formData.subjectIds.length} مواد. الدفع نقداً عند استلام البطاقة.`
+                  : "حدد مادة واحدة على الأقل قبل المتابعة."}
               </p>
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting || formData.subjectIds.length === 0}
-              className="w-full sm:w-auto min-w-[240px] py-4 px-8 rounded-2xl text-white font-black text-base bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 transition-all shadow-lg shadow-orange-500/25 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#6D28D9] px-8 py-4 text-base font-black text-white transition hover:bg-[#5B21B6] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
             >
               {isSubmitting ? (
                 <>
-                  <Loader2 className="w-5 h-5 animate-spin" />
-                  <span>جاري إرسال الطلب...</span>
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                  جاري إرسال الطلب
                 </>
               ) : (
                 <>
-                  <span>تأكيد وإرسال الطلب</span>
-                  <Check className="w-5 h-5" />
+                  تأكيد وإرسال الطلب
+                  <Check className="h-5 w-5" />
                 </>
               )}
             </button>
           </div>
-
         </form>
       )}
-
     </div>
   );
 }

@@ -137,7 +137,7 @@ export default async function TeacherDashboardPage() {
                       <td className="px-6 py-4">
                         <div className="flex flex-wrap gap-1.5">
                           {student.user.enrollments.map(e => (
-                            <span key={e.id} className="bg-[#F3EFFF] text-[#5B21B6] border border-[#EDE9FE] text-xs font-bold px-2 py-1 rounded-md">
+                            <span key={e.id} className="bg-[#F3EFFF] text-[#1E1B4B] border border-[#EDE9FE] text-xs font-bold px-2 py-1 rounded-md">
                               {e.subject.title}
                             </span>
                           ))}

@@ -33,7 +33,7 @@ export function StudentCount({ count }: { count: number }) {
     <section className="px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
       <div
         ref={ref}
-        className="game-panel mx-auto grid max-w-6xl items-center gap-6 overflow-hidden rounded-[36px] bg-[#5B21B6] px-6 py-10 sm:grid-cols-2 sm:px-10 sm:py-12"
+        className="game-panel mx-auto grid max-w-6xl items-center gap-6 overflow-hidden rounded-[36px] bg-[#1E1B4B] px-6 py-10 sm:grid-cols-2 sm:px-10 sm:py-12"
       >
         <div className="land-float mx-auto w-full max-w-sm">
           <IlluStudentsCrowd className="h-auto w-full" />

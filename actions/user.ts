@@ -18,10 +18,20 @@ export async function getUserSessionProfile() {
         fullName: true,
         role: true,
         avatarUrl: true,
-      }
+        accountBranch: true,
+        studentProfile: { select: { branch: true } },
+      },
     });
 
-    return user;
+    if (!user) return null;
+
+    return {
+      id: user.id,
+      fullName: user.fullName,
+      role: user.role,
+      avatarUrl: user.avatarUrl,
+      branch: user.studentProfile?.branch ?? user.accountBranch ?? null,
+    };
   } catch (error: any) {
     if (error?.digest?.includes("DYNAMIC_SERVER_USAGE") || error?.message?.includes("Dynamic server usage")) {
       throw error;

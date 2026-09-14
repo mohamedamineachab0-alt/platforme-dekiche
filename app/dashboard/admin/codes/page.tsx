@@ -3,13 +3,22 @@ import { Key, Plus, Hash, Copy } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { CodeGeneratorClient } from "@/components/admin/CodeGeneratorClient";
 import { ExportCodesClient } from "@/components/admin/ExportCodesClient";
+import { parseAdminBranch, subjectWhereForBranch } from "@/lib/admin-branch";
 
-export default async function AdminCodesPage() {
+export default async function AdminCodesPage(props: {
+  searchParams: Promise<{ adminBranch?: string }>;
+}) {
+  const searchParams = await props.searchParams;
+  const branch = parseAdminBranch(searchParams.adminBranch);
+  const subjectWhere = subjectWhereForBranch(branch);
+
   const subjects = await prisma.subject.findMany({
+    where: subjectWhere,
     orderBy: { title: "asc" },
   });
 
   const codes = await prisma.accessCode.findMany({
+    where: { subject: subjectWhere },
     orderBy: { createdAt: "desc" },
     include: { subject: true, user: true },
     take: 50, // Display last 50 codes for performance
@@ -18,7 +27,7 @@ export default async function AdminCodesPage() {
   return (
     <div className="space-y-6">
       <HeroBanner 
-        title="رموز الدخول"
+        title={branch === "LANGUAGES" ? "رموز دخول اللغات" : "رموز الدخول"}
         description="توليد وتتبع الأكواد الخاصة بتفعيل المواد للطلاب"
         icon={Key}
       />

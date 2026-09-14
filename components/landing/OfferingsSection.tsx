@@ -19,21 +19,22 @@ const OFFERINGS = [
     action: "دخول الدراسة",
     icon: IconLessons,
     number: "01",
-    tone: "bg-[#F3EFFF] border-[#DDD6FE]",
-    iconTone: "bg-white shadow-[0_10px_24px_rgba(109,40,217,0.14)]",
-    numberTone: "bg-white text-[#6D28D9]",
+    tone: "bg-[#F3EFFF] border-[#EDE9FE]",
+    iconTone: "bg-gradient-to-br from-[#F3EFFF] to-white ring-2 ring-[#6D28D9]/25",
+    numberTone: "bg-[#EA580C] text-white",
     available: true,
   },
   {
-    title: "تعليم اللغات",
-    desc: "لغة تتعلمها بثقة خطوة بعد خطوة",
-    action: "قريبا",
+    href: "/languages",
+    title: "تعلّم اللغات",
+    desc: "مسار تعليمي من المستوى A1: دروس، استماع، ومراجعة.",
+    action: "دخول الفرع التعليمي",
     icon: IconLanguages,
     number: "02",
-    tone: "bg-[#EEF7FF] border-[#BFDBFE]",
-    iconTone: "bg-white shadow-[0_10px_24px_rgba(59,130,246,0.12)]",
-    numberTone: "bg-white text-[#2563EB]",
-    available: false,
+    tone: "bg-[#FFF7ED] border-[#FED7AA]",
+    iconTone: "bg-gradient-to-br from-[#FFF7ED] to-white ring-2 ring-[#EA580C]/30",
+    numberTone: "bg-[#6D28D9] text-white",
+    available: true,
   },
   {
     title: "السوروبان",
@@ -41,9 +42,9 @@ const OFFERINGS = [
     action: "قريبا",
     icon: IconSoroban,
     number: "03",
-    tone: "bg-[#FFF1EC] border-[#FED7AA]",
-    iconTone: "bg-white shadow-[0_10px_24px_rgba(255,138,101,0.16)]",
-    numberTone: "bg-white text-[#EA580C]",
+    tone: "bg-[#FFFEF8] border-[#EDE9FE]",
+    iconTone: "bg-white ring-2 ring-[#EDE9FE]",
+    numberTone: "bg-[#F3EFFF] text-[#6D28D9]",
     available: false,
   },
   {
@@ -52,9 +53,9 @@ const OFFERINGS = [
     action: "قريبا",
     icon: IconQuran,
     number: "04",
-    tone: "bg-[#F3EFFF] border-[#DDD6FE]",
-    iconTone: "bg-white shadow-[0_10px_24px_rgba(109,40,217,0.14)]",
-    numberTone: "bg-white text-[#6D28D9]",
+    tone: "bg-[#F3EFFF] border-[#EDE9FE]",
+    iconTone: "bg-white ring-2 ring-[#EDE9FE]",
+    numberTone: "bg-[#F3EFFF] text-[#6D28D9]",
     available: false,
   },
   {
@@ -63,9 +64,9 @@ const OFFERINGS = [
     action: "قريبا",
     icon: IconIslamic,
     number: "05",
-    tone: "bg-[#FFF1F5] border-[#FBCFE8]",
-    iconTone: "bg-white shadow-[0_10px_24px_rgba(219,39,119,0.14)]",
-    numberTone: "bg-white text-[#DB2777]",
+    tone: "bg-[#FFFEF8] border-[#EDE9FE]",
+    iconTone: "bg-white ring-2 ring-[#EDE9FE]",
+    numberTone: "bg-[#F3EFFF] text-[#6D28D9]",
     available: false,
   },
   {
@@ -74,9 +75,9 @@ const OFFERINGS = [
     action: "قريبا",
     icon: IconCourses,
     number: "06",
-    tone: "bg-[#F2FBF5] border-[#BBF7D0]",
-    iconTone: "bg-white shadow-[0_10px_24px_rgba(34,197,94,0.12)]",
-    numberTone: "bg-white text-[#16A34A]",
+    tone: "bg-[#F3EFFF] border-[#EDE9FE]",
+    iconTone: "bg-white ring-2 ring-[#EDE9FE]",
+    numberTone: "bg-[#F3EFFF] text-[#6D28D9]",
     available: false,
   },
 ] as const;
@@ -89,11 +90,11 @@ export function OfferingsSection() {
         <div className="flex items-end justify-between gap-4">
           <h2 className="text-3xl font-black text-[#1E1B4B] sm:text-5xl">فروع المنصة</h2>
           <span className="hidden rounded-full bg-white px-4 py-2 text-xs font-black text-[#6D28D9] shadow-[0_8px_24px_rgba(30,27,75,0.05)] sm:inline-flex">
-            الدراسة متاحة الآن
+            الدراسة واللغات متاحتان الآن
           </span>
         </div>
         <p className="mt-4 max-w-2xl text-base font-medium leading-relaxed text-[#6B6480] sm:text-lg">
-          فرع الدراسة مفتوح والباقي قريبا على منصتنا
+          فرع الدراسة وتعلّم اللغات مفتوحان والباقي قريبا على منصتنا
         </p>
         <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {OFFERINGS.map((item) => {
@@ -109,8 +110,8 @@ export function OfferingsSection() {
                 <span className="pointer-events-none absolute -end-10 -top-10 h-32 w-32 rounded-full bg-white/50" aria-hidden />
                 <div className="relative z-10 mb-6 flex items-start justify-between">
                   <span
-                    className={`flex h-[72px] w-[72px] items-center justify-center rounded-[24px] ${item.iconTone} ${
-                      item.available ? "transition duration-300 group-hover:rotate-3 group-hover:scale-105" : "grayscale"
+                    className={`flex h-[72px] w-[72px] items-center justify-center rounded-full ${item.iconTone} ${
+                      item.available ? "" : "grayscale"
                     }`}
                   >
                     <Icon size="sm" />

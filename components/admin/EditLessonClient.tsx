@@ -306,7 +306,9 @@ export function EditLessonClient({
                 </div>
                 
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">صورة الغلاف (1920x1080)</label>
+                  <label className="text-sm font-bold text-slate-700">
+                    صورة غلاف الدرس <span className="text-[#6D28D9]">(1920 × 1080 px)</span>
+                  </label>
                   <label className="relative flex flex-col group overflow-hidden rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/50 hover:bg-slate-50 hover:border-sky-200 transition-all cursor-pointer">
                     <input 
                       type="file" 

@@ -43,7 +43,7 @@ export function FlashcardDeck({ cards }: { cards: FlashcardItem[] }) {
     <div className="space-y-5" dir="rtl">
       <div className="flex items-center justify-between gap-3 border-b border-[#EDE9FE] pb-3">
         <h2 className="text-lg font-black text-[#1E1B4B] sm:text-xl">{TITLE}</h2>
-        <span className="rounded-xl bg-[#F3EFFF] px-3 py-1.5 text-xs font-black tabular-nums text-[#5B21B6]">
+        <span className="rounded-xl bg-[#F3EFFF] px-3 py-1.5 text-xs font-black tabular-nums text-[#1E1B4B]">
           {progress}
         </span>
       </div>
@@ -67,13 +67,13 @@ export function FlashcardDeck({ cards }: { cards: FlashcardItem[] }) {
             onClick={() => setFlipped((value) => !value)}
             className={`relative flex min-h-[280px] w-full flex-col overflow-hidden rounded-[22px] text-start shadow-[0_16px_40px_rgba(30,27,75,0.1)] ${
               flipped
-                ? "border border-[#5B21B6] bg-[#6D28D9] text-white"
+                ? "border border-[#1E1B4B] bg-[#6D28D9] text-white"
                 : "border border-[#EDE9FE] bg-white text-[#1E1B4B]"
             }`}
           >
             <div
               className={`flex items-center justify-between border-b px-5 py-3 ${
-                flipped ? "border-white/15 bg-[#5B21B6]/35" : "border-[#EDE9FE] bg-[#F7F5FF]"
+                flipped ? "border-white/15 bg-[#1E1B4B]/35" : "border-[#EDE9FE] bg-[#F7F5FF]"
               }`}
             >
               <span
@@ -120,7 +120,7 @@ export function FlashcardDeck({ cards }: { cards: FlashcardItem[] }) {
         <button
           type="button"
           onClick={() => setFlipped((value) => !value)}
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#6D28D9] px-3 py-3 text-sm font-black text-white transition hover:bg-[#5B21B6]"
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#6D28D9] px-3 py-3 text-sm font-black text-white transition hover:bg-[#1E1B4B]"
         >
           <RotateCcw className="h-4 w-4" />
           {FLIP}
@@ -128,7 +128,7 @@ export function FlashcardDeck({ cards }: { cards: FlashcardItem[] }) {
         <button
           type="button"
           onClick={next}
-          className="inline-flex items-center justify-center gap-1 rounded-xl border border-[#EDE9FE] bg-white px-3 py-3 text-sm font-bold text-[#5B21B6] transition hover:bg-[#F7F5FF]"
+          className="inline-flex items-center justify-center gap-1 rounded-xl border border-[#EDE9FE] bg-white px-3 py-3 text-sm font-bold text-[#1E1B4B] transition hover:bg-[#F7F5FF]"
         >
           التالية
           <ChevronLeft className="h-4 w-4" />

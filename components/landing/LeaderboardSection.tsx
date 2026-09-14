@@ -22,28 +22,31 @@ const STEPS = [
 
 export function LeaderboardSection() {
   return (
-    <section id="steps" className="scroll-mt-28 px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-      <div className="mx-auto max-w-6xl">
-        <Reveal>
-          <p className="mb-3 text-sm font-black text-[#6D28D9]">خطوة بخطوة</p>
-          <h2 className="text-3xl font-black text-[#1E1B4B] sm:text-5xl">كيف تستخدم المنصة</h2>
-          <p className="mt-4 max-w-2xl text-base font-medium leading-relaxed text-[#6B6480] sm:text-lg">
-            مسار بسيط: حساب، دراسة، مراجعة. كل خطوة تُبنى على التي قبلها.
-          </p>
-        </Reveal>
-
-        <div className="mt-10 grid gap-4 md:grid-cols-3">
-          {STEPS.map((step, index) => (
-            <Reveal key={step.n} delay={index * 90}>
-              <article className="h-full rounded-[32px] bg-white p-6 shadow-[0_12px_36px_rgba(30,27,75,0.06)]">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-full bg-[#F3EFFF] text-sm font-black text-[#6D28D9]">
-                  {step.n}
-                </span>
-                <h3 className="mt-5 text-xl font-black text-[#1E1B4B]">{step.title}</h3>
-                <p className="mt-2 text-sm font-medium leading-relaxed text-[#6B6480]">{step.desc}</p>
-              </article>
-            </Reveal>
-          ))}
+    <section className="scroll-mt-28 px-4 py-14 sm:px-6 sm:py-16 lg:px-8">
+      <div className="mx-auto max-w-6xl overflow-hidden rounded-[36px] border border-[#EDE9FE] bg-white">
+        <div className="grid lg:grid-cols-[0.85fr_1.15fr]">
+          <div className="bg-[#6D28D9] px-6 py-10 text-white sm:px-8 sm:py-12">
+            <p className="text-sm font-black text-white/70">خطوة بخطوة</p>
+            <h2 className="mt-2 text-3xl font-black sm:text-4xl">كيف تستخدم المنصة</h2>
+            <p className="mt-4 text-base font-medium leading-relaxed text-white/85">
+              مسار بسيط: حساب، دراسة، مراجعة. كل خطوة تُبنى على التي قبلها.
+            </p>
+          </div>
+          <div className="space-y-0 px-5 py-6 sm:px-8 sm:py-8">
+            {STEPS.map((step, index) => (
+              <Reveal key={step.n} delay={index * 70}>
+                <article className="flex gap-4 border-b border-[#EDE9FE] py-5 last:border-0">
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#F3EFFF] text-sm font-black text-[#6D28D9]">
+                    {step.n}
+                  </span>
+                  <div>
+                    <h3 className="text-lg font-black text-[#1E1B4B]">{step.title}</h3>
+                    <p className="mt-1 text-sm font-medium leading-relaxed text-[#6B6480]">{step.desc}</p>
+                  </div>
+                </article>
+              </Reveal>
+            ))}
+          </div>
         </div>
       </div>
     </section>

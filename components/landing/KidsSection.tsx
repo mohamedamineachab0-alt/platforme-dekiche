@@ -22,7 +22,7 @@ const KIDS_TRACKS = [
     badge: "bg-white text-[#EA580C]",
   },
   {
-    chip: "تعليم اللغات",
+    chip: "تعلّم اللغات",
     title: "لغات للأطفال",
     desc: "إنجليزية وفرنسية وإسبانية بطريقة تفاعلية وممتعة",
     icon: IconLanguages,
@@ -34,7 +34,7 @@ const KIDS_TRACKS = [
 export function KidsSection() {
   return (
     <section id="kids" className="scroll-mt-28 px-4 py-6 sm:px-6 lg:px-8">
-      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#5B21B6] px-6 py-12 sm:px-10 sm:py-16">
+      <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[36px] bg-[#1E1B4B] px-6 py-12 sm:px-10 sm:py-16">
         <span className="land-float pointer-events-none absolute -top-8 right-10 h-24 w-24 rounded-full bg-white/10" aria-hidden />
         <span className="land-float-slow pointer-events-none absolute bottom-6 left-10 h-16 w-16 rounded-full bg-white/10" aria-hidden />
 

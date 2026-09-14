@@ -248,7 +248,7 @@ export default async function SubjectDetailsPage({
                     {hasQuiz ? (
                       <Link
                         href={`/dashboard/student/lessons/${lesson.id}/quiz`}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-[#6D28D9] px-3 py-1.5 text-xs font-black text-white transition hover:bg-[#5B21B6]"
+                        className="inline-flex items-center gap-1.5 rounded-full bg-[#6D28D9] px-3 py-1.5 text-xs font-black text-white transition hover:bg-[#1E1B4B]"
                       >
                         <Award className="h-3.5 w-3.5" />
                         <span>حل الكويز ({qCount})</span>
@@ -281,13 +281,13 @@ export default async function SubjectDetailsPage({
             <div className="space-y-3">
               <Link
                 href={`/dashboard/student/subjects/${id}/review-quiz`}
-                className="block rounded-xl bg-[#6D28D9] p-3.5 text-center text-sm font-black text-white transition hover:bg-[#5B21B6]"
+                className="block rounded-xl bg-[#6D28D9] p-3.5 text-center text-sm font-black text-white transition hover:bg-[#1E1B4B]"
               >
                 كويز المراجعة من 20
               </Link>
               <Link
                 href="/dashboard/student/review-cards"
-                className="block rounded-xl border border-[#EDE9FE] bg-[#F7F5FF] p-3.5 text-center text-sm font-bold text-[#5B21B6] transition hover:border-[#6D28D9]/40"
+                className="block rounded-xl border border-[#EDE9FE] bg-[#F7F5FF] p-3.5 text-center text-sm font-bold text-[#1E1B4B] transition hover:border-[#6D28D9]/40"
               >
                 تصفح البطاقات
               </Link>
@@ -308,7 +308,7 @@ export default async function SubjectDetailsPage({
               {questCount > 0 ? (
                 <Link
                   href={`/dashboard/student/subjects/${id}/daily-quiz`}
-                  className="block rounded-xl bg-[#6D28D9] p-3.5 text-center text-sm font-black text-white transition hover:bg-[#5B21B6]"
+                  className="block rounded-xl bg-[#6D28D9] p-3.5 text-center text-sm font-black text-white transition hover:bg-[#1E1B4B]"
                 >
                   ابدأ التمرين من 20
                 </Link>
@@ -368,7 +368,7 @@ export default async function SubjectDetailsPage({
           {mistakes.length > 0 ? (
             <Link
               href="/dashboard/student/mistakes"
-              className="block rounded-full bg-[#6D28D9] p-4 text-center font-bold text-white transition hover:bg-[#5B21B6]"
+              className="block rounded-full bg-[#6D28D9] p-4 text-center font-bold text-white transition hover:bg-[#1E1B4B]"
             >
               مراجعة الأخطاء
             </Link>

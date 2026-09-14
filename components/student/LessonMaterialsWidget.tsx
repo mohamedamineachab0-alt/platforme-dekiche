@@ -31,7 +31,7 @@ function MaterialsSkeleton() {
           <div key={i} className="h-11 animate-pulse rounded-xl bg-[#F7F5FF]" />
         ))}
       </div>
-      <p className="text-center text-sm font-black text-[#5B21B6]">{LOADING}</p>
+      <p className="text-center text-sm font-black text-[#1E1B4B]">{LOADING}</p>
     </div>
   );
 }
@@ -58,7 +58,7 @@ function FlashcardsBlock({ cards }: { cards: Flashcard[] }) {
     <section className="space-y-4">
       <div className="flex items-center justify-between gap-3 border-b border-[#EDE9FE] pb-3">
         <h3 className="text-base font-black text-[#1E1B4B] sm:text-lg">{CARDS_TITLE}</h3>
-        <span className="rounded-lg bg-[#F3EFFF] px-2.5 py-1 text-[11px] font-black tabular-nums text-[#5B21B6]">
+        <span className="rounded-lg bg-[#F3EFFF] px-2.5 py-1 text-[11px] font-black tabular-nums text-[#1E1B4B]">
           {index + 1} / {cards.length}
         </span>
       </div>
@@ -81,13 +81,13 @@ function FlashcardsBlock({ cards }: { cards: Flashcard[] }) {
           onClick={() => setFlipped((v) => !v)}
           className={`flex min-h-[240px] w-full flex-col overflow-hidden rounded-[22px] text-start shadow-[0_12px_32px_rgba(30,27,75,0.08)] ${
             flipped
-              ? "border border-[#5B21B6] bg-[#6D28D9] text-white"
+              ? "border border-[#1E1B4B] bg-[#6D28D9] text-white"
               : "border border-[#EDE9FE] bg-white text-[#1E1B4B]"
           }`}
         >
           <div
             className={`flex items-center justify-between border-b px-4 py-2.5 ${
-              flipped ? "border-white/15 bg-[#5B21B6]/40" : "border-[#EDE9FE] bg-[#F7F5FF]"
+              flipped ? "border-white/15 bg-[#1E1B4B]/40" : "border-[#EDE9FE] bg-[#F7F5FF]"
             }`}
           >
             <span
@@ -129,7 +129,7 @@ function FlashcardsBlock({ cards }: { cards: Flashcard[] }) {
         <button
           type="button"
           onClick={() => setFlipped((v) => !v)}
-          className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#6D28D9] px-3 py-2.5 text-sm font-black text-white transition hover:bg-[#5B21B6]"
+          className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-[#6D28D9] px-3 py-2.5 text-sm font-black text-white transition hover:bg-[#1E1B4B]"
         >
           <RotateCcw className="h-3.5 w-3.5" />
           {FLIP}
@@ -137,7 +137,7 @@ function FlashcardsBlock({ cards }: { cards: Flashcard[] }) {
         <button
           type="button"
           onClick={next}
-          className="inline-flex items-center justify-center gap-1 rounded-xl border border-[#EDE9FE] bg-white px-3 py-2.5 text-sm font-bold text-[#5B21B6] transition hover:bg-[#F7F5FF]"
+          className="inline-flex items-center justify-center gap-1 rounded-xl border border-[#EDE9FE] bg-white px-3 py-2.5 text-sm font-bold text-[#1E1B4B] transition hover:bg-[#F7F5FF]"
         >
           التالية
           <ChevronLeft className="h-3.5 w-3.5" />
@@ -171,7 +171,7 @@ function ExercisesBlock({ exercises }: { exercises: Exercise[] }) {
     <section className="space-y-4">
       <div className="flex items-center justify-between gap-3 border-b border-[#EDE9FE] pb-3">
         <h3 className="text-base font-black text-[#1E1B4B] sm:text-lg">{QUIZ_TITLE}</h3>
-        <span className="rounded-lg bg-[#F3EFFF] px-2.5 py-1 text-[11px] font-black tabular-nums text-[#5B21B6]">
+        <span className="rounded-lg bg-[#F3EFFF] px-2.5 py-1 text-[11px] font-black tabular-nums text-[#1E1B4B]">
           {index + 1} / {exercises.length}
         </span>
       </div>
@@ -205,7 +205,7 @@ function ExercisesBlock({ exercises }: { exercises: Exercise[] }) {
                 const isRight = option === item.correctAnswer;
                 let styles =
                   "border-[#EDE9FE] bg-[#F7F5FF] text-[#1E1B4B] hover:border-[#6D28D9]/35 hover:bg-white";
-                if (revealed && isRight) styles = "border-[#6D28D9] bg-[#F3EFFF] text-[#5B21B6]";
+                if (revealed && isRight) styles = "border-[#6D28D9] bg-[#F3EFFF] text-[#1E1B4B]";
                 else if (revealed && picked && !isRight)
                   styles = "border-rose-300 bg-rose-50 text-rose-800";
 
@@ -245,7 +245,7 @@ function ExercisesBlock({ exercises }: { exercises: Exercise[] }) {
                 className="space-y-3 border-t border-[#EDE9FE] pt-4"
               >
                 {isCorrect ? (
-                  <p className="rounded-xl bg-[#F3EFFF] px-4 py-3 text-sm font-black text-[#5B21B6]">
+                  <p className="rounded-xl bg-[#F3EFFF] px-4 py-3 text-sm font-black text-[#1E1B4B]">
                     {CORRECT}
                   </p>
                 ) : (
@@ -261,7 +261,7 @@ function ExercisesBlock({ exercises }: { exercises: Exercise[] }) {
                 <button
                   type="button"
                   onClick={next}
-                  className="w-full rounded-xl bg-[#6D28D9] px-5 py-3 text-sm font-black text-white transition hover:bg-[#5B21B6]"
+                  className="w-full rounded-xl bg-[#6D28D9] px-5 py-3 text-sm font-black text-white transition hover:bg-[#1E1B4B]"
                 >
                   {NEXT}
                 </button>

@@ -34,6 +34,13 @@ export default async function StudentDashboardPage() {
 
   if (!user || !user.studentProfile) redirect("/login");
 
+  if (
+    user.studentProfile.branch === "LANGUAGES" ||
+    user.accountBranch === "LANGUAGES"
+  ) {
+    redirect("/dashboard/student/subjects");
+  }
+
   const enrolledSubjectIds = user.enrollments.map((e) => e.subjectId);
 
   const upcomingLiveClassesCount = await prisma.liveClass.count({
@@ -66,7 +73,8 @@ export default async function StudentDashboardPage() {
     {
       id: "subjects",
       title: "موادي",
-      description: "تصفح الدروس والملحقات والفيديوهات الخاصة بالمواد التي تم تفعيلها وبدء الدراسة",
+      description:
+        "تصفح الدروس والملحقات والفيديوهات الخاصة بالمواد التي تم تفعيلها وبدء الدراسة",
       icon: IconLessons,
       iconBg: "bg-gradient-to-b from-[#EDE9FE] to-[#DDD6FE]",
       badge: `${availableSubjectsCount} مادة`,

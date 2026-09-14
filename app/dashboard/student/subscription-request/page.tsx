@@ -179,7 +179,7 @@ export default function SubscriptionRequestPage() {
           <button
             type="button"
             onClick={() => router.push("/dashboard/student")}
-            className="mt-8 w-full rounded-full bg-[#6D28D9] py-4 text-base font-black text-white transition hover:bg-[#5B21B6]"
+            className="mt-8 w-full rounded-full bg-[#6D28D9] py-4 text-base font-black text-white transition hover:bg-[#1E1B4B]"
           >
             العودة إلى لوحة التحكم
           </button>
@@ -401,7 +401,7 @@ export default function SubscriptionRequestPage() {
             <button
               type="submit"
               disabled={isSubmitting || formData.subjectIds.length === 0}
-              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#6D28D9] px-8 py-4 text-base font-black text-white transition hover:bg-[#5B21B6] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
+              className="flex w-full items-center justify-center gap-2 rounded-full bg-[#6D28D9] px-8 py-4 text-base font-black text-white transition hover:bg-[#1E1B4B] disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto"
             >
               {isSubmitting ? (
                 <>

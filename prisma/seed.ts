@@ -8,7 +8,12 @@ async function main() {
 
   // 1 حساب الأدمين
   const admin = await prisma.user.upsert({
-    where: { phoneNumber: '07777777777' },
+    where: {
+      phoneNumber_accountBranch: {
+        phoneNumber: '07777777777',
+        accountBranch: 'STUDY',
+      },
+    },
     update: {
       passwordHash,
       role: Role.ADMIN,
@@ -16,6 +21,7 @@ async function main() {
     },
     create: {
       phoneNumber: '07777777777',
+      accountBranch: 'STUDY',
       fullName: 'عشاب محمد',
       passwordHash,
       role: Role.ADMIN,
@@ -24,7 +30,12 @@ async function main() {
 
   // 2 حساب الأستاذ
   const teacherUser = await prisma.user.upsert({
-    where: { phoneNumber: '0663438000' },
+    where: {
+      phoneNumber_accountBranch: {
+        phoneNumber: '0663438000',
+        accountBranch: 'STUDY',
+      },
+    },
     update: {
       passwordHash,
       role: Role.TEACHER,
@@ -32,6 +43,7 @@ async function main() {
     },
     create: {
       phoneNumber: '0663438000',
+      accountBranch: 'STUDY',
       fullName: 'عشاب عبد القادر',
       passwordHash,
       role: Role.TEACHER,
@@ -53,7 +65,12 @@ async function main() {
 
   // 3 حساب الولي
   const parentUser = await prisma.user.upsert({
-    where: { phoneNumber: '0663438003' },
+    where: {
+      phoneNumber_accountBranch: {
+        phoneNumber: '0663438003',
+        accountBranch: 'STUDY',
+      },
+    },
     update: {
       passwordHash,
       role: Role.PARENT,
@@ -61,6 +78,7 @@ async function main() {
     },
     create: {
       phoneNumber: '0663438003',
+      accountBranch: 'STUDY',
       fullName: 'عشاب ضياء الدين',
       passwordHash,
       role: Role.PARENT,

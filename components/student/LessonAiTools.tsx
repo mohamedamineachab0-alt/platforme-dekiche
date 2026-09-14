@@ -76,9 +76,9 @@ function MindMapBranch({
       <div
         className={`px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl font-bold text-center shadow-sm border max-w-full break-words ${
           isRoot
-            ? "bg-[#6D28D9] text-white border-[#5B21B6] text-sm sm:text-base"
+            ? "bg-[#6D28D9] text-white border-[#1E1B4B] text-sm sm:text-base"
             : depth === 1
-              ? "bg-[#6D28D9] text-white border-[#5B21B6] text-xs sm:text-sm"
+              ? "bg-[#6D28D9] text-white border-[#1E1B4B] text-xs sm:text-sm"
               : "bg-white text-[#1E1B4B] border-[#EDE9FE] text-[11px] sm:text-xs"
         }`}
       >
@@ -491,7 +491,7 @@ export function LessonAiTools({
             <button
               type="submit"
               disabled={chatLoading || !input.trim()}
-              className="bg-[#6D28D9] hover:bg-[#5B21B6] disabled:opacity-40 text-white font-black p-2.5 rounded-xl shrink-0"
+              className="bg-[#6D28D9] hover:bg-[#1E1B4B] disabled:opacity-40 text-white font-black p-2.5 rounded-xl shrink-0"
               aria-label="إرسال"
             >
               <Send className="w-4 h-4" />
@@ -515,7 +515,7 @@ export function LessonAiTools({
                   type="button"
                   onClick={downloadSummaryPdf}
                   disabled={pdfLoading}
-                  className="inline-flex w-full items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] disabled:opacity-50 text-white font-black px-3 py-2.5 rounded-xl text-xs sm:text-sm"
+                  className="inline-flex w-full items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#1E1B4B] disabled:opacity-50 text-white font-black px-3 py-2.5 rounded-xl text-xs sm:text-sm"
                 >
                   {pdfLoading ? (
                     <Loader2 className="w-4 h-4 animate-spin" />
@@ -529,7 +529,7 @@ export function LessonAiTools({
                     type="button"
                     onClick={translateSummaryToArabic}
                     disabled={translating}
-                    className="inline-flex w-full items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] disabled:opacity-50 text-white font-black px-3 py-2.5 rounded-xl text-xs sm:text-sm"
+                    className="inline-flex w-full items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#1E1B4B] disabled:opacity-50 text-white font-black px-3 py-2.5 rounded-xl text-xs sm:text-sm"
                   >
                     {translating ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
@@ -578,7 +578,7 @@ export function LessonAiTools({
                 type="button"
                 onClick={downloadMindMap}
                 disabled={downloadingMap}
-                className="inline-flex w-full sm:w-auto items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] disabled:opacity-50 text-white font-black px-3 py-2.5 rounded-xl text-xs sm:text-sm"
+                className="inline-flex w-full sm:w-auto items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#1E1B4B] disabled:opacity-50 text-white font-black px-3 py-2.5 rounded-xl text-xs sm:text-sm"
               >
                 {downloadingMap ? (
                   <Loader2 className="w-4 h-4 animate-spin" />

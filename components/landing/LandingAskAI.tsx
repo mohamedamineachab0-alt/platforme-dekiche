@@ -39,7 +39,7 @@ export function LandingAskAI() {
               <button
                 type="button"
                 onClick={() => setOpen(active ? -1 : i)}
-                className="w-full rounded-[28px] bg-white p-5 text-right shadow-[0_10px_30px_rgba(30,27,75,0.05)]"
+                className="w-full rounded-[28px] border border-[#EDE9FE] bg-[#FFFEF8] p-5 text-right"
               >
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="text-base font-black text-[#1E1B4B] sm:text-lg">{item.q}</h3>

@@ -73,7 +73,7 @@ export default async function AdminLiveClassesPage() {
                 </div>
               </div>
 
-              <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-bold py-3 rounded-xl transition-colors mt-2">
+              <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#1E1B4B] text-white font-bold py-3 rounded-xl transition-colors mt-2">
                 <Calendar className="w-4 h-4" />
                 برمجة الحصة
               </button>

@@ -44,7 +44,7 @@ export function ExamSubmissionForm({ examId, studentId, hasSubmitted, previousSc
   if (success) {
     return (
       <div className="p-6 bg-[#F3EFFF] border border-[#EDE9FE] rounded-2xl space-y-4">
-        <div className="flex items-center gap-3 text-[#5B21B6] font-black">
+        <div className="flex items-center gap-3 text-[#1E1B4B] font-black">
           <CheckCircle className="w-6 h-6" />
           <h3>تم استلام حلك وتصحيحه بنجاح!</h3>
         </div>
@@ -83,14 +83,14 @@ export function ExamSubmissionForm({ examId, studentId, hasSubmitted, previousSc
           name="file"
           accept="image/*"
           required
-          className="w-full text-base text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-base file:font-bold file:bg-[#EDE9FE] file:text-[#5B21B6] hover:file:bg-[#DDD6FE] cursor-pointer"
+          className="w-full text-base text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-base file:font-bold file:bg-[#EDE9FE] file:text-[#1E1B4B] hover:file:bg-[#DDD6FE] cursor-pointer"
         />
       </div>
 
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full py-4 bg-[#6D28D9] hover:bg-[#5B21B6] text-white rounded-xl font-bold text-lg shadow-md transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
+        className="w-full py-4 bg-[#6D28D9] hover:bg-[#1E1B4B] text-white rounded-xl font-bold text-lg shadow-md transition-colors flex items-center justify-center gap-2 disabled:opacity-70"
       >
         {isSubmitting ? (
           <>

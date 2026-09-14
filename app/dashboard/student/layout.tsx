@@ -22,7 +22,10 @@ export default async function StudentLayout({
         data: { branch: "STUDY" },
       });
     }
-    needsOnboarding = !!profile && !profile.understandingLevel;
+    needsOnboarding =
+      !!profile &&
+      profile.branch !== "LANGUAGES" &&
+      !profile.understandingLevel;
   } catch {
     needsOnboarding = false;
   }

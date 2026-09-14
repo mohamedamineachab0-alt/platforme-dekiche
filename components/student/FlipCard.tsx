@@ -46,8 +46,8 @@ export function FlipCard({ card }: FlipCardProps) {
         </div>
 
         {/* Back */}
-        <div className="absolute inset-0 flex flex-col overflow-hidden rounded-[22px] border border-[#5B21B6] bg-[#6D28D9] backface-hidden rotate-y-180 shadow-[0_16px_36px_rgba(109,40,217,0.28)]">
-          <div className="flex items-center justify-between border-b border-white/15 bg-[#5B21B6]/40 px-4 py-2.5">
+        <div className="absolute inset-0 flex flex-col overflow-hidden rounded-[22px] border border-[#1E1B4B] bg-[#6D28D9] backface-hidden rotate-y-180 shadow-[0_16px_36px_rgba(109,40,217,0.28)]">
+          <div className="flex items-center justify-between border-b border-white/15 bg-[#1E1B4B]/40 px-4 py-2.5">
             <span className="text-[10px] font-black tracking-wide text-[#DDD6FE]">جواب</span>
             <span className="h-1.5 w-1.5 rounded-sm bg-[#C4B5FD]" />
           </div>

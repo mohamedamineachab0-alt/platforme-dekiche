@@ -147,7 +147,7 @@ export default async function AdminStudentMonitoringPage(props: {
 
                       {/* T3: Points */}
                       <td className="px-6 py-4 text-center">
-                        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#F3EFFF] border border-[#EDE9FE] rounded-lg text-[#5B21B6] font-black text-sm">
+                        <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-[#F3EFFF] border border-[#EDE9FE] rounded-lg text-[#1E1B4B] font-black text-sm">
                           <Trophy className="w-4 h-4 text-[#6D28D9]" />
                           {m.totalPoints}
                         </div>

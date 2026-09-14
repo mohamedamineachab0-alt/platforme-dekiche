@@ -3,7 +3,7 @@
 export function IlluStudentsCrowd({ className = "h-full w-full" }: { className?: string }) {
   return (
     <svg viewBox="0 0 320 200" className={className} aria-hidden>
-      <ellipse cx="160" cy="186" rx="120" ry="10" fill="#5B21B6" opacity="0.45" />
+      <ellipse cx="160" cy="186" rx="120" ry="10" fill="#1E1B4B" opacity="0.45" />
       <g transform="translate(20 70)">
         <rect x="8" y="40" width="56" height="70" rx="18" fill="#A78BFA" />
         <rect x="18" y="8" width="40" height="42" rx="20" fill="#FFD7B3" />
@@ -37,7 +37,7 @@ export function IlluStudentsCrowd({ className = "h-full w-full" }: { className?:
 export function IlluTrophyKids({ className = "h-full w-full" }: { className?: string }) {
   return (
     <svg viewBox="0 0 280 220" className={className} aria-hidden>
-      <ellipse cx="140" cy="200" rx="90" ry="10" fill="#5B21B6" opacity="0.45" />
+      <ellipse cx="140" cy="200" rx="90" ry="10" fill="#1E1B4B" opacity="0.45" />
       <path d="M110 40h60v40c0 28-14 42-30 42s-30-14-30-42V40z" fill="#A78BFA" />
       <path d="M110 52c-18 4-22 16-16 28" fill="none" stroke="#FF8A65" strokeWidth="8" strokeLinecap="round" />
       <path d="M170 52c18 4 22 16 16 28" fill="none" stroke="#FF8A65" strokeWidth="8" strokeLinecap="round" />
@@ -77,7 +77,7 @@ export function IlluContact({ className = "h-28 w-28" }: { className?: string })
 export function IlluDeskStudy({ className = "h-full w-full" }: { className?: string }) {
   return (
     <svg viewBox="0 0 280 220" className={className} aria-hidden>
-      <ellipse cx="140" cy="200" rx="100" ry="12" fill="#5B21B6" opacity="0.45" />
+      <ellipse cx="140" cy="200" rx="100" ry="12" fill="#1E1B4B" opacity="0.45" />
       <rect x="40" y="150" width="200" height="28" rx="10" fill="#8B5CF6" />
       <rect x="96" y="78" width="88" height="78" rx="22" fill="#A78BFA" />
       <rect x="110" y="28" width="60" height="60" rx="28" fill="#FFD7B3" />

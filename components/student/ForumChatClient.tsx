@@ -248,7 +248,7 @@ export function ForumChatClient({ initialMessages, forum, sessionId, studentProf
               <button
                 type="submit"
                 disabled={isPending}
-                className="h-[56px] px-4 sm:px-6 shrink-0 bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-black rounded-2xl flex items-center justify-center transition-colors shadow-sm disabled:opacity-50"
+                className="h-[56px] px-4 sm:px-6 shrink-0 bg-[#6D28D9] hover:bg-[#1E1B4B] text-white font-black rounded-2xl flex items-center justify-center transition-colors shadow-sm disabled:opacity-50"
               >
                 <Send className="w-5 h-5 rtl:rotate-180" />
               </button>

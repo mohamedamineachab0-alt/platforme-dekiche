@@ -63,7 +63,7 @@ export function AvatarSelector({ currentAvatarUrl }: { currentAvatarUrl?: string
               <img src={url} alt="صورة رمزية" className="w-full h-full rounded-full object-cover bg-slate-50" />
               {selectedAvatar === url && (
                 <div className="absolute inset-0 bg-[#6D28D9]/20 flex items-center justify-center">
-                  <Check className="w-6 h-6 text-[#5B21B6] font-bold bg-white/80 rounded-full p-1" />
+                  <Check className="w-6 h-6 text-[#1E1B4B] font-bold bg-white/80 rounded-full p-1" />
                 </div>
               )}
             </button>
@@ -75,7 +75,7 @@ export function AvatarSelector({ currentAvatarUrl }: { currentAvatarUrl?: string
         <button
           onClick={handleSave}
           disabled={!selectedAvatar || isSaving || selectedAvatar === currentAvatarUrl}
-          className="w-full flex items-center justify-center gap-2 bg-[#6D28D9] text-white py-3 rounded-xl font-bold hover:bg-[#5B21B6] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm shadow-[#EDE9FE]"
+          className="w-full flex items-center justify-center gap-2 bg-[#6D28D9] text-white py-3 rounded-xl font-bold hover:bg-[#1E1B4B] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm shadow-[#EDE9FE]"
         >
           {isSaving ? <Loader2 className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
           حفظ الصورة

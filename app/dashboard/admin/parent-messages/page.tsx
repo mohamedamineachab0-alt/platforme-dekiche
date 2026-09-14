@@ -1,5 +1,4 @@
-import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
+import { assertAuth } from "@/lib/security";
 import { prisma } from "@/lib/prisma";
 import { MessageSquare } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
@@ -13,55 +12,41 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 export default async function AdminParentMessagesPage() {
-  const cookieStore = await cookies();
-  const sessionId = cookieStore.get("session")?.value;
+  await assertAuth({ requireRole: "ADMIN" });
 
-  if (!sessionId) {
-    redirect("/login");
-  }
-
-  const user = await prisma.user.findUnique({
-    where: { id: sessionId },
-    select: { role: true },
-  });
-
-  if (!user || user.role !== "ADMIN") {
-    redirect("/dashboard");
-  }
-
-  let tickets: any[] = [];
-  try {
-    tickets = await prisma.parentTicket.findMany({
-      orderBy: { createdAt: "desc" },
-      include: {
-        parent: {
-          select: {
-            fullName: true,
-            phoneNumber: true,
-            parentLinks: {
-              include: {
-                student: {
-                  select: { fullName: true }
-                }
-              }
-            }
+  const tickets = await prisma.parentTicket.findMany({
+    orderBy: { createdAt: "desc" },
+    include: {
+      parent: {
+        select: {
+          fullName: true,
+          phoneNumber: true,
+          parentLinks: {
+            include: {
+              student: {
+                select: { fullName: true },
+              },
+            },
           },
         },
       },
-    });
-  } catch (error) {
-    console.error("Database fetch error in AdminParentMessagesPage:", error);
-  }
+    },
+  });
+
+  const serialized = tickets.map((ticket) => ({
+    ...ticket,
+    createdAt: ticket.createdAt.toISOString(),
+  }));
 
   return (
-    <div className="p-6 md:p-8 space-y-8">
-      <HeroBanner 
+    <div className="space-y-8 font-sans text-[#1E1B4B]" dir="rtl">
+      <HeroBanner
         title="رسائل الأولياء"
-        description="استعرض استفسارات ورسائل أولياء الأمور الواردة للإدارة وقم بمتابعتها وإغلاقها بعد المعالجة"
+        description="استعرض استفسارات أولياء الأمور، أرسل الرد، وأغلق التذاكر بعد المعالجة"
         icon={MessageSquare}
       />
 
-      <ParentMessagesClient initialTickets={tickets} />
+      <ParentMessagesClient initialTickets={serialized} />
     </div>
   );
 }

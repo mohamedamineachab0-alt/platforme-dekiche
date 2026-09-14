@@ -29,6 +29,10 @@ export function SubjectCreationClient({
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (!imageFile) {
+      alert("يجب رفع غلاف المادة بأبعاد 1920 × 1080 px");
+      return;
+    }
     setPending(true);
     const formData = new FormData(e.currentTarget);
     if (isFree) {
@@ -104,7 +108,9 @@ export function SubjectCreationClient({
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-bold text-slate-700">صورة الغلاف (1920x1080)</label>
+          <label className="text-sm font-bold text-slate-700">
+            غلاف المادة <span className="text-[#6D28D9]">(1920 × 1080 px) إلزامي</span>
+          </label>
           <div 
             className="relative group overflow-hidden rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/50 hover:bg-slate-50 hover:border-sky-200 transition-all cursor-pointer"
             onClick={() => fileInputRef.current?.click()}
@@ -113,12 +119,13 @@ export function SubjectCreationClient({
               type="file" 
               name="image" 
               accept="image/*"
+              required
               onChange={handleImageChange} 
               className="hidden" 
               ref={fileInputRef}
             />
             {imageUrl ? (
-              <div className="relative aspect-[21/9] w-full">
+              <div className="relative aspect-video w-full">
                 <img src={imageUrl} alt="Cover preview" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                   <span className="text-white font-bold text-sm bg-white/20 backdrop-blur-md px-4 py-2 rounded-xl">تغيير الصورة</span>
@@ -129,8 +136,8 @@ export function SubjectCreationClient({
                 <div className="bg-sky-50 text-sky-500 p-4 rounded-full mb-3">
                   <ImageIcon className="w-6 h-6" />
                 </div>
-                <span className="text-sm font-bold text-slate-600 mb-1">اضغط هنا أو قم بسحب الصورة</span>
-                <span className="text-xs font-bold text-slate-400">JPG, PNG, WEBP (الحد الأقصى 2MB)</span>
+                <span className="text-sm font-bold text-slate-600 mb-1">ارفع غلاف المادة</span>
+                <span className="text-xs font-bold text-slate-400">الأبعاد المطلوبة: 1920 × 1080 px · JPG / PNG / WEBP</span>
               </div>
             )}
           </div>

@@ -186,7 +186,7 @@ export function AdminSeedContentClient({
             onClick={() => setMode("all")}
             className={`rounded-2xl border px-4 py-3 text-sm font-black ${
               mode === "all"
-                ? "border-[#6D28D9] bg-[#F3EFFF] text-[#5B21B6]"
+                ? "border-[#6D28D9] bg-[#F3EFFF] text-[#1E1B4B]"
                 : "border-slate-200 text-slate-600"
             }`}
           >
@@ -197,7 +197,7 @@ export function AdminSeedContentClient({
             onClick={() => setMode("one")}
             className={`rounded-2xl border px-4 py-3 text-sm font-black ${
               mode === "one"
-                ? "border-[#6D28D9] bg-[#F3EFFF] text-[#5B21B6]"
+                ? "border-[#6D28D9] bg-[#F3EFFF] text-[#1E1B4B]"
                 : "border-slate-200 text-slate-600"
             }`}
           >
@@ -273,7 +273,7 @@ export function AdminSeedContentClient({
             </label>
           </>
         ) : (
-          <div className="rounded-2xl bg-[#F3EFFF] px-4 py-3 text-sm font-bold text-[#5B21B6]">
+          <div className="rounded-2xl bg-[#F3EFFF] px-4 py-3 text-sm font-bold text-[#1E1B4B]">
             سيتم توليد التمارين وبطاقات المراجعة لـ {filteredLessons.length} درسا مطابقا للمستوى والشعبة
           </div>
         )}

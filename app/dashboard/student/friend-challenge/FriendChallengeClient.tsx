@@ -111,7 +111,7 @@ export function FriendChallengeClient({
               <button 
                 type="submit"
                 disabled={!friendCode.trim() || isLinking}
-                className="px-6 bg-[#6D28D9] hover:bg-[#5B21B6] text-white rounded-xl font-bold transition-colors flex items-center justify-center disabled:opacity-50"
+                className="px-6 bg-[#6D28D9] hover:bg-[#1E1B4B] text-white rounded-xl font-bold transition-colors flex items-center justify-center disabled:opacity-50"
               >
                 {isLinking ? <Loader2 className="w-5 h-5 animate-spin" /> : "إضافة"}
               </button>

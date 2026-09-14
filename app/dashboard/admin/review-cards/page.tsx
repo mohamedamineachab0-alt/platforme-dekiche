@@ -101,7 +101,7 @@ export default async function AdminReviewCardsPage() {
                 </div>
               </div>
 
-              <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-black font-bold py-3 rounded-xl transition-colors mt-2">
+              <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#1E1B4B] text-white font-black font-bold py-3 rounded-xl transition-colors mt-2">
                 <Plus className="w-4 h-4" />
                 إضافة البطاقة
               </button>
@@ -147,7 +147,7 @@ export default async function AdminReviewCardsPage() {
                   </div>
 
                   <div className="mt-4 pt-4 border-t border-slate-50 flex flex-wrap gap-2">
-                    <span className="bg-[#F3EFFF] text-[#5B21B6] text-[10px] font-black px-2 py-1 rounded-md">
+                    <span className="bg-[#F3EFFF] text-[#1E1B4B] text-[10px] font-black px-2 py-1 rounded-md">
                       {card.subject.title}
                     </span>
                     <span className="bg-slate-100 text-slate-600 text-[10px] font-bold px-2 py-1 rounded-md">

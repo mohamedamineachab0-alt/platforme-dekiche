@@ -36,7 +36,7 @@ export async function createSubject(
     const teacherId = formData.get("teacherId") as string;
     const manualTeacherName = formData.get("manualTeacherName") as string;
     
-    let imageUrl = "https://images.unsplash.com/photo-1546410531-bea5acadb043?q=80&w=600&auto=format&fit=crop";
+    let imageUrl = "";
     const imageFile = formData.get("image") as File | null;
     
     if (imageFile && imageFile.size > 0) {
@@ -56,6 +56,10 @@ export async function createSubject(
         const { data: publicUrlData } = supabase.storage.from("subject-covers").getPublicUrl(fileName);
         imageUrl = publicUrlData.publicUrl;
       }
+    }
+
+    if (!imageUrl) {
+      return { error: "يجب رفع غلاف المادة بأبعاد 1920 × 1080 px" };
     }
     const priceStr = formData.get("price") as string;
     const price = priceStr ? parseFloat(priceStr) : 0;
@@ -88,6 +92,11 @@ export async function createSubject(
     const teacher = teacherId ? await prisma.teacher.findUnique({ where: { id: teacherId } }) : null;
     const teacherName = teacher?.name || manualTeacherName || "غير محدد";
 
+    const isLanguagesSubject =
+      (formData.get("adminBranch") as string) === "LANGUAGES" ||
+      level === "LANG_BEGINNER" ||
+      levels.includes("LANG_BEGINNER");
+
     await prisma.subject.create({
       data: {
         title,
@@ -101,11 +110,13 @@ export async function createSubject(
         stream: stream as Stream,
         levels: levels as Level[],
         streams: streams as Stream[],
-        isPublished: true,
+        isPublished: !isLanguagesSubject,
       },
     });
 
     revalidatePath("/dashboard/admin/subjects");
+    revalidatePath("/dashboard/admin/languages");
+    revalidatePath("/dashboard/admin/languages/subjects");
     return { success: true };
   } catch (err: any) {
     return { error: "حدث خطأ أثناء إنشاء المادة" };
@@ -350,8 +361,28 @@ export async function deleteSubject(
       where: { id: subjectId },
     });
     revalidatePath("/dashboard/admin/subjects");
+    revalidatePath("/dashboard/admin/languages");
+    revalidatePath("/dashboard/admin/languages/subjects");
     return { success: true };
   } catch (err: any) {
     return { error: "حدث خطأ أثناء حذف المادة" };
+  }
+}
+
+export async function setSubjectPublished(subjectId: string, isPublished: boolean) {
+  try {
+    await assertAuth({ requireRole: "ADMIN" });
+    await prisma.subject.update({
+      where: { id: subjectId },
+      data: { isPublished },
+    });
+    revalidatePath("/dashboard/admin/subjects");
+    revalidatePath("/dashboard/admin/languages");
+    revalidatePath("/dashboard/admin/languages/subjects");
+    revalidatePath("/dashboard/student/subjects");
+    return { success: true };
+  } catch (err: unknown) {
+    console.error("setSubjectPublished:", err);
+    return { error: "تعذر تحديث حالة النشر" };
   }
 }

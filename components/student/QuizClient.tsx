@@ -205,7 +205,7 @@ export function QuizClient({ lessonId, lessonTitle, quizId, questions, contextTy
 
             <Link
               href="/dashboard/student/mistakes"
-              className="inline-flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] text-white px-6 py-3 rounded-xl font-bold transition-colors shadow-sm"
+              className="inline-flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#1E1B4B] text-white px-6 py-3 rounded-xl font-bold transition-colors shadow-sm"
             >
               <AlertTriangle className="w-4 h-4" />
               سجل أخطائي الكامل

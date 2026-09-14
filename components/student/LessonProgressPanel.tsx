@@ -115,7 +115,7 @@ export function LessonProgressPanel({
       <div className="overflow-hidden rounded-[22px] border border-[#EDE9FE] bg-white shadow-[0_12px_32px_rgba(30,27,75,0.06)]">
         <div className="flex items-center justify-between border-b border-[#EDE9FE] bg-[#F7F5FF] px-4 py-3 sm:px-5">
           <h2 className="text-base font-black text-[#1E1B4B] sm:text-lg">تقدم الدرس</h2>
-          <span className="rounded-lg bg-[#F3EFFF] px-2.5 py-1 text-[11px] font-black tabular-nums text-[#5B21B6]">
+          <span className="rounded-lg bg-[#F3EFFF] px-2.5 py-1 text-[11px] font-black tabular-nums text-[#1E1B4B]">
             {subjectPercent}%
           </span>
         </div>
@@ -124,7 +124,7 @@ export function LessonProgressPanel({
           <div>
             <div className="mb-2 flex items-center justify-between gap-3">
               <p className="text-xs font-bold text-[#6B6480]">{subjectTitle}</p>
-              <p className="text-xs font-black tabular-nums text-[#5B21B6]">
+              <p className="text-xs font-black tabular-nums text-[#1E1B4B]">
                 {doneCount} / {totalLessons} درس
               </p>
             </div>
@@ -146,7 +146,7 @@ export function LessonProgressPanel({
                 )}
                 <p className="truncate text-sm font-black text-[#1E1B4B]">{lessonTitle}</p>
               </div>
-              <span className="shrink-0 text-[11px] font-black tabular-nums text-[#5B21B6]">
+              <span className="shrink-0 text-[11px] font-black tabular-nums text-[#1E1B4B]">
                 {completed ? "مكتمل" : `${watchPercent}% مشاهدة`}
               </span>
             </div>
@@ -159,7 +159,7 @@ export function LessonProgressPanel({
           </div>
 
           {message ? (
-            <p className="rounded-xl bg-[#F3EFFF] px-3 py-2.5 text-xs font-bold text-[#5B21B6] sm:text-sm">
+            <p className="rounded-xl bg-[#F3EFFF] px-3 py-2.5 text-xs font-bold text-[#1E1B4B] sm:text-sm">
               {message}
             </p>
           ) : (

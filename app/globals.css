@@ -11,23 +11,27 @@
   --brand-ink: #1e1b4b;
   --brand-muted: #6b6480;
   --brand-bg: #f7f5ff;
-  --brand-surface: #ffffff;
+  --brand-surface: #fffef8;
   --brand-btn: #6d28d9;
   --brand-grid: #ede9fe;
   --brand-active: #6d28d9;
+  --brand-accent: #ea580c;
+  --brand-orange: #ea580c;
+  --brand-orange-soft: #fff7ed;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-tshirt: #0f172a;
-  --color-primary: var(--primary-color, #1e293b);
+  --color-primary: var(--primary-color, #1e1b4b);
   --color-secondary: var(--secondary-color, #6d28d9);
   --color-brand-yellow: #6d28d9;
   --color-brand-ink: #1e1b4b;
   --color-brand-muted: #6b6480;
   --color-brand-bg: #f7f5ff;
   --color-brand-btn: #6d28d9;
+  --color-brand-orange: #ea580c;
   --font-sans: 'IBM Plex Sans Arabic', sans-serif;
   --font-khat: 'Scheherazade New', 'Amiri', serif;
   --font-mono: var(--font-geist-mono);
@@ -36,12 +40,13 @@
 html.dark {
   color-scheme: dark;
   --background: #12081f;
-  --foreground: #f4f0ff;
-  --brand-ink: #f4f0ff;
+  --foreground: #f3efff;
+  --brand-ink: #f3efff;
   --brand-muted: #c4b5fd;
   --brand-bg: #12081f;
   --brand-surface: #1e1633;
   --brand-grid: #2a1f45;
+  --brand-orange: #fb923c;
 }
 
 body {
@@ -311,17 +316,62 @@ button, a, input, select, [role="button"] {
 .academy-hero-grid {
   background-color: #6d28d9;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
-  background-size: 48px 48px;
+    linear-gradient(145deg, #6d28d9 0%, #5b21b6 48%, #ea580c 125%),
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: auto, 42px 42px, 42px 42px;
 }
 
-.academy-page-grid {
+.academy-page-grid,
+.languages-page-grid {
   background-color: #f7f5ff;
   background-image:
     linear-gradient(rgba(109, 40, 217, 0.06) 1px, transparent 1px),
     linear-gradient(90deg, rgba(109, 40, 217, 0.06) 1px, transparent 1px);
-  background-size: 40px 40px;
+  background-size: 36px 36px;
+  color: #1e1b4b;
+}
+
+/* Educational landing surfaces — purple + orange */
+.languages-landing {
+  color: #1e1b4b;
+}
+
+.languages-hero,
+.edu-hero {
+  background: linear-gradient(145deg, #6d28d9 0%, #5b21b6 45%, #c2410c 120%);
+  min-height: min(78vh, 640px);
+}
+
+.languages-hero-chalk,
+.edu-hero-chalk {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 42px 42px;
+  opacity: 0.9;
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, #000 40%, transparent 100%);
+}
+
+.languages-notebook,
+.edu-notebook {
+  background-image: linear-gradient(180deg, #fffef8 0%, #fff7ed 100%);
+}
+
+.languages-ruled li,
+.edu-ruled li {
+  border-bottom: 1px solid #fed7aa;
+  padding-bottom: 0.55rem;
+}
+
+.languages-skill-card,
+.edu-skill-card {
+  box-shadow: none;
+}
+
+.languages-cta,
+.edu-cta {
+  background: linear-gradient(120deg, #6d28d9 0%, #ea580c 100%);
 }
 
 html.dark .academy-page-grid {
@@ -332,7 +382,7 @@ html.dark .academy-page-grid {
 }
 
 html.dark .text-\[\#1E1B4B\] {
-  color: #f4f0ff;
+  color: #f3efff;
 }
 
 html.dark .text-\[\#6B6480\] {
@@ -565,16 +615,16 @@ html.dark .to-\[\#FFB39A\] { --tw-gradient-to: #6b4030; }
 html.dark .to-\[\#FFD0A3\] { --tw-gradient-to: #6b4322; }
 
 .game-btn {
-  box-shadow: 0 7px 0 #5B21B6;
+  box-shadow: 0 7px 0 #1E1B4B;
   transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
 .game-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 9px 0 #5B21B6;
+  box-shadow: 0 9px 0 #1E1B4B;
 }
 .game-btn:active {
   transform: translateY(5px);
-  box-shadow: 0 2px 0 #5B21B6;
+  box-shadow: 0 2px 0 #1E1B4B;
 }
 
 .game-btn-white {

@@ -44,6 +44,10 @@ export function PublishLessonClient({
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!imageFile) {
+      alert("يجب رفع غلاف الدرس بأبعاد 1920 × 1080 px");
+      return;
+    }
     setIsPublishing(true);
     
     const formData = new FormData(e.currentTarget);
@@ -231,7 +235,9 @@ export function PublishLessonClient({
               <form id="publish-lesson-form" onSubmit={handleSubmit} className="space-y-6">
                 
                 <div className="space-y-2">
-                  <label className="text-sm font-bold text-slate-700">صورة الغلاف (1920x1080)</label>
+                  <label className="text-sm font-bold text-slate-700">
+                    صورة غلاف الدرس <span className="text-[#6D28D9]">(1920 × 1080 px)</span>
+                  </label>
                   <label className="relative flex flex-col group overflow-hidden rounded-2xl border-2 border-dashed border-slate-200 bg-slate-50/50 hover:bg-slate-50 hover:border-sky-200 transition-all cursor-pointer">
                     <input 
                       type="file" 
@@ -251,8 +257,8 @@ export function PublishLessonClient({
                         <div className="bg-sky-50 text-sky-500 p-4 rounded-full mb-3">
                           <Upload className="w-6 h-6" />
                         </div>
-                        <span className="text-sm font-bold text-slate-600 mb-1">اضغط هنا لرفع صورة الغلاف</span>
-                        <span className="text-xs font-bold text-slate-400">JPG, PNG, WEBP (الحد الأقصى 2MB)</span>
+                        <span className="text-sm font-bold text-slate-600 mb-1">اضغط لرفع غلاف الدرس</span>
+                        <span className="text-xs font-bold text-slate-400">الأبعاد الموصى بها: 1920 × 1080 px · JPG / PNG / WEBP</span>
                       </div>
                     )}
                   </label>

@@ -135,16 +135,12 @@ export const CYCLES = [
   },
   {
     value: "LANGUAGES",
-    label: "تعليم اللغات",
+    label: "تعلّم اللغات",
     levels: [
-      { value: "LANG_BEGINNER", label: "مبتدئ" },
-      { value: "LANG_INTERMEDIATE", label: "متوسط" },
-      { value: "LANG_ADVANCED", label: "متقدم" },
+      { value: "LANG_BEGINNER", label: "A1" },
     ],
     streams: [
-      { value: "ENGLISH", label: "الإنجليزية" },
-      { value: "FRENCH", label: "الفرنسية" },
-      { value: "SPANISH", label: "الإسبانية" },
+      { value: "ALL", label: "تعلّم اللغات" },
     ],
   },
   {
@@ -203,7 +199,16 @@ export const STUDY_CYCLES = [PRIMARY_CYCLE, MIDDLE_CYCLE, SECONDARY_CYCLE];
 
 export const LEVELS = CYCLES.flatMap((cycle) => [...cycle.levels]);
 
-export const STREAMS = [
+function uniqueByValue<T extends { value: string }>(items: T[]): T[] {
+  const seen = new Set<string>();
+  return items.filter((item) => {
+    if (seen.has(item.value)) return false;
+    seen.add(item.value);
+    return true;
+  });
+}
+
+export const STREAMS = uniqueByValue([
   ...PRIMARY_STREAMS,
   ...SECONDARY_STREAMS,
   ...MIDDLE_STREAMS,
@@ -214,7 +219,7 @@ export const STREAMS = [
   { value: "QURAN", label: "القرآن الكريم" },
   { value: "ISLAMIC", label: "إسلاميات" },
   ...TRAINING_STREAMS,
-];
+]);
 
 export function getCycleByValue(cycle?: string | null) {
   return CYCLES.find((item) => item.value === cycle);

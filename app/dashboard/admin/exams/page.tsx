@@ -2,14 +2,23 @@ import { prisma } from "@/lib/prisma";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { FileText } from "lucide-react";
 import { ExamUploadForm } from "@/components/admin/ExamUploadForm";
+import { parseAdminBranch, subjectWhereForBranch } from "@/lib/admin-branch";
 
-export default async function AdminExamsPage() {
+export default async function AdminExamsPage(props: {
+  searchParams: Promise<{ adminBranch?: string }>;
+}) {
+  const searchParams = await props.searchParams;
+  const branch = parseAdminBranch(searchParams.adminBranch);
+  const subjectWhere = subjectWhereForBranch(branch);
+
   const subjects = await prisma.subject.findMany({
+    where: subjectWhere,
     select: { id: true, title: true },
     orderBy: { createdAt: "desc" }
   });
 
   const recentExams = await prisma.exam.findMany({
+    where: { subject: subjectWhere },
     orderBy: { createdAt: "desc" },
     take: 10,
     include: {
@@ -24,7 +33,7 @@ export default async function AdminExamsPage() {
   return (
     <div className="space-y-8">
       <HeroBanner 
-        title="إدارة الاختبارات والفروض"
+        title={branch === "LANGUAGES" ? "اختبارات وفروض اللغات" : "إدارة الاختبارات والفروض"}
         description="ارفع صور الاختبارات ليقوم الذكاء الاصطناعي باستخراج الأسئلة وتصحيح إجابات التلاميذ آلياً"
         icon={FileText}
       />
@@ -50,7 +59,7 @@ export default async function AdminExamsPage() {
                 <div key={exam.id} className="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm flex flex-col gap-3">
                   <div className="flex justify-between items-start">
                     <h4 className="font-bold text-slate-900">{exam.title}</h4>
-                    <span className="bg-[#EDE9FE] text-[#5B21B6] text-xs font-bold px-3 py-1 rounded-full">
+                    <span className="bg-[#EDE9FE] text-[#1E1B4B] text-xs font-bold px-3 py-1 rounded-full">
                       {exam.subject.title}
                     </span>
                   </div>

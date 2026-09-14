@@ -20,7 +20,12 @@ export function platformToBranch(platform?: string | null): PlatformBranch {
   }
 }
 
+/** Login/register account scope: languages vs everything else (study). */
+export function accountBranchForPlatform(platform?: string | null): PlatformBranch {
+  return platformToBranch(platform) === "LANGUAGES" ? "LANGUAGES" : "STUDY";
+}
+
 export function studentHomePath(branch?: string | null) {
-  // Dalili / SMART_TEACHER no longer has a separate home
+  if (branch === "LANGUAGES") return "/dashboard/student/subjects";
   return "/dashboard/student";
 }

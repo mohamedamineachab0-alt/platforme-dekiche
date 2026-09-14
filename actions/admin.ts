@@ -35,7 +35,11 @@ export async function createTeacher(
       return { error: "كلمة المرور يجب أن تكون 6 أحرف على الأقل" };
     }
 
-    const existingUser = await prisma.user.findUnique({ where: { phoneNumber } });
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        phoneNumber_accountBranch: { phoneNumber, accountBranch: "STUDY" },
+      },
+    });
     if (existingUser) {
       return { error: "رقم الهاتف مسجل مسبقاً" };
     }
@@ -46,6 +50,7 @@ export async function createTeacher(
       data: {
         fullName,
         phoneNumber,
+        accountBranch: "STUDY",
         passwordHash,
         role: "TEACHER",
         teacherProfile: {

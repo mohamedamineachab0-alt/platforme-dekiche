@@ -2,6 +2,7 @@ import { assertAuth } from "@/lib/security";
 import { prisma } from "@/lib/prisma";
 import StudentsTableClient from "./StudentsTableClient";
 import { Metadata } from "next";
+import { parseAdminBranch, studentWhereForBranch } from "@/lib/admin-branch";
 
 export const metadata: Metadata = {
   title: "إدارة التلاميذ وأولياء الأمور",
@@ -11,8 +12,13 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
-export default async function AdminStudentsPage() {
+export default async function AdminStudentsPage(props: {
+  searchParams: Promise<{ adminBranch?: string }>;
+}) {
   await assertAuth({ requireRole: "ADMIN" });
+  const searchParams = await props.searchParams;
+  const branch = parseAdminBranch(searchParams.adminBranch);
+  const studentWhere = studentWhereForBranch(branch);
 
   // 3. ACCURATE COUNT VERIFICATION & 2. COMPLETE FETCHING wrapped in try-catch
   let totalStudents = 0;
@@ -21,14 +27,16 @@ export default async function AdminStudentsPage() {
 
   try {
     const counts = await Promise.all([
-      prisma.user.count({ where: { role: "STUDENT" } }),
-      prisma.user.count({ where: { role: "PARENT" } }),
+      prisma.user.count({ where: studentWhere }),
+      branch === "LANGUAGES"
+        ? Promise.resolve(0)
+        : prisma.user.count({ where: { role: "PARENT" } }),
     ]);
     totalStudents = counts[0];
     totalParents = counts[1];
 
     students = await prisma.user.findMany({
-      where: { role: "STUDENT" },
+      where: studentWhere,
       include: {
         studentProfile: true,
         studentLinks: {
@@ -71,10 +79,12 @@ export default async function AdminStudentsPage() {
     <div className="p-6 md:p-8 space-y-8" dir="rtl">
       <div>
         <h1 className="text-3xl font-black text-slate-900 dark:text-white">
-          إدارة التلاميذ وأولياء الأمور
+          {branch === "LANGUAGES" ? "تلاميذ تعلّم اللغات" : "إدارة التلاميذ وأولياء الأمور"}
         </h1>
         <p className="text-slate-500 dark:text-slate-400 mt-2 font-medium">
-          إدارة حسابات التلاميذ، معلوماتهم الأكاديمية، وحالة الربط مع حسابات الأولياء.
+          {branch === "LANGUAGES"
+            ? "متابعة حسابات التلاميذ المسجّلين في فرع تعلّم اللغات فقط."
+            : "إدارة حسابات التلاميذ، معلوماتهم الأكاديمية، وحالة الربط مع حسابات الأولياء."}
         </p>
       </div>
 

@@ -16,7 +16,11 @@ export async function createTeacher(formData: FormData) {
     }
 
     // Check if phone already exists
-    const existingUser = await prisma.user.findUnique({ where: { phoneNumber: phone } });
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        phoneNumber_accountBranch: { phoneNumber: phone, accountBranch: "STUDY" },
+      },
+    });
     if (existingUser) {
       return { error: "رقم الهاتف مسجل مسبقاً في النظام" };
     }
@@ -26,6 +30,7 @@ export async function createTeacher(formData: FormData) {
       data: {
         fullName: name,
         phoneNumber: phone,
+        accountBranch: "STUDY",
         role: "TEACHER",
       }
     });

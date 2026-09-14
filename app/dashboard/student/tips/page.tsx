@@ -1,18 +1,41 @@
+import { assertAuth } from "@/lib/security";
+import { prisma } from "@/lib/prisma";
 import { HUNDRED_TIPS } from "@/lib/hundredTips";
+import { LANGUAGE_HUNDRED_TIPS } from "@/lib/languageHundredTips";
 import { Lightbulb } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
+import { redirect } from "next/navigation";
 
-export default function TipsPage() {
+export default async function TipsPage() {
+  const session = await assertAuth({ requireRole: "STUDENT" });
+  const profile = await prisma.studentProfile.findUnique({
+    where: { userId: session.id },
+    select: { branch: true },
+  });
+
+  if (!profile) redirect("/login");
+
+  const isLanguages = profile.branch === "LANGUAGES";
+  const tips = isLanguages ? LANGUAGE_HUNDRED_TIPS : HUNDRED_TIPS;
+
   return (
     <div className="space-y-8 pb-12 font-sans text-[#1E1B4B]" dir="rtl">
       <HeroBanner
-        title="100 نصيحة ذهبية للتفوق الدراسي والامتحانات"
-        description="مجموعة مختارة بعناية من أفضل النصائح لبناء شخصية دراسية قوية وإدارة وقتك بفعالية"
+        title={
+          isLanguages
+            ? "100 نصيحة لتعلّم اللغات"
+            : "100 نصيحة ذهبية للتفوق الدراسي والامتحانات"
+        }
+        description={
+          isLanguages
+            ? "نصائح عملية للاستماع والنطق والمفردات والممارسة اليومية حتى مستوى A1 وما بعده"
+            : "مجموعة مختارة بعناية من أفضل النصائح لبناء شخصية دراسية قوية وإدارة وقتك بفعالية"
+        }
         icon={Lightbulb}
       />
 
       <div className="grid grid-cols-1 gap-5 pt-2 md:grid-cols-2 lg:grid-cols-3">
-        {HUNDRED_TIPS.map((tip, index) => (
+        {tips.map((tip, index) => (
           <div
             key={index}
             className="group flex flex-col rounded-[28px] border border-[#EDE9FE] bg-white p-6 transition duration-300 hover:-translate-y-1 hover:border-[#6D28D9]/40 hover:shadow-[0_12px_40px_rgba(109,40,217,0.12)]"

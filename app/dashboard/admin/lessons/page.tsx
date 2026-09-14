@@ -7,12 +7,15 @@ import { PublishLessonClient } from "@/components/admin/PublishLessonClient";
 import { EditLessonClient } from "@/components/admin/EditLessonClient";
 import { BatchQuizGeneratorModal } from "@/components/admin/BatchQuizGeneratorModal";
 import { QuizPreviewModal } from "@/components/admin/QuizPreviewModal";
+import { parseAdminBranch, subjectWhereForBranch } from "@/lib/admin-branch";
 
 export default async function AdminLessonsPage(props: {
-  searchParams: Promise<{ subjectId?: string }>;
+  searchParams: Promise<{ subjectId?: string; adminBranch?: string }>;
 }) {
   const searchParams = await props.searchParams;
+  const branch = parseAdminBranch(searchParams.adminBranch);
   const subjects = await prisma.subject.findMany({
+    where: subjectWhereForBranch(branch),
     orderBy: { title: "asc" },
   });
 
@@ -54,8 +57,12 @@ export default async function AdminLessonsPage(props: {
   return (
     <div className="space-y-6 pb-12">
       <HeroBanner
-        title="إدارة الدروس والكويزات"
-        description="ارفع الدروس والفيديوهات (Vimeo)، ولّد كويزات الذكاء الاصطناعي التلقائية، ونظّم محتوى كل مادة"
+        title={branch === "LANGUAGES" ? "دروس تعلّم اللغات" : "إدارة الدروس والكويزات"}
+        description={
+          branch === "LANGUAGES"
+            ? "ارفع دروس فرع اللغات ونظّم المحتوى قبل النشر للتلاميذ"
+            : "ارفع الدروس والفيديوهات (Vimeo)، ولّد كويزات الذكاء الاصطناعي التلقائية، ونظّم محتوى كل مادة"
+        }
         icon={Video}
       />
 
@@ -109,7 +116,7 @@ export default async function AdminLessonsPage(props: {
                 <div className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                   إجمالي الدروس: <span className="font-black font-mono">{totalLessons}</span>
                 </div>
-                <div className="px-3 py-1.5 rounded-xl bg-[#F3EFFF] dark:bg-sky-950/40 text-[#5B21B6] dark:text-sky-300 border border-[#EDE9FE] dark:border-sky-900/30">
+                <div className="px-3 py-1.5 rounded-xl bg-[#F3EFFF] dark:bg-sky-950/40 text-[#1E1B4B] dark:text-sky-300 border border-[#EDE9FE] dark:border-sky-900/30">
                   تملك ملفات (PDF): <span className="font-black font-mono">{lessonsWithFiles}</span>
                 </div>
                 <div className="px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-100 dark:border-emerald-900/30">

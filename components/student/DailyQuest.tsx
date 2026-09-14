@@ -56,7 +56,7 @@ export function DailyQuest({ exercises }: { exercises: QuestItem[] }) {
           <h2 className="mt-1 text-xl font-black text-[#1E1B4B] sm:text-2xl">{TITLE}</h2>
         </div>
         <div className="rounded-2xl bg-[#F3EFFF] px-3 py-2 text-center">
-          <p className="text-sm font-black text-[#5B21B6]">
+          <p className="text-sm font-black text-[#1E1B4B]">
             {score}/{answered || 0}
           </p>
           <p className="text-[10px] font-bold text-[#7C3AED]/70">النتيجة</p>
@@ -94,7 +94,7 @@ export function DailyQuest({ exercises }: { exercises: QuestItem[] }) {
               } else if (revealed && picked && !isRight) {
                 styles = "border-rose-400 bg-rose-50 text-rose-800";
               } else if (picked) {
-                styles = "border-[#6D28D9] bg-[#F3EFFF] text-[#5B21B6]";
+                styles = "border-[#6D28D9] bg-[#F3EFFF] text-[#1E1B4B]";
               }
 
               return (

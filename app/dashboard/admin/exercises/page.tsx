@@ -2,16 +2,25 @@ import { prisma } from "@/lib/prisma";
 import { Plus, CheckCircle } from "lucide-react";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { DailyExerciseForm } from "@/components/admin/DailyExerciseForm";
+import { parseAdminBranch, subjectWhereForBranch } from "@/lib/admin-branch";
 
-export default async function AdminExercisesPage() {
+export default async function AdminExercisesPage(props: {
+  searchParams: Promise<{ adminBranch?: string }>;
+}) {
+  const searchParams = await props.searchParams;
+  const branch = parseAdminBranch(searchParams.adminBranch);
+  const subjectWhere = subjectWhereForBranch(branch);
+
   let subjects: any[] = [];
   let exercises: any[] = [];
   try {
     subjects = await prisma.subject.findMany({
+      where: subjectWhere,
       orderBy: { title: "asc" },
     });
 
     exercises = await prisma.dailyExercise.findMany({
+      where: { subject: subjectWhere },
       orderBy: { createdAt: "desc" },
       include: { subject: true, secondarySubject: true, quiz: true },
     });
@@ -22,7 +31,7 @@ export default async function AdminExercisesPage() {
   return (
     <div className="space-y-6">
       <HeroBanner 
-        title="إدارة التمارين اليومية"
+        title={branch === "LANGUAGES" ? "تمارين اللغات اليومية" : "إدارة التمارين اليومية"}
         description="إضافة تحديات وتمارين يومية لرفع تفاعل الطلاب وزيادة رصيد نقاطهم"
         icon={CheckCircle}
       />
@@ -41,7 +50,7 @@ export default async function AdminExercisesPage() {
               <div key={ex.id} className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden flex flex-col">
                 <div className="h-40 w-full relative bg-slate-100 overflow-hidden">
                   <img src={ex.a4ImageUrl} alt={ex.title} className="w-full h-full object-cover object-top" />
-                  <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-bold text-[#5B21B6]">
+                  <div className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-bold text-[#1E1B4B]">
                     {ex.maxScore} نقطة
                   </div>
                 </div>

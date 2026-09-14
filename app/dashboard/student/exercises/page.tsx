@@ -65,11 +65,11 @@ export default async function StudentExercisesPage() {
                     فتح التمرين
                   </Link>
                   {ex.quiz ? (
-                    <Link href={`/dashboard/student/exercises/${ex.id}/quiz`} className="flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-black font-bold py-2.5 rounded-xl transition-colors ">
+                    <Link href={`/dashboard/student/exercises/${ex.id}/quiz`} className="flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#1E1B4B] text-white font-black font-bold py-2.5 rounded-xl transition-colors ">
                       بدأ التمرين اليومي
                     </Link>
                   ) : (
-                    <button className="flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-black font-bold py-2.5 rounded-xl transition-colors ">
+                    <button className="flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#1E1B4B] text-white font-black font-bold py-2.5 rounded-xl transition-colors ">
                       <UploadCloud className="w-4 h-4" />
                       إرسال الحل
                     </button>

@@ -124,6 +124,7 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   fullName: 'fullName',
   phoneNumber: 'phoneNumber',
+  accountBranch: 'accountBranch',
   passwordHash: 'passwordHash',
   avatarUrl: 'avatarUrl',
   role: 'role',
@@ -564,6 +565,16 @@ exports.Prisma.JsonNullValueFilter = {
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
+exports.PlatformBranch = exports.$Enums.PlatformBranch = {
+  STUDY: 'STUDY',
+  SMART_TEACHER: 'SMART_TEACHER',
+  LANGUAGES: 'LANGUAGES',
+  SOROBAN: 'SOROBAN',
+  QURAN: 'QURAN',
+  ISLAMIC: 'ISLAMIC',
+  TRAINING: 'TRAINING'
+};
+
 exports.Role = exports.$Enums.Role = {
   STUDENT: 'STUDENT',
   PARENT: 'PARENT',
@@ -701,16 +712,6 @@ exports.Wilaya = exports.$Enums.Wilaya = {
   W56: 'W56',
   W57: 'W57',
   W58: 'W58'
-};
-
-exports.PlatformBranch = exports.$Enums.PlatformBranch = {
-  STUDY: 'STUDY',
-  SMART_TEACHER: 'SMART_TEACHER',
-  LANGUAGES: 'LANGUAGES',
-  SOROBAN: 'SOROBAN',
-  QURAN: 'QURAN',
-  ISLAMIC: 'ISLAMIC',
-  TRAINING: 'TRAINING'
 };
 
 exports.UnderstandingLevel = exports.$Enums.UnderstandingLevel = {

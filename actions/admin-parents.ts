@@ -2,6 +2,7 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { assertAuth } from "@/lib/security";
 
 export async function getStudentsWithParents() {
   try {
@@ -66,6 +67,8 @@ export async function sendDirectNotification(userId: string, title: string, cont
 
 export async function closeParentTicket(ticketId: string) {
   try {
+    await assertAuth({ requireRole: "ADMIN" });
+
     await prisma.parentTicket.update({
       where: { id: ticketId },
       data: { status: "CLOSED" }
@@ -80,6 +83,8 @@ export async function closeParentTicket(ticketId: string) {
 
 export async function replyToParentTicket(ticketId: string, replyContent: string) {
   try {
+    await assertAuth({ requireRole: "ADMIN" });
+
     if (!replyContent.trim()) {
       return { error: "لا يمكن إرسال رد فارغ" };
     }

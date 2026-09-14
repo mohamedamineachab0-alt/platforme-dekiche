@@ -30,7 +30,7 @@ export default async function ExerciseStudyViewPage({
       <div className="flex items-center justify-between">
         <Link 
           href="/dashboard/student/exercises" 
-          className="inline-flex items-center gap-2 text-slate-500 hover:text-[#5B21B6] font-bold transition-colors"
+          className="inline-flex items-center gap-2 text-slate-500 hover:text-[#1E1B4B] font-bold transition-colors"
         >
           <ChevronLeft className="w-5 h-5" />
           العودة إلى التمارين اليومية
@@ -74,12 +74,12 @@ export default async function ExerciseStudyViewPage({
                 {exercise.quiz ? (
                   <Link 
                     href={`/dashboard/student/exercises/${exercise.id}/quiz`}
-                    className="inline-flex w-full items-center justify-center bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-black py-3.5 rounded-xl font-bold shadow-sm transition-all duration-300"
+                    className="inline-flex w-full items-center justify-center bg-[#6D28D9] hover:bg-[#1E1B4B] text-white font-black py-3.5 rounded-xl font-bold shadow-sm transition-all duration-300"
                   >
                     بدء التمرين الآن
                   </Link>
                 ) : (
-                  <button className="flex w-full items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-black py-3.5 rounded-xl transition-colors shadow-sm">
+                  <button className="flex w-full items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#1E1B4B] text-white font-black py-3.5 rounded-xl transition-colors shadow-sm">
                     <UploadCloud className="w-5 h-5" />
                     إرسال الحل اليدوي
                   </button>

@@ -88,7 +88,7 @@ export default async function AdminTeachersPage() {
                 </div>
               </div>
 
-              <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-black font-bold py-3 rounded-xl transition-colors mt-2">
+              <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#1E1B4B] text-white font-black font-bold py-3 rounded-xl transition-colors mt-2">
                 <Users className="w-4 h-4" />
                 إنشاء حساب الأستاذ
               </button>
@@ -102,7 +102,7 @@ export default async function AdminTeachersPage() {
             {teachers.map(teacher => (
               <div key={teacher.id} className="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 flex flex-col">
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="w-12 h-12 rounded-full bg-[#EDE9FE] flex items-center justify-center text-[#5B21B6] font-black text-xl shrink-0">
+                  <div className="w-12 h-12 rounded-full bg-[#EDE9FE] flex items-center justify-center text-[#1E1B4B] font-black text-xl shrink-0">
                     {teacher.name.charAt(0)}
                   </div>
                   <div>

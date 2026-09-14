@@ -156,7 +156,7 @@ export default async function AdminMistakesPage({
                   return (
                     <tr key={mistake.id} className="hover:bg-slate-50/50 transition-colors">
                       <td className="px-6 py-4 align-top">
-                        <div className="font-bold text-[#5B21B6]">{mistake.user.fullName}</div>
+                        <div className="font-bold text-[#1E1B4B]">{mistake.user.fullName}</div>
                         <div className="text-xs text-slate-400 mt-1" dir="ltr" style={{ textAlign: "right" }}>
                           {mistake.user.phoneNumber}
                         </div>

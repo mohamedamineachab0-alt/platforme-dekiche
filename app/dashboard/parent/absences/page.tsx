@@ -21,7 +21,7 @@ export default async function AbsencesPage() {
         <p className="text-slate-600 mb-4">لم يتم ربط أي تلاميذ بحسابك.</p>
         <Link
           href="/dashboard/parent"
-          className="px-6 py-2 bg-[#6D28D9] text-white rounded-xl hover:bg-[#5B21B6] transition"
+          className="px-6 py-2 bg-[#6D28D9] text-white rounded-xl hover:bg-[#1E1B4B] transition"
         >
           ربط حسابات أبنائي
         </Link>

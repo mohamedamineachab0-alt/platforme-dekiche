@@ -36,6 +36,7 @@ import {
   Sprout,
   Layers,
   Target,
+  Languages,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/shared/ThemeToggle";
 import { Role } from "@/generated/prisma";
@@ -67,6 +68,7 @@ const STUDENT_LINKS: { name: string; href: string; icon: ElementType }[] = [
 
 const ADMIN_LINKS: { name: string; href: string; icon: ElementType }[] = [
   { name: "الرئيسية", href: "/dashboard/admin", icon: LayoutDashboard },
+  { name: "تعلّم اللغات", href: "/dashboard/admin/languages", icon: Languages },
   { name: "الأساتذة", href: "/dashboard/admin/teachers", icon: Users },
   { name: "التلاميذ والأولياء", href: "/dashboard/admin/students", icon: GraduationCap },
   { name: "مداخيل الأساتذة", href: "/dashboard/admin/teachers/revenues", icon: Wallet },
@@ -87,6 +89,29 @@ const ADMIN_LINKS: { name: string; href: string; icon: ElementType }[] = [
   { name: "إرسال إشعار", href: "/dashboard/admin/notifications", icon: Bell },
   { name: "حصص مباشرة", href: "/dashboard/admin/live-classes", icon: Video },
   { name: "الترتيب والنقاط", href: "/dashboard/admin/leaderboard", icon: Trophy },
+];
+
+const LANGUAGES_ADMIN_LINKS: { name: string; href: string; icon: ElementType }[] = [
+  { name: "عودة للدراسة", href: "/dashboard/admin", icon: LayoutDashboard },
+  { name: "رئيسية اللغات", href: "/dashboard/admin/languages", icon: Languages },
+  { name: "المواد والنشر", href: "/dashboard/admin/languages/subjects", icon: BookOpen },
+  { name: "الدروس", href: "/dashboard/admin/languages/lessons", icon: FileText },
+  { name: "التلاميذ", href: "/dashboard/admin/languages/students", icon: GraduationCap },
+  { name: "رموز الدخول", href: "/dashboard/admin/languages/codes", icon: Key },
+  { name: "طلبات الاشتراك", href: "/dashboard/admin/languages/subscription-requests", icon: CreditCard },
+  { name: "دردشة القسم", href: "/dashboard/admin/languages/forums", icon: MessageSquare },
+  { name: "آراء التلاميذ", href: "/dashboard/admin/languages/lesson-opinions", icon: Star },
+  { name: "تمارين يومية", href: "/dashboard/admin/languages/exercises", icon: CheckCircle },
+  { name: "بنك الحفظ والتمارين", href: "/dashboard/admin/languages/seed-content", icon: Sprout },
+  { name: "الإختبارات والفروض", href: "/dashboard/admin/languages/exams", icon: FileText },
+  { name: "بطاقات المراجعة", href: "/dashboard/admin/languages/review-cards", icon: Library },
+  { name: "أخطاء التلاميذ", href: "/dashboard/admin/languages/mistakes", icon: AlertTriangle },
+  { name: "مراقبة التلاميذ", href: "/dashboard/admin/languages/students/monitoring", icon: Activity },
+  { name: "تنبيهاتي", href: "/dashboard/admin/languages/tenebati", icon: BellRing },
+  { name: "إرسال إشعار", href: "/dashboard/admin/languages/notifications", icon: Bell },
+  { name: "حصص مباشرة", href: "/dashboard/admin/languages/live-classes", icon: Video },
+  { name: "الترتيب والنقاط", href: "/dashboard/admin/languages/leaderboard", icon: Trophy },
+  { name: "الأساتذة", href: "/dashboard/admin/languages/teachers", icon: Users },
 ];
 
 const TEACHER_LINKS: { name: string; href: string; icon: ElementType }[] = [
@@ -116,7 +141,12 @@ export function Sidebar({
   onToggleCollapse: () => void;
 }) {
   const pathname = usePathname();
-  const [userData, setUserData] = useState<{ fullName: string; role: Role; avatarUrl?: string | null } | null>(null);
+  const [userData, setUserData] = useState<{
+    fullName: string;
+    role: Role;
+    avatarUrl?: string | null;
+    branch?: string | null;
+  } | null>(null);
   const [isLoadingProfile, setIsLoadingProfile] = useState(true);
 
   useEffect(() => {
@@ -129,14 +159,36 @@ export function Sidebar({
     fetchProfile();
   }, []);
 
+  const isLanguagesStudent = role === "STUDENT" && userData?.branch === "LANGUAGES";
+  const isLanguagesAdmin =
+    role === "ADMIN" && pathname.startsWith("/dashboard/admin/languages");
+
+  const studentLinks = STUDENT_LINKS.map((link) => {
+    if (link.href === "/dashboard/student/tips") {
+      return {
+        ...link,
+        name: isLanguagesStudent ? "100 نصيحة لتعلّم اللغات" : "100 نصيحة للتفوق",
+      };
+    }
+    if (isLanguagesStudent && link.href === "/dashboard/student") {
+      return { ...link, href: "/dashboard/student/subjects", name: "فصلي" };
+    }
+    if (isLanguagesStudent && link.href === "/dashboard/student/subjects") {
+      return { ...link, name: "دفتر الدروس" };
+    }
+    return link;
+  });
+
   const links =
     role === "ADMIN"
-      ? ADMIN_LINKS
+      ? isLanguagesAdmin
+        ? LANGUAGES_ADMIN_LINKS
+        : ADMIN_LINKS
       : role === "TEACHER"
         ? TEACHER_LINKS
         : role === "PARENT"
           ? PARENT_LINKS
-          : STUDENT_LINKS;
+          : studentLinks;
 
   const getRoleLabel = (r?: Role) => {
     switch (r) {
@@ -192,7 +244,9 @@ export function Sidebar({
           {links.map((link) => {
             const isRootLink =
               link.href === "/dashboard/student" ||
+              link.href === "/dashboard/student/subjects" ||
               link.href === "/dashboard/admin" ||
+              link.href === "/dashboard/admin/languages" ||
               link.href === "/dashboard/teacher" ||
               link.href === "/dashboard/parent";
             const isActive = isRootLink

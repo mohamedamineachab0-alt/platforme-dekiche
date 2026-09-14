@@ -72,7 +72,7 @@ export default async function AdminSubjectsPage() {
                     <span className="text-xs font-bold text-slate-600 bg-slate-100/80 px-3 py-1.5 rounded-lg">
                       {subject.teacherName}
                     </span>
-                    <span className="text-xs font-bold text-[#5B21B6] bg-[#F3EFFF] px-3 py-1.5 rounded-lg">
+                    <span className="text-xs font-bold text-[#1E1B4B] bg-[#F3EFFF] px-3 py-1.5 rounded-lg">
                       {subject.accessType === "YEARLY" ? "سنوي" : "شهري"}
                     </span>
                   </div>

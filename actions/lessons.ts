@@ -111,6 +111,10 @@ export async function createLesson(formData: FormData): Promise<ActionState> {
       }
     }
 
+    if (!imageUrl) {
+      return { error: "يجب رفع غلاف الدرس بأبعاد 1920 × 1080 px" };
+    }
+
     const materialFiles = formData.getAll("materials") as File[];
     const uploadedMaterials = [];
 

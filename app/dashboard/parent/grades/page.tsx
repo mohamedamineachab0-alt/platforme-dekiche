@@ -21,7 +21,7 @@ export default async function GradesPage() {
         <p className="text-slate-600 mb-4">لم يتم ربط أي تلاميذ بحسابك.</p>
         <Link
           href="/dashboard/parent"
-          className="px-6 py-2 bg-[#6D28D9] text-white rounded-xl hover:bg-[#5B21B6] transition"
+          className="px-6 py-2 bg-[#6D28D9] text-white rounded-xl hover:bg-[#1E1B4B] transition"
         >
           ربط حسابات أبنائي
         </Link>
@@ -73,7 +73,7 @@ export default async function GradesPage() {
                   <td className="px-4 py-3 font-bold text-slate-700">{s.student?.fullName || "غير متوفر"}</td>
                   <td className="px-4 py-3">{s.exam?.subject?.title || "غير متوفر"}</td>
                   <td className="px-4 py-3">{s.exam?.title || "غير متوفر"}</td>
-                  <td className="px-4 py-3 font-bold text-[#5B21B6]">{s.score}</td>
+                  <td className="px-4 py-3 font-bold text-[#1E1B4B]">{s.score}</td>
                 </tr>
               ))
             )}

@@ -5,9 +5,17 @@ import { createForum, toggleForumStatus, deleteForum } from "@/actions/forums";
 import { HeroBanner } from "@/components/shared/HeroBanner";
 import { MonthSelect } from "@/components/shared/MonthSelect";
 import { DeleteForumButton } from "./DeleteForumButton";
+import { parseAdminBranch, subjectWhereForBranch } from "@/lib/admin-branch";
 
-export default async function AdminForumsPage() {
+export default async function AdminForumsPage(props: {
+  searchParams: Promise<{ adminBranch?: string }>;
+}) {
+  const searchParams = await props.searchParams;
+  const branch = parseAdminBranch(searchParams.adminBranch);
+  const subjectWhere = subjectWhereForBranch(branch);
+
   const forums = await prisma.classForum.findMany({
+    where: { subject: subjectWhere },
     orderBy: { createdAt: "desc" },
     include: { 
       subject: true,
@@ -18,13 +26,14 @@ export default async function AdminForumsPage() {
   });
 
   const subjects = await prisma.subject.findMany({
+    where: subjectWhere,
     select: { id: true, title: true, level: true, stream: true }
   });
 
   return (
     <div className="space-y-6">
       <HeroBanner 
-        title="دردشة القسم (Class Forums)"
+        title={branch === "LANGUAGES" ? "دردشة قسم اللغات" : "دردشة القسم (Class Forums)"}
         description="إدارة منتديات الأقسام و إنشاء غرف نقاش جديدة و والتحكم في فتح أو إغلاق الدردشة"
         icon={MessageSquare}
       />
@@ -89,7 +98,7 @@ export default async function AdminForumsPage() {
                 </div>
               </div>
 
-              <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-black font-bold py-3 rounded-xl transition-colors mt-2">
+              <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#1E1B4B] text-white font-black font-bold py-3 rounded-xl transition-colors mt-2">
                 <Plus className="w-4 h-4" />
                 إنشاء المنتدى
               </button>
@@ -129,7 +138,7 @@ export default async function AdminForumsPage() {
                             <p className="text-xs font-bold text-slate-400 mt-1">الشهر {forum.month}</p>
                           </td>
                           <td className="px-6 py-4">
-                            <p className="font-bold text-[#5B21B6] text-sm">{forum.subject.title}</p>
+                            <p className="font-bold text-[#1E1B4B] text-sm">{forum.subject.title}</p>
                             <p className="text-xs font-bold text-slate-500 mt-1">{levelStr} • {streamStr}</p>
                           </td>
                           <td className="px-6 py-4 text-center">
@@ -147,7 +156,7 @@ export default async function AdminForumsPage() {
                                   type="submit" 
                                   className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-colors ${
                                     forum.isOpen 
-                                    ? 'bg-[#F3EFFF] text-[#5B21B6] hover:bg-[#EDE9FE] border border-[#EDE9FE]' 
+                                    ? 'bg-[#F3EFFF] text-[#1E1B4B] hover:bg-[#EDE9FE] border border-[#EDE9FE]' 
                                     : 'bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200'
                                   }`}
                                 >

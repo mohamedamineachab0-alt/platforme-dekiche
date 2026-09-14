@@ -56,7 +56,7 @@ export function LessonOpinionForm({
         <div className="rounded-xl border border-[#EDE9FE] bg-[#F7F5FF] px-3 py-3 sm:px-4">
           <div className="mb-2 flex items-center justify-between">
             <span className="text-[11px] font-black tracking-wide text-[#6D28D9]">التقييم</span>
-            <span className="text-xs font-black tabular-nums text-[#5B21B6]">
+            <span className="text-xs font-black tabular-nums text-[#1E1B4B]">
               {rating > 0 ? `${rating} / 5` : "اختر التقييم"}
             </span>
           </div>
@@ -106,7 +106,7 @@ export function LessonOpinionForm({
         <button
           type="submit"
           disabled={loading || rating < 1 || comment.trim().length < 5}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#6D28D9] px-5 py-3 text-sm font-black text-white transition hover:bg-[#5B21B6] disabled:opacity-50"
+          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-[#6D28D9] px-5 py-3 text-sm font-black text-white transition hover:bg-[#1E1B4B] disabled:opacity-50"
         >
           {loading ? (
             <>

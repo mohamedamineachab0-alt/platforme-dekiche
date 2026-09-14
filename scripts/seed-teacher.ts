@@ -6,7 +6,11 @@ async function main() {
   const fullName = 'عشاب امين';
   const password = 'password123';
 
-  const existing = await prisma.user.findUnique({ where: { phoneNumber: phone } });
+  const existing = await prisma.user.findUnique({
+    where: {
+      phoneNumber_accountBranch: { phoneNumber: phone, accountBranch: "STUDY" },
+    },
+  });
   if (existing) {
     console.log('User already exists!', existing);
     return;
@@ -17,6 +21,7 @@ async function main() {
   const user = await prisma.user.create({
     data: {
       phoneNumber: phone,
+      accountBranch: 'STUDY',
       fullName: fullName,
       passwordHash: passwordHash,
       role: 'ADMIN',

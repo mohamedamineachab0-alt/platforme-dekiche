@@ -60,7 +60,7 @@ const fadeUp = {
   }),
 };
 
-const BAR_COLORS = ["#4C1D95", "#5B21B6", "#6D28D9", "#7C3AED", "#A78BFA"];
+const BAR_COLORS = ["#4C1D95", "#1E1B4B", "#6D28D9", "#7C3AED", "#A78BFA"];
 
 function formatClock(hours: number, minutes: number) {
   if (hours <= 0 && minutes <= 0) return "0 ساعة";
@@ -88,7 +88,7 @@ function ChartIllustration() {
       <defs>
         <linearGradient id="lmsBarFillPurple" x1="0" y1="0" x2="0" y2="1">
           <stop offset="0%" stopColor="#A78BFA" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="#5B21B6" stopOpacity="0.4" />
+          <stop offset="100%" stopColor="#1E1B4B" stopOpacity="0.4" />
         </linearGradient>
       </defs>
       {[28, 56, 84, 112, 140, 168, 196, 224, 252, 280, 308, 336].map((x) => (
@@ -216,7 +216,7 @@ export function MainStudyDashboard({ studentId }: { studentId?: string }) {
             variants={fadeUp}
             initial={reduce ? false : "hidden"}
             animate="show"
-            className="relative overflow-hidden rounded-[24px] border border-[#5B21B6]/25 bg-[#6D28D9] p-5 text-white shadow-[0_16px_40px_rgba(109,40,217,0.22)] xl:col-span-2"
+            className="relative overflow-hidden rounded-[24px] border border-[#1E1B4B]/25 bg-[#6D28D9] p-5 text-white shadow-[0_16px_40px_rgba(109,40,217,0.22)] xl:col-span-2"
           >
             <div
               className="pointer-events-none absolute inset-0 opacity-[0.12]"
@@ -304,7 +304,7 @@ export function MainStudyDashboard({ studentId }: { studentId?: string }) {
                 <Activity className="h-4 w-4 text-[#6D28D9]" />
                 <h2 className="text-sm font-black text-[#1E1B4B] sm:text-base">{CHART_TITLE}</h2>
               </div>
-              <span className="rounded-lg bg-[#F3EFFF] px-2.5 py-1 text-[10px] font-black text-[#5B21B6]">
+              <span className="rounded-lg bg-[#F3EFFF] px-2.5 py-1 text-[10px] font-black text-[#1E1B4B]">
                 {chartData.length} مادة
               </span>
             </div>
@@ -395,7 +395,7 @@ export function MainStudyDashboard({ studentId }: { studentId?: string }) {
                     <p className="mt-1 text-xs font-bold text-[#6B6480] line-clamp-2">
                       {item.subtitle}
                     </p>
-                    <p className="mt-2 text-[11px] font-medium text-[#5B21B6]">
+                    <p className="mt-2 text-[11px] font-medium text-[#1E1B4B]">
                       {formatDay(item.at)}
                     </p>
                   </li>

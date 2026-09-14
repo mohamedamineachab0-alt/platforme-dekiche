@@ -196,7 +196,7 @@ export function PracticeQuizClient({
           <button
             type="button"
             onClick={() => window.location.reload()}
-            className="inline-flex items-center gap-2 rounded-full bg-[#6D28D9] px-5 py-3 text-sm font-black text-white hover:bg-[#5B21B6]"
+            className="inline-flex items-center gap-2 rounded-full bg-[#6D28D9] px-5 py-3 text-sm font-black text-white hover:bg-[#1E1B4B]"
           >
             <RotateCcw className="h-4 w-4" />
             إعادة المحاولة
@@ -284,7 +284,7 @@ export function PracticeQuizClient({
           type="button"
           onClick={() => (index === questions.length - 1 ? void finish() : setIndex((i) => i + 1))}
           disabled={answers[index] === undefined}
-          className="inline-flex items-center gap-2 rounded-full bg-[#6D28D9] px-6 py-3 font-black text-white hover:bg-[#5B21B6] disabled:opacity-40"
+          className="inline-flex items-center gap-2 rounded-full bg-[#6D28D9] px-6 py-3 font-black text-white hover:bg-[#1E1B4B] disabled:opacity-40"
         >
           {index === questions.length - 1 ? "إنهاء وعرض النتيجة" : "التالي"}
           <ArrowLeft className="h-4 w-4" />

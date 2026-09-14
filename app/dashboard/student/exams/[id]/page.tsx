@@ -41,7 +41,7 @@ export default async function ExamStudyViewPage({
       <div className="flex items-center justify-between">
         <Link 
           href="/dashboard/student/exams" 
-          className="inline-flex items-center gap-2 text-slate-500 hover:text-[#5B21B6] font-bold transition-colors"
+          className="inline-flex items-center gap-2 text-slate-500 hover:text-[#1E1B4B] font-bold transition-colors"
         >
           <ChevronLeft className="w-5 h-5" />
           العودة إلى الاختبارات

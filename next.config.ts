@@ -1,5 +1,29 @@
 import type { NextConfig } from "next";
 
+const languageAdminRewrites = [
+  "lessons",
+  "codes",
+  "students",
+  "students/monitoring",
+  "subscription-requests",
+  "forums",
+  "lesson-opinions",
+  "exercises",
+  "seed-content",
+  "exams",
+  "review-cards",
+  "mistakes",
+  "tenebati",
+  "notifications",
+  "live-classes",
+  "leaderboard",
+  "teachers",
+  "teachers/revenues",
+].map((path) => ({
+  source: `/dashboard/admin/languages/${path}`,
+  destination: `/dashboard/admin/${path}?adminBranch=languages`,
+}));
+
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
@@ -16,6 +40,9 @@ const nextConfig: NextConfig = {
         hostname: 'images.unsplash.com',
       },
     ],
+  },
+  async rewrites() {
+    return languageAdminRewrites;
   },
   experimental: {
     serverActions: {

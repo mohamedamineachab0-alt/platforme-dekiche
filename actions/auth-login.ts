@@ -3,7 +3,7 @@
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { encryptSession } from "@/lib/security";
-import { studentHomePath } from "@/lib/platform-branch";
+import { accountBranchForPlatform, studentHomePath } from "@/lib/platform-branch";
 import type { PlatformBranch } from "@/generated/prisma";
 
 export type LoginState = {
@@ -35,6 +35,7 @@ export async function universalLoginAction(formData: FormData): Promise<LoginSta
   const fullName = (formData.get("fullName") as string)?.trim();
   const rawPhone = (formData.get("phoneNumber") as string)?.trim() || "";
   const phoneNumber = normalizeAlgerianPhone(rawPhone);
+  const accountBranch = accountBranchForPlatform(formData.get("platform") as string);
 
   if (!fullName || !phoneNumber) {
     return { error: "يرجى إدخال الاسم الكامل ورقم الهاتف" };
@@ -44,6 +45,7 @@ export async function universalLoginAction(formData: FormData): Promise<LoginSta
     id: string;
     role: string;
     fullName: string;
+    accountBranch: PlatformBranch;
     studentProfile: { branch: PlatformBranch } | null;
   } | null = null;
 
@@ -56,13 +58,19 @@ export async function universalLoginAction(formData: FormData): Promise<LoginSta
 
     user = await prisma.user.findFirst({
       where: {
+        accountBranch,
         OR: [{ phoneNumber }, { phoneNumber: altPhoneNumber }, { phoneNumber: rawPhone }],
       },
       include: { studentProfile: { select: { branch: true } } },
     });
 
     if (!user || normalizeArabicName(user.fullName) !== normalizeArabicName(fullName)) {
-      return { error: "بيانات الدخول غير صحيحة أو الحساب غير موجود" };
+      return {
+        error:
+          accountBranch === "LANGUAGES"
+            ? "لا يوجد حساب تعلّم لغات بهذه البيانات — أنشئ حسابا من صفحة اللغات"
+            : "بيانات الدخول غير صحيحة أو الحساب غير موجود",
+      };
     }
 
     if (user.role === "STUDENT" && user.studentProfile?.branch === "SMART_TEACHER") {
@@ -106,8 +114,12 @@ export async function universalLoginAction(formData: FormData): Promise<LoginSta
     case "TEACHER":
       redirectUrl = "/dashboard/teacher";
       break;
-    case "STUDENT":
-      redirectUrl = studentHomePath(user.studentProfile?.branch);
+      case "STUDENT":
+      redirectUrl = studentHomePath(
+        user.accountBranch === "LANGUAGES"
+          ? "LANGUAGES"
+          : user.studentProfile?.branch ?? user.accountBranch
+      );
       break;
     case "PARENT":
       redirectUrl = "/dashboard/parent";

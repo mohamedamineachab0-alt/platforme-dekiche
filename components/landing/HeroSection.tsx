@@ -2,134 +2,80 @@
 
 import Link from "next/link";
 
-const PILLS = [
-  { title: "حسابك الدراسي", icon: UserIcon },
-  { title: "دروس مصوّرة", icon: PlayIcon },
-  { title: "خرائط ذهنية", icon: MapIcon },
-  { title: "ملخصات الدرس", icon: NoteIcon },
-  { title: "تمارين يومية", icon: CheckIcon },
-  { title: "المساعد", icon: BotIcon },
-];
-
 export function HeroSection({ isAuthenticated }: { isAuthenticated: boolean }) {
   return (
-    <section className="px-3 pb-6 pt-3 sm:px-4">
-      <div className="academy-hero-grid relative mx-auto max-w-6xl overflow-hidden rounded-[36px] px-5 pb-8 pt-16 text-center sm:px-10 sm:pb-10 sm:pt-20">
-        <div className="absolute start-4 top-4 sm:start-6 sm:top-6">
-          <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3 py-1.5 text-xs font-bold text-white">
-            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white text-[#6D28D9]">
-              <UserIcon />
-            </span>
-            من الثانية إلى الثالثة ثانوي
-          </span>
-        </div>
+    <section className="px-3 pb-4 pt-3 sm:px-4">
+      <div className="edu-hero relative mx-auto max-w-6xl overflow-hidden rounded-[36px] px-5 pb-10 pt-14 sm:px-10 sm:pb-12 sm:pt-16">
+        <div className="edu-hero-chalk pointer-events-none absolute inset-0" aria-hidden />
 
-        <h1 className="mx-auto max-w-4xl text-4xl font-black leading-[1.25] text-white sm:text-6xl lg:text-7xl">
-          منصة دراسية واضحة
-          <br />
-          نحو{" "}
-          <span className="relative inline-block whitespace-nowrap">
-            التفوق
-            <svg
-              className="absolute -bottom-1 start-0 h-3 w-full text-red-500 sm:h-4"
-              viewBox="0 0 200 12"
-              preserveAspectRatio="none"
-              aria-hidden
-            >
-              <path d="M2 8c40-6 80 4 120-2 30-4 56 2 76 4" fill="none" stroke="currentColor" strokeWidth="7" strokeLinecap="round" />
-            </svg>
-          </span>
-          <br />
-          في البكالوريا
-        </h1>
-
-        <p
-          className="mx-auto mt-6 max-w-2xl text-base font-medium leading-relaxed text-white/85 sm:text-xl"
-          style={{ animationDelay: "80ms" }}
-        >
-          دروس مصوّرة، خريطة ذهنية لكل درس، ملخص، وتمارين. مسار منظّم لتلاميذ 2 و 3 ثانوي.
-        </p>
-
-        <div className="mt-8">
-          <Link
-            href={isAuthenticated ? "/dashboard/student" : "/register"}
-            className="inline-flex items-center justify-center rounded-full bg-white px-8 py-3.5 text-base font-black text-[#6D28D9] shadow-[0_10px_30px_rgba(109,40,217,0.18)] transition hover:bg-[#F3EFFF]"
-          >
-            اركب معنا سفينة النجاح
-          </Link>
-        </div>
-
-        <div className="mt-10 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
-          {PILLS.map((pill) => {
-            const Icon = pill.icon;
-            return (
-              <div
-                key={pill.title}
-                className="inline-flex items-center gap-2 rounded-full bg-white px-3 py-2 text-[#1E1B4B] shadow-[0_8px_24px_rgba(30,27,75,0.08)]"
+        <div className="relative grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
+          <div className="text-center lg:text-start">
+            <p className="text-sm font-black tracking-wide text-white/70">
+              منصة دقيش التعليمية · 2 و 3 ثانوي
+            </p>
+            <h1 className="mt-3 text-4xl font-black leading-[1.15] text-white sm:text-6xl lg:text-7xl">
+              منصة دقيش
+              <span className="mt-2 block text-3xl font-black text-white/95 sm:text-5xl lg:text-6xl">
+                نحو التفوق في البكالوريا
+              </span>
+            </h1>
+            <p className="mx-auto mt-5 max-w-lg text-base font-medium leading-relaxed text-white/85 sm:text-lg lg:mx-0">
+              دروس مصوّرة، خريطة ذهنية، ملخص وتمارين — مسار مدرسي واضح من الدرس إلى الفرض.
+            </p>
+            <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row lg:justify-start">
+              <Link
+                href={isAuthenticated ? "/dashboard/student" : "/register"}
+                className="inline-flex min-w-[180px] items-center justify-center rounded-full bg-[#EA580C] px-7 py-3.5 text-base font-black text-white transition hover:bg-[#C2410C]"
               >
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#F3EFFF] text-[#6D28D9]">
-                  <Icon />
+                {isAuthenticated ? "ادخل فصلك" : "انضم للمنصة"}
+              </Link>
+              {!isAuthenticated ? (
+                <Link
+                  href="/login"
+                  className="inline-flex min-w-[180px] items-center justify-center rounded-full border border-white/35 bg-white/10 px-7 py-3.5 text-base font-black text-white transition hover:bg-white/20"
+                >
+                  دخول التلميذ
+                </Link>
+              ) : null}
+            </div>
+          </div>
+
+          <div className="relative mx-auto w-full max-w-md lg:mx-0">
+            <div className="edu-notebook rounded-[28px] border border-[#FED7AA] bg-[#FFFEF8] p-5 sm:p-6">
+              <div className="flex items-center justify-between border-b border-dashed border-[#FED7AA] pb-3">
+                <span className="rounded-full bg-[#EA580C] px-3 py-1 text-[11px] font-black text-white">
+                  دفتر المراجعة · باك
                 </span>
-                <span className="pe-1 text-xs font-black sm:text-sm">{pill.title}</span>
+                <span className="text-xs font-bold text-[#EA580C]">درس اليوم</span>
               </div>
-            );
-          })}
+              <p className="mt-4 text-xs font-black text-[#6D28D9]">خطة الحصة:</p>
+              <h2 className="mt-1 text-2xl font-black text-[#1E1B4B]">من الفهم إلى الفرض</h2>
+              <ul className="edu-ruled mt-4 space-y-3 text-sm font-bold text-[#4C4670]">
+                <li className="flex items-baseline justify-between gap-3">
+                  <span>شاهد الشرح المصوّر</span>
+                  <span className="text-xs font-black text-[#EA580C]">01</span>
+                </li>
+                <li className="flex items-baseline justify-between gap-3">
+                  <span>راجع الخريطة والملخص</span>
+                  <span className="text-xs font-black text-[#6D28D9]">02</span>
+                </li>
+                <li className="flex items-baseline justify-between gap-3">
+                  <span>حل التمرين وتنقّط من 20</span>
+                  <span className="text-xs font-black text-[#EA580C]">03</span>
+                </li>
+              </ul>
+              <div className="mt-5 flex items-center gap-2 rounded-2xl bg-[#FFF7ED] px-3 py-2.5">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#6D28D9] text-[11px] font-black text-white">
+                  BAC
+                </span>
+                <p className="text-xs font-bold leading-snug text-[#1E1B4B]">
+                  درس · خريطة · ملخص · تمرين — في مكان واحد
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
-  );
-}
-
-function UserIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
-      <circle cx="12" cy="8" r="3.2" stroke="currentColor" strokeWidth="1.8" />
-      <path d="M5.5 19c1.4-3.2 3.8-4.8 6.5-4.8S17.1 15.8 18.5 19" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function PlayIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
-      <rect x="4" y="6" width="16" height="12" rx="3" stroke="currentColor" strokeWidth="1.8" />
-      <path d="M11 10l5 2-5 2v-4z" fill="currentColor" />
-    </svg>
-  );
-}
-
-function MapIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
-      <path d="M12 20s-6-5.2-6-10a6 6 0 1112 0c0 4.8-6 10-6 10z" stroke="currentColor" strokeWidth="1.8" />
-      <circle cx="12" cy="10" r="2" fill="currentColor" />
-    </svg>
-  );
-}
-
-function NoteIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
-      <rect x="6" y="4" width="12" height="16" rx="2.5" stroke="currentColor" strokeWidth="1.8" />
-      <path d="M9 9h6M9 13h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-    </svg>
-  );
-}
-
-function CheckIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
-      <circle cx="12" cy="12" r="7.5" stroke="currentColor" strokeWidth="1.8" />
-      <path d="M8.5 12.2l2.4 2.4 4.6-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function BotIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
-      <rect x="5" y="8" width="14" height="11" rx="4" stroke="currentColor" strokeWidth="1.8" />
-      <path d="M12 5v3M9 13h.01M15 13h.01" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-    </svg>
   );
 }

@@ -31,12 +31,12 @@ export function IconHome({ size = "md" }: { size?: IconSize }) {
 
 export function IconLessons({ size = "md" }: { size?: IconSize }) {
   return (
-    <svg viewBox="0 0 80 80" className={SIZE[size]} aria-hidden>
-      <rect x="8" y="18" width="64" height="44" rx="12" fill="#6D28D9" />
-      <rect x="14" y="24" width="52" height="32" rx="8" fill="#A78BFA" />
-      <circle cx="40" cy="40" r="11" fill="#A78BFA" />
-      <path d="M37 34.5v11l10-5.5-10-5.5z" fill="#1E1B4B" />
-      <rect x="28" y="64" width="24" height="6" rx="3" fill="#FF8A65" />
+    <svg viewBox="0 0 80 80" className={SIZE[size]} fill="none" aria-hidden>
+      <rect x="12" y="16" width="56" height="40" rx="10" fill="#6D28D9" />
+      <rect x="18" y="22" width="44" height="28" rx="6" fill="#F3EFFF" />
+      <path d="M36 30v16l14-8-14-8z" fill="#EA580C" />
+      <rect x="28" y="60" width="24" height="6" rx="3" fill="#EA580C" />
+      <path d="M34 56h12" stroke="#A78BFA" strokeWidth="4" strokeLinecap="round" />
     </svg>
   );
 }
@@ -59,7 +59,7 @@ export function IconMapPin({ size = "md" }: { size?: IconSize }) {
     <svg viewBox="0 0 80 80" className={SIZE[size]} aria-hidden>
       <path d="M14 26l18-10 16 8 18-8v38l-18 10-16-8-18 10V26z" fill="#8B5CF6" />
       <path d="M32 16v38l16 8V24L32 16z" fill="#C4B5FD" />
-      <path d="M16 52l16-8 16 8 16-8" fill="none" stroke="#5B21B6" strokeWidth="2" strokeLinecap="round" />
+      <path d="M16 52l16-8 16 8 16-8" fill="none" stroke="#1E1B4B" strokeWidth="2" strokeLinecap="round" />
       <path d="M40 50s-11-11-11-18a11 11 0 1122 0c0 7-11 18-11 18z" fill="#A78BFA" />
       <circle cx="40" cy="32" r="5" fill="#1E1B4B" />
     </svg>
@@ -234,64 +234,64 @@ export function IconSubscribe({ size = "md" }: { size?: IconSize }) {
 
 export function IconLanguages({ size = "md" }: { size?: IconSize }) {
   return (
-    <svg viewBox="0 0 80 80" className={SIZE[size]} aria-hidden>
-      <path d="M12 22c8-4 16-4 24 0v42c-8-4-16-4-24 0V22z" fill="#6D28D9" />
-      <path d="M44 22c8-4 16-4 24 0v42c-8-4-16-4-24 0V22z" fill="#A78BFA" />
-      <path d="M28 34h8M32 34v16" stroke="#FFFFFF" strokeWidth="3.2" strokeLinecap="round" />
-      <path d="M52 36c4 0 8 3 8 8s-4 8-8 8" fill="none" stroke="#6D28D9" strokeWidth="3.2" strokeLinecap="round" />
-      <circle cx="52" cy="44" r="3" fill="#FF8A65" />
+    <svg viewBox="0 0 80 80" className={SIZE[size]} fill="none" aria-hidden>
+      <circle cx="40" cy="40" r="26" fill="#F3EFFF" />
+      <circle cx="40" cy="40" r="26" stroke="#6D28D9" strokeWidth="3" />
+      <ellipse cx="40" cy="40" rx="12" ry="26" stroke="#6D28D9" strokeWidth="3" />
+      <path d="M14 40h52M18 28h44M18 52h44" stroke="#A78BFA" strokeWidth="2.5" strokeLinecap="round" />
+      <circle cx="56" cy="22" r="10" fill="#EA580C" />
+      <path d="M52 22h8M56 18v8" stroke="#fff" strokeWidth="2.4" strokeLinecap="round" />
     </svg>
   );
 }
 
 export function IconSoroban({ size = "md" }: { size?: IconSize }) {
   return (
-    <svg viewBox="0 0 80 80" className={SIZE[size]} aria-hidden>
-      <rect x="10" y="16" width="60" height="48" rx="12" fill="#6D28D9" />
-      <rect x="16" y="34" width="48" height="6" rx="3" fill="#A78BFA" />
-      <circle cx="26" cy="26" r="5" fill="#FFFFFF" />
-      <circle cx="40" cy="26" r="5" fill="#FF8A65" />
-      <circle cx="54" cy="26" r="5" fill="#FFFFFF" />
-      <circle cx="26" cy="54" r="5" fill="#A78BFA" />
-      <circle cx="40" cy="54" r="5" fill="#FFFFFF" />
-      <circle cx="54" cy="54" r="5" fill="#A78BFA" />
+    <svg viewBox="0 0 80 80" className={SIZE[size]} fill="none" aria-hidden>
+      <rect x="14" y="14" width="52" height="52" rx="12" fill="#FFF7ED" stroke="#EA580C" strokeWidth="3" />
+      <path d="M22 40h36" stroke="#6D28D9" strokeWidth="4" strokeLinecap="round" />
+      <circle cx="28" cy="28" r="5" fill="#6D28D9" />
+      <circle cx="40" cy="28" r="5" fill="#EA580C" />
+      <circle cx="52" cy="28" r="5" fill="#6D28D9" />
+      <circle cx="28" cy="52" r="5" fill="#EA580C" />
+      <circle cx="40" cy="52" r="5" fill="#6D28D9" />
+      <circle cx="52" cy="52" r="5" fill="#A78BFA" />
     </svg>
   );
 }
 
 export function IconQuran({ size = "md" }: { size?: IconSize }) {
   return (
-    <svg viewBox="0 0 80 80" className={SIZE[size]} aria-hidden>
-      <path d="M40 26c-9-7-20-9-30-7v36c10-2 21 0 30 7V26z" fill="#6D28D9" />
-      <path d="M40 26c9-7 20-9 30-7v36c-10-2-21 0-30 7V26z" fill="#A78BFA" />
-      <rect x="38" y="22" width="4" height="42" rx="2" fill="#1E1B4B" />
-      <path d="M18 34h14M18 42h14M48 34h14M48 42h14" stroke="#FFFFFF" strokeWidth="2.6" strokeLinecap="round" opacity="0.85" />
-      <path d="M56 8a9 9 0 109 9 7 7 0 01-9-9z" fill="#FF8A65" />
+    <svg viewBox="0 0 80 80" className={SIZE[size]} fill="none" aria-hidden>
+      <path d="M40 24c-10-8-22-9-28-8v36c8-1 20 1 28 8 8-7 20-9 28-8V16c-6-1-18 0-28 8z" fill="#F3EFFF" stroke="#6D28D9" strokeWidth="3" strokeLinejoin="round" />
+      <path d="M40 24v36" stroke="#EA580C" strokeWidth="3" strokeLinecap="round" />
+      <path d="M20 34h12M20 42h12M48 34h12M48 42h12" stroke="#A78BFA" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M58 12a8 8 0 108 8 6 6 0 01-8-8z" fill="#EA580C" />
     </svg>
   );
 }
 
 export function IconIslamic({ size = "md" }: { size?: IconSize }) {
   return (
-    <svg viewBox="0 0 80 80" className={SIZE[size]} aria-hidden>
-      <path d="M14 66V44c0-14 11-26 26-26s26 12 26 26v22H14z" fill="#6D28D9" />
-      <path d="M40 18a12 12 0 0112 12c0 5-3 9-7 11v9H35v-9c-4-2-7-6-7-11a12 12 0 0112-12z" fill="#A78BFA" />
-      <rect x="37" y="8" width="6" height="10" rx="3" fill="#A78BFA" />
-      <path d="M24 66V50a8 8 0 0116 0v16M40 66V50a8 8 0 0116 0v16" fill="none" stroke="#FFFFFF" strokeWidth="2.6" opacity="0.85" />
-      <rect x="10" y="62" width="60" height="8" rx="4" fill="#1E1B4B" />
+    <svg viewBox="0 0 80 80" className={SIZE[size]} fill="none" aria-hidden>
+      <rect x="14" y="38" width="52" height="26" rx="8" fill="#F3EFFF" stroke="#6D28D9" strokeWidth="3" />
+      <path d="M40 16c8 0 14 6 14 14 0 5-3 9-7 11v5H33v-5c-4-2-7-6-7-11 0-8 6-14 14-14z" fill="#6D28D9" />
+      <circle cx="56" cy="20" r="7" fill="#EA580C" />
+      <path d="M26 64V48a6 6 0 0112 0v16M42 64V48a6 6 0 0112 0v16" stroke="#A78BFA" strokeWidth="2.5" strokeLinecap="round" />
+      <rect x="12" y="62" width="56" height="6" rx="3" fill="#EA580C" />
     </svg>
   );
 }
 
 export function IconCourses({ size = "md" }: { size?: IconSize }) {
   return (
-    <svg viewBox="0 0 80 80" className={SIZE[size]} aria-hidden>
-      <rect x="10" y="12" width="28" height="26" rx="8" fill="#6D28D9" />
-      <rect x="42" y="12" width="28" height="26" rx="8" fill="#A78BFA" />
-      <rect x="10" y="42" width="28" height="26" rx="8" fill="#FF8A65" />
-      <rect x="42" y="42" width="28" height="26" rx="8" fill="#FFFFFF" />
-      <path d="M18 25h12M50 25h12M18 55h12" stroke="#FFFFFF" strokeWidth="3" strokeLinecap="round" />
-      <circle cx="56" cy="55" r="5" fill="#6D28D9" />
+    <svg viewBox="0 0 80 80" className={SIZE[size]} fill="none" aria-hidden>
+      <rect x="12" y="14" width="24" height="22" rx="8" fill="#6D28D9" />
+      <rect x="44" y="14" width="24" height="22" rx="8" fill="#EA580C" />
+      <rect x="12" y="44" width="24" height="22" rx="8" fill="#A78BFA" />
+      <rect x="44" y="44" width="24" height="22" rx="8" fill="#FFF7ED" stroke="#6D28D9" strokeWidth="3" />
+      <path d="M18 25h12M50 25h12M18 55h12" stroke="#fff" strokeWidth="3" strokeLinecap="round" />
+      <circle cx="56" cy="55" r="4" fill="#6D28D9" />
     </svg>
   );
 }

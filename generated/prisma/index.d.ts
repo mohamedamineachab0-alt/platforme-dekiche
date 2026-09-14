@@ -5108,6 +5108,7 @@ export namespace Prisma {
     id: string | null
     fullName: string | null
     phoneNumber: string | null
+    accountBranch: $Enums.PlatformBranch | null
     passwordHash: string | null
     avatarUrl: string | null
     role: $Enums.Role | null
@@ -5122,6 +5123,7 @@ export namespace Prisma {
     id: string | null
     fullName: string | null
     phoneNumber: string | null
+    accountBranch: $Enums.PlatformBranch | null
     passwordHash: string | null
     avatarUrl: string | null
     role: $Enums.Role | null
@@ -5136,6 +5138,7 @@ export namespace Prisma {
     id: number
     fullName: number
     phoneNumber: number
+    accountBranch: number
     passwordHash: number
     avatarUrl: number
     role: number
@@ -5161,6 +5164,7 @@ export namespace Prisma {
     id?: true
     fullName?: true
     phoneNumber?: true
+    accountBranch?: true
     passwordHash?: true
     avatarUrl?: true
     role?: true
@@ -5175,6 +5179,7 @@ export namespace Prisma {
     id?: true
     fullName?: true
     phoneNumber?: true
+    accountBranch?: true
     passwordHash?: true
     avatarUrl?: true
     role?: true
@@ -5189,6 +5194,7 @@ export namespace Prisma {
     id?: true
     fullName?: true
     phoneNumber?: true
+    accountBranch?: true
     passwordHash?: true
     avatarUrl?: true
     role?: true
@@ -5291,6 +5297,7 @@ export namespace Prisma {
     id: string
     fullName: string
     phoneNumber: string
+    accountBranch: $Enums.PlatformBranch
     passwordHash: string
     avatarUrl: string | null
     role: $Enums.Role
@@ -5325,6 +5332,7 @@ export namespace Prisma {
     id?: boolean
     fullName?: boolean
     phoneNumber?: boolean
+    accountBranch?: boolean
     passwordHash?: boolean
     avatarUrl?: boolean
     role?: boolean
@@ -5362,6 +5370,7 @@ export namespace Prisma {
     id?: boolean
     fullName?: boolean
     phoneNumber?: boolean
+    accountBranch?: boolean
     passwordHash?: boolean
     avatarUrl?: boolean
     role?: boolean
@@ -5377,6 +5386,7 @@ export namespace Prisma {
     id?: boolean
     fullName?: boolean
     phoneNumber?: boolean
+    accountBranch?: boolean
     passwordHash?: boolean
     avatarUrl?: boolean
     role?: boolean
@@ -5392,6 +5402,7 @@ export namespace Prisma {
     id?: boolean
     fullName?: boolean
     phoneNumber?: boolean
+    accountBranch?: boolean
     passwordHash?: boolean
     avatarUrl?: boolean
     role?: boolean
@@ -5403,7 +5414,7 @@ export namespace Prisma {
     lockedUntil?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "phoneNumber" | "passwordHash" | "avatarUrl" | "role" | "createdAt" | "updatedAt" | "lastLoginAt" | "deviceFingerprints" | "failedLoginAttempts" | "lockedUntil", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "fullName" | "phoneNumber" | "accountBranch" | "passwordHash" | "avatarUrl" | "role" | "createdAt" | "updatedAt" | "lastLoginAt" | "deviceFingerprints" | "failedLoginAttempts" | "lockedUntil", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     studentProfile?: boolean | User$studentProfileArgs<ExtArgs>
     parentProfile?: boolean | User$parentProfileArgs<ExtArgs>
@@ -5460,6 +5471,10 @@ export namespace Prisma {
       id: string
       fullName: string
       phoneNumber: string
+      /**
+       * Separates study vs languages (and other) accounts for the same phone
+       */
+      accountBranch: $Enums.PlatformBranch
       passwordHash: string
       avatarUrl: string | null
       role: $Enums.Role
@@ -5916,6 +5931,7 @@ export namespace Prisma {
     readonly id: FieldRef<"User", 'String'>
     readonly fullName: FieldRef<"User", 'String'>
     readonly phoneNumber: FieldRef<"User", 'String'>
+    readonly accountBranch: FieldRef<"User", 'PlatformBranch'>
     readonly passwordHash: FieldRef<"User", 'String'>
     readonly avatarUrl: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
@@ -49084,6 +49100,7 @@ export namespace Prisma {
     id: 'id',
     fullName: 'fullName',
     phoneNumber: 'phoneNumber',
+    accountBranch: 'accountBranch',
     passwordHash: 'passwordHash',
     avatarUrl: 'avatarUrl',
     role: 'role',
@@ -49674,6 +49691,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'PlatformBranch'
+   */
+  export type EnumPlatformBranchFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PlatformBranch'>
+    
+
+
+  /**
+   * Reference to a field of type 'PlatformBranch[]'
+   */
+  export type ListEnumPlatformBranchFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PlatformBranch[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Role'
    */
   export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role'>
@@ -49754,20 +49785,6 @@ export namespace Prisma {
    * Reference to a field of type 'Wilaya[]'
    */
   export type ListEnumWilayaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Wilaya[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'PlatformBranch'
-   */
-  export type EnumPlatformBranchFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PlatformBranch'>
-    
-
-
-  /**
-   * Reference to a field of type 'PlatformBranch[]'
-   */
-  export type ListEnumPlatformBranchFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PlatformBranch[]'>
     
 
 
@@ -49858,6 +49875,7 @@ export namespace Prisma {
     id?: StringFilter<"User"> | string
     fullName?: StringFilter<"User"> | string
     phoneNumber?: StringFilter<"User"> | string
+    accountBranch?: EnumPlatformBranchFilter<"User"> | $Enums.PlatformBranch
     passwordHash?: StringFilter<"User"> | string
     avatarUrl?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
@@ -49894,6 +49912,7 @@ export namespace Prisma {
     id?: SortOrder
     fullName?: SortOrder
     phoneNumber?: SortOrder
+    accountBranch?: SortOrder
     passwordHash?: SortOrder
     avatarUrl?: SortOrderInput | SortOrder
     role?: SortOrder
@@ -49928,11 +49947,13 @@ export namespace Prisma {
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    phoneNumber?: string
+    phoneNumber_accountBranch?: UserPhoneNumberAccountBranchCompoundUniqueInput
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     fullName?: StringFilter<"User"> | string
+    phoneNumber?: StringFilter<"User"> | string
+    accountBranch?: EnumPlatformBranchFilter<"User"> | $Enums.PlatformBranch
     passwordHash?: StringFilter<"User"> | string
     avatarUrl?: StringNullableFilter<"User"> | string | null
     role?: EnumRoleFilter<"User"> | $Enums.Role
@@ -49963,12 +49984,13 @@ export namespace Prisma {
     watchHistories?: WatchHistoryListRelationFilter
     courseProgress?: CourseProgressListRelationFilter
     quizAttempts?: QuizAttemptListRelationFilter
-  }, "id" | "phoneNumber">
+  }, "id" | "phoneNumber_accountBranch">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     fullName?: SortOrder
     phoneNumber?: SortOrder
+    accountBranch?: SortOrder
     passwordHash?: SortOrder
     avatarUrl?: SortOrderInput | SortOrder
     role?: SortOrder
@@ -49992,6 +50014,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"User"> | string
     fullName?: StringWithAggregatesFilter<"User"> | string
     phoneNumber?: StringWithAggregatesFilter<"User"> | string
+    accountBranch?: EnumPlatformBranchWithAggregatesFilter<"User"> | $Enums.PlatformBranch
     passwordHash?: StringWithAggregatesFilter<"User"> | string
     avatarUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
@@ -52766,6 +52789,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -52802,6 +52826,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -52838,6 +52863,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -52874,6 +52900,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -52910,6 +52937,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -52925,6 +52953,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -52940,6 +52969,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -55873,6 +55903,13 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type EnumPlatformBranchFilter<$PrismaModel = never> = {
+    equals?: $Enums.PlatformBranch | EnumPlatformBranchFieldRefInput<$PrismaModel>
+    in?: $Enums.PlatformBranch[] | ListEnumPlatformBranchFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PlatformBranch[] | ListEnumPlatformBranchFieldRefInput<$PrismaModel>
+    not?: NestedEnumPlatformBranchFilter<$PrismaModel> | $Enums.PlatformBranch
+  }
+
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -56111,10 +56148,16 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type UserPhoneNumberAccountBranchCompoundUniqueInput = {
+    phoneNumber: string
+    accountBranch: $Enums.PlatformBranch
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     fullName?: SortOrder
     phoneNumber?: SortOrder
+    accountBranch?: SortOrder
     passwordHash?: SortOrder
     avatarUrl?: SortOrder
     role?: SortOrder
@@ -56134,6 +56177,7 @@ export namespace Prisma {
     id?: SortOrder
     fullName?: SortOrder
     phoneNumber?: SortOrder
+    accountBranch?: SortOrder
     passwordHash?: SortOrder
     avatarUrl?: SortOrder
     role?: SortOrder
@@ -56148,6 +56192,7 @@ export namespace Prisma {
     id?: SortOrder
     fullName?: SortOrder
     phoneNumber?: SortOrder
+    accountBranch?: SortOrder
     passwordHash?: SortOrder
     avatarUrl?: SortOrder
     role?: SortOrder
@@ -56178,6 +56223,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type EnumPlatformBranchWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PlatformBranch | EnumPlatformBranchFieldRefInput<$PrismaModel>
+    in?: $Enums.PlatformBranch[] | ListEnumPlatformBranchFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PlatformBranch[] | ListEnumPlatformBranchFieldRefInput<$PrismaModel>
+    not?: NestedEnumPlatformBranchWithAggregatesFilter<$PrismaModel> | $Enums.PlatformBranch
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPlatformBranchFilter<$PrismaModel>
+    _max?: NestedEnumPlatformBranchFilter<$PrismaModel>
   }
 
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -56273,13 +56328,6 @@ export namespace Prisma {
     not?: NestedEnumWilayaFilter<$PrismaModel> | $Enums.Wilaya
   }
 
-  export type EnumPlatformBranchFilter<$PrismaModel = never> = {
-    equals?: $Enums.PlatformBranch | EnumPlatformBranchFieldRefInput<$PrismaModel>
-    in?: $Enums.PlatformBranch[] | ListEnumPlatformBranchFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PlatformBranch[] | ListEnumPlatformBranchFieldRefInput<$PrismaModel>
-    not?: NestedEnumPlatformBranchFilter<$PrismaModel> | $Enums.PlatformBranch
-  }
-
   export type EnumUnderstandingLevelNullableFilter<$PrismaModel = never> = {
     equals?: $Enums.UnderstandingLevel | EnumUnderstandingLevelFieldRefInput<$PrismaModel> | null
     in?: $Enums.UnderstandingLevel[] | ListEnumUnderstandingLevelFieldRefInput<$PrismaModel> | null
@@ -56373,16 +56421,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumWilayaFilter<$PrismaModel>
     _max?: NestedEnumWilayaFilter<$PrismaModel>
-  }
-
-  export type EnumPlatformBranchWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.PlatformBranch | EnumPlatformBranchFieldRefInput<$PrismaModel>
-    in?: $Enums.PlatformBranch[] | ListEnumPlatformBranchFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PlatformBranch[] | ListEnumPlatformBranchFieldRefInput<$PrismaModel>
-    not?: NestedEnumPlatformBranchWithAggregatesFilter<$PrismaModel> | $Enums.PlatformBranch
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumPlatformBranchFilter<$PrismaModel>
-    _max?: NestedEnumPlatformBranchFilter<$PrismaModel>
   }
 
   export type EnumUnderstandingLevelNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -58365,6 +58403,10 @@ export namespace Prisma {
     set?: string
   }
 
+  export type EnumPlatformBranchFieldUpdateOperationsInput = {
+    set?: $Enums.PlatformBranch
+  }
+
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
@@ -58966,10 +59008,6 @@ export namespace Prisma {
 
   export type EnumWilayaFieldUpdateOperationsInput = {
     set?: $Enums.Wilaya
-  }
-
-  export type EnumPlatformBranchFieldUpdateOperationsInput = {
-    set?: $Enums.PlatformBranch
   }
 
   export type NullableEnumUnderstandingLevelFieldUpdateOperationsInput = {
@@ -61161,6 +61199,13 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type NestedEnumPlatformBranchFilter<$PrismaModel = never> = {
+    equals?: $Enums.PlatformBranch | EnumPlatformBranchFieldRefInput<$PrismaModel>
+    in?: $Enums.PlatformBranch[] | ListEnumPlatformBranchFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PlatformBranch[] | ListEnumPlatformBranchFieldRefInput<$PrismaModel>
+    not?: NestedEnumPlatformBranchFilter<$PrismaModel> | $Enums.PlatformBranch
+  }
+
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -61230,6 +61275,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type NestedEnumPlatformBranchWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.PlatformBranch | EnumPlatformBranchFieldRefInput<$PrismaModel>
+    in?: $Enums.PlatformBranch[] | ListEnumPlatformBranchFieldRefInput<$PrismaModel>
+    notIn?: $Enums.PlatformBranch[] | ListEnumPlatformBranchFieldRefInput<$PrismaModel>
+    not?: NestedEnumPlatformBranchWithAggregatesFilter<$PrismaModel> | $Enums.PlatformBranch
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumPlatformBranchFilter<$PrismaModel>
+    _max?: NestedEnumPlatformBranchFilter<$PrismaModel>
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -61346,13 +61401,6 @@ export namespace Prisma {
     not?: NestedEnumWilayaFilter<$PrismaModel> | $Enums.Wilaya
   }
 
-  export type NestedEnumPlatformBranchFilter<$PrismaModel = never> = {
-    equals?: $Enums.PlatformBranch | EnumPlatformBranchFieldRefInput<$PrismaModel>
-    in?: $Enums.PlatformBranch[] | ListEnumPlatformBranchFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PlatformBranch[] | ListEnumPlatformBranchFieldRefInput<$PrismaModel>
-    not?: NestedEnumPlatformBranchFilter<$PrismaModel> | $Enums.PlatformBranch
-  }
-
   export type NestedEnumUnderstandingLevelNullableFilter<$PrismaModel = never> = {
     equals?: $Enums.UnderstandingLevel | EnumUnderstandingLevelFieldRefInput<$PrismaModel> | null
     in?: $Enums.UnderstandingLevel[] | ListEnumUnderstandingLevelFieldRefInput<$PrismaModel> | null
@@ -61388,16 +61436,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumWilayaFilter<$PrismaModel>
     _max?: NestedEnumWilayaFilter<$PrismaModel>
-  }
-
-  export type NestedEnumPlatformBranchWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: $Enums.PlatformBranch | EnumPlatformBranchFieldRefInput<$PrismaModel>
-    in?: $Enums.PlatformBranch[] | ListEnumPlatformBranchFieldRefInput<$PrismaModel>
-    notIn?: $Enums.PlatformBranch[] | ListEnumPlatformBranchFieldRefInput<$PrismaModel>
-    not?: NestedEnumPlatformBranchWithAggregatesFilter<$PrismaModel> | $Enums.PlatformBranch
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedEnumPlatformBranchFilter<$PrismaModel>
-    _max?: NestedEnumPlatformBranchFilter<$PrismaModel>
   }
 
   export type NestedEnumUnderstandingLevelNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -62701,6 +62739,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -62736,6 +62775,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -62787,6 +62827,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -62822,6 +62863,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -62857,6 +62899,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -62892,6 +62935,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -62943,6 +62987,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -62978,6 +63023,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -63013,6 +63059,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -63048,6 +63095,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -63169,6 +63217,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -63204,6 +63253,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -64717,6 +64767,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -64752,6 +64803,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -64854,6 +64906,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -64889,6 +64942,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -65216,6 +65270,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -65251,6 +65306,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -65367,6 +65423,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -65402,6 +65459,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -65508,6 +65566,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -65543,6 +65602,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -65583,6 +65643,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -65618,6 +65679,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -65669,6 +65731,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -65704,6 +65767,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -65750,6 +65814,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -65785,6 +65850,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -65820,6 +65886,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -65855,6 +65922,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -65895,6 +65963,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -65930,6 +65999,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -65981,6 +66051,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -66016,6 +66087,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -66062,6 +66134,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -66097,6 +66170,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -66132,6 +66206,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -66167,6 +66242,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -66290,6 +66366,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -66325,6 +66402,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -66444,6 +66522,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -66479,6 +66558,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -66595,6 +66675,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -66630,6 +66711,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -66872,6 +66954,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -66907,6 +66990,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -66982,6 +67066,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -67017,6 +67102,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -68178,6 +68264,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -68213,6 +68300,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -68307,6 +68395,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -68342,6 +68431,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -68718,6 +68808,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -68753,6 +68844,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -68839,6 +68931,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -68874,6 +68967,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -68909,6 +69003,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -68944,6 +69039,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -68995,6 +69091,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -69030,6 +69127,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -69065,6 +69163,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -69100,6 +69199,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -69216,6 +69316,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -69251,6 +69352,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -69357,6 +69459,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -69392,6 +69495,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -69443,6 +69547,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -69478,6 +69583,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -69513,6 +69619,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -69548,6 +69655,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -69618,6 +69726,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -69653,6 +69762,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -69773,6 +69883,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -69808,6 +69919,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -69969,6 +70081,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -70004,6 +70117,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -70161,6 +70275,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -70196,6 +70311,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -70357,6 +70473,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -70392,6 +70509,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -70549,6 +70667,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -70584,6 +70703,7 @@ export namespace Prisma {
     id?: string
     fullName: string
     phoneNumber: string
+    accountBranch?: $Enums.PlatformBranch
     passwordHash?: string
     avatarUrl?: string | null
     role: $Enums.Role
@@ -70737,6 +70857,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
@@ -70772,6 +70893,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     fullName?: StringFieldUpdateOperationsInput | string
     phoneNumber?: StringFieldUpdateOperationsInput | string
+    accountBranch?: EnumPlatformBranchFieldUpdateOperationsInput | $Enums.PlatformBranch
     passwordHash?: StringFieldUpdateOperationsInput | string
     avatarUrl?: NullableStringFieldUpdateOperationsInput | string | null
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role

@@ -19,7 +19,7 @@ export function AuthShell({
         </span>
       </div>
       <div className={`w-full ${wide ? "max-w-2xl" : "max-w-xl"}`}>
-        <div className="rounded-[32px] bg-white p-6 shadow-[0_16px_40px_rgba(30,27,75,0.06)] sm:p-10">
+        <div className="rounded-[32px] border border-[#EDE9FE] bg-[#FFFEF8] p-6 shadow-[0_16px_40px_rgba(30,27,75,0.08)] sm:p-10">
           {children}
         </div>
       </div>

@@ -63,7 +63,7 @@ export default async function ParentDashboardPage() {
                 />
               </div>
 
-              <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-bold py-3 rounded-xl transition-colors">
+              <button type="submit" className="w-full flex items-center justify-center gap-2 bg-[#6D28D9] hover:bg-[#1E1B4B] text-white font-bold py-3 rounded-xl transition-colors">
                 <LinkIcon className="w-4 h-4" />
                 ربط الحساب
               </button>

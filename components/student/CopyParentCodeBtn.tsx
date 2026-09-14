@@ -25,7 +25,7 @@ export function CopyParentCodeBtn({ parentCode }: { parentCode: string | null })
     >
       <div className="flex flex-col w-full max-w-full overflow-hidden min-w-0 flex-1 ml-2">
         <span className="text-xs font-bold text-[#A78BFA] mb-1 transition-colors group-hover:text-[#6D28D9]">الرمز السري الخاص بك</span>
-        <span className="text-xl font-black text-[#5B21B6] font-mono tracking-widest select-all truncate">
+        <span className="text-xl font-black text-[#1E1B4B] font-mono tracking-widest select-all truncate">
           {parentCode || "لا يوجد رمز"}
         </span>
       </div>

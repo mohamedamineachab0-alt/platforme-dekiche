@@ -176,7 +176,7 @@ export default async function LessonStudyViewPage({
         </div>
         <Link
           href={`/dashboard/student/subjects/${lesson.subjectId}`}
-          className="bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-black px-6 py-3 rounded-xl transition-colors"
+          className="bg-[#6D28D9] hover:bg-[#1E1B4B] text-white font-black px-6 py-3 rounded-xl transition-colors"
         >
           العودة للمادة
         </Link>
@@ -250,7 +250,7 @@ export default async function LessonStudyViewPage({
           {hasValidQuiz ? (
             <Link
               href={`/dashboard/student/lessons/${lesson.id}/quiz`}
-              className="shrink-0 inline-flex items-center justify-center bg-[#6D28D9] hover:bg-[#5B21B6] text-white font-black text-xs px-3 py-2.5 rounded-xl whitespace-nowrap"
+              className="shrink-0 inline-flex items-center justify-center bg-[#6D28D9] hover:bg-[#1E1B4B] text-white font-black text-xs px-3 py-2.5 rounded-xl whitespace-nowrap"
             >
               بدء ({qCount})
             </Link>

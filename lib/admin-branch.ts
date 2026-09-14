@@ -50,5 +50,5 @@ export function studentProfileWhereForBranch(
   branch: AdminBranch
 ): Prisma.StudentProfileWhereInput {
   if (branch === "LANGUAGES") return { branch: "LANGUAGES" };
-  return { OR: [{ branch: "STUDY" }, { branch: null }] };
+  return { branch: "STUDY" };
 }
